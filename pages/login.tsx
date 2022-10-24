@@ -21,6 +21,14 @@ const Login: NextPage = () => {
                         height={24}
                     />
                     <h2 className={styles.login_title}>Log in to Asana</h2>
+                    <button className='btn-login'>
+                        <div className='d-flex'>
+                            <div>
+                                <i className="fab fa-google"></i>
+                            </div>
+                            <p>Continue With Google</p>
+                        </div>
+                    </button>
                 </section>
             </main>
 

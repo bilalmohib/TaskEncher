@@ -28,3 +28,13 @@
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #1E1F21;
 }
+
+.btn-login {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.btn_text {
+    text-transform: none !important;
+}

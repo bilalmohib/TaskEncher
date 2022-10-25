@@ -14,7 +14,7 @@ a {
 * {
   box-sizing: border-box;
 }
-
+/* 
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
@@ -23,4 +23,8 @@ a {
     color: white;
     background: black;
   }
+} */
+
+body {
+  background: #f9f8f8;
 }

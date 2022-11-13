@@ -24,15 +24,34 @@
 .login_title {
     font-size: 32px;
     font-weight: 400;
-    margin-top: 32px;
+    margin-top: 38px;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #1E1F21;
 }
 
-.btn-login {
+.text_btn_login{
+    font-size: 18px !important;
+    text-align: center;
+    font-weight: 300;
+    text-transform: none;
+    width: 300px !important;
+}
+
+.btn_login {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    width: 100%;
+    height: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid rgb(188, 188, 188);
+    box-shadow: none !important;
+    margin-top: 30px;
+}
+
+.btn_login:hover{
+    background-color: #83838326;
 }
 
 .btn_text {

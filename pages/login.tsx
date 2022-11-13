@@ -1,7 +1,13 @@
-import type { NextPage } from 'next';
-import Head from 'next/head';
-import Image from 'next/image';
-import styles from '../styles/ContainerCss/Login.module.css';
+import type { NextPage } from "next";
+import Head from "next/head";
+import Image from "next/image";
+// importing icons
+import { FcGoogle } from "react-icons/fc";
+import { FaFacebookF, FaTwitter } from "react-icons/fa";
+import { VscGithub } from "react-icons/vsc";
+
+import LoginButton from "../components/LoginButton";
+import styles from "../styles/ContainerCss/Login.module.css";
 
 const Login: NextPage = () => {
     return (
@@ -14,29 +20,34 @@ const Login: NextPage = () => {
 
             <main className={styles.main}>
                 <section className={styles.login_box}>
-                    <Image
-                        src="/logo.png"
-                        alt="Asana"
-                        width={121}
-                        height={24}
-                    />
+                    <Image src="/logo.png" alt="Asana" width={121} height={24} />
                     <h2 className={styles.login_title}>Log in to Asana</h2>
-                    <button className='btn-login'>
-                        <div className='d-flex'>
-                            <div>
-                                <i className="fab fa-google"></i>
-                            </div>
-                            <p>Continue With Google</p>
-                        </div>
-                    </button>
+                    {/* Icons Section */}
+                    <section>
+                        <LoginButton
+                            Text="Continue With Google"
+                            Icon={<FcGoogle size={25} />}
+                        />
+                        <LoginButton
+                            Text="Continue With Facebook"
+                            Icon={<FaFacebookF size={25} />}
+                        />
+                        <LoginButton
+                            Text="Continue With Twitter"
+                            Icon={<FaTwitter size={25} />}
+                        />
+                        <LoginButton
+                            Text="Continue With Github"
+                            Icon={<FcGoogle size={25} />}
+                        />
+                    </section>
+                    {/* Icons Section */}
                 </section>
             </main>
 
-            <footer className={styles.footer}>
-
-            </footer>
+            <footer className={styles.footer}></footer>
         </div>
-    )
-}
+    );
+};
 
 export default Login;

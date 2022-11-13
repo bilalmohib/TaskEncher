@@ -1,6 +1,6 @@
 .sidebar {
-    background-color:#1e1f21;
-    border: 1px solid red;
+    background-color: #1e1f21;
+    /* border: 1px solid red; */
     width: 250px;
     height: 94.9vh;
     transition: 0.6s linear;
@@ -11,15 +11,16 @@
     transition: 0.6s ease-in-out;
 }
 
-.sidebarItemsContainer{
-    border: 1px solid red;
+.sidebarItemsContainer {
+    /* border: 1px solid red; */
+    border-top: 1px solid #424244;
     padding-left: 20px;
     padding-top: 10px;
 }
 
-.btn_createSidebar{
+.btn_createSidebar {
     border-radius: 24px !important;
-    border:1px solid #424244;
+    border: 1px solid #424244;
     color: white;
     font-size: 15px;
     font-weight: 300;
@@ -30,16 +31,19 @@
     height: 43px;
     margin-top: 15px;
 }
+.btn_createSidebar:hover{
+    background-color: #2b2c2e;
+}
 
-.SidebarMenuList{
+.SidebarMenuList {
     list-style: none;
-    border: 1px solid rgb(0, 72, 255);
-    padding-bottom: 25px;
+    /* border: 1px solid rgb(0, 72, 255); */
+    padding-bottom: 5px;
     margin-left: -25px !important;
     margin-top: 10px;
 }
 
-.SidebarMenuList li{
+.SidebarMenuList li {
     color: #d7d6d5;
     cursor: pointer;
     width: 250px !important;
@@ -48,34 +52,112 @@
     padding-top: 2.5%;
     padding-left: 25px;
 }
-.SidebarMenuList li:hover{
+
+.SidebarMenuList li:hover {
     background-color: #303132;
 }
-.selected_Menu_Item,.selected_Menu_Item:hover{
+
+.selected_Menu_Item, .selected_Menu_Item:hover {
     background-color: #424345 !important;
 }
 
-.itemMenuListText{
+.itemMenuListText {
     margin-top: 2px;
 }
 
-.itemMenuListText{
+.itemMenuListText {
     margin-left: 8px;
 }
 
-/* Workspace block */
-.workSpaceBlock{
+/* __________________________________ Workspace block ___________________________________ */
+.workSpaceBlock {
     border: 1px solid #424244;
     width: 248px;
     margin-left: -20px;
 }
 
-.worspace_text_block{
+.worspace_text_block {
     color: #ffffff;
     height: 35px;
     margin-top: 10px;
 }
-.worspace_text_block:hover{
+
+.worspace_text_block:hover {
     background-color: #303132;
     cursor: pointer;
 }
+
+/* Project Members Block */
+.projectListCoverContainer{
+    margin-top: -10px;
+}
+
+.projectMembersBlock {
+    /* border: 1px solid red; */
+    list-style: none;
+    margin-left: -25px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.projectMembersBlock li {
+    margin-left: 10px;
+}
+
+.projectListContainer{
+    /* border: 1px solid red; */
+    width: 255px;
+    margin-left: -25px;
+    height: 30px;
+    padding-left: 18px;
+    padding-right: 35px;
+}
+.projectListContainer:hover{
+    background-color: #303132;
+    cursor: pointer;
+}
+
+.projectName{
+    color: #ffffff;
+    margin-left: 10px;
+    margin-top: 2px;
+    font-size: 15px;
+    height: 30px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    width:170px; /* some width */
+}
+
+.projectListCoverContainer{
+    list-style: none;
+    margin-left: -15px;
+}
+
+/* ________________________________________ Footer block ________________________________________ */
+.sidebarFooter{
+    /* border: 1px solid red; */
+    position: absolute;
+    bottom: 0px;
+    margin-left: -22px;
+    width: 252px;
+    height: 50px;
+    background-color: #1e1f21;
+    border-top: 1px solid #424244;
+    border-bottom: 1px solid #424244;
+    padding-bottom: 5px;
+}
+
+.sidebarFooterContainer{
+    /* border: 1px solid red; */
+    margin-left: 20px;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    color: white;
+    font-weight: 300;
+}
+/* ________________________________________ Footer block ________________________________________ */

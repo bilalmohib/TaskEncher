@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import styles from './style.module.css';
 //Importing icons
 import { AiOutlinePlus } from "react-icons/ai";
@@ -9,6 +10,10 @@ import { BiStats } from "react-icons/bi";
 import { HiChartSquareBar } from "react-icons/hi";
 import { GiStairsGoal } from "react-icons/gi";
 import { FiPlus } from "react-icons/fi";
+import { BiDotsHorizontalRounded } from "react-icons/bi";
+import { GoTriangleDown } from "react-icons/go";
+import { CgShapeSquare } from "react-icons/cg";
+import {FcInvite} from "react-icons/fc";
 
 interface IProps {
     setIsOpen: any,
@@ -70,14 +75,60 @@ const Sidebar: React.FC<IProps> = ({
                 </ul>
                 {/* Workspace Section */}
                 <section className={styles.workSpaceBlock}>
-                    <div className={`${styles.worspace_text_block} d-flex justify-content-between`} style={{paddingRight:20}}>
-                        <p style={{fontSize:15 ,letterSpacing:1,paddingLeft:20,paddingTop:5,fontWeight:"350"}}>My Workspace</p>
-                        <p style={{marginTop:5,paddingRight:10}}><FiPlus size={17} /></p>
+                    <div className={`${styles.worspace_text_block} d-flex justify-content-between`} style={{ paddingRight: 20 }}>
+                        <p style={{ fontSize: 15, letterSpacing: 1, paddingLeft: 20, paddingTop: 5, fontWeight: "350" }}>My Workspace</p>
+                        <p style={{ marginTop: 5, paddingRight: 10 }}><FiPlus size={17} /></p>
                     </div>
+
+                    {/* Project Members */}
+                    <section>
+                        <ul className={styles.projectMembersBlock}>
+                            <li> <Image alt='Email@email.com' title='Email@email.com' src={"/user.png"} width={25} height={25} /> </li>
+                            <li> <Image alt='Email@email.com' title='Email@email.com' src={"/user.png"} width={25} height={25} /> </li>
+                            <li> <Image alt='Email@email.com' title='Email@email.com' src={"/user.png"} width={25} height={25} /> </li>
+                            <li> <Image alt='Email@email.com' title='Email@email.com' src={"/user.png"} width={25} height={25} /> </li>
+                            <li> <Image alt='Email@email.com' title='Email@email.com' src={"/user.png"} width={25} height={25} /> </li>
+                            <li> <Image alt='Email@email.com' title='Email@email.com' src={"/user.png"} width={25} height={25} /> </li>
+                        </ul>
+                    </section>
+                    {/* Project Members */}
+
+                    {/* Projects Block */}
+                    <section>
+                        <ul className={styles.projectListCoverContainer}>
+                            <li>
+                                <div className={`${styles.projectListContainer} d-flex justify-content-between`}>
+                                    <p className={styles.projectName}><CgShapeSquare style={{ marginTop: -1.5 }} color={"#9ee7e3"} size={10} /> &nbsp; Project Management Software</p>
+                                    <p style={{ marginTop: 2.5 }}><GoTriangleDown fontWeight={300} size={12} color='white' /></p>
+                                </div>
+                            </li>
+                            <li>
+                                <div className={`${styles.projectListContainer} d-flex justify-content-between`}>
+                                    <p className={styles.projectName}><CgShapeSquare style={{ marginTop: -1.5 }} color={"#b36bd4"} size={10} /> &nbsp; Testing Project</p>
+                                    <p style={{ marginTop: 2.5 }}><GoTriangleDown fontWeight={300} size={12} color='white' /></p>
+                                </div>
+                            </li>
+                            <li>
+                                <div className={`${styles.projectListContainer} d-flex justify-content-between`}>
+                                    <p className={styles.projectName}><CgShapeSquare style={{ marginTop: -1.5 }} color={"#b36bd4"} size={10} /> &nbsp; 2019-CS-682 / bilal 1:1</p>
+                                    <p style={{ marginTop: 2.5 }}><GoTriangleDown fontWeight={300} size={12} color='white' /></p>
+                                </div>
+                            </li>
+                        </ul>
+                    </section>
+                    {/* Projects Block */}
                 </section>
                 {/* Workspace Section */}
-            </div>
 
+                {/* Invite Members Section */}
+                <div className={styles.sidebarFooter}>
+                    <div className={styles.sidebarFooterContainer}>
+                        <p><FcInvite size={25} style={{marginTop:2}} /></p>
+                         <p style={{marginTop:1,marginLeft:10}}>Invite Members</p>
+                    </div>
+                </div>
+                {/* Invite Members Section */}
+            </div>
         </section>
     )
 }

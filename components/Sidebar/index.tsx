@@ -17,15 +17,17 @@ import {FcInvite} from "react-icons/fc";
 
 interface IProps {
     setIsOpen: any,
-    isOpen: Boolean
+    isOpen: Boolean,
+    currentMenuItem: Number,
+    setCurrentMenuItem: any
 }
 
 const Sidebar: React.FC<IProps> = ({
     setIsOpen,
-    isOpen
+    isOpen,
+    currentMenuItem,
+    setCurrentMenuItem
 }) => {
-    const [currentMenuItem, setCurrentMenuItem] = useState<Number>(1);
-
     return (
         <section className={`${styles.sidebar} ${(isOpen) ? ("") : (styles.hideSidebar)}`}>
             <div className={styles.sidebarItemsContainer}>

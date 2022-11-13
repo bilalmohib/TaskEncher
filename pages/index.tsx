@@ -10,6 +10,8 @@ import Sidebar from '../components/Sidebar';
 const Home: NextPage = () => {
   const [isOpen, setIsOpen] = useState<Boolean>(true);
 
+  const [currentMenuItem, setCurrentMenuItem] = useState<Number>(1);
+
   return (
     <div className={styles.container}>
       <Head>
@@ -20,7 +22,47 @@ const Home: NextPage = () => {
 
       <main className={styles.main}>
         <Navbar isOpen={isOpen} setIsOpen={setIsOpen} />
-        <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
+        <div className='d-flex'>
+          <Sidebar currentMenuItem={currentMenuItem} setCurrentMenuItem={setCurrentMenuItem} isOpen={isOpen} setIsOpen={setIsOpen} />
+
+          <div className={styles.rightSideContainer}>
+            {/* Home Page */}
+            <section className={(currentMenuItem === 1) ? ("") : ("d-none")}>
+              <br />
+              <h3 style={{ marginLeft: 30, marginTop: 5, color: "black", fontWeight: "lighter" }}>Home</h3>
+            </section>
+
+            {/* My Tasks Page */}
+            <section className={(currentMenuItem === 2) ? ("") : ("d-none")}>
+              <br />
+              <h3 style={{ marginLeft: 30, marginTop: 5, color: "black", fontWeight: "lighter" }}>My Tasks</h3>
+            </section>
+
+            {/* Inbox Page */}
+            <section className={(currentMenuItem === 3) ? ("") : ("d-none")}>
+              <br />
+              <h3 style={{ marginLeft: 30, marginTop: 5, color: "black", fontWeight: "lighter" }}>Inbox</h3>
+            </section>
+
+            {/* Reporting Page */}
+            <section className={(currentMenuItem === 4) ? ("") : ("d-none")}>
+              <br />
+              <h3 style={{ marginLeft: 30, marginTop: 5, color: "black", fontWeight: "lighter" }}>Reporting</h3>
+            </section>
+
+            {/* Portfolios Page */}
+            <section className={(currentMenuItem === 5)? ("") : ("d-none")}>
+              <br />
+              <h3 style={{ marginLeft: 30, marginTop: 5, color: "black", fontWeight: "lighter" }}>Portfolios</h3>
+            </section>
+
+            {/* Goals Page */}
+            <section className={(currentMenuItem === 6) ? ("") : ("d-none")}>
+              <br />
+              <h3 style={{ marginLeft: 30, marginTop: 5, color: "black", fontWeight: "lighter" }}>Goals</h3>
+            </section>
+          </div>
+        </div>
       </main>
 
       <footer className={styles.footer}>
@@ -38,5 +80,4 @@ const Home: NextPage = () => {
     </div>
   )
 }
-
 export default Home

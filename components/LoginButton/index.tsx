@@ -9,7 +9,7 @@ interface IProps {
 
 const LoginButton: React.FC<IProps> = ({
     Icon,
-    Text
+    Text,
 }) => {
     return (
         <button className={`btn ${styles.btn_login}`}>

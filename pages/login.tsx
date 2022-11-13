@@ -30,16 +30,49 @@ const Login: NextPage = () => {
                         />
                         <LoginButton
                             Text="Continue With Facebook"
-                            Icon={<FaFacebookF size={25} />}
+                            Icon={<FaFacebookF color="#3b5998" size={25} />}
                         />
                         <LoginButton
                             Text="Continue With Twitter"
-                            Icon={<FaTwitter size={25} />}
+                            Icon={<FaTwitter color="#00acee" size={25} />}
                         />
                         <LoginButton
                             Text="Continue With Github"
-                            Icon={<FcGoogle size={25} />}
+                            Icon={<VscGithub size={25} />}
                         />
+                        <form action="#">
+                            <div className={styles.form_group}>
+                                <div style={{ textAlign: "left" }}>
+                                    <label htmlFor="email" style={{ fontSize: "20px", marginTop: "30px" }}>Email</label>
+                                </div>
+                                <input
+                                    type="email"
+                                    name="email"
+                                    id="email"
+                                    className={`form-control form-control-lg ${styles.form_control}`}
+                                    placeholder="Enter your email"
+                                />
+                            </div>
+                            <div className={styles.form_group}>
+                                <div style={{ textAlign: "left", marginTop: "20px" }}>
+                                    <label htmlFor="password" style={{ fontSize: "20px" }}>Password</label>
+                                </div>
+                                <input
+                                    type="password"
+                                    name="password"
+                                    className={`form-control form-control-lg ${styles.form_control}`}
+                                    id="password"
+                                    placeholder="Enter your password"
+                                />
+                            </div>
+                            <div className={styles.form_group}>
+                                <button
+                                    className={`btn btn-primary btn-lg btn-block ${styles.btn_login_email}`}
+                                >
+                                    Log In
+                                </button>
+                            </div>
+                        </form>
                     </section>
                     {/* Icons Section */}
                 </section>

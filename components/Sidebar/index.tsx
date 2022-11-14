@@ -4,10 +4,11 @@ import styles from './style.module.css';
 import { AiOutlinePlus } from "react-icons/ai";
 import { IoHomeOutline } from "react-icons/io5";
 import { BsCheckCircle } from "react-icons/bs";
-import {BsBell} from "react-icons/bs";
-import {BiStats} from "react-icons/bi";
-import {HiChartSquareBar} from "react-icons/hi";
-import {GiStairsGoal} from "react-icons/gi";
+import { BsBell } from "react-icons/bs";
+import { BiStats } from "react-icons/bi";
+import { HiChartSquareBar } from "react-icons/hi";
+import { GiStairsGoal } from "react-icons/gi";
+import { FiPlus } from "react-icons/fi";
 
 interface IProps {
     setIsOpen: any,
@@ -29,9 +30,10 @@ const Sidebar: React.FC<IProps> = ({
                         &nbsp; Create
                     </button>
                     <ul className="dropdown-menu">
-                        <li><a className="dropdown-item" href="#">Menu item</a></li>
-                        <li><a className="dropdown-item" href="#">Menu item</a></li>
-                        <li><a className="dropdown-item" href="#">Menu item</a></li>
+                        <li><a className="dropdown-item" href="#">Task</a></li>
+                        <li><a className="dropdown-item" href="#">Project</a></li>
+                        <li><a className="dropdown-item" href="#">Message</a></li>
+                        <li><a className="dropdown-item" href="#">Invite</a></li>
                     </ul>
                 </div>
                 <ul className={styles.SidebarMenuList}>
@@ -66,7 +68,14 @@ const Sidebar: React.FC<IProps> = ({
                         </div>
                     </li>
                 </ul>
-                <hr />
+                {/* Workspace Section */}
+                <section className={styles.workSpaceBlock}>
+                    <div className={`${styles.worspace_text_block} d-flex justify-content-between`} style={{paddingRight:20}}>
+                        <p style={{fontSize:15 ,letterSpacing:1,paddingLeft:20,paddingTop:5,fontWeight:"350"}}>My Workspace</p>
+                        <p style={{marginTop:5,paddingRight:10}}><FiPlus size={17} /></p>
+                    </div>
+                </section>
+                {/* Workspace Section */}
             </div>
 
         </section>

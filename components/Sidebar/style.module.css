@@ -1,5 +1,5 @@
 .sidebar {
-    background-color: black;
+    background-color:#1e1f21;
     border: 1px solid red;
     width: 250px;
     height: 94.9vh;
@@ -61,4 +61,21 @@
 
 .itemMenuListText{
     margin-left: 8px;
+}
+
+/* Workspace block */
+.workSpaceBlock{
+    border: 1px solid #424244;
+    width: 248px;
+    margin-left: -20px;
+}
+
+.worspace_text_block{
+    color: #ffffff;
+    height: 35px;
+    margin-top: 10px;
+}
+.worspace_text_block:hover{
+    background-color: #303132;
+    cursor: pointer;
 }

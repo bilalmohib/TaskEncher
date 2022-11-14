@@ -1,0 +1,20 @@
+.nav_bar{
+    background-color: #000000;
+    color: #ffffff;
+    padding: 10px;
+    display: flex;
+    height: 50px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navItems {
+    display: flex;
+    flex-direction: row !important;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dropdown_nav{
+    margin-left: -100px !important;
+}

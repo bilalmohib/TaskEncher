@@ -1,0 +1,12 @@
+.sidebar {
+    background-color: black;
+    border: 1px solid red;
+    width: 250px;
+    height: 94.9vh;
+    transition: 0.6s linear;
+}
+
+.hideSidebar {
+    margin-left: -250px !important;
+    transition: 0.6s ease-in-out;
+}

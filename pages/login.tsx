@@ -1,5 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
+import Link from "next/link";
 import Image from "next/image";
 // importing icons
 import { FcGoogle } from "react-icons/fc";
@@ -40,7 +41,7 @@ const Login: NextPage = () => {
                             Text="Continue With Github"
                             Icon={<VscGithub size={25} />}
                         />
-                        <form action="#">
+                        <form action="javascript:void(null);">
                             <div className={styles.form_group}>
                                 <div style={{ textAlign: "left" }}>
                                     <label htmlFor="email" style={{ fontSize: "20px", marginTop: "30px" }}>Email</label>
@@ -71,6 +72,16 @@ const Login: NextPage = () => {
                                 >
                                     Log In
                                 </button>
+                            </div>
+                            <div>
+                                <p style={{ textAlign: "center", marginTop: "25px", fontSize: 20 }}>
+                                    Don&rsquo;t have an account?{" "}
+                                    <Link href="/signup">
+                                        <a href="#" style={{ color: "#0079bf" }}>
+                                            Sign up
+                                        </a>
+                                    </Link>
+                                </p>
                             </div>
                         </form>
                     </section>

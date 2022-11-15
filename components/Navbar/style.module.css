@@ -8,6 +8,11 @@
     align-items: center;
 }
 
+.navbarHamburger{
+    box-shadow: 2px 2px 2px solid rgb(232, 232, 232);
+    /* border: 2px solid red; */
+}
+
 .navItems {
     display: flex;
     flex-direction: row !important;

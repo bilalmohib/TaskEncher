@@ -10,3 +10,50 @@
     margin-left: -250px !important;
     transition: 0.6s ease-in-out;
 }
+
+.sidebarItemsContainer{
+    border: 1px solid red;
+    padding-left: 20px;
+    padding-top: 10px;
+}
+
+.btn_createSidebar{
+    border-radius: 24px !important;
+    border:1px solid #424244;
+    color: white;
+    font-size: 15px;
+    font-weight: 300;
+    letter-spacing: 1px;
+    text-transform: none;
+    padding-top: 9px !important;
+    padding-left: 20px;
+    height: 43px;
+    margin-top: 15px;
+}
+
+.SidebarMenuList{
+    list-style: none;
+    border: 1px solid red;
+    margin-left: -25px !important;
+    margin-top: 10px;
+}
+
+.SidebarMenuList li{
+    color: #d7d6d5;
+    cursor: pointer;
+    width: 248px !important;
+    margin-left: -28px;
+    height: 38px;
+    padding-top: 5.5px;
+    padding-left: 25px;
+}
+.SidebarMenuList li:hover{
+    background-color: #303132;
+}
+.selected_Menu_Item,.selected_Menu_Item:hover{
+    background-color: #424345 !important;
+}
+
+.itemMenuListText{
+    margin-top: 2px;
+}

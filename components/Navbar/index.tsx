@@ -16,7 +16,7 @@ const Navbar: React.FC<IProps> = ({
             <div className="container-fluid">
                 <a className="navbar-brand" href="#">
                     &nbsp; &nbsp;
-                    <span onClick={() => setIsOpen(!isOpen)}> <CgMenu size={25} /> </span>
+                    <span className={styles.navbarHamburger} onClick={() => setIsOpen(!isOpen)}> <CgMenu size={25} /> </span>
                     &nbsp; &nbsp;
                     <Image src="/navlogo.svg" alt="Asana" width={100} height={18} />
                 </a>

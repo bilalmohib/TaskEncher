@@ -6,6 +6,10 @@ import styles from '../styles/Home.module.css';
 // Importing Components
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
+// Importing Icons
+import { IoIosArrowDropdown } from 'react-icons/io';
+import { AiOutlineCheck } from "react-icons/ai";
+import { BsPeople } from "react-icons/bs";
 
 const Home: NextPage = () => {
   const [isOpen, setIsOpen] = useState<Boolean>(true);
@@ -30,6 +34,40 @@ const Home: NextPage = () => {
             <section className={(currentMenuItem === 1) ? ("") : ("d-none")}>
               <br />
               <h3 style={{ marginLeft: 30, marginTop: 5, color: "black", fontWeight: "lighter" }}>Home</h3>
+              <br />
+              <div className='text-center'>
+                Wednesday, November 16
+              </div>
+              <div>
+                <h1 className='text-center text-dark' style={{ fontWeight: "lighter" }}>
+                  Good evening, bilal
+                </h1>
+              </div>
+              <section className='d-flex justify-content-center'>
+                <div className={styles.statsContainer}>
+                  <div className={styles.stats1}>
+                    {/* Secondary */}
+                    <div className="btn-group" style={{ fontSize: 12, height: 28, boxShadow: "none" }}>
+                      <button type="button" className={`btn btn-btnDrop ${styles.btn_dropdown}`} data-mdb-toggle="dropdown" aria-expanded="false">
+                        My month <IoIosArrowDropdown style={{ marginTop: -2 }} />
+                      </button>
+                      <ul className="dropdown-menu">
+                        <li><a className="dropdown-item" href="#">Action</a></li>
+                        <li><a className="dropdown-item" href="#">Another action</a></li>
+                        <li><a className="dropdown-item" href="#">Something else here</a></li>
+                        <li><hr className="dropdown-divider" /></li>
+                        <li><a className="dropdown-item" href="#">Separated link</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div className={styles.stats2}>
+                    <span style={{ fontSize: 20, fontWeight: "400" }}> <AiOutlineCheck style={{marginTop:-5}} /> 7</span> <span style={{ marginTop: 3 }}>&nbsp; tasks completed</span>
+                  </div>
+                  <div className={styles.stats3}>
+                    <span style={{ fontSize: 20, fontWeight: "400" }}> <BsPeople style={{marginTop:-5}} />&nbsp;2</span> <span style={{ marginTop: 3 }}>&nbsp; collaborators</span>
+                  </div>
+                </div>
+              </section>
             </section>
 
             {/* My Tasks Page */}
@@ -51,7 +89,7 @@ const Home: NextPage = () => {
             </section>
 
             {/* Portfolios Page */}
-            <section className={(currentMenuItem === 5)? ("") : ("d-none")}>
+            <section className={(currentMenuItem === 5) ? ("") : ("d-none")}>
               <br />
               <h3 style={{ marginLeft: 30, marginTop: 5, color: "black", fontWeight: "lighter" }}>Portfolios</h3>
             </section>

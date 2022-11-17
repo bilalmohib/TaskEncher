@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
@@ -16,6 +16,41 @@ const Home: NextPage = () => {
 
   const [currentMenuItem, setCurrentMenuItem] = useState<Number>(1);
 
+  const [currentFullLengthItem, setCurrentFullLengthItem] = useState<Number>(1);
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const dragItem = useRef<any>();
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const dragOverItem = useRef<any>();
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [list, setList] = useState([1, 2, 3, 4, 5, 6]);
+
+  // on Pointer Down
+  const [pointerDown,setPointerDown] = useState<Boolean>(false);
+  const [pointerOut,setPointerOut] = useState<Boolean>(false);
+
+  const dragStart = (e: any, position: any) => {
+    dragItem.current = position;
+    console.log(e.target.innerHTML);
+  };
+
+  const dragEnter = (e: any, position: any) => {
+    dragOverItem.current = position;
+    console.log(e.target.innerHTML);
+  };
+
+  const drop = (e: any) => {
+    const copyListItems = [...list];
+    const dragItemContent = copyListItems[dragItem.current];
+    copyListItems.splice(dragItem.current, 1);
+    copyListItems.splice(dragOverItem.current, 0, dragItemContent);
+    dragItem.current = null;
+    dragOverItem.current = null;
+    setList(copyListItems);
+  };
+
   return (
     <div className={styles.container}>
       <Head>
@@ -29,7 +64,7 @@ const Home: NextPage = () => {
         <div className='d-flex'>
           <Sidebar currentMenuItem={currentMenuItem} setCurrentMenuItem={setCurrentMenuItem} isOpen={isOpen} setIsOpen={setIsOpen} />
 
-          <div className={styles.rightSideContainer}>
+          <div className={`${styles.rightSideContainer} ${(isOpen)?(styles.shrinkContainer):(styles.expandContainer)}`}>
             {/* Home Page */}
             <section className={(currentMenuItem === 1) ? ("") : ("d-none")}>
               <br />
@@ -61,13 +96,43 @@ const Home: NextPage = () => {
                     </div>
                   </div>
                   <div className={styles.stats2}>
-                    <span style={{ fontSize: 20, fontWeight: "400" }}> <AiOutlineCheck style={{marginTop:-5}} /> 7</span> <span style={{ marginTop: 3 }}>&nbsp; tasks completed</span>
+                    <span style={{ fontSize: 20, fontWeight: "400" }}> <AiOutlineCheck style={{ marginTop: -5 }} /> 7</span> <span style={{ marginTop: 3 }}>&nbsp; tasks completed</span>
                   </div>
                   <div className={styles.stats3}>
-                    <span style={{ fontSize: 20, fontWeight: "400" }}> <BsPeople style={{marginTop:-5}} />&nbsp;2</span> <span style={{ marginTop: 3 }}>&nbsp; collaborators</span>
+                    <span style={{ fontSize: 20, fontWeight: "400" }}> <BsPeople style={{ marginTop: -5 }} />&nbsp;2</span> <span style={{ marginTop: 3 }}>&nbsp; collaborators</span>
                   </div>
                 </div>
               </section>
+
+              {/* ++++++++++++++++++++++++++++++++++++ Widgets Container ++++++++++++++++++++++++++++++++++++ */}
+              <section className={styles.widgetsContainer}>
+                {list &&
+                  list.map((item, index) => (
+                    <div
+                      className={`${styles.widget} ${((item == currentFullLengthItem) && (styles.fullWidthWidget))} ${((pointerDown && item==currentFullLengthItem) ? (styles.pointerDown) : (styles.pointerOut))}`}
+                      onDragStart={e => dragStart(e, index)}
+                      onDragEnter={e => dragEnter(e, index)}
+                      onDragEnd={drop}
+                      onDragOver={() => setPointerDown(true)}
+                      onMouseUp={() => setPointerDown(false)}
+                      onDoubleClick={() => {
+                        console.log("Double Clicked");
+                        if (item === currentFullLengthItem) {
+                          setCurrentFullLengthItem(0);
+                        }
+                        else {
+                          setCurrentFullLengthItem(item);
+                        }
+                      }}
+                      key={index}
+                      draggable
+                    >
+                      <h1>{item}</h1>
+                    </div>
+                  ))}
+              </section>
+              {/* ++++++++++++++++++++++++++++++++++++ Widgets Container ++++++++++++++++++++++++++++++++++++ */}
+
             </section>
 
             {/* My Tasks Page */}
@@ -118,4 +183,4 @@ const Home: NextPage = () => {
     </div>
   )
 }
-export default Home
+export default Home;

@@ -1,4 +1,6 @@
 .nav_bar{
+    position: fixed;
+    width: 100%;
     background-color: #000000;
     color: #ffffff;
     padding: 10px;

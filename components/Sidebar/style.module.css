@@ -1,6 +1,8 @@
 .sidebar {
+    position: fixed !important;
     background-color: #1e1f21;
     /* border: 1px solid red; */
+    top: 3rem;
     width: 250px;
     height: 94.9vh;
     transition: 0.6s linear;
@@ -8,7 +10,7 @@
 
 .hideSidebar {
     margin-left: -250px !important;
-    transition: 0.6s ease-in-out;
+    transition: 0.6s linear;
 }
 
 .sidebarItemsContainer {

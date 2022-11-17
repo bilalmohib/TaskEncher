@@ -134,12 +134,12 @@ const Home: NextPage = () => {
                       key={index}
                       draggable
                     >
-                      {item===1 && <Widget1 />}
-                      {item===2 && <Widget2 />}
-                      {item===3 && <Widget3 />}
-                      {item===4 && <Widget4 />}
-                      {item===5 && <Widget5 />}
-                      {item===6 && <Widget6 />}
+                      {item === 1 && <Widget1 />}
+                      {item === 2 && <Widget2 />}
+                      {item === 3 && <Widget3 />}
+                      {item === 4 && <Widget4 />}
+                      {item === 5 && <Widget5 />}
+                      {item === 6 && <Widget6 />}
                     </div>
                   ))}
               </section>

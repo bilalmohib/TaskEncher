@@ -10,6 +10,13 @@ import Sidebar from '../components/Sidebar';
 import { IoIosArrowDropdown } from 'react-icons/io';
 import { AiOutlineCheck } from "react-icons/ai";
 import { BsPeople } from "react-icons/bs";
+// Importing Widgets
+import Widget1 from '../components/Widgets/Widget1';
+import Widget2 from '../components/Widgets/Widget2';
+import Widget3 from '../components/Widgets/Widget3';
+import Widget4 from '../components/Widgets/Widget4';
+import Widget5 from '../components/Widgets/Widget5';
+import Widget6 from '../components/Widgets/Widget6';
 
 const Home: NextPage = () => {
   const [isOpen, setIsOpen] = useState<Boolean>(true);
@@ -28,8 +35,8 @@ const Home: NextPage = () => {
   const [list, setList] = useState([1, 2, 3, 4, 5, 6]);
 
   // on Pointer Down
-  const [pointerDown,setPointerDown] = useState<Boolean>(false);
-  const [pointerOut,setPointerOut] = useState<Boolean>(false);
+  const [pointerDown, setPointerDown] = useState<Boolean>(false);
+  const [pointerOut, setPointerOut] = useState<Boolean>(false);
 
   const dragStart = (e: any, position: any) => {
     dragItem.current = position;
@@ -64,7 +71,7 @@ const Home: NextPage = () => {
         <div className='d-flex'>
           <Sidebar currentMenuItem={currentMenuItem} setCurrentMenuItem={setCurrentMenuItem} isOpen={isOpen} setIsOpen={setIsOpen} />
 
-          <div className={`${styles.rightSideContainer} ${(isOpen)?(styles.shrinkContainer):(styles.expandContainer)}`}>
+          <div className={`${styles.rightSideContainer} ${(isOpen) ? (styles.shrinkContainer) : (styles.expandContainer)}`}>
             {/* Home Page */}
             <section className={(currentMenuItem === 1) ? ("") : ("d-none")}>
               <br />
@@ -87,11 +94,11 @@ const Home: NextPage = () => {
                         My month <IoIosArrowDropdown style={{ marginTop: -2 }} />
                       </button>
                       <ul className="dropdown-menu">
-                        <li><a className="dropdown-item" href="#">Action</a></li>
-                        <li><a className="dropdown-item" href="#">Another action</a></li>
-                        <li><a className="dropdown-item" href="#">Something else here</a></li>
+                        <li><a className="dropdown-item" href="#">My Week</a></li>
+                        <li><a className="dropdown-item" href="#">My Month</a></li>
+                        {/* <li><a className="dropdown-item" href="#">Something else here</a></li>
                         <li><hr className="dropdown-divider" /></li>
-                        <li><a className="dropdown-item" href="#">Separated link</a></li>
+                        <li><a className="dropdown-item" href="#">Separated link</a></li> */}
                       </ul>
                     </div>
                   </div>
@@ -109,7 +116,7 @@ const Home: NextPage = () => {
                 {list &&
                   list.map((item, index) => (
                     <div
-                      className={`${styles.widget} ${((item == currentFullLengthItem) && (styles.fullWidthWidget))} ${((pointerDown && item==currentFullLengthItem) ? (styles.pointerDown) : (styles.pointerOut))}`}
+                      className={`${styles.widget} ${((item == currentFullLengthItem) && (styles.fullWidthWidget))} ${((pointerDown && item == currentFullLengthItem) ? (styles.pointerDown) : (styles.pointerOut))}`}
                       onDragStart={e => dragStart(e, index)}
                       onDragEnter={e => dragEnter(e, index)}
                       onDragEnd={drop}
@@ -127,7 +134,12 @@ const Home: NextPage = () => {
                       key={index}
                       draggable
                     >
-                      <h1>{item}</h1>
+                      {item===1 && <Widget1 />}
+                      {item===2 && <Widget2 />}
+                      {item===3 && <Widget3 />}
+                      {item===4 && <Widget4 />}
+                      {item===5 && <Widget5 />}
+                      {item===6 && <Widget6 />}
                     </div>
                   ))}
               </section>

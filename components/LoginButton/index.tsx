@@ -4,15 +4,17 @@ import styles from '../../styles/ContainerCss/Login.module.css';
 
 interface IProps {
     Icon: any,
-    Text: string
+    Text: string,
+    onClick?: () => void,
 }
 
 const LoginButton: React.FC<IProps> = ({
     Icon,
     Text,
+    onClick
 }) => {
     return (
-        <button className={`btn ${styles.btn_login}`}>
+        <button onClick={onClick} className={`btn ${styles.btn_login}`}>
             <div className='d-flex'>
                 <div style={{ marginTop: 3 }}>
                     {Icon}

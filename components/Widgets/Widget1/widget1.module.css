@@ -1,12 +1,121 @@
-.container{
+.container {
     background-color: rgb(255, 255, 255);
     padding-left: 20px;
     padding-top: 20px;
     height: 100%;
 }
 
-.container > h1{
+.container>div>h1 {
     color: rgb(0, 0, 0);
-    font-size: 25px;
+    font-size: 20px;
     font-weight: 300;
 }
+
+.btn_dropdown {
+    height: 25px !important;
+    margin-top: 10px;
+    font-size: 14px;
+    text-transform: none;
+    padding-top: 3px;
+    font-weight: 300;
+    color: #6d6d6d;
+    background-color: transparent;
+    border-radius: 6px !important;
+}
+
+.btn_dropdown:hover {
+    background-color: #f3f1f1;
+    color: #2c2a2a;
+}
+
+.btn_dropdown:focus {
+    background-color: #f3f1f1;
+    box-shadow: none !important;
+}
+
+/* projectsContainer */
+.projectsContainer {
+    margin-top: 20px;
+    max-width: 600px;
+    display: grid;
+    grid-template-columns: 48.5% 48.5%;
+    grid-gap: 0.5rem;
+    /* border: 2px solid rgb(217, 27, 17); */
+    margin-top: 35px;
+    transition: 1s linear;
+}
+
+/* Individual Project Container */
+.individualProject {
+    background-color: white;
+    color: black;
+    border: 1px solid #edeae9;
+    border-radius: 8px;
+    padding: 0.3rem;
+    height: auto;
+    transition: 1s linear;
+    cursor: pointer;
+    transition: width 250ms ease;
+    transition-duration: 250ms;
+    transition-timing-function: ease;
+    transition-delay: 0s;
+    transition-property: width;
+    display: flex;
+}
+
+.individualProject:hover {
+    border: 1px solid #bebebe;
+    transition: 0.1s linear;
+    background-color: #f9f8f8;
+    box-shadow: rgba(99, 99, 99, 0.1) 0px 1px 3px 0px;
+}
+
+.individualProject:focus {
+    border: 1.5px solid #ff0000;
+}
+
+/* Individual Project Container */
+.icon_style {
+    border-radius: 10px;
+    width: 50px;
+    height: 50px;
+    padding: 10px;
+    margin-left: 5px;
+}
+
+.icon1 {
+    background-color: rgb(207, 207, 207) !important;
+}
+
+.icon2 {
+    background-color: rgb(224, 104, 124) !important;
+}
+
+.icon3 {
+    background-color: rgb(19, 218, 214) !important;
+}
+
+.projectTitle{
+    font-size: 18px;
+    letter-spacing: 1px;
+    font-weight: 400;
+    color: #6d6d6d;
+    margin-top: 5px;
+}
+.infoText{
+    font-size: 14px;
+    font-weight: 300;
+    color: #6d6d6d;
+    margin-top: -10px;
+}
+.containerRightProject{
+    margin-left: 15px;
+    /* border: 2px solid black; */
+    height:50px;
+}
+.fullWidthWidget {
+    transition: 0.5s ease-in-out;
+    max-width: 100% !important;
+    grid-template-columns: 32.5% 32.5% 32.5% !important;
+    /* border: 10px solid rgb(21, 255, 0); */
+  }

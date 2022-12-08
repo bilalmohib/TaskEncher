@@ -9,14 +9,24 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@mui/material": "^5.10.17",
+    "firebase": "^9.14.0",
     "next": "12.3.1",
     "react": "18.2.0",
+    "react-animated-text-content": "^1.0.1",
+    "react-calendar": "^4.0.0",
+    "react-datepicker": "^4.8.0",
     "react-dom": "18.2.0",
+    "react-firebase-hooks": "^5.1.1",
     "react-icons": "^4.6.0"
   },
   "devDependencies": {
     "@types/node": "18.11.5",
     "@types/react": "18.0.22",
+    "@types/react-calendar": "^3.9.0",
+    "@types/react-datepicker": "^4.8.0",
     "@types/react-dom": "18.0.7",
     "eslint": "8.26.0",
     "eslint-config-next": "12.3.1",

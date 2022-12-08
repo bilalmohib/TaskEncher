@@ -1,6 +1,16 @@
 import styles from './widget6.module.css';
 
-const Widget6 = () => {
+interface IProps {
+    item: Number,
+    currentFullLengthItem: Number,
+    setCurrentFullLengthItem: Function
+}
+
+const Widget6: React.FC<IProps> = ({
+    item,
+    currentFullLengthItem,
+    setCurrentFullLengthItem
+}) => {
     return(
         <div className={styles.container}>
             <h1>Widget 6</h1>

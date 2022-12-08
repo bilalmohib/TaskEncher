@@ -120,7 +120,7 @@
 .widget:hover {
   border: 1px solid #bebebe;
   transition: 0.2s linear;
-  box-shadow: rgba(99, 99, 99, 0.1) 0px 1px 3px 0px;
+  box-shadow: rgba(99, 99, 99, 0.323) 0px 1px 3px 0px;
 }
 
 .widget:focus {

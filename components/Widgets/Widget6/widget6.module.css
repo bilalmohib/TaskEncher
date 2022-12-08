@@ -1,8 +1,13 @@
-.container{
+.container {
     background-color: rgb(212, 0, 0);
     height: 100%;
 }
 
-.container > h1{
+.container>h1 {
     color: white;
+}
+
+.fullWidthWidget {
+    transition: 1s linear;
+    grid-column: 1 / 3;
 }

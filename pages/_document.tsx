@@ -1,10 +1,10 @@
 // File Relative Path: pages/_document.tsx
-import { Html, Head, Main, NextScript } from 'next/document'
+import { Html, Head, Main, NextScript } from 'next/document';
 
 const Document = () => {
     return (
         <Html>
-            <Head>
+            <Head>  
                 {/* Font Awesome */}
                 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" />
                 {/* Google Fonts */}

@@ -289,12 +289,12 @@ const Home = () => {
                                     key={index}
                                     draggable
                                 >
-                                    {item.id === 1 && <Widget1 item={item.id} currentFullLengthItem={currentFullLengthItem} setCurrentFullLengthItem={setCurrentFullLengthItem} />}
-                                    {item.id === 2 && <Widget2 item={item.id} currentFullLengthItem={currentFullLengthItem} setCurrentFullLengthItem={setCurrentFullLengthItem} />}
-                                    {item.id === 3 && <Widget3 item={item.id} currentFullLengthItem={currentFullLengthItem} setCurrentFullLengthItem={setCurrentFullLengthItem} />}
-                                    {item.id === 4 && <Widget4 item={item.id} currentFullLengthItem={currentFullLengthItem} setCurrentFullLengthItem={setCurrentFullLengthItem} />}
-                                    {item.id === 5 && <Widget5 item={item.id} currentFullLengthItem={currentFullLengthItem} setCurrentFullLengthItem={setCurrentFullLengthItem} />}
-                                    {item.id === 6 && <Widget6 item={item.id} currentFullLengthItem={currentFullLengthItem} setCurrentFullLengthItem={setCurrentFullLengthItem} />}
+                                    {item.id === 1 && <Widget1 email={signedInUserData.email} item={item.id} currentFullLengthItem={currentFullLengthItem} setCurrentFullLengthItem={setCurrentFullLengthItem} />}
+                                    {item.id === 2 && <Widget2 email={signedInUserData.email} item={item.id} currentFullLengthItem={currentFullLengthItem} setCurrentFullLengthItem={setCurrentFullLengthItem} />}
+                                    {item.id === 3 && <Widget3 email={signedInUserData.email} item={item.id} currentFullLengthItem={currentFullLengthItem} setCurrentFullLengthItem={setCurrentFullLengthItem} />}
+                                    {item.id === 4 && <Widget4 email={signedInUserData.email} item={item.id} currentFullLengthItem={currentFullLengthItem} setCurrentFullLengthItem={setCurrentFullLengthItem} />}
+                                    {item.id === 5 && <Widget5 email={signedInUserData.email} item={item.id} currentFullLengthItem={currentFullLengthItem} setCurrentFullLengthItem={setCurrentFullLengthItem} />}
+                                    {/* {item.id === 6 && <Widget6 email={signedInUserData.email} item={item.id} currentFullLengthItem={currentFullLengthItem} setCurrentFullLengthItem={setCurrentFullLengthItem} />} */}
                                 </div>
                             ))}
                     </section>

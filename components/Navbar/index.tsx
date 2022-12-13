@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import { CgMenu } from 'react-icons/cg';
 import styles from './style.module.css';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
 
 import {
     CircularProgress,
@@ -69,6 +69,7 @@ const Navbar: React.FC<IProps> = ({
                 console.log("User is signed out");
                 // alert("Please sign in to continue");
                 // navigate("/login");
+                router.push("/login");
                 // ...
             }
         });
@@ -97,15 +98,15 @@ const Navbar: React.FC<IProps> = ({
                     &nbsp;
                     <span className={styles.navbarHamburger} onClick={() => setIsOpen(!isOpen)}> <CgMenu size={25} /> </span>
                     &nbsp; &nbsp;
-                    <Image src="/navlogo.svg" alt="Asana" width={100} height={18} />
+                    <span style={{ fontSize: 20, marginTop: '3px' }}>Project Management Software</span>
                 </a>
                 <div>
                     {(!Loading && signedInUserData) ? (
                         <div className={`${styles.navItems} navbar-nav`}>
-                            <a className="nav-link active" aria-current="page" href="#">5 days left in trial</a>
+                            {/* <a className="nav-link active" aria-current="page" href="#">5 days left in trial</a>
                             <a className="nav-link" href="#">
                                 <button className="btn btn-warning btn-sm">Add billing info</button>
-                            </a>
+                            </a> */}
 
                             {/* Avatar */}
                             <li className="nav-item dropdown">

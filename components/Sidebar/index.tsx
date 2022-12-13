@@ -13,7 +13,8 @@ import { FiPlus } from "react-icons/fi";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 import { GoTriangleDown } from "react-icons/go";
 import { CgShapeSquare } from "react-icons/cg";
-import {FcInvite} from "react-icons/fc";
+import { FcInvite } from "react-icons/fc";
+import { useRouter } from 'next/router';
 
 interface IProps {
     setIsOpen: any,
@@ -28,6 +29,7 @@ const Sidebar: React.FC<IProps> = ({
     currentMenuItem,
     setCurrentMenuItem
 }) => {
+    const router = useRouter();
     return (
         <section className={`${styles.sidebar} ${(isOpen) ? ("") : (styles.hideSidebar)}`}>
             <div className={styles.sidebarItemsContainer}>
@@ -44,32 +46,62 @@ const Sidebar: React.FC<IProps> = ({
                     </ul>
                 </div>
                 <ul className={styles.SidebarMenuList}>
-                    <li className={(currentMenuItem === 1) ? (styles.selected_Menu_Item) : ("")} onClick={() => setCurrentMenuItem(1)}>
+                    <li className={(currentMenuItem === 1) ? (styles.selected_Menu_Item) : ("")}
+                        onClick={() => {
+                            setCurrentMenuItem(1)
+                            router.push('/');
+                        }}
+                    >
                         <div className='d-flex'>
                             <p> <IoHomeOutline size={19} /> </p> <p className={styles.itemMenuListText}>Home</p>
                         </div>
                     </li>
-                    <li className={(currentMenuItem === 2) ? (styles.selected_Menu_Item) : ("")} onClick={() => setCurrentMenuItem(2)}>
+                    <li className={(currentMenuItem === 2) ? (styles.selected_Menu_Item) : ("")}
+                        onClick={() => {
+                            setCurrentMenuItem(2)
+                            router.push('/');
+                        }}
+                    >
                         <div className='d-flex'>
                             <p> <BsCheckCircle size={19} /> </p> <p className={styles.itemMenuListText}>My Tasks</p>
                         </div>
                     </li>
-                    <li className={(currentMenuItem === 3) ? (styles.selected_Menu_Item) : ("")} onClick={() => setCurrentMenuItem(3)}>
+                    <li className={(currentMenuItem === 3) ? (styles.selected_Menu_Item) : ("")}
+                        onClick={() => {
+                            setCurrentMenuItem(3)
+                            router.push('/');
+                        }}
+                    >
                         <div className='d-flex'>
                             <p> <BsBell size={19} /> </p> <p className={styles.itemMenuListText}>Inbox</p>
                         </div>
                     </li>
-                    <li className={(currentMenuItem === 4) ? (styles.selected_Menu_Item) : ("")} onClick={() => setCurrentMenuItem(4)}>
+                    <li className={(currentMenuItem === 4) ? (styles.selected_Menu_Item) : ("")}
+                        onClick={() => {
+                            setCurrentMenuItem(4)
+                            router.push('/');
+                        }}
+                    >
                         <div className='d-flex'>
                             <p> <BiStats size={19} /> </p> <p className={styles.itemMenuListText}>Reporting</p>
                         </div>
                     </li>
-                    <li className={(currentMenuItem === 5) ? (styles.selected_Menu_Item) : ("")} onClick={() => setCurrentMenuItem(5)}>
+                    <li className={(currentMenuItem === 5) ? (styles.selected_Menu_Item) : ("")}
+                        onClick={() => {
+                            setCurrentMenuItem(5)
+                            router.push('/');
+                        }}
+                    >
                         <div className='d-flex'>
                             <p> <HiChartSquareBar size={19} /> </p> <p className={styles.itemMenuListText}>Portfolios</p>
                         </div>
                     </li>
-                    <li className={(currentMenuItem === 6) ? (styles.selected_Menu_Item) : ("")} onClick={() => setCurrentMenuItem(6)}>
+                    <li className={(currentMenuItem === 6) ? (styles.selected_Menu_Item) : ("")} 
+                      onClick={() => {
+                        setCurrentMenuItem(6)
+                        router.push('/');
+                    }}
+                    >
                         <div className='d-flex'>
                             <p> <GiStairsGoal size={19} /> </p> <p className={styles.itemMenuListText}>Goals</p>
                         </div>
@@ -125,8 +157,8 @@ const Sidebar: React.FC<IProps> = ({
                 {/* Invite Members Section */}
                 <div className={styles.sidebarFooter}>
                     <div className={styles.sidebarFooterContainer}>
-                        <p><FcInvite size={25} style={{marginTop:2}} /></p>
-                         <p style={{marginTop:1,marginLeft:10}}>Invite Members</p>
+                        <p><FcInvite size={25} style={{ marginTop: 2 }} /></p>
+                        <p style={{ marginTop: 1, marginLeft: 10 }}>Invite Members</p>
                     </div>
                 </div>
                 {/* Invite Members Section */}

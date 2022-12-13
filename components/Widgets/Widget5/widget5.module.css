@@ -1,10 +1,10 @@
 .container {
-    background-color: rgb(212, 0, 0);
+    background-color: rgb(255, 255, 255);
     height: 100%;
 }
 
 .container>h1 {
-    color: white;
+    color: rgb(0, 0, 0);
 }
 
 .fullWidthWidget {

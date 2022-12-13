@@ -3,13 +3,15 @@ import styles from './widget6.module.css';
 interface IProps {
     item: Number,
     currentFullLengthItem: Number,
-    setCurrentFullLengthItem: Function
+    setCurrentFullLengthItem: Function,
+    email: String
 }
 
 const Widget6: React.FC<IProps> = ({
     item,
     currentFullLengthItem,
-    setCurrentFullLengthItem
+    setCurrentFullLengthItem,
+    email
 }) => {
     return(
         <div className={styles.container}>

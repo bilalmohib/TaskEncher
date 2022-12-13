@@ -9,30 +9,32 @@ import styles from './widget3.module.css';
 interface IProps {
     item: Number,
     currentFullLengthItem: Number,
-    setCurrentFullLengthItem: Function
+    setCurrentFullLengthItem: Function,
+    email:String
 }
 
 const Widget1: React.FC<IProps> = ({
     item,
     currentFullLengthItem,
-    setCurrentFullLengthItem
+    setCurrentFullLengthItem,
+    email
 }) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [list, setList] = useState(
         [
             {
-                title: "Create Project",
+                title: "Alex",
                 info: "",
                 className: styles.icon1,
             },
             {
-                title: "Software Development",
+                title: "John",
                 due_tasks: "",
                 className: styles.icon2,
             },
             {
-                title: "FYP",
-                info: "2 tasks due soon",
+                title: "David",
+                info: "",
                 className: styles.icon3,
             }
         ]);

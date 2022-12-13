@@ -30,10 +30,9 @@ import {
 
 /// Importing Firebase
 import Navbar from "../components/Navbar";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from 'react-date-picker/dist/entry.nostyle';
 
-import Calendar from 'react-calendar';
+// import Calendar from 'react-calendar';
 
 import { NextPage } from "next";
 import CustomLoader from "../components/CustomLoader";
@@ -324,7 +323,7 @@ const CreateProject: NextPage = () => {
                     console.log("Data sent");
                     const { pathname } = Router;
                     if (pathname == '/createProject') {
-                        alert("Your Project is initialized Successfully.Redirecting you to your projects page.")
+                        alert("Your Project is initialized Successfully.Redirecting you to your projects page.");
                         Router.push('/');
                     }
                 })
@@ -533,7 +532,7 @@ const CreateProject: NextPage = () => {
 
                                                     <div>
                                                         <h6>Due Date for the Task : <span className="text-red">*</span></h6>
-                                                        <Calendar
+                                                        <DatePicker
                                                             onChange={setTaskDue}
                                                             value={taskDue}
                                                         />
@@ -608,16 +607,16 @@ const CreateProject: NextPage = () => {
                                                     <br />
                                                     <div>
                                                         <h6>Starting Date of the Project : <span className="text-red">*</span></h6>
-                                                        <Calendar 
-                                                            onChange={(val: any) => setProjectStartingDate(val)}
+                                                        <DatePicker 
+                                                            onChange={setProjectStartingDate}
                                                             value={projectStartingDate}
                                                         />
                                                     </div>
                                                     <br />
                                                     <div>
                                                         <h6>Ending Date of the Project(Estimated) : <span className="text-red">*</span></h6>
-                                                        <Calendar
-                                                            onChange={(val:any) => setProjectEndingDate(val)}
+                                                        <DatePicker
+                                                            onChange={setProjectEndingDate}
                                                             value={projectEndingDate}
                                                         />
                                                     </div>
@@ -689,9 +688,14 @@ const CreateProject: NextPage = () => {
                                                     <h2><i className="fas fa-list-alt fa-lg mr-3" style={{ color: "#48dafd" }}></i>&nbsp;&nbsp; {projectPlan}</h2>
                                                     <h4>
                                                         <span className="text-success">
-                                                            {JSON.stringify(projectStartingDate.getDay() + ", " + monthNames[projectStartingDate.getMonth()] + " " + projectStartingDate.getFullYear())}</span>
+                                                            {/* {JSON.stringify(new Date(projectStartingDate).toLocaleString('en-US', { timeZone: 'Asia/Karachi' }) + ", " +new Date(projectStartingDate).toLocaleString('en-US', { timeZone: 'Asia/Karachi' }) + " " + new Date(projectStartingDate).toLocaleString('en-US', { timeZone: 'Asia/Karachi' }))} */}
+                                                            {JSON.stringify(new Date(projectStartingDate).toLocaleString('en-US', { timeZone: 'Asia/Karachi' }))}
+                                                            </span>
                                                         &nbsp; <i className="fas fa-1x text-primary fa-arrow-right"></i>
-                                                        &nbsp; <span className="text-danger">{JSON.stringify(projectEndingDate.getDay() + ", " + monthNames[projectEndingDate.getMonth()] + " " + projectEndingDate.getFullYear())}</span></h4>
+                                                        &nbsp; <span className="text-danger">
+                                                            {/* {JSON.stringify(new Date(projectEndingDate).getDay() + ", " + monthNames[new Date(projectEndingDate).getMonth()] + " " + new Date(projectEndingDate).getFullYear())} */}
+                                                            {JSON.stringify(new Date(projectEndingDate).toLocaleString('en-US', { timeZone: 'Asia/Karachi' }))}
+                                                            </span></h4>
                                                 </th>
                                             </tr>
                                             <tr>
@@ -863,9 +867,10 @@ const CreateProject: NextPage = () => {
                     </div>
                     <br /><br />
                 </section>
-            ) : (
-                <CustomLoader />
-            )}
+    ) : (
+        <CustomLoader />
+    )
+}
         </>
     )
 }

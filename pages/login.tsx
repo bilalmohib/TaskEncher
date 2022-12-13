@@ -288,8 +288,8 @@ const Login: NextPage = () => {
                 <Box>
                     <Box className={styles.main}>
                         <Box className={styles.login_box}>
-                            <Image src="/logo.png" alt="Asana" width={121} height={24} />
-                            <h2 className={styles.login_title}>Log in to Asana</h2>
+                            <span style={{ fontSize: 25, fontWeight: "400" }}>Project Management Software</span>
+                            <h2 className={styles.login_title}>Log in</h2>
                             {/* Icons Section */}
                             <Box>
                                 <LoginButton

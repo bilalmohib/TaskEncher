@@ -3,6 +3,7 @@
     padding-left: 20px;
     padding-top: 20px;
     height: 100%;
+    overflow-y: auto;
 }
 
 .container>div>h1 {
@@ -101,6 +102,10 @@
     font-weight: 400;
     color: #6d6d6d;
     margin-top: 5px;
+}
+.marginTopTitle{
+    margin-top: 15px;
+    /* margin-left: 15px; */
 }
 .infoText{
     font-size: 14px;

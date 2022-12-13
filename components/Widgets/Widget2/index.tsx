@@ -5,13 +5,15 @@ import styles from './widget2.module.css';
 interface IProps {
     item: Number,
     currentFullLengthItem: Number,
-    setCurrentFullLengthItem: Function
+    setCurrentFullLengthItem: Function,
+    email: String
 }
 
 const Widget2: React.FC<IProps> = ({
     item,
     currentFullLengthItem,
-    setCurrentFullLengthItem
+    setCurrentFullLengthItem,
+    email
 }) => {
     const [currentPriority, setCurrentPriority] = useState<Number>(1);
 

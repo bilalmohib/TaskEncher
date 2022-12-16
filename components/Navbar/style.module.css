@@ -8,6 +8,7 @@
     height: 50px;
     justify-content: space-between;
     align-items: center;
+    z-index: 2;
 }
 
 .navbarHamburger{
@@ -24,4 +25,6 @@
 
 .dropdown_nav{
     margin-left: -100px !important;
+    z-index: 100 !important;
+    border: 1px solid red;
 }

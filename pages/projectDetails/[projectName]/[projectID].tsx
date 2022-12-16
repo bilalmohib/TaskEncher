@@ -165,7 +165,7 @@ const ProjectDetailsComp = () => {
         <div className={styles.container}>
             {(isSignedIn && !loading) ? (
                 <div className={styles.container}>
-                    <HeaderProjectDetails />
+                    <HeaderProjectDetails photoURL={signedInUserData.photoURL} />
                     <h1>Project Details</h1>
                 </div>
             ) : (

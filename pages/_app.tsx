@@ -12,6 +12,7 @@ import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 import Home from '../components/Main/Home';
 import { ProfileComp } from './profile/[uuid]';
+import { ProjectDetailsComp } from './projectDetails/[projectName]/[projectID]';
 import 'react-date-picker/dist/DatePicker.css';
 import 'react-calendar/dist/Calendar.css';
 
@@ -105,6 +106,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     else if (
       router.pathname == `/profile/[uuid]`
       || router.pathname === '/profile'
+      || router.pathname === '/projectDetails/[projectName]/[projectID]'
     ) {
       setHideExtra(2);
     }
@@ -213,7 +215,15 @@ function MyApp({ Component, pageProps }: AppProps) {
                   <Sidebar currentMenuItem={0} setCurrentMenuItem={setCurrentMenuItem} isOpen={isOpen} setIsOpen={setIsOpen} />
 
                   <main className={`${styles.rightSideContainer} ${(isOpen) ? (styles.shrinkContainer) : (styles.expandContainer)}`}>
-                    <ProfileComp />
+
+                    {(router.pathname == `/profile/[uuid]` || router.pathname == '/profile') ? (
+                      <ProfileComp />
+                    ) : (router.pathname == '/projectDetails/[projectName]/[projectID]') ? (
+                      <ProjectDetailsComp />
+                    ) : (
+                      <></>
+                    )}
+
                   </main>
 
                 </div>

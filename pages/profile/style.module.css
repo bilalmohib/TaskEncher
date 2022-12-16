@@ -255,4 +255,46 @@
     background-color: initial;
 }
 
+.bodymyTasksContainer{
+    /* border: 2px solid red; */
+    margin-top: 30px;
+    height: 420px;
+    overflow-y: auto;
+}
+
+/* My Tasks List  */
+.myTasksList{
+    border-bottom: 1px solid #f1efee;
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color: #ffffff;
+    justify-content: space-between;
+    display: flex;
+}
+.myTasksList:hover{
+    background-color: #f9f8f8;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.myTasksListLeft{
+    /* border: 2px solid rgb(0, 17, 255); */
+    display: flex;
+    flex-direction: row;
+    margin-top: 5px;
+    height: 30px;
+    margin-bottom: 5px;
+}
+.myTasksListRight{
+    padding-top: 5px;
+}
+.pnmyTask{
+    margin-left: 10px;
+}
+.taskCompleteIcon:hover{
+    color: green;
+    cursor: pointer;
+}
+/* My Tasks List  */
+
 /* //////////////////////////// MAIN PROFILE CONTAINER //////////////////////////// */

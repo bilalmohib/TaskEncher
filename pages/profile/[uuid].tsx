@@ -8,6 +8,9 @@ import styles from './style.module.css';
 // Importing Icons
 import { CiTimer } from "react-icons/ci";
 import { AiOutlineMail } from "react-icons/ai";
+import { BsCheckCircle } from "react-icons/bs";
+
+import DatePicker from 'react-date-picker/dist/entry.nostyle';
 
 import {
     doc,
@@ -30,6 +33,8 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { db, auth } from "../../firebase";
 import CustomLoader from '../../components/CustomLoader';
 
+const currentDate = new Date();
+
 const Profile: NextPage = () => {
     return (
         <div>
@@ -43,6 +48,8 @@ const Profile: NextPage = () => {
 }
 
 const ProfileComp = () => {
+
+    const [taskDue, setTaskDue] = useState<any>(currentDate);
 
     const frequentCollaboratorsList = [
         {
@@ -146,6 +153,11 @@ const ProfileComp = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loading, snapshot]);
     // FOR GETTING PROJECTS
+
+    // useEffect(() => {
+    //     if (projects.length !== 0) {
+    //         setTaskDue(projects.map((project: any) => project.taskDue));
+
     /////////////////////////////////////// Database Part ////////////////////////////////////////////////
 
     return (
@@ -183,17 +195,40 @@ const ProfileComp = () => {
                     {/* MAIN Profile Container */}
                     <div className={styles.profileContainerMain}>
                         <div className={styles.myTasksMainContainer}>
-                            <header className={styles.headerMyTasks}>
-                                <div>
-                                    My tasks
-                                </div>
-                                <div className={styles.myTasksHeaderRight}>
-                                    <button className={`btn ${styles.viewAllTasksBtn}`} onClick={() => {
-                                        alert("View all tasks");
-                                    }}>View all tasks</button>
-                                </div>
-                            </header>
+                            <div>
+                                <header className={styles.headerMyTasks}>
+                                    <div>
+                                        My tasks
+                                    </div>
+                                    <div className={styles.myTasksHeaderRight}>
+                                        <button className={`btn ${styles.viewAllTasksBtn}`} onClick={() => {
+                                            alert("View all tasks");
+                                        }}>View all tasks</button>
+                                    </div>
+                                </header>
+                                <section className={styles.bodymyTasksContainer}>
+                                    {
+                                        projects.map((item: any, index: any) => {
+                                            return (
+                                                <div key={index} className={styles.myTasksList}>
+                                                    <div className={styles.myTasksListLeft}>
+                                                        <p className={styles.taskCompleteIcon} onClick={() => alert("Mark As Completed")}><BsCheckCircle /></p>
+                                                        <p className={styles.pnmyTask}>{item.ProjectName}</p>
+                                                    </div>
+                                                    <div className={styles.myTasksListRight}>
+                                                        <DatePicker
+                                                            onChange={setTaskDue}
+                                                            value={new Date(item.ProjectEndingDate)}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            )
+                                        })
+                                    }
+                                </section>
+                            </div>
                         </div>
+
                         <div className={styles.rightSideMainContainer}>
                             <div className={styles.aboutMeContainer}>
                                 <h1>About me</h1>
@@ -233,6 +268,45 @@ const ProfileComp = () => {
                             </div>
                         </div>
                     </div>
+
+
+                    {/* MAIN Profile Container */}
+                    <div className={styles.profileContainerMain}>
+                        <div className={styles.myTasksMainContainer}>
+                            <div>
+                                <header className={styles.headerMyTasks}>
+                                    <div>
+                                        My recent projects
+                                    </div>
+                                </header>
+                                <section className={styles.bodymyTasksContainer}>
+                                    {
+                                        projects.map((item: any, index: any) => {
+                                            return (
+                                                <div key={index} className={styles.myTasksList}>
+                                                    <div className={styles.myTasksListLeft}>
+                                                        <p className={styles.taskCompleteIcon} onClick={() => alert("Mark As Completed")}><BsCheckCircle /></p>
+                                                        <p className={styles.pnmyTask}>{item.ProjectName}</p>
+                                                    </div>
+                                                    <div className={styles.myTasksListRight}>
+                                                        <DatePicker
+                                                            onChange={setTaskDue}
+                                                            value={new Date(item.ProjectEndingDate)}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            )
+                                        })
+                                    }
+                                </section>
+                            </div>
+                        </div>
+
+                        <div className={styles.rightSideMainContainer}>
+                            {/*  */}
+                        </div>
+                    </div>
+                    <br /><br />
                     {/* MAIN Profile Container */}
                 </div>
             ) : (

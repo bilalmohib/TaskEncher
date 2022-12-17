@@ -20,29 +20,58 @@ interface IProps {
     // setIsOpen?: any,
     // isOpen?: Boolean
     photoURL: any,
+    selectedTabItemValue: any,
+    setSelectedTabItemValue: any
 }
 
 const HeaderProjectDetails: React.FC<IProps> = ({
     // setIsOpen,
     // isOpen
-    photoURL
+    photoURL,
+    selectedTabItemValue,
+    setSelectedTabItemValue
 }) => {
 
     const router = useRouter();
 
     const tabItems = [
         {
-            id:1,
-            name:"OverView"
+            id: 1,
+            name: "OverView"
         },
         {
-            id:2,
-            name:"List"
+            id: 2,
+            name: "List"
         },
-        
-    ]
-
-    const [selectedTabItem, setSelectedTabItem] = useState<Number>(1);
+        {
+            id: 3,
+            name: "Board"
+        },
+        {
+            id: 4,
+            name: "Timeline"
+        },
+        {
+            id: 5,
+            name: "Calender"
+        },
+        {
+            id: 6,
+            name: "Workflow"
+        },
+        {
+            id: 7,
+            name: "Dashboard"
+        },
+        {
+            id: 8,
+            name: "Messages"
+        },
+        {
+            id: 9,
+            name: "Files"
+        }
+    ];
 
     return (
         <nav className={styles.container}>
@@ -86,33 +115,13 @@ const HeaderProjectDetails: React.FC<IProps> = ({
                     </div>
                 </div>
                 <ul className={styles.downLeftTabsList}>
-                    <li className={(selectedTabItem == 1) ? (styles.selectedTabItem) : ("")} onClick={() => setSelectedTabItem(1)}>
-                        OverView
-                    </li>
-                    <li>
-                        List
-                    </li>
-                    <li>
-                        Board
-                    </li>
-                    <li>
-                        Timeline
-                    </li>
-                    <li>
-                        Calender
-                    </li>
-                    <li>
-                        Workflow
-                    </li>
-                    <li>
-                        Dashboard
-                    </li>
-                    <li>
-                        Messages
-                    </li>
-                    <li>
-                        Files
-                    </li>
+                    {(tabItems.length > 0) && tabItems.map((item, index) => {
+                        return (
+                            <li key={index} className={(selectedTabItemValue === (index + 1)) ? (styles.selectedTabItem) : ("")} onClick={() => setSelectedTabItemValue(item.id)}>
+                                {item.name}
+                            </li>
+                        )
+                    })}
                 </ul>
             </div>
             <div className={styles.rightSide}>
@@ -127,7 +136,7 @@ const HeaderProjectDetails: React.FC<IProps> = ({
                     />
                 </div>
                 <button className={`btn btn-primary ${styles.btn_share}`}>
-                    <BsPeopleFill size={16} style={{ marginTop: 2 }} />
+                    <BsPeopleFill size={16} style={{ marginTop: 3 }} />
                     &nbsp;
                     Share
                 </button>

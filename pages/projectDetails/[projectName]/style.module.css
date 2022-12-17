@@ -1,3 +1,337 @@
-.container{
-    border: 1px solid rgb(255, 0, 0);
+.container {
+    /* border: 1px solid rgb(255, 0, 0); */
 }
+
+.header{
+    position: sticky !important;
+    /* border: 1px solid red; */
+    top: 5.3%;
+    margin-left: 2px;
+    background-color: white;
+}
+
+.mainContainer {
+    /* border: 1px solid rgb(0, 255, 0); */
+    padding-left: 11.5%;
+    padding-right: 11.5%;
+    padding-top: 5%;
+}
+
+/* OverView section */
+.headingCollaborate {
+    border: 1px solid transparent;
+    border-radius: 5px;
+    height: 42px;
+    width: fit-content;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 20px;
+    color: #1e1f21;
+    font-weight: 400;
+    line-height: 28px;
+    padding-top: 5px;
+    padding-left: 10px;
+    padding-right: 16px;
+}
+
+.headingCollaborate[contentEditable]:focus {
+    outline: 2px solid #4573d2;
+}
+
+.headingCollaborate:hover {
+    border: 1px solid #afabac;
+}
+
+.descriptionHowCollaborate {
+    border: 1px solid transparent;
+    border-radius: 5px;
+    height: 160px;
+    width: 80%;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    color: #1e1f21;
+    font-weight: 300;
+    line-height: 28px;
+    padding-top: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.descriptionHowCollaborate[contentEditable]:focus {
+    outline: 2px solid #4573d2;
+}
+
+/* Project Roles section */
+.headingOverView {
+    border: 1px solid transparent;
+    border-radius: 5px;
+    height: 42px;
+    width: fit-content;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 20px;
+    color: #1e1f21;
+    font-weight: 400;
+    line-height: 28px;
+    margin-top: 30px;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 16px;
+}
+
+.projectRolesContainer {
+    /* border: 1px solid black; */
+    padding-left: 10px;
+    /* max-width: 600px; */
+    margin-right: 20%;
+    display: grid;
+    grid-template-columns: 24% 24% 24% 24%;
+    grid-gap: 0.5rem;
+    /* border: 2px solid rgb(217, 27, 17); */
+    transition: 1s linear;
+}
+
+.individualProjectRolesContainer {
+    /* border: 1px solid red; */
+    width: 181px;
+    /* height: 56px; */
+    display: flex;
+    flex-direction: row;
+    padding-top: 8px;
+    padding-left: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.individualProjectRolesContainer:hover {
+    background-color: #f9f8f8;
+}
+
+/* For All individualProjectRolesContainerSeparate */
+.individualProjectRolesContainerSeparate {
+    width: fit-content;
+    /* border: 5px solid green; */
+    display: flex;
+    width: 190px;
+    padding-top: 8px;
+    padding-bottom: 10px;
+    flex-direction: row;
+    padding-left: 6px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.individualProjectRolesContainerSeparate:hover {
+    background-color: #f9f8f8;
+}
+
+.imageAddNewRole {
+    border: 1px solid #6d6e6f;
+    border-style: dashed;
+    padding-left: 9px;
+    padding-top: 4px;
+    border-radius: 50%;
+    width: 36px;
+    margin-top: 2px;
+    height: 36px;
+    margin-left: 5px;
+}
+
+.addMemberText {
+    font-size: 14px;
+    color: #6f7071;
+    font-weight: 400;
+    height: 40px;
+    margin-left: 10px;
+    /* border: 1px solid red; */
+    padding-top: 12px;
+}
+
+.memberText {
+    font-size: 14px;
+    color: #1e1f21;
+    font-weight: 400;
+    line-height: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    margin-left: 7px;
+    /* border: 1px solid red; */
+    padding-top: 2px;
+}
+
+.projectRoleText {
+    font-size: 12px;
+    color: #6d6e6f;
+    font-weight: 400;
+    line-height: 2px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    margin-left: 7px;
+    /* border: 1px solid red; */
+    /* padding-top: 12px; */
+}
+
+.imageRoleMember {
+    width: 36px !important;
+    height: 36px !important;
+    margin-top: 5px;
+    margin-left: 5px;
+    /* border-radius: 50%; */
+    /* border: 1px solid red; */
+}
+
+/* .headingCollaborate:focus {
+    border: 1px solid blue !important;
+} */
+
+/* Goals Container */
+.goalsContainer {
+    align-items: center;
+    border: 1px solid #edeae9;
+    border-radius: 8px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    min-height: 160px;
+    min-width: 458px;
+    width: 80%;
+    margin-left: 12px;
+}
+
+/* leftContainerGoals */
+.leftContainerGoals {
+    /* border: 1px solid #edeae9; */
+    border-radius: 8px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: right;
+    min-height: 160px;
+    width: 30%;
+}
+
+/* rightContainerGoals */
+.rightContainerGoals {
+    /* border: 1px solid #edeae9; */
+    border-radius: 8px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    justify-content: left;
+    min-height: 160px;
+}
+
+.rightContainerGoals p {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 22px;
+    color: #1e1f21;
+    margin-left: 20%;
+    padding-top: 30px;
+}
+
+.rightContainerGoals button {
+    width: fit-content !important;
+    margin-left: 20%;
+    font-size: 14px !important;
+    text-transform: none !important;
+    height: 30px;
+    padding-top: 5px;
+    border: none !important;
+    color: grey;
+    font-weight: 400;
+}
+
+/* Key Resources Container */
+.krContainer {
+    align-items: center;
+    border: 1px solid #edeae9;
+    border-radius: 8px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    min-height: 160px;
+    min-width: 458px;
+    width: 80%;
+    margin-left: 12px;
+}
+
+/* leftContainerkr */
+.leftContainerkr {
+    /* border: 1px solid #edeae9; */
+    border-radius: 8px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: right;
+    min-height: 160px;
+    width: 34%;
+}
+
+/* rightContainerGoals */
+.rightContainerkr {
+    /* border: 1px solid #edeae9; */
+    border-radius: 8px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    width: 66%;
+    justify-content: left;
+    min-height: 160px;
+}
+
+.rightContainerkr p {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 22px;
+    color: #1e1f21;
+    margin-left: 15%;
+    padding-top: 35px;
+}
+
+.rightContainerkr button {
+    width: fit-content !important;
+    font-size: 14px !important;
+    text-transform: none !important;
+    height: 30px;
+    padding-top: 5px;
+    color: grey;
+    border: none !important;
+    font-weight: 400;
+}
+
+.headingOverView p{
+    font-size: 22px;
+    color: #6d6e6f;
+    padding-top: 1px;
+    padding-left: 2px;
+    margin-left: 10px;
+    align-items: center;
+    height: 28px;
+    width: 28px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.headingOverView p:hover{
+    background-color: #f9f8f8;
+    color: black;
+}
+
+.milestonesContainer{
+    /* border: 5px solid blueviolet; */
+    width: 81%;
+}
+
+.individualMileStonesContainer{
+    border-top: 1px solid #edeae9;
+    border-bottom: 1px solid #edeae9;
+    height: 34px;
+    cursor: pointer;
+    padding-top: 3px;
+    padding-left: 5px;
+    color: black;
+    font-weight: bold;
+    font-size: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.individualMileStonesContainer:hover{
+    background-color: #f9f8f8;
+}
+/* OverView section */

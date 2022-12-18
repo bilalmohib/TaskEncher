@@ -1,0 +1,14 @@
+/* Container */
+.Contaienr{
+    border: 2px solid red;
+}
+
+/* Header */
+.Header{
+    border: 2px solid green;
+}
+
+/* Body */
+.Body{
+    border: 2px solid blue;
+}

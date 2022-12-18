@@ -23,12 +23,12 @@ import {
     signOut
 } from "firebase/auth";
 
-interface IProps {
+interface NavProps {
     setIsOpen: any,
     isOpen: Boolean
 }
 
-const Navbar: React.FC<IProps> = ({
+const Navbar: React.FC<NavProps> = ({
     setIsOpen,
     isOpen
 }) => {

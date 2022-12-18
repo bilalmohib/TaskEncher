@@ -34,7 +34,16 @@ import {
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { db, auth } from "../../../firebase";
 import CustomLoader from '../../../components/CustomLoader';
+import Overview from '../../../components/ProjectDetails/Overview';
 import HeaderProjectDetails from '../../../components/HeaderProjectDetails';
+import List from '../../../components/ProjectDetails/List';
+import Board from '../../../components/ProjectDetails/Board';
+import Timeline from '../../../components/ProjectDetails/Timeline';
+import Calender from '../../../components/ProjectDetails/Calender';
+import Workflow from '../../../components/ProjectDetails/Workflow';
+import Dashboard from '../../../components/ProjectDetails/Dashboard';
+import Messages from '../../../components/ProjectDetails/Messages';
+import Files from '../../../components/ProjectDetails/Files';
 
 const currentDate = new Date();
 
@@ -180,241 +189,23 @@ const ProjectDetailsComp = () => {
 
                     <div className={styles.mainContainer}>
                         {(selectedTabItemValue === 1) ? (
-                            <div>
-                                <div>
-                                    <h3 contentEditable={true} className={styles.headingCollaborate}>
-                                        How we&apos;ll collaborate
-                                    </h3>
-                                    <div
-                                        contentEditable={true}
-                                        className={styles.descriptionHowCollaborate}
-                                        onMouseOut={
-                                            () => setDescriptionText(
-                                                `Welcome your team and set the tone for how you’ll work together in Asana. Add
-                                        meeting details, communication channels, and any other information that will help.`
-                                            )
-                                        }
-                                        onClick={
-                                            () => setDescriptionText(
-                                                (
-                                                    descriptionText ===
-                                                    `Welcome your team and set the tone for how you’ll work together in Asana. Add
-                                                    meeting details, communication channels, and any other information that will 
-                                                    help.`) ?
-                                                    ("") :
-                                                    (descriptionText)
-                                            )
-                                        }
-                                        onChange={(e: any) => setDescriptionText(e)}
-                                    >
-                                        {descriptionText}
-                                    </div>
-
-                                    {/* Project Roles */}
-                                    <h3 className={styles.headingOverView}>
-                                        Project roles
-                                    </h3>
-                                    <div>
-                                        <div className={styles.projectRolesContainer}>
-                                            {
-                                                [
-                                                    {
-                                                        id: 1,
-                                                        projectRole: "Project Owner",
-                                                        name: "Muhammad Bilal",
-                                                        photoURL: signedInUserData.photoURL
-                                                    },
-                                                    {
-                                                        id: 2,
-                                                        projectRole: "Project Owner",
-                                                        name: "Muhammad Bilal",
-                                                        photoURL: signedInUserData.photoURL
-                                                    },
-                                                    {
-                                                        id: 3,
-                                                        projectRole: "+ Add Role",
-                                                        name: "Muhammad Bilal",
-                                                        photoURL: signedInUserData.photoURL
-                                                    },
-                                                    {
-                                                        id: 4,
-                                                        projectRole: "+ Add Role",
-                                                        name: "Muhammad Bilal",
-                                                        photoURL: signedInUserData.photoURL
-                                                    },
-                                                    {
-                                                        id: 5,
-                                                        projectRole: "+ Add Role",
-                                                        name: "Muhammad Bilal",
-                                                        photoURL: signedInUserData.photoURL
-                                                    },
-                                                    {
-                                                        id: 6,
-                                                        projectRole: "+ Add Role",
-                                                        name: "Muhammad Bilal",
-                                                        photoURL: signedInUserData.photoURL
-                                                    }
-                                                ].map((value: any, index: any) => (
-                                                    <div key={index}>
-                                                        {(index == 0) ? (
-                                                            <div className={styles.individualProjectRolesContainer}>
-                                                                <div className={styles.imageAddNewRole}>
-                                                                    <AiOutlinePlus color='black' />
-                                                                </div>
-                                                                <h3 className={styles.addMemberText}>Add member</h3>
-                                                            </div>
-                                                        ) : (
-                                                            <div className={styles.individualProjectRolesContainerSeparate}>
-                                                                <div className={styles.imageRoleMember}>
-                                                                    <Image
-                                                                        src={signedInUserData.photoURL}
-                                                                        alt={value.projectRole}
-                                                                        width={36}
-                                                                        height={36}
-                                                                        loading="eager"
-                                                                        title={value.projectRole}
-                                                                        style={{ borderRadius: "50%" }}
-                                                                    />
-                                                                </div>
-                                                                <div>
-                                                                    <h3 className={styles.memberText}>{value.name}</h3>
-                                                                    <h3 className={styles.projectRoleText}>{value.projectRole}</h3>
-                                                                </div>
-                                                            </div>
-                                                        )}
-                                                    </div>
-                                                ))
-                                            }
-                                        </div>
-                                    </div>
-
-                                    {/* Connected Goals */}
-                                    <h3 className={styles.headingOverView}>
-                                        Connected Goals
-                                    </h3>
-                                    <div className={styles.goalsContainer}>
-                                        <div className={styles.leftContainerGoals}>
-                                            <Image
-                                                src={"/shooting_target.svg"}
-                                                alt="Goal"
-                                                width={96}
-                                                height={96}
-                                                loading="eager"
-                                                title="Goal"
-                                                style={{ borderRadius: "50%" }}
-                                            />
-                                        </div>
-                                        <div className={styles.rightContainerGoals}>
-                                            <p>
-                                                Connect or create a goal to link this project to a <br /> larger purpose.
-                                            </p>
-                                            <button type="button" className="btn btn-outline-primary d-flex" data-mdb-ripple-color="dark"> <div style={{ marginTop: -2, marginRight: 5 }}><BsTriangle /></div> Add Goal </button>
-                                        </div>
-                                    </div>
-
-                                    {/* Key resources */}
-                                    <h3 className={styles.headingOverView}>
-                                        Key resources
-                                    </h3>
-                                    <div className={styles.krContainer}>
-                                        <div className={styles.leftContainerkr}>
-                                            <Image
-                                                src={"/key_resources.svg"}
-                                                alt="key resources"
-                                                width={160}
-                                                height={160}
-                                                loading="eager"
-                                                title="key resources"
-                                                style={{ borderRadius: "50%" }}
-                                            />
-                                        </div>
-                                        <div className={styles.rightContainerkr}>
-                                            <p>
-                                                Align your team around a shared vision with a <br /> project brief and supporting resources.
-                                            </p>
-                                            <div className="d-flex" style={{ marginLeft: "15%" }}>
-                                                <button type="button" className="btn btn-outline-primary d-flex" data-mdb-ripple-color="dark"> <div style={{ marginTop: -2, marginRight: 5 }}><TbListDetails /></div> Create Project Brief </button>
-                                                <button type="button" style={{ marginLeft: "4%" }} className="btn btn-outline-primary d-flex" data-mdb-ripple-color="dark"> <div style={{ marginTop: -2, marginRight: 5 }}><SlLink /></div> Add links & files </button>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {/* Key resources */}
-                                    <h3 className={`d-flex ${styles.headingOverView}`}>
-                                        Milestones <p> &nbsp;+</p>
-                                    </h3>
-                                    <div className={styles.milestonesContainer}>
-                                        {
-                                            [
-                                                {
-                                                    id: 1,
-                                                    name: "To Start the Development",
-                                                    dueDate: "3 Jun 2022"
-                                                },
-                                                {
-                                                    id: 2,
-                                                    name: "Complete the project",
-                                                    dueDate: "3 March 2020"
-                                                },
-                                                {
-                                                    id: 3,
-                                                    name: "Complete the Whole Project",
-                                                    dueDate: "16 Sep 2018"
-                                                }
-                                            ].map((value: any, index: any) => {
-                                                return (
-                                                    <div className={styles.individualMileStonesContainer} key={index}>
-                                                        <div className="d-flex">
-                                                            <TbSquareRotated size={20} style={{ marginTop: 2 }} color='#58a182' />
-                                                            <p style={{ marginLeft: 5 }}>{value.name}</p>
-                                                        </div>
-                                                        <div >
-                                                            <DatePicker
-                                                                onChange={setTaskDue}
-                                                                value={new Date(value.dueDate)}
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                )
-                                            })
-                                        }
-                                    </div>
-                                    <br />
-                                    <br />
-                                </div>
-                            </div>
+                            <Overview photoURL={signedInUserData.photoURL} />
                         ) : (selectedTabItemValue === 2) ? (
-                            <div>
-                                <h1>List</h1>
-                            </div>
+                            <List />
                         ) : (selectedTabItemValue === 3) ? (
-                            <div>
-                                <h1>Board</h1>
-                            </div>
+                            <Board />
                         ) : (selectedTabItemValue === 4) ? (
-                            <div>
-                                <h1>Timeline</h1>
-                            </div>
+                            <Timeline />
                         ) : (selectedTabItemValue === 5) ? (
-                            <div>
-                                <h1>Calender</h1>
-                            </div>
+                            <Calender />
                         ) : (selectedTabItemValue === 6) ? (
-                            <div>
-                                <h1>Workflow</h1>
-                            </div>
+                            <Workflow />
                         ) : (selectedTabItemValue === 7) ? (
-                            <div>
-                                <h1>Dashboard</h1>
-                            </div>
+                            <Dashboard />
                         ) : (selectedTabItemValue === 8) ? (
-                            <div>
-                                <h1>Messages</h1>
-                            </div>
+                            <Messages />
                         ) : (selectedTabItemValue === 9) ? (
-                            <div>
-                                <h1>Files</h1>
-                            </div>
+                            <Files />
                         ) : (
                             <>Please Select the correct tab</>
                         )}

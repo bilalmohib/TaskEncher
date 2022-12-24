@@ -1,14 +1,117 @@
 /* List Container */
-.Contaienr{
-    border: 2px solid red;
+.Contaienr {
+    /* border: 2px solid red; */
 }
 
 /* List Header */
-.Header{
-    border: 2px solid green;
+.Header {
+    /* border: 2px solid green; */
 }
 
 /* List Body */
-.Body{
-    border: 2px solid blue;
+.Body {
+    /* border: 2px solid blue; */
+}
+
+/* Table Header */
+.projectDetailsTableHeader tr th {
+    font-weight: 300;
+    height: 10px !important;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    /* padding-left: 0px !important; */
+    cursor: pointer;
+}
+
+.projectDetailsTableHeader tr th:hover {
+    background-color: #e6e6e6;
+}
+
+/* Table Body */
+/* Stage Heading */
+.stageHeading {
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    padding-top: 15px !important;
+    padding-bottom: 5px !important;
+    cursor: pointer;
+    padding-left: 0px !important;
+    /* border: 1px solid blue !important; */
+}
+
+/* Task Heading */
+.headingTask {
+    font-weight: 400 !important;
+    font-size: 14px;
+    color: #000000;
+    padding-top: 9px !important;
+    padding-left: 35px !important;
+    padding-bottom: 5px !important;
+    width: 50%;
+}
+
+.headingTask:hover {
+    color: #000000;
+    background-color: #f9f8f8;
+    cursor: pointer;
+}
+
+
+/* Task Description */
+.projectDetailsBody tr td {
+    /* border: 2px solid rgb(11, 77, 22); */
+    padding-top: 8px;
+    padding-bottom: 0px !important;
+}
+
+.projectDetailsBody tr td:hover {
+    background-color: #f9f8f8;
+}
+
+.headingTaskText {
+    /* background-color: #ffffff; */
+    cursor: pointer !important;
+    border: 1px solid transparent;
+}
+
+.headingTaskText:hover {
+    cursor: pointer !important;
+    background-color: #ffffff;
+    border: 1px solid #d1cdcd;
+}
+
+/* Edit Style Text */
+.editTaskStyle {
+    border: 1px solid blue !important;
+    border-left: 1px solid transparent !important;
+    background-color: #f1f2fc !important;
+    border-bottom: 1.5px solid blue !important;
+}
+
+.hideDetails {
+    display: none !important;
+}
+
+.IconTasksOfTable {
+    border-radius: 10% !important;
+    width: 28px;
+    height: 28px;
+    text-align: center;
+    border: 1px solid red transparent;
+}
+
+.IconTasksOfTable:hover {
+    background-color: #efeeee !important;
+    transition: 0.5s linear;
+}
+
+.editTaskStyleCurrent {
+    border: 1px solid rgb(255, 0, 89) !important;
+    background-color: initial !important;
+}
+
+/* Task Tick */
+.taskTick:hover {
+    color: #00b300;
+    background-color: #e6ffe6;
 }

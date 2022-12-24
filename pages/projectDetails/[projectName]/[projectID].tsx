@@ -93,7 +93,7 @@ const ProjectDetailsComp = () => {
 
     const router = useRouter();
 
-    const { uuid } = router.query;
+    const { projectName, projectID } = router.query;
 
     const [firestoreData, setFirestoreData] = useState<any>([]);
     const [status, setStatus] = useState<Boolean>(false);
@@ -136,62 +136,27 @@ const ProjectDetailsComp = () => {
         });
     }, [signedInUserData, isSignedIn]);
 
-    /////////////////////////////////////// Database Part ////////////////////////////////////////////////
-    let q = query(collection(db, "Data", "Projects", `${uuid}`));
-
-    const [snapshot, loading, error] = useCollection(
-        q,
-        {
-            snapshotListenOptions: { includeMetadataChanges: true },
-        }
-    );
-
-    // GETTINGS Active Jobs
-    const [projects, setProjects] = useState<any>([])
-    // const [loading, setLoading] = useState(true); 
-
     const [selectedTabItemValue, setSelectedTabItemValue] = useState<Number>(1);
 
-    const [descriptionText, setDescriptionText] = useState<string>(`
-        Welcome your team and set the tone for how you’ll work together in Asana. Add
-        meeting details, communication channels, and any other information that will help.
-    `);
-
-    // FOR GETTING PROJECTS
-    useEffect(() => {
-
-        if (!loading) {
-            // if (snapshot.docs.length !== projects.length) {
-            setProjects(snapshot?.docs.map(doc => ({ ...doc.data(), id: doc.id })));
-            // setLoading(false);
-            // console.clear();
-            console.log("Projects ==> ", projects);
-            // }
-        }
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [loading, snapshot]);
-    // FOR GETTING PROJECTS
-
-    // useEffect(() => {
-    //     if (projects.length !== 0) {
-    //         setTaskDue(projects.map((project: any) => project.taskDue));
-
-    /////////////////////////////////////// Database Part ////////////////////////////////////////////////
+    const [projectTitle, setProjectTitle] = useState<string>("");
 
     return (
         <div className={styles.container}>
-            {(isSignedIn && !loading) ? (
+            {(isSignedIn) ? (
                 <div className={styles.container}>
                     <header className={`fixed-top ${styles.header}`}>
-                        <HeaderProjectDetails photoURL={signedInUserData.photoURL} selectedTabItemValue={selectedTabItemValue} setSelectedTabItemValue={setSelectedTabItemValue} />
+                        <HeaderProjectDetails setProjectTitle={setProjectTitle} projectID={projectID} email={signedInUserData.email} projectTitle={projectTitle} photoURL={signedInUserData.photoURL} selectedTabItemValue={selectedTabItemValue} setSelectedTabItemValue={setSelectedTabItemValue} />
                     </header>
 
                     <div className={styles.mainContainer}>
                         {(selectedTabItemValue === 1) ? (
                             <Overview photoURL={signedInUserData.photoURL} />
                         ) : (selectedTabItemValue === 2) ? (
-                            <List />
+                            <List
+                                email={signedInUserData.email}
+                                projectName={projectName}
+                                projectID={projectID}
+                            />
                         ) : (selectedTabItemValue === 3) ? (
                             <Board />
                         ) : (selectedTabItemValue === 4) ? (

@@ -37,6 +37,8 @@ const Home = () => {
     // Date
     const d = new Date();
 
+    console.log("Date is equal to : ",d);
+
     const [currentFullLengthItem, setCurrentFullLengthItem] = useState<Number>(1);
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -190,7 +192,7 @@ const Home = () => {
                     <h3 style={{ marginLeft: 30, marginTop: 5, color: "black", fontWeight: "lighter" }}>Home</h3>
                     <br />
                     <div className='text-center'>
-                        {d.getDay()} {monthNames[d.getMonth()]} {d.getFullYear()}
+                        {d.getDate()} {monthNames[d.getMonth()]} {d.getFullYear()}
                     </div>
                     <div>
                         {/* Audio Player */}
@@ -220,7 +222,7 @@ const Home = () => {
                     <section className='d-flex justify-content-center'>
                         <div className={styles.statsContainer}>
                             <div className={styles.stats1}>
-                                {/* Secondary */}
+                                {/* Months */}
                                 <div className="btn-group" style={{ fontSize: 12, height: 28, boxShadow: "none" }}>
                                     <button type="button" className={`btn btn-btnDrop ${styles.btn_dropdown}`} data-mdb-toggle="dropdown" aria-expanded="false">
                                         My month <IoIosArrowDropdown style={{ marginTop: -2 }} />
@@ -228,9 +230,6 @@ const Home = () => {
                                     <ul className="dropdown-menu">
                                         <li><a className="dropdown-item" href="#">My Week</a></li>
                                         <li><a className="dropdown-item" href="#">My Month</a></li>
-                                        {/* <li><a className="dropdown-item" href="#">Something else here</a></li>
-                               <li><hr className="dropdown-divider" /></li>
-                               <li><a className="dropdown-item" href="#">Separated link</a></li> */}
                                     </ul>
                                 </div>
                             </div>

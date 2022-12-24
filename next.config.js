@@ -8,7 +8,10 @@ const nextConfig = {
       'avatars.githubusercontent.com',
       'firebasestorage.googleapis.com',
       'localhost',
-      'www.upwork.com'
+      'www.upwork.com',
+      'images.pexels.com',
+      'encrypted-tbn0.gstatic.com',
+      'media.istockphoto.com'
     ],
   }
 }

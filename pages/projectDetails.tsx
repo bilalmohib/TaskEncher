@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import firebasie from '../firebase/index';
+import firebase from '../firebase/index';
 import 'firebase/firestore';
 import 'firebase/auth';
 import Link from 'next/link';
@@ -90,8 +90,8 @@ const ProjectDetails = () => {
 
     // console.log("Email ==> ", email.toString());
     // "Jobs", `${uid}`, "data")
-    // const e = email;
-    let q = query(collection(db, "Data", "Projects", ``));
+    const e = "bilalmohib7896@gmail.com";
+    let q = query(collection(db, "Data", "Projects", `${e}`));
 
     const [snapshot, loading, error] = useCollection(
         q,
@@ -134,11 +134,11 @@ const ProjectDetails = () => {
                         </div>
                     ) : (
                         <div>
-                            {(loading) ? (
+                            {(!loading) ? (
                                 <>
                                     <div title="Create New Project" className="newProjectBtn" onClick={() => Router.push('/new')}><i className="fas fa-4x fa-plus-circle"></i></div>
                                     <div>
-                                        <h1 className="text-center"><span className="text-danger"><b>Project Name:-</b></span> {firestoreData[props.currentKey].ProjectName}</h1>
+                                        <h1 className="text-center"><span className="text-danger"><b>Project Name:-</b></span> {firestoreData[0].ProjectName}</h1>
                                         <p className="text-center text-info">All the project details can be customized and updated according to your choices.</p>
                                         <p className="text-center"> <b>Note:- </b>Project Stage and Task having <span className="text-danger">Red color</span> are the one that are active and current tasks. </p>
                                     </div>
@@ -162,12 +162,12 @@ const ProjectDetails = () => {
                                                 </thead>
                                                 <>
                                                     {/* This matters */}
-                                                    {firestoreData[props.currentKey].ProjectStages.map((s, i) => {
+                                                    {firestoreData[0].ProjectStages.map((s:any, i:any) => {
                                                         return <tbody key={i}>
                                                             <tr>
-                                                                <th className={(firestoreData[props.currentKey].CurrentStage == s) ? (`text-danger`) : (``)} scope="row" colSpan={5}><h5><i className="fas fa-chevron-down mr-3"></i>&nbsp; {s}</h5></th>
+                                                                <th className={(firestoreData[0].CurrentStage == s) ? (`text-danger`) : (``)} scope="row" colSpan={5}><h5><i className="fas fa-chevron-down mr-3"></i>&nbsp; {s}</h5></th>
                                                             </tr>
-                                                            {(firestoreData[props.currentKey].ProjectTasks.length == 0) ? (
+                                                            {(firestoreData[0].ProjectTasks.length == 0) ? (
                                                                 <tr>
                                                                     <th scope="row"><i className="far fa-check-circle fa-lg"></i>&nbsp;&nbsp;</th>
                                                                     <td>&nbsp;&nbsp;</td>
@@ -176,8 +176,8 @@ const ProjectDetails = () => {
                                                                     <td>&nbsp;&nbsp;</td>
                                                                 </tr>
                                                             ) : (
-                                                                firestoreData[props.currentKey].ProjectTasks.map((v, i) => {
-                                                                    return <tr className={(firestoreData[props.currentKey].CurrentStageCurrentTask == v.taskName) ? (`text-danger`) : (``)} key={i}>
+                                                                firestoreData[0].ProjectTasks.map((v:any, i:any) => {
+                                                                    return <tr className={(firestoreData[0].CurrentStageCurrentTask == v.taskName) ? (`text-danger`) : (``)} key={i}>
                                                                         {(v.taskSection == s) ? (
                                                                             <>
                                                                                 <th scope="row"><i className="far fa-check-circle fa-lg"></i>&nbsp;&nbsp;{v.taskName}</th>

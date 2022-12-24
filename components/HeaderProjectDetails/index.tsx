@@ -5,7 +5,21 @@ import { GiCircle, GiPlainCircle } from 'react-icons/gi';
 import { BsPeopleFill } from 'react-icons/bs';
 import { FaCheckCircle } from 'react-icons/fa';
 import Image from 'next/image';
-import styles from './style.module.css';
+
+import {
+    doc,
+    collection,
+    onSnapshot,
+    addDoc,
+    query,
+    orderBy,
+    deleteDoc,
+    setDoc,
+    where
+} from "firebase/firestore";
+import { useCollection } from 'react-firebase-hooks/firestore';
+
+import { db } from "../../firebase";
 
 import ProjectIcon from '../ProjectIcon';
 
@@ -16,20 +30,26 @@ import {
     Link,
 } from "@mui/material";
 
+import styles from './style.module.css';
+
 interface IProps {
-    // setIsOpen?: any,
-    // isOpen?: Boolean
     photoURL: any,
     selectedTabItemValue: any,
-    setSelectedTabItemValue: any
+    setSelectedTabItemValue: any,
+    projectTitle: string,
+    email: string,
+    projectID?: any,
+    setProjectTitle?: any,
 }
 
 const HeaderProjectDetails: React.FC<IProps> = ({
-    // setIsOpen,
-    // isOpen
     photoURL,
     selectedTabItemValue,
-    setSelectedTabItemValue
+    setSelectedTabItemValue,
+    projectTitle,
+    email,
+    projectID,
+    setProjectTitle
 }) => {
 
     const router = useRouter();
@@ -73,6 +93,40 @@ const HeaderProjectDetails: React.FC<IProps> = ({
         }
     ];
 
+    /////////////////////////////////////// Database Part ////////////////////////////////////////////////
+    const [firestoreData, setFirestoreData] = useState<any>([]);
+    const [status, setStatus] = useState<Boolean>(false);
+    const [signedInUserData, setSignedInUserData] = useState<any>(null);
+    const [isSignedIn, setIsSignedIn] = useState<Boolean>(false);
+
+    let q = query(collection(db, "Data", "Projects", `${email}`));
+
+    const [snapshot, loading, error] = useCollection(
+        q,
+        {
+            snapshotListenOptions: { includeMetadataChanges: true },
+        }
+    );
+
+    // FOR GETTING PROJECT TITLE
+    useEffect(() => {
+
+        if (!loading && snapshot && email) {
+            let localObj;
+            let arrProjects = snapshot?.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+            for (let i = 0; i < arrProjects.length; i++) {
+                if (arrProjects[i].id === projectID.toString()) {
+                    localObj = arrProjects[i];
+                }
+            }
+            // @ts-ignore
+            setProjectTitle(localObj?.ProjectName);
+        }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [loading, snapshot]);
+    // FOR GETTING PROJECT TITLE
+
     return (
         <nav className={styles.container}>
             <div className={styles.leftSide}>
@@ -84,7 +138,7 @@ const HeaderProjectDetails: React.FC<IProps> = ({
                         Color="white"
                     />
                     <h3 className={styles.headingProject}>
-                        Software Development
+                        {projectTitle}
                     </h3>
                     <div>
                         <div>

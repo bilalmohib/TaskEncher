@@ -107,6 +107,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       router.pathname == `/profile/[uuid]`
       || router.pathname === '/profile'
       || router.pathname === '/projectDetails/[projectName]/[projectID]'
+      || router.pathname === '/projectDetails'
     ) {
       setHideExtra(2);
     }

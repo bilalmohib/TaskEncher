@@ -66,6 +66,7 @@
     padding-left: 2%;
     padding-right: 2%;
     /* display: flex; */
+    padding-top: 10px;
 }
 
 .individualPeople:hover {
@@ -79,3 +80,8 @@
     border: 1.5px solid #ff0000;;
 }
 
+.title{
+    font-size: 15px;
+    text-align: center;
+    font-weight: 300;
+}

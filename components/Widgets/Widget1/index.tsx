@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react';
-
+import firebase from '../../../firebase/index';
+import 'firebase/firestore';
+import 'firebase/auth';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
+import Navbar from "../../../components/Navbar";
+import DatePicker from 'react-date-picker/dist/entry.nostyle';
+import CustomLoader from "../../../components/CustomLoader";
 
 // Importing Icons
 import { IoMdArrowDropdown } from 'react-icons/io';
@@ -139,7 +145,11 @@ const Widget1: React.FC<IProps> = ({
 
         if (!loading) {
             // if (snapshot.docs.length !== projects.length) {
-            setProjects(snapshot?.docs.map(doc => ({ ...doc.data(), id: doc.id })));
+
+            let newProjects = [];
+            let tempProjectsObj = snapshot?.docs.map((doc, i) => ({ ...doc.data(), id: doc.id }));
+
+            setProjects(tempProjectsObj);
             // setLoading(false);
             // console.clear();
             console.log("Projects ==> ", projects);
@@ -172,13 +182,15 @@ const Widget1: React.FC<IProps> = ({
                         ProjectStartingDate: "",
                         moveTo: "/createProject",
                     }, ...projects].map((item, index) => (
-                        <div key={index} onClick={() => router.push((index == 0) ? (item.moveTo) : ('/projectDetails'))}>
+                        <div key={index} onClick={() => router.push((index == 0) ? (item.moveTo) : (`/projectDetails/${item.ProjectName}/${item.id}`))}>
                             <div className={styles.individualProject}>
-                                <div className={`${styles.icon_style} ${styles.icon3}`}>
+                                <div className={`${styles.icon_style}`} style={{
+                                    backgroundColor: item.color_code
+                                }}>
                                     <AiOutlineBars style={{ fontSize: 30, color: "white" }} />
                                 </div>
                                 <div className={styles.containerRightProject}>
-                                    <h4 className={`${styles.projectTitle} ${(index==0)&&(styles.marginTopTitle)}`}>{item.ProjectName}</h4>
+                                    <h4 className={`${styles.projectTitle} ${(index == 0) && (styles.marginTopTitle)}`}>{item.ProjectName}</h4>
                                     {(index !== 0) && (
                                         <p className={styles.infoText}>{item.ProjectStartingDate}</p>
                                     )}

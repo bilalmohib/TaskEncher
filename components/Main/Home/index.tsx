@@ -200,19 +200,19 @@ const Home = () => {
                         {/* Audio Player */}
 
                         {new Date().getHours() < 12 ? (
-                            <h1 className='text-center text-dark' style={{ fontWeight: "lighter" }}>
+                            <h1 className={`text-center text-dark ${styles.welcomeHeading}`} style={{ fontWeight: "lighter" }}>
                                 Good morning, {
                                     signedInUserData.displayName === "Guest" ? signedInUserData.displayName : signedInUserData.displayName.match(/\S+/gi)[1]  // to get first name
                                 }
                             </h1>
                         ) : new Date().getHours() < 18 ? (
-                            <h1 className='text-center text-dark' style={{ fontWeight: "lighter" }}>
+                            <h1 className={`text-center text-dark ${styles.welcomeHeading}`} style={{ fontWeight: "lighter" }}>
                                 Good afternoon, {
                                 signedInUserData.displayName.match(/\S+/gi)[1] // to get first letter of each word (initials
                                 }
                             </h1>
                         ) : (
-                            <h1 className='text-center text-dark' style={{ fontWeight: "lighter" }}>
+                            <h1 className={`text-center text-dark ${styles.welcomeHeading}`} style={{ fontWeight: "lighter" }}>
                                 Good evening, {
                                 signedInUserData.displayName.match(/\S+/gi)[1]
                                 }

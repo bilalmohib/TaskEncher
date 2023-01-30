@@ -1,7 +1,7 @@
 .nav_bar{
     position: fixed;
     width: 100%;
-    background-color: #000000;
+    background-color: #1e1f21 !important;
     color: #ffffff;
     padding: 10px;
     display: flex;

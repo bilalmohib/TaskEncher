@@ -49,10 +49,11 @@
     color: #d7d6d5;
     cursor: pointer;
     width: 250px !important;
-    margin-left: -32px;
+    margin-left: -27px;
     height: 38px;
     padding-top: 2.5%;
     padding-left: 25px;
+    /* border:1px solid red; */
 }
 
 .SidebarMenuList li:hover {
@@ -61,6 +62,7 @@
 
 .selected_Menu_Item, .selected_Menu_Item:hover {
     background-color: #424345 !important;
+    border-left: 3px solid #00b87c;
 }
 
 .itemMenuListText {

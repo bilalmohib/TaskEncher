@@ -4,7 +4,6 @@ import { useRouter } from 'next/router';
 import type { AppProps } from 'next/app';
 import Script from 'next/script';
 //////////////////////////////////////////////////
-import type { NextPage } from 'next';
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 // Importing Components
@@ -20,6 +19,16 @@ import 'react-calendar/dist/Calendar.css';
 import '../styles/globals.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
+
+  // Hide splash screen shen we are server side 
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const loader = document.getElementById('globalLoader');
+      if (loader)
+        loader.style.display = 'none';
+    }
+  }, []);
+
   const router = useRouter();
 
   const { uuid } = router.query;

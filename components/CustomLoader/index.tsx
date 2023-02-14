@@ -25,7 +25,7 @@ const CustomLoader = () => {
                     letterSpacing: "0.15px",
                 }}
             >
-                <AnimatedText
+                {/* <AnimatedText
                     type="chars" // animate words or chars
                     animation={{
                         x: '200px',
@@ -41,9 +41,9 @@ const CustomLoader = () => {
                     includeWhiteSpaces
                     threshold={0.1}
                     rootMargin="20%"
-                >
+                > */}
                     Project Management Software
-                </AnimatedText>
+                {/* </AnimatedText> */}
             </h1>
             <div
                 style={{

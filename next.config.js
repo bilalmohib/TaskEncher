@@ -11,7 +11,8 @@ const nextConfig = {
       'www.upwork.com',
       'images.pexels.com',
       'encrypted-tbn0.gstatic.com',
-      'media.istockphoto.com'
+      'media.istockphoto.com',
+      's.yimg.com',
     ],
   }
 }

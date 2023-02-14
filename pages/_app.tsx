@@ -10,6 +10,7 @@ import styles from '../styles/Home.module.css';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 import Home from '../components/Main/Home';
+import Inbox from '../components/Main/Inbox';
 import { ProfileComp } from './profile/[uuid]';
 import { ProjectDetailsComp } from './projectDetails/[projectName]/[projectID]';
 import 'react-date-picker/dist/DatePicker.css';
@@ -39,66 +40,6 @@ function MyApp({ Component, pageProps }: AppProps) {
   const [isOpen, setIsOpen] = useState<Boolean>(true);
 
   const [currentMenuItem, setCurrentMenuItem] = useState<Number>(1);
-
-  const [currentFullLengthItem, setCurrentFullLengthItem] = useState<Number>(1);
-
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const dragItem = useRef<any>();
-
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const dragOverItem = useRef<any>();
-
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [list, setList] = useState([
-    {
-      id: 1,
-      src: <audio id='hoverSoundClip'>
-        <source src="audio/1.mp3" />
-        Your browser is not invited for super fun audio time.
-      </audio>,
-      name: "Projects",
-    },
-    {
-      id: 2,
-      src: <audio id='hoverSoundClip'>
-        <source src="audio/2.mp3" />
-        Your browser is not invited for super fun audio time.
-      </audio>,
-      name: "My Priorities",
-    },
-    {
-      id: 3,
-      src: <audio id='hoverSoundClip'>
-        <source src="audio/3.mp3" />
-        Your browser is not invited for super fun audio time.
-      </audio>,
-      name: "People",
-    },
-    {
-      id: 4,
-      src: <audio id='hoverSoundClip'>
-        <source src="audio/4.mp3" />
-        Your browser is not invited for super fun audio time.
-      </audio>,
-      name: "Tasks I've Assigned",
-    },
-    {
-      id: 5,
-      src: <audio id='hoverSoundClip'>
-        <source src="audio/5.mp3" />
-        Your browser is not invited for super fun audio time.
-      </audio>,
-      name: "My goals",
-    },
-    {
-      id: 6,
-      src: <audio id='hoverSoundClip'>
-        <source src="audio/6.mp3" />
-        Your browser is not invited for super fun audio time.
-      </audio>,
-      name: "Manager Tasks",
-    }
-  ]);
 
   useEffect(() => {
     console.clear();
@@ -170,8 +111,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
                     {/* Inbox Page */}
                     <section className={(currentMenuItem === 3) ? ("") : ("d-none")}>
-                      <br />
-                      <h3 style={{ marginLeft: 30, marginTop: 5, color: "black", fontWeight: "lighter" }}>Inbox</h3>
+                      <Inbox />
                     </section>
 
                     {/* Reporting Page */}

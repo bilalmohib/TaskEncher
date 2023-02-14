@@ -8,6 +8,8 @@ import Navbar from "../../../components/Navbar";
 import DatePicker from 'react-date-picker/dist/entry.nostyle';
 import CustomLoader from "../../../components/CustomLoader";
 
+import AddIcon from '@mui/icons-material/Add';
+
 // Importing Icons
 import { IoMdArrowDropdown } from 'react-icons/io';
 import { AiOutlineBars } from 'react-icons/ai';
@@ -181,14 +183,21 @@ const Widget1: React.FC<IProps> = ({
                         ProjectName: "Create Project",
                         ProjectStartingDate: "",
                         moveTo: "/createProject",
-                    }, ...projects].map((item, index) => (
+                        color_code: "#FFC107"
+                    }, ...projects].map((item, index: number) => (
                         <div key={index} onClick={() => router.push((index == 0) ? (item.moveTo) : (`/projectDetails/${item.ProjectName}/${item.id}`))}>
                             <div className={styles.individualProject}>
-                                <div className={`${styles.icon_style}`} style={{
-                                    backgroundColor: item.color_code
-                                }}>
-                                    <AiOutlineBars style={{ fontSize: 30, color: "white" }} />
-                                </div>
+                                {(index === 0) ? (
+                                    <div className={`${styles.icon_styleAdd}`}>
+                                        <AddIcon sx={{fontSize:30,color:"#6d6e6f"}} />
+                                    </div>
+                                ) : (
+                                    <div className={`${styles.icon_style}`} style={{
+                                        backgroundColor: item.color_code
+                                    }}>
+                                        <AiOutlineBars style={{ fontSize: 30, color: "white" }} />
+                                    </div>
+                                )}
                                 <div className={styles.containerRightProject}>
                                     <h4 className={`${styles.projectTitle} ${(index == 0) && (styles.marginTopTitle)}`}>{item.ProjectName}</h4>
                                     {(index !== 0) && (

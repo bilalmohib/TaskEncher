@@ -117,7 +117,7 @@ const Home = () => {
                 if (signedInUserData === null) {
                     if (user.isAnonymous === true) {
                         let tempUser = {
-                            displayName: "Anonymous Guest",
+                            displayName: "Anonymous",
                             email: "anonymous@guest.com",
                             photoURL: user.photoURL,
                         }
@@ -200,19 +200,19 @@ const Home = () => {
                         {/* Audio Player */}
 
                         {new Date().getHours() < 12 ? (
-                            <h1 className={`text-center text-dark ${styles.welcomeHeading}`} style={{ fontWeight: "lighter" }}>
+                            <h1 className={`${styles.welcomeHeading}`} style={{ fontWeight: "lighter" }}>
                                 Good morning, {
-                                    signedInUserData.displayName === "Guest" ? signedInUserData.displayName : signedInUserData.displayName.match(/\S+/gi)[1]  // to get first name
+                                    signedInUserData.displayName === "Anonymous" ? signedInUserData.displayName : ((signedInUserData.displayName.match(/\b(\S+)\b/gi)[0]==="Muhammad")?(signedInUserData.displayName.match(/\b(\S+)\b/gi)[1]):(signedInUserData.displayName.match(/\b(\S+)\b/gi)[0]))
                                 }
                             </h1>
                         ) : new Date().getHours() < 18 ? (
-                            <h1 className={`text-center text-dark ${styles.welcomeHeading}`} style={{ fontWeight: "lighter" }}>
+                            <h1 className={`${styles.welcomeHeading}`} style={{ fontWeight: "lighter" }}>
                                 Good afternoon, {
                                 signedInUserData.displayName.match(/\S+/gi)[1] // to get first letter of each word (initials
                                 }
                             </h1>
                         ) : (
-                            <h1 className={`text-center text-dark ${styles.welcomeHeading}`} style={{ fontWeight: "lighter" }}>
+                            <h1 className={`${styles.welcomeHeading}`} style={{ fontWeight: "lighter" }}>
                                 Good evening, {
                                 signedInUserData.displayName.match(/\S+/gi)[1]
                                 }
@@ -247,7 +247,7 @@ const Home = () => {
                         {list &&
                             list.map((item, index) => (
                                 <div
-                                    className={`${styles.widget} ${((item.id == currentFullLengthItem) && (styles.fullWidthWidget))} ${((pointerDown && item.id == currentFullLengthItem) ? (styles.pointerDown) : (styles.pointerOut))}`}
+                                    className={`${styles.widget} ${((item.id == currentFullLengthItem) ? (styles.fullWidthWidget):(null))} ${((pointerDown && item.id == currentFullLengthItem) ? (styles.pointerDown) : (styles.pointerOut))}`}
                                     onDragStart={e => dragStart(e, index)}
                                     onDragEnter={e => dragEnter(e, index)}
                                     onDragEnd={drop}

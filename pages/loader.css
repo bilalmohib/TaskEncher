@@ -1,37 +1,17 @@
-// eslint-disable-next-line import/no-anonymous-default-export
-export default `
-body{
-display: block;
-}
-#globalLoader{
-    position: fixed;
-    z-index: 1700;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-    display: flex;
-    left: 0,
-    right: 0;
-    width: 100%;
-    height: 100%;
-    justify-content: center;
-    align-items: center;
-}
-
 .headingLoader{
     text-align: center;
+    margin-top: 40vh;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 20px;
-    color: #000000;
-    font-weight: 300 !important;
+    color: #4f747a;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif !important;
 }
 
+
 .sk-cube-grid {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -39,7 +19,7 @@ display: block;
 .sk-cube-grid .sk-cube {
     width: 33%;
     height: 33%;
-    background-color: #000000;
+    background-color: #4f747a;
     float: left;
     animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
 }
@@ -81,6 +61,7 @@ display: block;
 }
 
 @keyframes sk-cubeGridScaleDelay {
+
     0%,
     70%,
     100% {
@@ -91,4 +72,3 @@ display: block;
         transform: scale3D(0, 0, 1);
     }
 }
-}`;

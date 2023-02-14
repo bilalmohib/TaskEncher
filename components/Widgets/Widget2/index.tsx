@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import styles from './widget2.module.css';
 
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+
 interface IProps {
     item: Number,
     currentFullLengthItem: Number,
@@ -21,15 +23,10 @@ const Widget2: React.FC<IProps> = ({
         <div className={styles.container}>
             <header className={styles.style_header}>
                 <div className={styles.left_Container_Header}>
-                    <Image
-                        src="/user_alt.png"
-                        width={50}
-                        className={styles.user_image}
-                        height={50}
-                        role="button"
-                        alt="User Alt"
-                        title='User Alt'
-                    />
+                    <AccountCircleIcon sx={{
+                        fontSize: 50,
+                        color: '#e0e6e8'
+                    }} className={styles.user_image} />
                 </div>
                 <div className={styles.right_Container_Header}>
                     <h4>My Priorities</h4>
@@ -44,7 +41,7 @@ const Widget2: React.FC<IProps> = ({
             </header>
             <div>
                 <div className={styles.style_body}>
-                    
+
                 </div>
             </div>
         </div>

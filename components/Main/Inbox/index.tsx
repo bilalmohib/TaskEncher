@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/router';
 //////////////////////////////////////////////////
 import { makeStyles } from '@mui/styles';
+import { useLayoutEffect } from 'react';
 
 import styles from './Inbox.module.css';
 
@@ -62,10 +63,36 @@ const useStyles = makeStyles((theme) => ({
         // position: 'fixed',
         bottom: 0,
         // width: '100%',
+        height: '200px',
     },
     input: {
         marginRight: 2,
         flexGrow: 1,
+        height: '200px',
+        color: '#000',
+        // borderColor: '#fff',
+        '& .MuiOutlinedInput-root': {
+            height: '200px',
+            '& fieldset': {
+                // borderRadius: '0px',
+                borderColor: '#fff',
+                height: '200px',
+                // backgroundColor: '#f2f2f2',
+            },
+            '&:hover fieldset': {
+                borderColor: 'blue',
+                height: '200px',
+                // backgroundColor: '#f2f2f2',
+            }
+
+        },
+        '& .MuiOutlinedInput-input': {
+            padding: '10px 14px',
+            // backgroundColor: '#fff',
+            height: '200px',
+            backgroundColor: '#f2f2f2',
+            // borderColor: '#fff',
+        }
     },
     sendButton: {
         color: "blue",
@@ -99,6 +126,9 @@ const InteractiveContainer = () => {
                 value={message}
                 onChange={handleChange}
                 variant="outlined"
+                multiline
+                fullWidth
+                rows={7}
             />
             <IconButton
                 className={classes.sendButton}
@@ -141,10 +171,35 @@ const Inbox = () => {
         setChecked(event.target.checked);
     };
 
+    const [editedMessageId, setEditedMessageId] = useState<number>(0);
+
+    const goToLastMessage = () => {
+        // console.log("signedInUserData ==>", signedInUserData);
+        // Get the message container element
+        alert("goToLastMessage");
+        const messageContainer = document.getElementById("messageContainer");
+
+        // Scroll to bottom of the message container
+        if (messageContainer) {
+            // Get the last message element
+            const lastMessage = messageContainer.lastElementChild;
+
+            // Scroll to the last message
+            // @ts-ignore
+            lastMessage.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+
+    useLayoutEffect(() => {
+        if (!Loading) {
+            goToLastMessage();
+        }
+    }, []);
 
     useEffect(() => {
         // console.log("Current Path : ", window.location.pathname);
         // console.log("activeJobs ==>", activeJobs);
+        // goToLastMessage();
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
@@ -167,6 +222,8 @@ const Inbox = () => {
                     }
                     // ...
                 }
+                // if (!Loading) {
+                //}
             } else {
                 // User is signed out
                 console.log("User is signed out");
@@ -176,6 +233,22 @@ const Inbox = () => {
             }
         });
     }, [signedInUserData, Loading]);
+
+    const formatDate = (date: any) => {
+        const today: any = new Date();
+        const messageDate: any = new Date(date);
+        const diffInDays = Math.floor((today - messageDate) / (1000 * 60 * 60 * 24));
+
+        if (diffInDays === 0) {
+            return 'Today';
+        } else if (diffInDays === 1) {
+            return 'Yesterday';
+        } else {
+            return messageDate.toLocaleDateString();
+        }
+    };
+
+    let lastMessageDate: any = null;
 
     return (
         <div>
@@ -189,7 +262,7 @@ const Inbox = () => {
                             <Box
                                 className='d-flex justify-content-between'
                                 sx={{
-                                    padding: '20px',
+                                    padding: '18px',
                                 }}
                             >
                                 {(showSearch) ? (
@@ -302,7 +375,7 @@ const Inbox = () => {
                                     <Box
                                         sx={{
                                             // paddingTop: '20px',
-                                            border: "1px solid red",
+                                            // border: "1px solid red",
                                             height: '80.7vh',
                                             overflowY: 'scroll',
                                             backgroundColor: '#fff',
@@ -500,6 +573,7 @@ const Inbox = () => {
                                                         '&:hover': {
                                                             backgroundColor: '#000',
                                                             color: '#fff',
+                                                            borderTop: "1px solid #fff"
                                                         },
                                                     }}
                                                 >
@@ -787,7 +861,7 @@ const Inbox = () => {
                                                         sx={{
                                                             display: 'flex',
                                                             width: '100%',
-                                                            border: "1px solid red",
+                                                            // border: "1px solid red",
                                                             borderRadius: '5px',
                                                             padding: '5px',
                                                             marginBottom: '10px',
@@ -799,7 +873,7 @@ const Inbox = () => {
                                                         <Box
                                                             sx={{
                                                                 display: "flex",
-                                                                border: "1px solid blue"
+                                                                // border: "1px solid blue"
                                                             }}
                                                         >
                                                             <Box>
@@ -827,7 +901,7 @@ const Inbox = () => {
                                                                     sx={{
                                                                         fontSize: '16px',
                                                                         fontWeight: '400',
-                                                                        border: "1px solid red",
+                                                                        // border: "1px solid red",
                                                                         display: 'flex',
                                                                         alignItems: 'center',
                                                                         marginLeft: "10px"
@@ -848,7 +922,7 @@ const Inbox = () => {
                                                                 sx={{
                                                                     fontSize: '15px',
                                                                     fontWeight: '400',
-                                                                    border: "1px solid red"
+                                                                    // border: "1px solid red"
                                                                 }}
                                                             >
                                                                 {
@@ -887,7 +961,7 @@ const Inbox = () => {
                         className={styles.middleContainer}
                         sx={{
                             width: (showProfileInfo) ? '40%' : '70%',
-                            border: "5px solid red",
+                            // border: "5px solid red",
                             transition: '0.3s linear',
                         }}
                     >
@@ -953,7 +1027,7 @@ const Inbox = () => {
                                         display: 'flex',
                                         alignItems: 'center',
                                         justifyContent: 'center',
-                                        border: '1px solid #000',
+                                        // border: '1px solid #000',
                                     }}
                                 >
                                     {(middleShowSearch) ? (
@@ -1002,10 +1076,171 @@ const Inbox = () => {
                                 </Box>
                             </Box>
                         </Box>
-                        <Box className={styles.MiddleBodyContainer}>
-                            <h1>Middle Body Container</h1>
-                            <Box>
-                            </Box>
+                        <Box
+                            id="messageContainer"
+                            // onMouseOver={() => goToLastMessage()}
+                            className={styles.MiddleBodyContainer}
+                        >
+                            {[
+                                {
+                                    // tslint:disable-next-line: max-line-length
+                                    id: 1,
+                                    name: 'Talha Pervaiz',
+                                    message: 'Hello, how are you?',
+                                    time: '2 Feb 2021',
+                                    image: '/static/images/avatar/1.jpg'
+                                },
+                                {
+                                    id: 2,
+                                    name: 'Danyal',
+                                    message: `Hello, second message?Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.`,
+                                    time: '2 Feb 2021',
+                                    image: '/static/images/avatar/2.jpg'
+                                },
+                                {
+                                    id: 3,
+                                    name: 'Asif Ali',
+                                    message: 'Hello, third message?',
+                                    time: '4 Feb 2023',
+                                    image: '/static/images/avatar/1.jpg'
+                                },
+                                {
+                                    id: 4,
+                                    name: 'Saad Fareed',
+                                    message: 'Hello, fourth message?',
+                                    time: '4 Feb 2023',
+                                    image: '/static/images/avatar/1.jpg'
+                                },
+                                {
+                                    id: 5,
+                                    name: 'Fahad',
+                                    message: 'Hello, fifth message?',
+                                    time: '14 Feb 2023',
+                                    image: '/static/images/avatar/1.jpg'
+                                }
+                            ].map((item, index) => {
+                                const messageDate = formatDate(item.time);
+                                const showDate = messageDate !== lastMessageDate;
+                                lastMessageDate = messageDate;
+
+                                return (
+                                    <Box
+                                        key={index}
+                                        sx={{
+                                            width: '100%'
+                                        }}
+                                    >
+                                        {showDate && (
+                                            <Box sx={{
+                                                display: "flex",
+                                                width: "100%",
+                                                // border:"5px solid blue"
+                                                marginBottom: '30px',
+                                                // border: "5px solid green"
+                                            }}>
+                                                <Box sx={{
+                                                    borderBottom: "1px solid black",
+                                                    width: "45%",
+                                                }}>
+                                                </Box>
+                                                <Typography sx={{
+                                                    width: "10%",
+                                                    textAlign: "center",
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                }}
+                                                >
+                                                    {/* Categorize by date */}
+                                                    {/* For example if the message is delivered today say today otherwise say the date, if day before say yesterday */}
+                                                    {/* Also please dont repeat the date if the message is from the same day */}
+
+                                                    <Box sx={{
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        justifyContent: 'center',
+                                                        width: '100px',
+                                                        height: '50px',
+                                                        backgroundColor: '#000',
+                                                        color: '#fff',
+                                                        borderRadius: '10px',
+                                                        marginTop: '10px',
+                                                        marginBottom: '-25px',
+                                                        padding: '10px',
+                                                    }}
+                                                    >
+                                                        {messageDate}
+                                                    </Box>
+
+                                                </Typography>
+                                                <Box
+                                                    sx={{
+                                                        borderBottom: "1px solid black",
+                                                        width: "45%"
+                                                    }}>
+                                                </Box>
+                                            </Box>
+                                        )}
+                                        <Box
+                                            className={styles.middleBodyInsideContainer}
+                                            sx={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'space-between',
+                                                padding: '10px',
+                                                paddingLeft: '20px',
+                                                width: '60%',
+                                                // borderBottom: '1px solid #000',
+                                            }}
+                                        >
+                                            <Box
+                                                sx={{
+                                                    display: 'flex',
+                                                    alignItems: 'left',
+                                                    justifyContent: 'flex-start',
+                                                    width: '100%',
+                                                    // border: '1px solid #000',
+                                                }}
+                                            >
+                                                <Avatar
+                                                    sx={{
+                                                        width: '35px',
+                                                        height: '35px',
+                                                        marginTop: "15px"
+                                                    }}
+                                                    alt="Remy Sharp"
+                                                    src={item.image}
+                                                />
+                                                <Box
+                                                    sx={{
+                                                        marginLeft: '5px',
+                                                    }}
+                                                >
+                                                    <Box className="d-flex justify-content-start">
+                                                        <h3 className={styles.MiddleheaderTitle} style={{
+                                                            fontWeight: 'bold',
+                                                        }}>{item.name}</h3>
+                                                        <p className={styles.MiddleheaderTitle} style={{
+                                                            fontSize: '12px',
+                                                        }}>{item.time} - {
+
+                                                                (editedMessageId === item.id) ? (
+                                                                    <span style={{
+                                                                        color: '#000',
+                                                                        fontWeight: 'lighter',
+                                                                    }}>Edited</span>
+                                                                ) : (
+                                                                    <></>
+                                                                )
+                                                            }</p>
+                                                    </Box>
+                                                    <p className={styles.Middlemessage}>{item.message}</p>
+                                                </Box>
+                                            </Box>
+                                        </Box>
+                                    </Box>
+                                )
+                            })}
                         </Box>
                         <Box className={styles.MiddleFooterContainer}
                             sx={{
@@ -1089,7 +1324,7 @@ const Inbox = () => {
                                     flexDirection: 'row',
                                     width: '100%',
                                     height: '100%',
-                                    border: "1px solid red",
+                                    // border: "1px solid red",
                                     marginTop: '20px',
                                 }}
                             >
@@ -1146,7 +1381,7 @@ const Inbox = () => {
 
                         <Box
                             sx={{
-                                border: "1px solid red",
+                                // border: "1px solid red",
                                 height: "50px",
                                 width: "100%",
                                 marginTop: "20px",
@@ -1159,7 +1394,7 @@ const Inbox = () => {
                                 sx={{
                                     width: "50px",
                                     height: "50px",
-                                    border: "1px solid #000",
+                                    // border: "1px solid #000",
                                     backgroundColor: (currentProfileTab === 0) ? "#000" : "#fff",
                                     color: (currentProfileTab === 0) ? "#fff" : "#000",
                                     borderRadius: "3px",
@@ -1180,7 +1415,7 @@ const Inbox = () => {
                                     borderRadius: "3px",
                                     width: "50px",
                                     height: "50px",
-                                    border: "1px solid #000",
+                                    // border: "1px solid #000",
                                     backgroundColor: (currentProfileTab === 1) ? "#000" : "#fff",
                                     color: (currentProfileTab === 1) ? "#fff" : "#000",
                                     '&:hover': {
@@ -1199,7 +1434,7 @@ const Inbox = () => {
                                     borderRadius: "3px",
                                     width: "50px",
                                     height: "50px",
-                                    border: "1px solid #000",
+                                    // border: "1px solid #000",
                                     backgroundColor: (currentProfileTab === 2) ? "#000" : "#fff",
                                     color: (currentProfileTab === 2) ? "#fff" : "#000",
                                     '&:hover': {
@@ -1218,7 +1453,7 @@ const Inbox = () => {
                                     borderRadius: "3px",
                                     width: "50px",
                                     height: "50px",
-                                    border: "1px solid #000",
+                                    // border: "1px solid #000",
                                     backgroundColor: (currentProfileTab === 3) ? "#000" : "#fff",
                                     color: (currentProfileTab === 3) ? "#fff" : "#000",
                                     '&:hover': {
@@ -1237,7 +1472,7 @@ const Inbox = () => {
                                     borderRadius: "3px",
                                     width: "50px",
                                     height: "50px",
-                                    border: "1px solid #000",
+                                    // border: "1px solid #000",
                                     backgroundColor: (currentProfileTab === 4) ? "#000" : "#fff",
                                     color: (currentProfileTab === 4) ? "#fff" : "#000",
                                     '&:hover': {
@@ -1255,7 +1490,7 @@ const Inbox = () => {
                             sx={{
                                 padding: '20px',
                                 marginTop: '20px',
-                                border: "1px solid red",
+                                // border: "1px solid red",
                             }}
                         >
                             {(showProfileSearch) ? (
@@ -1344,7 +1579,7 @@ const Inbox = () => {
                             sx={{
                                 padding: '20px',
                                 marginTop: '20px',
-                                border: "1px solid orange",
+                                // border: "1px solid orange",
                             }}
                         >
                             <Autocomplete
@@ -1391,7 +1626,7 @@ const Inbox = () => {
                             sx={{
                                 // paddingTop: '20px',
                                 // marginTop: '20px',
-                                border: "1px solid red",
+                                // border: "1px solid red",
                                 height: '40vh',
                                 overflowY: 'scroll',
                                 backgroundColor: '#fff',
@@ -1557,6 +1792,7 @@ const Inbox = () => {
                                             '&:hover': {
                                                 backgroundColor: '#000',
                                                 color: '#fff',
+                                                border: '1px solid #fff',
                                             },
                                         }}
                                     >
@@ -1595,7 +1831,8 @@ const Inbox = () => {
                                                     sx={{
                                                         fontSize: '14px',
                                                         fontWeight: '400',
-                                                        textAlign: 'left'
+                                                        textAlign: 'left',
+                                                        // border: '1px solid #000'
                                                     }}
                                                 >
                                                     {item.lastMessage}
@@ -1624,7 +1861,6 @@ const Inbox = () => {
                     </Box>
                 </section>
             )}
-
         </div>
     );
 }

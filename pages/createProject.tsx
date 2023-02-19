@@ -242,66 +242,6 @@ const CreateProject: NextPage = () => {
         // const id = ref.id;
 
         if (user && !loading && !error) {
-            ////////////////////////////// For Older Version of Firebase(V8) //////////////////////////////
-            // const db = firebase.firestore();
-            // //For getting the exact time
-            // const { serverTimestamp } = firebase.firestore.FieldValue;
-
-            // // let cleanedEmail;
-            // // let email = signedInUserData.email;
-            // // cleanedEmail = email.split("@").join("");
-            // // cleanedEmail = email.split(".").join("");
-            // // cleanedEmail = email.split("`").join("");
-            // // cleanedEmail = email.split("!").join("");
-            // // cleanedEmail = email.split(".").join("");
-            // // cleanedEmail = email.split("#").join("");
-            // // cleanedEmail = email.split("%").join("");
-            // // cleanedEmail = email.split("^").join("");
-            // // cleanedEmail = email.split("&").join("");
-            // // cleanedEmail = email.split("*").join("");
-            // // cleanedEmail = email.split("(").join("");
-            // // cleanedEmail = email.split(")").join("");
-            // // cleanedEmail = email.split('"').join("");
-            // // cleanedEmail = email.split("'").join("");
-            // // cleanedEmail = email.split("_").join("");
-            // // cleanedEmail = email.split("-").join("");
-            // // cleanedEmail = email.split("+").join("");
-            // // cleanedEmail = email.split("=").join("");
-            // // cleanedEmail = email.split("}").join("");
-            // // cleanedEmail = email.split("{").join("");
-            // // cleanedEmail = email.split("]").join("");
-            // // cleanedEmail = email.split("[").join("");
-            // // cleanedEmail = email.split("|").join("");
-            // // cleanedEmail = email.split("/").join("");
-            // // cleanedEmail = email.split("?").join("");
-            // // cleanedEmail = email.split(";").join("");
-            // // cleanedEmail = email.split(",").join("");
-
-            // let thingsRef = db.collection(`Data/Projects/${signedInUserData.email}`);
-
-            // thingsRef.add({
-            //     uid: signedInUserData.uid,
-            //     userEmail: signedInUserData.email,
-            //     ProjectName: projectPlan,
-            //     ProjectMembers: teamMatesArray,
-            //     ProjectStages: allStageArray,
-            //     ProjectTasks: allTaskArray,
-            //     ProjectStartingDate: projectStartingDate.toLocaleDateString(),
-            //     ProjectEndingDate: projectEndingDate.toLocaleDateString(),
-            //     CurrentStage: currentStage,
-            //     CurrentStageCurrentTask: currentStageCurrentTask,
-            //     createAt: JSON.stringify(currentDate),
-            //     // UniqueID: id
-            // }).then(() => {
-            //     console.log("Data sent");
-            //     const { pathname } = Router
-            //     if (pathname == '/createProject') {
-            //         alert("Your Project is initialized Successfully.Redirecting you to your projects page.")
-            //         Router.push('/');
-            //     }
-            // })
-            //////////////////////////////////// For Older Version of Firebase(V8) //////////////////////////////////////////
-
             ////////////////////////////// For New Version of Firebase(V9) //////////////////////////////
             // ADD JOB TO FIRESTORE
             const project = {
@@ -335,40 +275,10 @@ const CreateProject: NextPage = () => {
             ////////////////////////////// For New Version of Firebase(V9) //////////////////////////////
 
             //Now sending the data for notifications
-
-            //Now sending the data for notifications
-            //
-            // alert(true)
         }
         else {
             alert("Please sign in to save project to cloud.")
         }
-
-        // db.collection('Data/abc/123'
-        //     .get()
-        //     .then(snapshot => {
-        //         let data = [];
-        //         snapshot.forEach(element => {
-        //             data.push(Object.assign({
-        //                 id: element.id,
-        //                 name: element.name,
-        //                 uid: '123',
-        //                 createAt: element.createAt,
-        //                 UniqueID: element.id
-        //             }, element.data()))
-        //         })
-        //         console.log("data=> ", data)
-        //         // if (firestoreData.length == data.length) {
-        //         setFirestoreData(data);
-        //         // console.log(true);
-        //         // }
-        //         // else {
-        //         //     console.log(false);
-        //         // }
-
-        //     }).catch(err => {
-        //         console.log(err)
-        //     })
     }
 
     return (

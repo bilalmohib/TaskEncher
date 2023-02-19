@@ -6,8 +6,23 @@ import { useLayoutEffect } from 'react';
 
 import styles from './Inbox.module.css';
 
+import Router from 'next/router';
+
+import {
+    doc,
+    collection,
+    onSnapshot,
+    addDoc,
+    query,
+    orderBy,
+    deleteDoc,
+    setDoc,
+    where
+} from "firebase/firestore";
+import { useCollection } from 'react-firebase-hooks/firestore';
+
 // Importing firebase
-import { auth } from "../../../firebase";
+import { db, auth } from "../../../firebase";
 import {
     onAuthStateChanged,
     signOut
@@ -34,6 +49,7 @@ import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 import SendIcon from '@mui/icons-material/Send';
+import AddBoxIcon from '@mui/icons-material/AddBox';
 
 import {
     Box,
@@ -47,7 +63,9 @@ import {
     Checkbox,
     Stack,
     IconButton,
-    Autocomplete
+    Autocomplete,
+    Tooltip,
+    Modal
 } from '@mui/material';
 
 //Importing Containers CSS Files
@@ -104,6 +122,89 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+interface AddUserModalProps {
+    setIsOpen: any,
+    isOpen: boolean,
+    projectMembersState: any
+}
+
+const AddUserModal: React.FC<AddUserModalProps> = ({
+    setIsOpen,
+    isOpen,
+    projectMembersState
+}) => {
+
+    interface ProjectMemberOptionType {
+        title: string;
+    }
+
+    let projectMembers: ProjectMemberOptionType[] = [];
+
+    for (let i = 0; i < projectMembersState.length; i++) {
+        projectMembers.push({ title: projectMembersState[i] })
+    }
+
+    const defaultProps = {
+        options: projectMembers,
+        getOptionLabel: (option: ProjectMemberOptionType) => option.title,
+    };
+    const flatProps = {
+        options: projectMembers.map((option) => option.title),
+    };
+    const [value, setValue] = React.useState<ProjectMemberOptionType | null>(null);
+
+    useEffect(() => {
+        if (value) {
+            console.log("The selected email : ", value.title);
+        }
+    }, [value])
+
+    return (
+        <Modal
+            open={isOpen}
+            onClose={() => setIsOpen(false)}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+        >
+            <Box sx={{
+                position: 'absolute' as 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: "50%",
+                bgcolor: 'background.paper',
+                // border: '2px solid #000',
+                boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
+                p: 4,
+                borderRadius: '10px',
+            }}>
+                <Typography id="modal-modal-title" variant="h4" component="h4">
+                    Start New Chat
+                </Typography>
+                <Typography id="modal-modal-title-start-chat" variant="h6" component="h6" sx={{ fontSize: "14px", fontWeight: "lighter" }}>
+                    Please select the email address of the person you want to chat with.
+                </Typography>
+                <Autocomplete
+                    {...defaultProps}
+                    id="SelectUserToChat"
+                    value={value}
+                    autoHighlight
+                    onChange={(event: any, newValue: ProjectMemberOptionType | null) => {
+                        setValue(newValue);
+                    }}
+                    renderInput={(params) => (
+                        <TextField {...params} label="Email Id" placeholder='Select the user from the list to chat with them' variant="standard" />
+                    )}
+                />
+                <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
+                    <Button variant="outlined" color="error" fullWidth onClick={() => setIsOpen(false)}>Cancel</Button>
+                    <Button variant="contained" color="info" fullWidth sx={{ ml: 2 }}>Start Chat</Button>
+                </Box>
+            </Box>
+        </Modal>
+    )
+}
+
 const InteractiveContainer = () => {
     const classes = useStyles();
     const [message, setMessage] = useState('');
@@ -158,11 +259,16 @@ const Inbox = () => {
     // For Profile Info Show Hide
     const [showProfileInfo, setShowProfileInfo] = useState<boolean>(false);
 
+    // For Modal
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+
     // ________________________ For Login ________________________ //
     const router = useRouter();
 
     // signed in user data
     const [signedInUserData, setSignedInUserData] = useState<any>(null);
+    // States for status of login users
+    const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
     const [Loading, setloading] = useState(true);
 
     const [checked, setChecked] = React.useState(true);
@@ -176,7 +282,7 @@ const Inbox = () => {
     const goToLastMessage = () => {
         // console.log("signedInUserData ==>", signedInUserData);
         // Get the message container element
-        alert("goToLastMessage");
+        // alert("goToLastMessage");
         const messageContainer = document.getElementById("messageContainer");
 
         // Scroll to bottom of the message container
@@ -250,6 +356,110 @@ const Inbox = () => {
 
     let lastMessageDate: any = null;
 
+    ////////////////////////////////////// FOR GETTING PROJECTS DATA //////////////////////////////////////
+    // console.log("Email ==> ", email.toString());
+    // "Jobs", `${uid}`, "data")
+    // const e = email;
+    const e = "bilalmohib7896@gmail.com";
+    let q = query(collection(db, "Data", "Projects", `${e}`));
+
+    const [snapshot, loading, error] = useCollection(
+        q,
+        {
+            snapshotListenOptions: { includeMetadataChanges: true },
+        }
+    );
+
+    // GETTINGS Active Jobs
+    const [projects, setProjects] = useState<any>([]);
+    const [projectMembersState, setProjectMembersState] = useState<any>([]);
+    // const [loading, setLoading] = useState(true); 
+
+    // FOR GETTING PROJECTS
+    useEffect(() => {
+
+        if (!loading) {
+            let projectMembers = [];
+            let tempProjectsObj: any = snapshot?.docs.map((doc, i) => ({ ...doc.data(), id: doc.id }));
+
+            setProjects(tempProjectsObj);
+
+            // Create a new array containing projectmembers of each project object
+            if (tempProjectsObj !== undefined) {
+                for (let i = 0; i < tempProjectsObj.length; i++) {
+                    projectMembers.push(tempProjectsObj[i].ProjectMembers);
+                    //console.log("Project Members ==> ", tempProjectsObj[i].ProjectMembers);
+                }
+            }
+
+            // Set the projectMembersState
+            setProjectMembersState(projectMembers.flat(1));
+
+            // setLoading(false);
+            // console.clear();
+            console.log("Project Members ==> ", projectMembersState);
+        }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [loading, snapshot]);
+    // FOR GETTING PROJECTS
+    ////////////////////////////////////// FOR GETTING PROJECTS DATA //////////////////////////////////////
+
+    const addData = () => {
+        if (isSignedIn == false) {
+            const { pathname } = Router;
+            if (pathname == '/createProject') {
+                alert("Not Signed In Redirecting to Login Page");
+                Router.push('/');
+            }
+        }
+        else {
+            console.log("Right.Correct");
+        }
+
+        // const ref = db.collection(`Data`).doc();
+        // const id = ref.id;
+
+        if (signedInUserData && !loading && !error) {
+            ////////////////////////////// For New Version of Firebase(V9) //////////////////////////////
+            // ADD JOB TO FIRESTORE
+            const project = {
+                uid: signedInUserData.uid,
+                userEmail: signedInUserData.email,
+                // ProjectName: projectPlan,
+                // ProjectMembers: teamMatesArray,
+                // ProjectStages: allStageArray,
+                // ProjectTasks: allTaskArray,
+                // ProjectStartingDate: projectStartingDate.toLocaleDateString(),
+                // ProjectEndingDate: projectEndingDate.toLocaleDateString(),
+                // CurrentStage: currentStage,
+                // CurrentStageCurrentTask: currentStageCurrentTask,
+                // createAt: JSON.stringify(currentDate),
+                // UniqueID: id
+            }
+            addDoc(collection(db, `Data/Projects/${signedInUserData.email}`), project)
+                .then(() => {
+                    console.log("Data sent");
+                    const { pathname } = Router;
+                    if (pathname == '/createProject') {
+                        alert("Your Project is initialized Successfully.Redirecting you to your projects page.");
+                        Router.push('/');
+                    }
+                })
+                .catch(err => {
+                    console.warn(err);
+                    alert(`Error creating Job: ${err.message}`);
+                });
+            //
+            ////////////////////////////// For New Version of Firebase(V9) //////////////////////////////
+
+            //Now sending the data for notifications
+        }
+        else {
+            alert("Please sign in to save project to cloud.")
+        }
+    }
+
     return (
         <div>
             {/* Home Page */}
@@ -257,6 +467,11 @@ const Inbox = () => {
                 <CustomLoader />
             ) : (
                 <section className={styles.container}>
+                    <AddUserModal
+                        isOpen={isOpen}
+                        setIsOpen={setIsOpen}
+                        projectMembersState={projectMembersState}
+                    />
                     <Box className={styles.leftContainer}>
                         <Box className={styles.HeaderContainer}>
                             <Box
@@ -265,42 +480,75 @@ const Inbox = () => {
                                     padding: '18px',
                                 }}
                             >
-                                {(showSearch) ? (
+                                <Box
+                                    className="d-flex justify-content-between"
+                                    sx={{
+                                        // border: "1px solid red",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        width: '80%',
+                                    }}
+                                >
+                                    {(!showSearch) && (
+                                        <Tooltip title="Start New Chat">
+                                            <IconButton color="inherit"
+                                                onClick={() => setIsOpen(true)}
+                                            >
+                                                <AddBoxIcon
+                                                    sx={{
+                                                        fontSize: '30px',
+                                                    }}
+                                                />
+                                            </IconButton>
+                                        </Tooltip>
+                                    )}
                                     <Box
-                                        title="search"
+                                        className="d-flex justify-content-between"
                                         sx={{
-                                            width: '80%',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                        }}
-                                    >
-                                        <TextField
-                                            fullWidth
-                                            id="standard-basic"
-                                            label="Search"
-                                            variant="standard"
-                                            placeholder='Search Contacts'
-                                        />
-                                    </Box>
-                                ) : (
-                                    <Box
-                                        title="search"
-                                        sx={{
+                                            // padding: '18px',
                                             width: '100%',
-                                            display: 'flex',
-                                            alignItems: 'left',
-                                            justifyContent: 'left',
                                         }}
                                     >
-                                        <h3 className={styles.headerTitle}>General Inbox</h3>
+                                        {(showSearch) ? (
+                                            <Box
+                                                title="search"
+                                                sx={{
+                                                    width: '100%',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                }}
+                                            >
+                                                <TextField
+                                                    fullWidth
+                                                    id="standard-basic"
+                                                    label="Search"
+                                                    variant="standard"
+                                                    placeholder='Search Contacts'
+                                                />
+                                            </Box>
+                                        ) : (
+                                            <Box
+                                                title="search"
+                                                sx={{
+                                                    width: '100%',
+                                                    display: 'flex',
+                                                    alignItems: 'left',
+                                                    justifyContent: 'left',
+                                                    paddingTop: '5px',
+                                                    paddingLeft: '10px',
+                                                }}
+                                            >
+                                                <h3 className={styles.headerTitle}>General Inbox</h3>
+                                            </Box>
+                                        )}
                                     </Box>
-                                )}
+                                </Box>
                                 <Box
                                     role={"button"}
                                     title="search"
                                     sx={{
-                                        paddingTop: (!showSearch) ? '0px' : '10px',
+                                        paddingTop: (!showSearch) ? '5px' : '10px',
                                     }}
                                 >
                                     {(showSearch) ? (
@@ -543,7 +791,7 @@ const Inbox = () => {
                                             {
                                                 name: 'Remy Sharp',
                                                 isOnline: true,
-                                                lastMessage: 'Hello, How are you?',
+                                                lastMessage: `Hello, How are you? Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.`,
                                                 lastMessageTime: '10:00 AM',
                                                 profilePic: '/static/images/avatar/1.jpg',
                                                 onlineStatus: 'offline',
@@ -645,6 +893,13 @@ const Inbox = () => {
                                                                 sx={{
                                                                     fontSize: '14px',
                                                                     fontWeight: '400',
+                                                                    // Stop the over flow of text
+                                                                    overflow: 'hidden',
+                                                                    textOverflow: 'ellipsis',
+                                                                    whiteSpace: 'nowrap',
+                                                                    textAlign: 'left',
+                                                                    width: '250px',
+                                                                    // border:"2px solid red"
                                                                 }}
                                                             >
                                                                 {item.lastMessage}

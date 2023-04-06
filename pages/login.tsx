@@ -337,6 +337,7 @@ const Login: NextPage = () => {
                                         <TextField
                                             type="email"
                                             name="email"
+                                            sx={{ marginTop: '10px' }}
                                             onChange={(e) => setEmail(e.target.value)}
                                             className={styles.form_control}
                                             placeholder="Enter your email"
@@ -350,12 +351,14 @@ const Login: NextPage = () => {
                                         <TextField
                                             type="password"
                                             name="password"
+                                            sx={{ marginTop: '10px' }}
                                             onChange={(e) => setPassword(e.target.value)}
                                             className={styles.form_control}
                                             placeholder="Enter your password"
                                             fullWidth
                                         />
                                     </div>
+                                    <br />
                                     <div className={styles.form_group}>
                                         <Button
                                             variant="contained"
@@ -367,16 +370,17 @@ const Login: NextPage = () => {
                                         >
                                             Log In
                                         </Button>
-                                    </div> 
+                                    </div>
                                     <div>
                                         <Typography variant="subtitle1" align="center" style={{ marginTop: '25px' }}>
                                             Don&rsquo;t have an account?{' '}
                                             <Link href="/signup">
-                                                {/* <a href="#" style={{ color: '#0079bf' }}>
+                                                <a href="#" style={{ color: '#0079bf' }}>
                                                     Sign up
-                                                </a> */}
-                                                Just Sign Up Using Any of the Above Methods
+                                                </a>
+                                                {/* Just Sign Up Using Any of the Above Methods */}
                                             </Link>
+                                            Just Sign Up Using Any of the Above Methods
                                         </Typography>
                                     </div>
                                 </form>

@@ -5,7 +5,6 @@ import styles from './style.module.css';
 import Image from 'next/image';
 
 import {
-    CircularProgress,
     Box,
     Typography,
     Link,
@@ -91,11 +90,10 @@ const Navbar: React.FC<NavProps> = ({
                     // ...
                 }
             } else {
-                // User is signed out
-                console.log("User is signed out");
-                // alert("Please sign in to continue");
-                // navigate("/login");
-                router.push("/login");
+                // User is Not signed in
+                console.log("User is Not Signed In");
+                setSignedInUserData(null);
+                setloading(false);
                 // ...
             }
         });
@@ -108,7 +106,9 @@ const Navbar: React.FC<NavProps> = ({
                 setSignedInUserData(null);
                 setloading(true);
                 alert("You have been signed out successfully");
-                // navigate("/login");
+                // navigate("/");
+                // reload page 
+                window.location.reload();
             }).catch((error) => {
                 // An error happened.
                 // alert(`Error Logging Out : ${error.message}`);

@@ -1,6 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useRef, useEffect } from 'react';
-import { useRouter } from 'next/router';
 //////////////////////////////////////////////////
 import CustomLoader from '../../CustomLoader';
 
@@ -112,7 +111,6 @@ const Home = () => {
     ]);
 
     // ________________________ For Login ________________________ //
-    const router = useRouter();
 
     // signed in user data
     const [signedInUserData, setSignedInUserData] = useState<any>(null);
@@ -242,7 +240,9 @@ const Home = () => {
                         boxShadow: 24,
                         p: 4,
                         borderRadius: 2,
-                        border: '1px solid #000',
+                        border: 'none !important',
+                        // Remove the outline
+                        outline: 'none !important',
                     }}
                 >
                     <IconButton

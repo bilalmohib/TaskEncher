@@ -6,40 +6,34 @@ import Script from 'next/script';
 //////////////////////////////////////////////////
 import Head from 'next/head';
 // Importing Components
+import Landing from '../components/Landing';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 import Home from '../components/Main/Home';
 import Inbox from '../components/Main/Inbox';
 import { ProfileComp } from './profile/[uuid]';
 import { ProjectDetailsComp } from './projectDetails/[projectName]/[projectID]';
-import 'react-date-picker/dist/DatePicker.css';
-import 'react-calendar/dist/Calendar.css';
 
 // Importing firebase
 import { db, auth } from "../firebase";
-import {
-  doc,
-  collection,
-  onSnapshot,
-  addDoc,
-  query,
-  orderBy,
-  deleteDoc,
-  setDoc,
-  where
-} from "firebase/firestore";
-import { useCollection } from 'react-firebase-hooks/firestore';
 import {
   onAuthStateChanged,
   signOut
 } from "firebase/auth";
 // Importing firebase
 
+// Importing Material UI Components
+import Box from '@mui/material/Box';
+
 //Importing Containers CSS Files
 import styles from '../styles/Home.module.css';
+import 'react-date-picker/dist/DatePicker.css';
+import 'react-calendar/dist/Calendar.css';
 import '../styles/globals.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const router = useRouter();
+  const { uuid } = router.query;
 
   // Hide splash screen shen we are server side 
   useEffect(() => {
@@ -49,10 +43,6 @@ function MyApp({ Component, pageProps }: AppProps) {
         loader.style.display = 'none';
     }
   }, []);
-
-  const router = useRouter();
-
-  const { uuid } = router.query;
 
   const [hideExtra, setHideExtra] = useState<Number>(1);
   const [loading, setLoading] = useState<Boolean>(true);
@@ -73,6 +63,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/firebase.User
         if (signedInUserData === null) {
+          setIsSignedIn(true);
           if (user.isAnonymous === true) {
             let tempUser = {
               displayName: "Anonymous",
@@ -92,8 +83,6 @@ function MyApp({ Component, pageProps }: AppProps) {
       } else {
         // User is signed out
         console.log("User is signed out");
-        // alert("Please sign in to continue");
-        // navigate("/login");
         // ...
       }
     });
@@ -128,77 +117,82 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <>
-      {(!Loading) && (
+      {(!loading) && (
         <section>
-          {
-            ((hideExtra == 1) && !loading) ? (
-              <div className={styles.container}>
-                <main className={styles.main}>
-                  <Navbar isOpen={isOpen} setIsOpen={setIsOpen} />
-                  <div className='d-flex'>
-                    <Sidebar currentMenuItem={currentMenuItem} setCurrentMenuItem={setCurrentMenuItem} isOpen={isOpen} setIsOpen={setIsOpen} />
+          {(!isSignedIn && !loading) ? (
+            <Landing />
+          ) : (
+            <Box>
+              {
+                ((hideExtra == 1) && !loading) ? (
+                  <div className={styles.container}>
+                    <main className={styles.main}>
+                      <Navbar isOpen={isOpen} setIsOpen={setIsOpen} />
+                      <div className='d-flex'>
+                        <Sidebar currentMenuItem={currentMenuItem} setCurrentMenuItem={setCurrentMenuItem} isOpen={isOpen} setIsOpen={setIsOpen} />
 
-                    <div style={{ marginTop: 70 }} className={`${styles.rightSideContainer} ${(isOpen) ? (styles.shrinkContainer) : (styles.expandContainer)}`}>
-                      {/* Home Page */}
-                      <section className={(currentMenuItem === 1) ? ("") : ("d-none")}>
-                        <Home />
-                      </section>
+                        <div style={{ marginTop: 70 }} className={`${styles.rightSideContainer} ${(isOpen) ? (styles.shrinkContainer) : (styles.expandContainer)}`}>
+                          {/* Home Page */}
+                          <section className={(currentMenuItem === 1) ? ("") : ("d-none")}>
+                            <Home />
+                          </section>
 
-                      {/* My Tasks Page */}
-                      <section className={(currentMenuItem === 2) ? ("") : ("d-none")}>
-                        <br />
-                        <h3 style={{ marginLeft: 30, marginTop: 5, color: "black", fontWeight: "lighter" }}>My Tasks</h3>
-                      </section>
+                          {/* My Tasks Page */}
+                          <section className={(currentMenuItem === 2) ? ("") : ("d-none")}>
+                            <br />
+                            <h3 style={{ marginLeft: 30, marginTop: 5, color: "black", fontWeight: "lighter" }}>My Tasks</h3>
+                          </section>
 
-                      {/* Inbox Page */}
-                      <section className={(currentMenuItem === 3) ? ("") : ("d-none")}>
-                        <Inbox
-                          email={signedInUserData.email}
-                        />
-                      </section>
+                          {/* Inbox Page */}
+                          <section className={(currentMenuItem === 3) ? ("") : ("d-none")}>
+                            <Inbox
+                              email={signedInUserData.email}
+                            />
+                          </section>
 
-                      {/* Reporting Page */}
-                      <section className={(currentMenuItem === 4) ? ("") : ("d-none")}>
-                        <br />
-                        <h3 style={{ marginLeft: 30, marginTop: 5, color: "black", fontWeight: "lighter" }}>Reporting</h3>
-                      </section>
+                          {/* Reporting Page */}
+                          <section className={(currentMenuItem === 4) ? ("") : ("d-none")}>
+                            <br />
+                            <h3 style={{ marginLeft: 30, marginTop: 5, color: "black", fontWeight: "lighter" }}>Reporting</h3>
+                          </section>
 
-                      {/* Portfolios Page */}
-                      <section className={(currentMenuItem === 5) ? ("") : ("d-none")}>
-                        <br />
-                        <h3 style={{ marginLeft: 30, marginTop: 5, color: "black", fontWeight: "lighter" }}>Portfolios</h3>
-                      </section>
+                          {/* Portfolios Page */}
+                          <section className={(currentMenuItem === 5) ? ("") : ("d-none")}>
+                            <br />
+                            <h3 style={{ marginLeft: 30, marginTop: 5, color: "black", fontWeight: "lighter" }}>Portfolios</h3>
+                          </section>
 
-                      {/* Goals Page */}
-                      <section className={(currentMenuItem === 6) ? ("") : ("d-none")}>
-                        <br />
-                        <h3 style={{ marginLeft: 30, marginTop: 5, color: "black", fontWeight: "lighter" }}>Goals</h3>
-                      </section>
-                    </div>
-                  </div>
-                </main>
-              </div>
-            ) : (hideExtra == 2 && !loading) && (
-              <div className={styles.container}>
-                <main className={styles.main}>
-                  <Navbar isOpen={isOpen} setIsOpen={setIsOpen} />
-                  <div className='d-flex'>
-                    <Sidebar currentMenuItem={0} setCurrentMenuItem={setCurrentMenuItem} isOpen={isOpen} setIsOpen={setIsOpen} />
-
-                    <main style={{ marginTop: 70 }} className={`${styles.rightSideContainer} ${(isOpen) ? (styles.shrinkContainer) : (styles.expandContainer)}`}>
-                      {(router.pathname == `/profile/[uuid]` || router.pathname == '/profile') ? (
-                        <ProfileComp />
-                      ) : (router.pathname == '/projectDetails/[projectName]/[projectID]') ? (
-                        <ProjectDetailsComp />
-                      ) : (
-                        <></>
-                      )}
+                          {/* Goals Page */}
+                          <section className={(currentMenuItem === 6) ? ("") : ("d-none")}>
+                            <br />
+                            <h3 style={{ marginLeft: 30, marginTop: 5, color: "black", fontWeight: "lighter" }}>Goals</h3>
+                          </section>
+                        </div>
+                      </div>
                     </main>
-
                   </div>
-                </main>
-              </div>
-            )}
+                ) : (hideExtra == 2 && !loading) && (
+                  <div className={styles.container}>
+                    <main className={styles.main}>
+                      <Navbar isOpen={isOpen} setIsOpen={setIsOpen} />
+                      <div className='d-flex'>
+                        <Sidebar currentMenuItem={0} setCurrentMenuItem={setCurrentMenuItem} isOpen={isOpen} setIsOpen={setIsOpen} />
+
+                        <main style={{ marginTop: 70 }} className={`${styles.rightSideContainer} ${(isOpen) ? (styles.shrinkContainer) : (styles.expandContainer)}`}>
+                          {(router.pathname == `/profile/[uuid]` || router.pathname == '/profile') ? (
+                            <ProfileComp />
+                          ) : (router.pathname == '/projectDetails/[projectName]/[projectID]') ? (
+                            <ProjectDetailsComp />
+                          ) : (
+                            <></>
+                          )}
+                        </main>
+                      </div>
+                    </main>
+                  </div>
+                )}
+            </Box>
+          )}
         </section>
       )}
       <Component {...pageProps} />

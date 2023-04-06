@@ -156,7 +156,7 @@ const addData = (
 
     if (signedInUserData) {
         if (type == "singleUser") {
-            addDoc(collection(db, `Data/Chat/Single/Users/${}`), dataObject)
+            addDoc(collection(db, `Data/Chat/Single/Users`), dataObject)
                 .then(() => {
                     console.log("Data sent");
                     const { pathname } = Router;

@@ -1,16 +1,13 @@
 import React from "react";
 import Image from "next/image";
-import AnimatedText from 'react-animated-text-content';
 
 import {
-    CircularProgress,
-    Box,
-    Typography,
+    CircularProgress
 } from "@mui/material";
 
 const CustomLoader = () => {
     return (
-        <div style={{ display: 'flex', flexDirection: "column", justifyContent: "center", alignItems: "center",height:"100vh" }}>
+        <div style={{ display: 'flex', flexDirection: "column", justifyContent: "center", alignItems: "center", height: "100vh" }}>
             <div style={{ display: "flex", alignItems: "center", marginTop: "0px" }}>
                 <Image style={{ display: "block" }} width={100} height={100} src={"/logocopy.png"} alt="logo" title="Logo" />
             </div>
@@ -19,31 +16,13 @@ const CustomLoader = () => {
                     color: "text.dark",
                     fontStyle: "normal",
                     fontWeight: "400",
-                    fontSize: "48px",
+                    fontSize: "45px",
                     lineHeight: "36px",
                     marginTop: "30px",
                     letterSpacing: "0.15px",
                 }}
             >
-                {/* <AnimatedText
-                    type="chars" // animate words or chars
-                    animation={{
-                        x: '200px',
-                        y: '-20px',
-                        scale: 1.1,
-                        ease: 'ease-in-out',
-                    }}
-                    animationType="wave"
-                    interval={0.15}
-                    duration={0.5}
-                    tag="p"
-                    className="animated-paragraph"
-                    includeWhiteSpaces
-                    threshold={0.1}
-                    rootMargin="20%"
-                > */}
-                    Project Management Software
-                {/* </AnimatedText> */}
+                TaskEncher - Rev Up Tasks and Efficiency
             </h1>
             <div
                 style={{

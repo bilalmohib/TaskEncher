@@ -73,30 +73,30 @@ const Home = () => {
             </audio>,
             name: "People",
         },
-        {
-            id: 4,
-            src: <audio id='hoverSoundClip'>
-                <source src="audio/4.mp3" />
-                Your browser is not invited for super fun audio time.
-            </audio>,
-            name: "Tasks I've Assigned",
-        },
-        {
-            id: 5,
-            src: <audio id='hoverSoundClip'>
-                <source src="audio/5.mp3" />
-                Your browser is not invited for super fun audio time.
-            </audio>,
-            name: "My goals",
-        },
-        {
-            id: 6,
-            src: <audio id='hoverSoundClip'>
-                <source src="audio/6.mp3" />
-                Your browser is not invited for super fun audio time.
-            </audio>,
-            name: "Manager Tasks",
-        }
+        // {
+        //     id: 4,
+        //     src: <audio id='hoverSoundClip'>
+        //         <source src="audio/4.mp3" />
+        //         Your browser is not invited for super fun audio time.
+        //     </audio>,
+        //     name: "Tasks I've Assigned",
+        // },
+        // {
+        //     id: 5,
+        //     src: <audio id='hoverSoundClip'>
+        //         <source src="audio/5.mp3" />
+        //         Your browser is not invited for super fun audio time.
+        //     </audio>,
+        //     name: "My goals",
+        // },
+        // {
+        //     id: 6,
+        //     src: <audio id='hoverSoundClip'>
+        //         <source src="audio/6.mp3" />
+        //         Your browser is not invited for super fun audio time.
+        //     </audio>,
+        //     name: "Manager Tasks",
+        // }
     ]);
 
     // ________________________ For Login ________________________ //
@@ -293,12 +293,15 @@ const Home = () => {
                                     {item.id === 3 && <Widget3 email={signedInUserData.email} item={item.id} currentFullLengthItem={currentFullLengthItem} setCurrentFullLengthItem={setCurrentFullLengthItem} />}
                                     {item.id === 4 && <Widget4 email={signedInUserData.email} item={item.id} currentFullLengthItem={currentFullLengthItem} setCurrentFullLengthItem={setCurrentFullLengthItem} />}
                                     {item.id === 5 && <Widget5 email={signedInUserData.email} item={item.id} currentFullLengthItem={currentFullLengthItem} setCurrentFullLengthItem={setCurrentFullLengthItem} />}
-                                    {/* {item.id === 6 && <Widget6 email={signedInUserData.email} item={item.id} currentFullLengthItem={currentFullLengthItem} setCurrentFullLengthItem={setCurrentFullLengthItem} />} */}
+                                    {item.id === 6 && <Widget6 email={signedInUserData.email} item={item.id} currentFullLengthItem={currentFullLengthItem} setCurrentFullLengthItem={setCurrentFullLengthItem} />}
                                 </div>
                             ))}
                     </section>
                     {/* ++++++++++++++++++++++++++++++++++++ Widgets Container ++++++++++++++++++++++++++++++++++++ */}
-
+                    <br />
+                    <br />
+                    <br />
+                    <br />
                 </section>
             )}
 

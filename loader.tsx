@@ -27,6 +27,9 @@ display: block;
     color: #000000;
     font-weight: 300 !important;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif !important;
+    paddingleft: 10px;
+    paddingRight: 10px;
+    fontSize: 24px;
 }
 
 .sk-cube-grid {

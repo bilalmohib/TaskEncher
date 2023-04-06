@@ -14,9 +14,10 @@ import LoginButton from "../components/LoginButton";
 import CustomLoader from "../components/CustomLoader";
 
 import {
-    CircularProgress,
     Box,
     Typography,
+    TextField,
+    Button
 } from "@mui/material";
 
 // importing styles
@@ -287,8 +288,25 @@ const Login: NextPage = () => {
                 <Box>
                     <Box className={styles.main}>
                         <Box className={styles.login_box}>
-                            <span style={{ fontSize: 25, fontWeight: "400" }}>TaskEncher</span>
-                            <h2 className={styles.login_title}>Log in</h2>
+                            <Typography
+                                variant="h3"
+                                style={{
+                                    fontWeight: 600,
+                                    background: 'linear-gradient(90deg, #5e8cff 0%, #66ffeb 100%)',
+                                    WebkitBackgroundClip: 'text',
+                                    MozBackgroundClip: 'text',
+                                    backgroundClip: 'text',
+                                    WebkitTextFillColor: 'transparent',
+                                    fontFamily: 'Poppins',
+                                    letterSpacing: 2,
+                                }}
+                            >
+                                TaskEncher
+                            </Typography>
+                            <p style={{ fontSize: 18, color: 'red' }}>BETA</p>
+                            <Typography variant="h4" className={styles.login_title}>
+                                Log in
+                            </Typography>
                             {/* Icons Section */}
                             <Box>
                                 <LoginButton
@@ -311,55 +329,61 @@ const Login: NextPage = () => {
                                     Icon={<VscGithub size={25} />}
                                     onClick={handleLoginWithGithub}
                                 />
-                                <form action="javascript:void(null);">
+                                <form onSubmit={(e) => e.preventDefault()}>
                                     <div className={styles.form_group}>
-                                        <div style={{ textAlign: "left" }}>
-                                            <label htmlFor="email" style={{ fontSize: "20px", marginTop: "30px" }}>Email</label>
-                                        </div>
-                                        <input
+                                        <Typography variant="h6" align="left" style={{ marginTop: '30px' }}>
+                                            Email
+                                        </Typography>
+                                        <TextField
                                             type="email"
                                             name="email"
                                             onChange={(e) => setEmail(e.target.value)}
-                                            id="email"
-                                            className={`form-control form-control-lg ${styles.form_control}`}
+                                            className={styles.form_control}
                                             placeholder="Enter your email"
+                                            fullWidth
                                         />
                                     </div>
                                     <div className={styles.form_group}>
-                                        <div style={{ textAlign: "left", marginTop: "20px" }}>
-                                            <label htmlFor="password" style={{ fontSize: "20px" }}>Password</label>
-                                        </div>
-                                        <input
+                                        <Typography variant="h6" align="left" style={{ marginTop: '20px' }}>
+                                            Password
+                                        </Typography>
+                                        <TextField
                                             type="password"
                                             name="password"
                                             onChange={(e) => setPassword(e.target.value)}
-                                            className={`form-control form-control-lg ${styles.form_control}`}
-                                            id="password"
+                                            className={styles.form_control}
                                             placeholder="Enter your password"
+                                            fullWidth
                                         />
                                     </div>
                                     <div className={styles.form_group}>
-                                        <button
-                                            className={`btn btn-primary btn-lg btn-block ${styles.btn_login_email}`}
+                                        <Button
+                                            variant="contained"
+                                            color="primary"
+                                            fullWidth
+                                            size="large"
+                                            className={styles.btn_login_email}
                                             onClick={handleLoginWithEmail}
                                         >
                                             Log In
-                                        </button>
-                                    </div>
+                                        </Button>
+                                    </div> 
                                     <div>
-                                        <p style={{ textAlign: "center", marginTop: "25px", fontSize: 20 }}>
-                                            Don&rsquo;t have an account?{" "}
+                                        <Typography variant="subtitle1" align="center" style={{ marginTop: '25px' }}>
+                                            Don&rsquo;t have an account?{' '}
                                             <Link href="/signup">
-                                                <a href="#" style={{ color: "#0079bf" }}>
+                                                {/* <a href="#" style={{ color: '#0079bf' }}>
                                                     Sign up
-                                                </a>
+                                                </a> */}
+                                                Just Sign Up Using Any of the Above Methods
                                             </Link>
-                                        </p>
+                                        </Typography>
                                     </div>
                                 </form>
                             </Box>
                             {/* Icons Section */}
                         </Box>
+
                     </Box>
 
                     <footer className={styles.footer}></footer>

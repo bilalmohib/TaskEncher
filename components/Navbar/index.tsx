@@ -143,6 +143,17 @@ const Navbar: React.FC<NavProps> = ({
                     <span className={styles.navbarCaption}>
                         TaskEncher
                     </span>
+                    <Typography
+                        variant="subtitle2"
+                        component="span"
+                        style={{
+                            color: '#FF0000',
+                            fontWeight: 'bold',
+                            marginLeft: '5px',
+                        }}
+                    >
+                        BETA
+                    </Typography>
                     <div style={{ fontSize: 10, position: 'relative', bottom: '-10px', right: '-5px' }}>
                         Rev Up Tasks & Efficiency
                     </div>

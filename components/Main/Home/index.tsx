@@ -1,9 +1,9 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/router';
 //////////////////////////////////////////////////
-import styles from '../../../styles/Home.module.css';
-// Importing Components
-import Navbar from '../../Navbar';
+import CustomLoader from '../../CustomLoader';
+
 // Importing Icons
 import { IoIosArrowDropdown } from 'react-icons/io';
 import { AiOutlineCheck } from "react-icons/ai";
@@ -17,15 +17,27 @@ import Widget5 from '../../Widgets/Widget5';
 import Widget6 from '../../Widgets/Widget6';
 //////////////////////////////////////////////////
 
+// importing material ui
+import {
+    Modal,
+    Box,
+    Typography,
+    TextField,
+    Button,
+    IconButton
+} from "@mui/material";
+
+import CloseIcon from '@mui/icons-material/Close';
+
 // Importing firebase
 import { auth } from "../../../firebase";
 import {
     onAuthStateChanged,
     signOut
 } from "firebase/auth";
-import CustomLoader from '../../CustomLoader';
 
 //Importing Containers CSS Files
+import styles from '../../../styles/Home.module.css';
 
 const Home = () => {
 
@@ -106,6 +118,14 @@ const Home = () => {
     const [signedInUserData, setSignedInUserData] = useState<any>(null);
     const [Loading, setloading] = useState(true);
 
+    // For modal
+    const [openModal, setOpenModal] = useState(false);
+
+    const toggleModal = () => {
+        setOpenModal(!openModal);
+    };
+    // For modal
+
     useEffect(() => {
         // console.log("Current Path : ", window.location.pathname);
         // console.log("activeJobs ==>", activeJobs);
@@ -181,6 +201,116 @@ const Home = () => {
         setList(copyListItems);
     };
 
+    // Add this function inside the Home component, just before the return statement
+    const NewsletterModal = () => {
+
+        const [email, setEmail] = useState<string>("");
+
+        const [emailError, setEmailError] = useState<boolean>(false);
+        const [emailErrorText, setEmailErrorText] = useState<string>("");
+
+        const handleSubscribe = () => {
+            if (email === "") {
+                setEmailError(true);
+                setEmailErrorText("Please enter your email");
+            } else {
+                setEmailError(false);
+                setEmailErrorText("");
+                alert("Subscribed");
+                // toggleModal();
+                // console.log(email);
+                // console.log("Subscribed");
+                // console.log("Subscribed");
+            }
+        }
+
+        return (
+            <Modal
+                open={openModal}
+                onClose={toggleModal}
+                aria-labelledby="modal-title"
+                aria-describedby="modal-description"
+            >
+                <Box
+                    sx={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        width: 400,
+                        bgcolor: 'background.paper',
+                        boxShadow: 24,
+                        p: 4,
+                        borderRadius: 2,
+                        border: '1px solid #000',
+                    }}
+                >
+                    <IconButton
+                        edge="end"
+                        color="inherit"
+                        onClick={toggleModal}
+                        aria-label="close"
+                        sx={{ position: 'absolute', top: 8, right: 8 }}
+                    >
+                        <CloseIcon />
+                    </IconButton>
+                    <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
+                        <img
+                            src="https://media.istockphoto.com/id/1135541613/photo/project-management-with-icons-about-planning-tasks-and-milestones-on-schedule-cost-management.jpg?s=612x612&w=0&k=20&c=rUpLxP2ceuqUpBQ-uYzhxm538-5ey3Nh01UChIh1Zxs="
+                            alt="Project Management"
+                            style={{ maxWidth: '100%', maxHeight: '150px', borderRadius: '4px' }}
+                        />
+                    </Box>
+                    <Typography id="modal-title" variant="h6" component="h2" sx={{ fontWeight: 'bold', mb: 1 }}>
+                        Subscribe to our Newsletter
+                    </Typography>
+                    <Typography id="modal-description" sx={{ mt: 1, mb: 2 }}>
+                        Stay informed about our latest updates and upcoming features. This is
+                        currently a beta version, and we&apos;ll be launching the full-fledged
+                        version soon.
+                    </Typography>
+                    <TextField
+                        fullWidth
+                        label="Email Address"
+                        placeholder="Enter your email address"
+                        sx={{ mt: 1, mb: 2 }}
+                        value={email}
+                        onChange={(e) => {
+                            if (emailError) {
+                                setEmailError(false);
+                                setEmailErrorText("");
+                            }
+                            setEmail(e.target.value)
+                        }}
+                        error={emailError}
+                        helperText={emailErrorText}
+
+                    />
+                    <Button
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        sx={{ mt: 1, mb: 2 }}
+                        onClick={handleSubscribe}
+                    >
+                        Subscribe
+                    </Button>
+                </Box>
+            </Modal>
+        )
+    }
+
+    // To display the modal after 3 seconds of the component mounting
+    useEffect(() => {
+        // Delay opening the modal for 3 seconds after the component mounts
+        const timer = setTimeout(() => {
+            setOpenModal(true);
+        }, 3000);
+
+        // Clean up the timer when the component is unmounted
+        return () => clearTimeout(timer);
+    }, []);
+
     return (
         <div>
             {/* Home Page */}
@@ -188,6 +318,7 @@ const Home = () => {
                 <CustomLoader />
             ) : (
                 <section>
+                    <NewsletterModal />
                     <br />
                     <h3 style={{ marginLeft: 30, marginTop: 5, color: "black", fontWeight: "lighter" }}>Home</h3>
                     <br />

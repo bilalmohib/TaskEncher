@@ -12,7 +12,7 @@ const CustomLoader = () => {
     return (
         <div style={{ display: 'flex', flexDirection: "column", justifyContent: "center", alignItems: "center",height:"100vh" }}>
             <div style={{ display: "flex", alignItems: "center", marginTop: "0px" }}>
-                <Image style={{ display: "block" }} width={150} height={30} src={"/logo.png"} alt="logo" title="Logo" />
+                <Image style={{ display: "block" }} width={100} height={100} src={"/logocopy.png"} alt="logo" title="Logo" />
             </div>
             <h1
                 style={{
@@ -21,7 +21,7 @@ const CustomLoader = () => {
                     fontWeight: "400",
                     fontSize: "48px",
                     lineHeight: "36px",
-                    marginTop: "90px",
+                    marginTop: "30px",
                     letterSpacing: "0.15px",
                 }}
             >

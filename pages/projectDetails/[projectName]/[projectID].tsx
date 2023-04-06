@@ -51,7 +51,7 @@ const ProjectDetails: NextPage = () => {
     return (
         <div>
             <Head>
-                <title>Profile - Project Management Software</title>
+                <title>Profile - TaskEncher (Supercharge Your Workflow and Amplify Task Management) </title>
                 <meta name="description" content="Project Management Software" />
                 <link rel="icon" href="/logocopy.ico" />
             </Head>
@@ -112,18 +112,17 @@ const ProjectDetailsComp = () => {
                 if (signedInUserData === null) {
                     if (user.isAnonymous === true) {
                         let tempUser = {
-                            displayName: "Anonymous Guest",
-                            email: "anonymous@guest.com",
+                            displayName: "Anonymous",
+                            email: `anonymous${user.uid}@guest.com`,
                             photoURL: user.photoURL,
                         }
                         console.log(tempUser);
                         setSignedInUserData(tempUser);
-                        setIsSignedIn(true);
                     } else {
                         console.log(user);
                         setSignedInUserData(user);
-                        setIsSignedIn(true);
                     }
+                    setIsSignedIn(true);
                     // ...
                 }
             } else {
@@ -145,7 +144,14 @@ const ProjectDetailsComp = () => {
             {(isSignedIn) ? (
                 <div className={styles.container}>
                     <header className={`fixed-top ${styles.header}`}>
-                        <HeaderProjectDetails setProjectTitle={setProjectTitle} projectID={projectID} email={signedInUserData.email} projectTitle={projectTitle} photoURL={signedInUserData.photoURL} selectedTabItemValue={selectedTabItemValue} setSelectedTabItemValue={setSelectedTabItemValue} />
+                        <HeaderProjectDetails
+                            setProjectTitle={setProjectTitle}
+                            projectID={projectID}
+                            email={signedInUserData.email}
+                            projectTitle={projectTitle}
+                            photoURL={signedInUserData.photoURL}
+                            selectedTabItemValue={selectedTabItemValue}
+                            setSelectedTabItemValue={setSelectedTabItemValue} />
                     </header>
 
                     <div className={styles.mainContainer}>

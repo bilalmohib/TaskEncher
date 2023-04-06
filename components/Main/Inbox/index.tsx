@@ -67,6 +67,8 @@ import {
     Tooltip,
     Modal
 } from '@mui/material';
+import { handleClientScriptLoad } from 'next/script';
+import Image from 'next/image';
 
 //Importing Containers CSS Files
 
@@ -125,13 +127,148 @@ const useStyles = makeStyles((theme) => ({
 interface AddUserModalProps {
     setIsOpen: any,
     isOpen: boolean,
-    projectMembersState: any
+    projectMembersState: any,
+    isSignedIn: boolean,
+    signedInUserData: any,
+    usersListSingleChat: any,
+}
+
+// Global function to add data to firestore
+const addData = (
+    dataObject: any,
+    type: string,
+    isSignedIn: boolean,
+    signedInUserData: any
+) => {
+    if (isSignedIn == false) {
+        const { pathname } = Router;
+        if (pathname == '/createProject') {
+            alert("Not Signed In Redirecting to Login Page");
+            Router.push('/');
+        }
+    }
+    else {
+        console.log("Right.Correct");
+    }
+
+    // const ref = db.collection(`Data`).doc();
+    // const id = ref.id;
+
+    if (signedInUserData) {
+        if (type == "singleUser") {
+            addDoc(collection(db, `Data/Chat/Single/Users/${}`), dataObject)
+                .then(() => {
+                    console.log("Data sent");
+                    const { pathname } = Router;
+                    alert("User Added Successfully.");
+                    // if (pathname == '/createProject') {
+                    //     alert("Your Project is initialized Successfully.Redirecting you to your projects page.");
+                    //     Router.push('/');
+                    // }
+                })
+                .catch(err => {
+                    console.warn(err);
+                    alert(`Error creating Job: ${err.message}`);
+                });
+
+            addDoc(collection(db, `Chat/Single/Users`), dataObject)
+                .then(() => {
+                    console.log("Data sent");
+                    const { pathname } = Router;
+                    alert("User Added Successfully.");
+                    // if (pathname == '/createProject') {
+                    //     alert("Your Project is initialized Successfully.Redirecting you to your projects page.");
+                    //     Router.push('/');
+                    // }
+                })
+                .catch(err => {
+                    console.warn(err);
+                    alert(`Error creating Job: ${err.message}`);
+                });
+        } else if (type === "singleChat") {
+            addDoc(collection(db, `Chat/Single/Chat`), dataObject)
+                .then(() => {
+                    console.log("Data sent");
+                    const { pathname } = Router;
+                    alert("Chat Added Successfully.");
+                    // if (pathname == '/createProject') {
+                    //     alert("Your Project is initialized Successfully.Redirecting you to your projects page.");
+                    //     Router.push('/');
+                    // }
+                })
+                .catch(err => {
+                    console.warn(err);
+                    alert(`Error creating Job: ${err.message}`);
+                });
+        }
+    }
+    else {
+        alert("Please sign in to save project to cloud.")
+    }
+}
+
+interface MessageContainerProps {
+    editedMessageId: number,
+    userName: string,
+    timeSent: string,
+    message: string,
+    id: string
+}
+
+const MessageContainer: React.FC<MessageContainerProps> = ({
+    editedMessageId,
+    userName,
+    timeSent,
+    message,
+    id
+}) => {
+    return (
+        <Box
+            sx={{
+                marginLeft: '5px',
+            }}
+        >
+            <Box className="d-flex justify-content-start">
+                <h3
+                    className={styles.MiddleheaderTitle}
+                    style={{
+                        fontWeight: 'bold',
+                    }}>
+                    {userName}
+                </h3>
+                <p
+                    className={styles.MiddleheaderTitle}
+                    style={{
+                        fontSize: '12px',
+                    }}>
+                    {timeSent} - {
+                        (editedMessageId.toString() === id) ? (
+                            <span style={{
+                                color: '#000',
+                                fontWeight: 'lighter',
+                            }}>
+                                Edited
+                            </span>
+                        ) : (
+                            <></>
+                        )
+                    }
+                </p>
+            </Box>
+            <p className={styles.Middlemessage}>
+                {message}
+            </p>
+        </Box>
+    )
 }
 
 const AddUserModal: React.FC<AddUserModalProps> = ({
     setIsOpen,
     isOpen,
-    projectMembersState
+    projectMembersState,
+    isSignedIn,
+    signedInUserData,
+    usersListSingleChat
 }) => {
 
     interface ProjectMemberOptionType {
@@ -141,16 +278,22 @@ const AddUserModal: React.FC<AddUserModalProps> = ({
     let projectMembers: ProjectMemberOptionType[] = [];
 
     for (let i = 0; i < projectMembersState.length; i++) {
-        projectMembers.push({ title: projectMembersState[i] })
+        const memberEmail = projectMembersState[i];
+
+        // Check if the email is already in the projectMembers array
+        const existingMember = projectMembers.find(member => member.title === memberEmail);
+
+        // If the email is not already in the array, add it
+        if (!existingMember) {
+            projectMembers.push({ title: memberEmail });
+        }
     }
 
     const defaultProps = {
         options: projectMembers,
         getOptionLabel: (option: ProjectMemberOptionType) => option.title,
     };
-    const flatProps = {
-        options: projectMembers.map((option) => option.title),
-    };
+
     const [value, setValue] = React.useState<ProjectMemberOptionType | null>(null);
 
     useEffect(() => {
@@ -158,6 +301,51 @@ const AddUserModal: React.FC<AddUserModalProps> = ({
             console.log("The selected email : ", value.title);
         }
     }, [value])
+
+    const handleStartNewChat = () => {
+        console.log("Start New Chat");
+        // alert("value" + " " + value?.title);
+        setIsOpen(false);
+
+        // Extract user name from email
+        let name = value?.title.split("@")[0];
+
+        const chatUser = {
+            uid: value?.title,
+            email: value?.title,
+            name: name,
+            lastMessage: '',
+            lastMessageTime: new Date().toLocaleTimeString(),
+            profilePic: "/static/images/avatar/1.jpg",
+            isOnline: true
+        }
+
+        console.log("UsersListSingleChat ===> ", usersListSingleChat);
+
+        // Check if user already exists in the database by checking the value in the 
+        // projectMembersState array
+        let userExists = false;
+        for (let i = 0; i < usersListSingleChat.length; i++) {
+            if (usersListSingleChat[i]?.email == value?.title) {
+                userExists = true;
+                break;
+            }
+        }
+
+        if (userExists) {
+            // Show the alert that user already exists
+            alert("User already exists");
+            return;
+        } else {
+            // Add user to the chat list
+            addData(
+                chatUser,
+                "singleUser",
+                isSignedIn,
+                signedInUserData,
+            );
+        }
+    }
 
     return (
         <Modal
@@ -178,7 +366,11 @@ const AddUserModal: React.FC<AddUserModalProps> = ({
                 p: 4,
                 borderRadius: '10px',
             }}>
-                <Typography id="modal-modal-title" variant="h4" component="h4">
+                <Typography
+                    id="modal-modal-title"
+                    variant="h4"
+                    component="h4"
+                >
                     Start New Chat
                 </Typography>
                 <Typography id="modal-modal-title-start-chat" variant="h6" component="h6" sx={{ fontSize: "14px", fontWeight: "lighter" }}>
@@ -198,14 +390,24 @@ const AddUserModal: React.FC<AddUserModalProps> = ({
                 />
                 <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
                     <Button variant="outlined" color="error" fullWidth onClick={() => setIsOpen(false)}>Cancel</Button>
-                    <Button variant="contained" color="info" fullWidth sx={{ ml: 2 }}>Start Chat</Button>
+                    <Button variant="contained" color="info" fullWidth sx={{ ml: 2 }} onClick={handleStartNewChat}>Start Chat</Button>
                 </Box>
             </Box>
         </Modal>
     )
 }
 
-const InteractiveContainer = () => {
+interface InteractiveContainerProps {
+    currentSelectedChatUser: string;
+    signedInUserData: any;
+    isSignedIn: boolean;
+}
+
+const InteractiveContainer: React.FC<InteractiveContainerProps> = ({
+    signedInUserData,
+    currentSelectedChatUser,
+    isSignedIn
+}) => {
     const classes = useStyles();
     const [message, setMessage] = useState('');
 
@@ -213,11 +415,111 @@ const InteractiveContainer = () => {
         setMessage(event.target.value);
     };
 
-    const handleSubmit = () => {
-        // Perform action to send message
-        console.log('Message:', message);
-        setMessage('');
-    };
+    // const handleSubmit = () => {
+    //     if(message === ""){
+    //         alert("Please enter a message to send");
+    //         return;
+    //     }
+
+    //     // Perform action to send message
+    //     console.log('Message:', message);
+    //     alert('Message sent!' + message);
+
+    //     console.log("Send Message");
+
+    //     // const chatMessage = {
+    //     //     id: 1,
+    //     //     name: 'Talha Pervaiz',
+    //     //     message: 'Hello, how are you?',
+    //     //     time: '2 Feb 2021',
+    //     //     image: '/static/images/avatar/1.jpg'
+    //     // }
+    //     // // setMessage('');
+
+    //     // console.log("Start New Chat");
+    //     // alert("value" + " " + value?.title);
+    //     // setIsOpen(false);
+
+    //     // const chatMessage = {
+    //     //     id: signedInUserData.uid,
+    //     //     email: value?.title,
+    //     //     name: name,
+    //     //     lastMessage: '',
+    //     //     lastMessageTime: new Date().toLocaleTimeString(),
+    //     //     profilePic: "/static/images/avatar/1.jpg",
+    //     //     isOnline: true
+    //     // }
+
+    //     // addData(chatMessage, "singleChat");
+    // };
+    const handleSubmit = async () => {
+        // userIDSender: this.userIDSender,
+        // userNameSender: this.userNameSender,
+        // userIDReceiver: this.userIDReceiver,
+        // userNameReceiver: this.userNameReceiver,
+        // message:this.message,
+        // timeSent:this.timeSent,
+        // isUserOnline:this.isUserOnline
+
+        if (message !== '' && currentSelectedChatUser !== "" && signedInUserData !== null) {
+            // const response = await fetch('http://localhost:8000/chat', {
+            //     method: "POST",
+            //     headers: { 'Content-Type': 'application/json' },
+            //     body: JSON.stringify({
+            //         userIDSender: JSON.parse(localStorage.getItem('loggedInUserData')).id,
+            //         userNameSender: JSON.parse(localStorage.getItem('loggedInUserData')).name,
+            //         userIDReceiver: currentSelectedUser.id,
+            //         userNameReceiver: currentSelectedUser.name,
+            //         message: message,
+            //         timeSent: new Date().toLocaleString(),
+            //         isUserOnline: true
+            //     })
+            // }).catch((error) => {
+            //     alert("Error Sending the message : " + error);
+            //     console.log("Error Sending the message: ", error);
+            // })
+
+            // // Fetch the one list data from the API after the POST request
+            // const messaging = await response.json();
+
+            // Get Current User's Display Name from email
+            let displayNameReceiver = currentSelectedChatUser.split("@")[0];
+            let receiverId = currentSelectedChatUser;
+
+            let senderId = signedInUserData.email;
+            let displayNameSender = senderId.split("@")[0];
+
+            const messageObject = {
+                // userIDSender: signedInUserData.uid,
+                // userNameSender: signedInUserData.displayName,
+                userIDSender: senderId,
+                userNameSender: displayNameSender,
+                userIDReceiver: receiverId,
+                userNameReceiver: displayNameReceiver,
+                message: message,
+                timeSent: new Date().toLocaleString(),
+                isUserOnline: true
+            }
+
+            console.log("Message Object: ", messageObject);
+
+            // Adding chat to firestore
+            addData(
+                messageObject,
+                "singleChat",
+                isSignedIn,
+                signedInUserData,
+            );
+
+            if (false) {
+                alert("Message Sent Successfully");
+                setMessage('');
+            }
+
+        } else {
+            alert('Please enter a message to send it');
+        }
+    }
 
     return (
         <Box className={classes.container}>
@@ -241,7 +543,13 @@ const InteractiveContainer = () => {
     );
 };
 
-const Inbox = () => {
+interface InboxProps {
+    email: string;
+}
+
+const Inbox: React.FC<InboxProps> = ({
+    email
+}) => {
 
     const [showSearch, setShowSearch] = useState<boolean>(false);
 
@@ -264,6 +572,9 @@ const Inbox = () => {
 
     // ________________________ For Login ________________________ //
     const router = useRouter();
+
+    // Current Selected Chat 
+    const [currentSelectedChatUser, setCurrentSelectedChatUser] = useState<string>("");
 
     // signed in user data
     const [signedInUserData, setSignedInUserData] = useState<any>(null);
@@ -315,18 +626,19 @@ const Inbox = () => {
                     if (user.isAnonymous === true) {
                         let tempUser = {
                             displayName: "Anonymous",
-                            email: "anonymous@guest.com",
+                            email: `anonymous${user.uid}@guest.com`,
                             photoURL: user.photoURL,
                         }
                         console.log(tempUser);
                         setSignedInUserData(tempUser);
-                        setloading(false);
+                        setIsSignedIn(true);
                     } else {
                         console.log(user);
                         setSignedInUserData(user);
-                        setloading(false);
+                        setIsSignedIn(true);
                     }
                     // ...
+                    setloading(false);
                 }
                 // if (!Loading) {
                 //}
@@ -360,11 +672,37 @@ const Inbox = () => {
     // console.log("Email ==> ", email.toString());
     // "Jobs", `${uid}`, "data")
     // const e = email;
-    const e = "bilalmohib7896@gmail.com";
+    const e = email;
+
+    // FOR GETTING PROJECTS
     let q = query(collection(db, "Data", "Projects", `${e}`));
 
     const [snapshot, loading, error] = useCollection(
         q,
+        {
+            snapshotListenOptions: { includeMetadataChanges: true },
+        }
+    );
+
+    // For getting the UsersListSingleChat
+    const [usersListSingleChat, setUsersListSingleChat] = useState<any>([]);
+
+    let q1 = query(collection(db, "Chat", "Single", "Users"));
+
+    const [snapshot1, loading1, error1] = useCollection(
+        q1,
+        {
+            snapshotListenOptions: { includeMetadataChanges: true },
+        }
+    );
+
+    //For getting the chatListSingleChat
+    const [chatListSingleChat, setChatListSingleChat] = useState<any>([]);
+
+    let q2 = query(collection(db, "Chat", "Single", "Chat"));
+
+    const [snapshot2, loading2, error2] = useCollection(
+        q2,
         {
             snapshotListenOptions: { includeMetadataChanges: true },
         }
@@ -403,62 +741,38 @@ const Inbox = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loading, snapshot]);
     // FOR GETTING PROJECTS
+
+    // FOR GETTING USERSLISTSINGLECHAT
+    useEffect(() => {
+
+        if (!loading1) {
+            let usersListSingle: any = snapshot1?.docs.map((doc, i) => ({ ...doc.data(), id: doc.id }));
+
+            // Set the UsersListSingleChat
+            setUsersListSingleChat(usersListSingle);
+
+            console.log("Users List Single Chat ==> ", usersListSingle);
+        }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [loading1, snapshot1]);
+    // FOR GETTING USERSLISTSINGLECHAT
+
+    // FOR GETTING CHATLISTSINGLECHAT
+    useEffect(() => {
+        if (!loading2) {
+            let chatListSingle: any = snapshot2?.docs.map((doc, i) => ({ ...doc.data(), id: doc.id }));
+
+            // Set the UsersListSingleChat
+            setChatListSingleChat(chatListSingle);
+
+            console.log("Chat List Single Chat ==> ", chatListSingle);
+        }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [loading2, snapshot2]);
+    // FOR GETTING CHATLISTSINGLECHAT
     ////////////////////////////////////// FOR GETTING PROJECTS DATA //////////////////////////////////////
-
-    const addData = () => {
-        if (isSignedIn == false) {
-            const { pathname } = Router;
-            if (pathname == '/createProject') {
-                alert("Not Signed In Redirecting to Login Page");
-                Router.push('/');
-            }
-        }
-        else {
-            console.log("Right.Correct");
-        }
-
-        // const ref = db.collection(`Data`).doc();
-        // const id = ref.id;
-
-        if (signedInUserData && !loading && !error) {
-            ////////////////////////////// For New Version of Firebase(V9) //////////////////////////////
-            // ADD JOB TO FIRESTORE
-            const project = {
-                uid: signedInUserData.uid,
-                userEmail: signedInUserData.email,
-                // ProjectName: projectPlan,
-                // ProjectMembers: teamMatesArray,
-                // ProjectStages: allStageArray,
-                // ProjectTasks: allTaskArray,
-                // ProjectStartingDate: projectStartingDate.toLocaleDateString(),
-                // ProjectEndingDate: projectEndingDate.toLocaleDateString(),
-                // CurrentStage: currentStage,
-                // CurrentStageCurrentTask: currentStageCurrentTask,
-                // createAt: JSON.stringify(currentDate),
-                // UniqueID: id
-            }
-            addDoc(collection(db, `Data/Projects/${signedInUserData.email}`), project)
-                .then(() => {
-                    console.log("Data sent");
-                    const { pathname } = Router;
-                    if (pathname == '/createProject') {
-                        alert("Your Project is initialized Successfully.Redirecting you to your projects page.");
-                        Router.push('/');
-                    }
-                })
-                .catch(err => {
-                    console.warn(err);
-                    alert(`Error creating Job: ${err.message}`);
-                });
-            //
-            ////////////////////////////// For New Version of Firebase(V9) //////////////////////////////
-
-            //Now sending the data for notifications
-        }
-        else {
-            alert("Please sign in to save project to cloud.")
-        }
-    }
 
     return (
         <div>
@@ -471,6 +785,9 @@ const Inbox = () => {
                         isOpen={isOpen}
                         setIsOpen={setIsOpen}
                         projectMembersState={projectMembersState}
+                        isSignedIn={isSignedIn}
+                        signedInUserData={signedInUserData}
+                        usersListSingleChat={usersListSingleChat}
                     />
                     <Box className={styles.leftContainer}>
                         <Box className={styles.HeaderContainer}>
@@ -574,6 +891,7 @@ const Inbox = () => {
                                 sx={{
                                     borderBottom: '1px solid #000',
                                     borderTop: '1px solid #000',
+                                    ml: '0px',
                                 }}
                             >
                                 {/* Display Three tabs here */}
@@ -629,302 +947,154 @@ const Inbox = () => {
                                             backgroundColor: '#fff',
                                         }}
                                     >
-                                        {[
-                                            {
-                                                name: 'Remy Sharp',
-                                                isOnline: true,
-                                                lastMessage: 'Hello, How are you?',
-                                                lastMessageTime: '10:00 AM',
-                                                profilePic: '/static/images/avatar/1.jpg',
-                                                onlineStatus: 'online',
-                                            },
-                                            {
-                                                name: 'Remy Sharp',
-                                                isOnline: true,
-                                                lastMessage: 'Hello, How are you?',
-                                                lastMessageTime: '10:00 AM',
-                                                profilePic: '/static/images/avatar/1.jpg',
-                                                onlineStatus: 'offline',
-                                            },
-                                            {
-                                                name: 'Remy Sharp',
-                                                isOnline: true,
-                                                lastMessage: 'Hello, How are you?',
-                                                lastMessageTime: '10:00 AM',
-                                                profilePic: '/static/images/avatar/1.jpg',
-                                                onlineStatus: 'online',
-                                            },
-                                            {
-                                                name: 'Remy Sharp',
-                                                isOnline: true,
-                                                lastMessage: 'Hello, How are you?',
-                                                lastMessageTime: '10:00 AM',
-                                                profilePic: '/static/images/avatar/1.jpg',
-                                                onlineStatus: 'online',
-                                            },
-                                            {
-                                                name: 'Remy Sharp',
-                                                isOnline: true,
-                                                lastMessage: 'Hello, How are you?',
-                                                lastMessageTime: '10:00 AM',
-                                                profilePic: '/static/images/avatar/1.jpg',
-                                                onlineStatus: 'online',
-                                            },
-                                            {
-                                                name: 'Remy Sharp',
-                                                isOnline: true,
-                                                lastMessage: 'Hello, How are you?',
-                                                lastMessageTime: '10:00 AM',
-                                                profilePic: '/static/images/avatar/1.jpg',
-                                                onlineStatus: 'offline',
-                                            },
-                                            {
-                                                name: 'Remy Sharp',
-                                                isOnline: true,
-                                                lastMessage: 'Hello, How are you?',
-                                                lastMessageTime: '10:00 AM',
-                                                profilePic: '/static/images/avatar/1.jpg',
-                                                onlineStatus: 'online',
-                                            },
-                                            {
-                                                name: 'Remy Sharp',
-                                                isOnline: true,
-                                                lastMessage: 'Hello, How are you?',
-                                                lastMessageTime: '10:00 AM',
-                                                profilePic: '/static/images/avatar/1.jpg',
-                                                onlineStatus: 'online',
-                                            },
-                                            {
-                                                name: 'Remy Sharp',
-                                                isOnline: true,
-                                                lastMessage: 'Hello, How are you?',
-                                                lastMessageTime: '10:00 AM',
-                                                profilePic: '/static/images/avatar/1.jpg',
-                                                onlineStatus: 'online',
-                                            },
-                                            {
-                                                name: 'Remy Sharp',
-                                                isOnline: true,
-                                                lastMessage: 'Hello, How are you?',
-                                                lastMessageTime: '10:00 AM',
-                                                profilePic: '/static/images/avatar/1.jpg',
-                                                onlineStatus: 'online',
-                                            },
-                                            {
-                                                name: 'Remy Sharp',
-                                                isOnline: true,
-                                                lastMessage: 'Hello, How are you?',
-                                                lastMessageTime: '10:00 AM',
-                                                profilePic: '/static/images/avatar/1.jpg',
-                                                onlineStatus: 'online',
-                                            },
-                                            {
-                                                name: 'Remy Sharp',
-                                                isOnline: true,
-                                                lastMessage: 'Hello, How are you?',
-                                                lastMessageTime: '10:00 AM',
-                                                profilePic: '/static/images/avatar/1.jpg',
-                                                onlineStatus: 'online',
-                                            },
-                                            {
-                                                name: 'Remy Sharp',
-                                                isOnline: true,
-                                                lastMessage: 'Hello, How are you?',
-                                                lastMessageTime: '10:00 AM',
-                                                profilePic: '/static/images/avatar/1.jpg',
-                                                onlineStatus: 'online',
-                                            },
-                                            {
-                                                name: 'Remy Sharp',
-                                                isOnline: true,
-                                                lastMessage: 'Hello, How are you?',
-                                                lastMessageTime: '10:00 AM',
-                                                profilePic: '/static/images/avatar/1.jpg',
-                                                onlineStatus: 'online',
-                                            },
-                                            {
-                                                name: 'Remy Sharp',
-                                                isOnline: true,
-                                                lastMessage: 'Hello, How are you?',
-                                                lastMessageTime: '10:00 AM',
-                                                profilePic: '/static/images/avatar/1.jpg',
-                                                onlineStatus: 'offline',
-                                            },
-                                            {
-                                                name: 'Remy Sharp',
-                                                isOnline: true,
-                                                lastMessage: 'Hello, How are you?',
-                                                lastMessageTime: '10:00 AM',
-                                                profilePic: '/static/images/avatar/1.jpg',
-                                                onlineStatus: 'offline',
-                                            }, {
-                                                name: 'Remy Sharp',
-                                                isOnline: true,
-                                                lastMessage: 'Hello, How are you?',
-                                                lastMessageTime: '10:00 AM',
-                                                profilePic: '/static/images/avatar/1.jpg',
-                                                onlineStatus: 'offline',
-                                            }
-                                            , {
-                                                name: 'Remy Sharp',
-                                                isOnline: true,
-                                                lastMessage: 'Hello, How are you?',
-                                                lastMessageTime: '10:00 AM',
-                                                profilePic: '/static/images/avatar/1.jpg',
-                                                onlineStatus: 'offline',
-                                            },
-                                            {
-                                                name: 'Remy Sharp',
-                                                isOnline: true,
-                                                lastMessage: 'Hello, How are you?',
-                                                lastMessageTime: '10:00 AM',
-                                                profilePic: '/static/images/avatar/1.jpg',
-                                                onlineStatus: 'offline',
-                                            }, {
-                                                name: 'Remy Sharp',
-                                                isOnline: true,
-                                                lastMessage: 'Hello, How are you?',
-                                                lastMessageTime: '10:00 AM',
-                                                profilePic: '/static/images/avatar/1.jpg',
-                                                onlineStatus: 'offline',
-                                            },
-                                            {
-                                                name: 'Remy Sharp',
-                                                isOnline: true,
-                                                lastMessage: `Hello, How are you? Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.`,
-                                                lastMessageTime: '10:00 AM',
-                                                profilePic: '/static/images/avatar/1.jpg',
-                                                onlineStatus: 'offline',
-                                            },
-                                            {
-                                                name: 'Remy Sharp',
-                                                isOnline: true,
-                                                lastMessage: 'Hello, How are you?',
-                                                lastMessageTime: '10:00 AM',
-                                                profilePic: '/static/images/avatar/1.jpg',
-                                                onlineStatus: 'online',
-                                            }
-                                        ].map((item, index) => {
-                                            return (
-                                                <ButtonBase
-                                                    key={index}
+                                        {
+                                            (usersListSingleChat.length === 0) ? (
+                                                <Box
                                                     sx={{
                                                         display: 'flex',
-                                                        justifyContent: 'space-between',
-                                                        padding: '10px 20px',
-                                                        backgroundColor: '#fff',
-                                                        cursor: 'pointer',
-                                                        borderRadius: '0px',
-                                                        width: '100%',
-                                                        height: '100px',
-                                                        boxShadow: "rgba(0, 0, 0, 0.05) 0px 0px 0px 1px",
-                                                        '&:hover': {
-                                                            backgroundColor: '#000',
-                                                            color: '#fff',
-                                                            borderTop: "1px solid #fff"
-                                                        },
+                                                        justifyContent: 'center',
+                                                        alignItems: 'center',
+                                                        height: '80vh',
                                                     }}
                                                 >
-                                                    <Box
+                                                    <Typography
                                                         sx={{
-                                                            display: 'flex',
-                                                            alignItems: 'center',
+                                                            fontSize: '20px',
+                                                            fontWeight: '600',
+                                                            textAlign: 'center',
                                                         }}
                                                     >
-                                                        <Box
+                                                        No Messages
+                                                    </Typography>
+                                                </Box>
+                                            ) : (
+                                                usersListSingleChat.map((item: any, index: number) => {
+                                                    return (
+                                                        <ButtonBase
+                                                            key={index}
                                                             sx={{
-                                                                position: 'relative',
-                                                            }}
-                                                        >
-                                                            <Avatar
-                                                                sx={{
-                                                                    width: '50px',
-                                                                    height: '50px',
-                                                                }}
-                                                                alt="Remy Sharp"
-                                                                src={item.profilePic}
-                                                            />
-                                                            {item.onlineStatus === 'online' && (
-                                                                <Box
-                                                                    sx={{
-                                                                        position: 'absolute',
-                                                                        bottom: 2,
-                                                                        right: 2,
-                                                                        width: '10px',
-                                                                        height: '10px',
-                                                                        borderRadius: '50%',
-                                                                        backgroundColor: 'green',
-                                                                    }}
-                                                                />
-                                                            )}
-                                                            {item.onlineStatus === 'offline' && (
-                                                                <Box
-                                                                    sx={{
-                                                                        position: 'absolute',
-                                                                        bottom: 2,
-                                                                        right: 2,
-                                                                        width: '10px',
-                                                                        height: '10px',
-                                                                        borderRadius: '50%',
-                                                                        backgroundColor: 'gray',
-                                                                    }}
-                                                                />
-                                                            )}
-                                                        </Box>
-                                                        <Box
-                                                            sx={{
-                                                                marginLeft: '10px',
-                                                                alignItems: 'left',
                                                                 display: 'flex',
-                                                                flexDirection: 'column',
-                                                                justifyContent: 'flex-start',
+                                                                justifyContent: 'space-between',
+                                                                padding: '10px 20px',
+                                                                backgroundColor: '#fff',
+                                                                cursor: 'pointer',
+                                                                borderRadius: '0px',
+                                                                width: '100%',
+                                                                height: '100px',
+                                                                boxShadow: "rgba(0, 0, 0, 0.05) 0px 0px 0px 1px",
+                                                                '&:hover': {
+                                                                    backgroundColor: '#000',
+                                                                    color: '#fff',
+                                                                    borderTop: "1px solid #fff"
+                                                                },
+                                                            }}
+                                                            onClick={() => {
+                                                                setCurrentSelectedChatUser(
+                                                                    item.email
+                                                                );
                                                             }}
                                                         >
-                                                            <Typography
+                                                            <Box
                                                                 sx={{
-                                                                    fontSize: '16px',
-                                                                    fontWeight: '600',
-                                                                    textAlign: 'left',
+                                                                    display: 'flex',
+                                                                    alignItems: 'center',
                                                                 }}
                                                             >
-                                                                {item.name}
-                                                            </Typography>
-                                                            <Typography
+                                                                <Box
+                                                                    sx={{
+                                                                        position: 'relative',
+                                                                    }}
+                                                                >
+                                                                    <Avatar
+                                                                        sx={{
+                                                                            width: '50px',
+                                                                            height: '50px',
+                                                                        }}
+                                                                        alt="Remy Sharp"
+                                                                        src={item.profilePic}
+                                                                    />
+                                                                    {item.onlineStatus === 'online' && (
+                                                                        <Box
+                                                                            sx={{
+                                                                                position: 'absolute',
+                                                                                bottom: 2,
+                                                                                right: 2,
+                                                                                width: '10px',
+                                                                                height: '10px',
+                                                                                borderRadius: '50%',
+                                                                                backgroundColor: 'green',
+                                                                            }}
+                                                                        />
+                                                                    )}
+                                                                    {item.onlineStatus === 'offline' && (
+                                                                        <Box
+                                                                            sx={{
+                                                                                position: 'absolute',
+                                                                                bottom: 2,
+                                                                                right: 2,
+                                                                                width: '10px',
+                                                                                height: '10px',
+                                                                                borderRadius: '50%',
+                                                                                backgroundColor: 'gray',
+                                                                            }}
+                                                                        />
+                                                                    )}
+                                                                </Box>
+                                                                <Box
+                                                                    sx={{
+                                                                        marginLeft: '10px',
+                                                                        alignItems: 'left',
+                                                                        display: 'flex',
+                                                                        flexDirection: 'column',
+                                                                        justifyContent: 'flex-start',
+                                                                    }}
+                                                                >
+                                                                    <Typography
+                                                                        sx={{
+                                                                            fontSize: '16px',
+                                                                            fontWeight: '600',
+                                                                            textAlign: 'left',
+                                                                        }}
+                                                                    >
+                                                                        {item.name}
+                                                                    </Typography>
+                                                                    <Typography
+                                                                        sx={{
+                                                                            fontSize: '14px',
+                                                                            fontWeight: '400',
+                                                                            // Stop the over flow of text
+                                                                            overflow: 'hidden',
+                                                                            textOverflow: 'ellipsis',
+                                                                            whiteSpace: 'nowrap',
+                                                                            textAlign: 'left',
+                                                                            width: '250px',
+                                                                            // border:"2px solid red"
+                                                                        }}
+                                                                    >
+                                                                        {item.lastMessage}
+                                                                    </Typography>
+                                                                </Box>
+                                                            </Box>
+                                                            <Box
                                                                 sx={{
-                                                                    fontSize: '14px',
-                                                                    fontWeight: '400',
-                                                                    // Stop the over flow of text
-                                                                    overflow: 'hidden',
-                                                                    textOverflow: 'ellipsis',
-                                                                    whiteSpace: 'nowrap',
-                                                                    textAlign: 'left',
-                                                                    width: '250px',
-                                                                    // border:"2px solid red"
+                                                                    display: 'flex',
+                                                                    alignItems: 'center',
                                                                 }}
                                                             >
-                                                                {item.lastMessage}
-                                                            </Typography>
-                                                        </Box>
-                                                    </Box>
-                                                    <Box
-                                                        sx={{
-                                                            display: 'flex',
-                                                            alignItems: 'center',
-                                                        }}
-                                                    >
-                                                        <Typography
-                                                            sx={{
-                                                                fontSize: '14px',
-                                                                fontWeight: '400',
-                                                            }}
-                                                        >
-                                                            {item.lastMessageTime}
-                                                        </Typography>
-                                                    </Box>
-                                                </ButtonBase>
+                                                                <Typography
+                                                                    sx={{
+                                                                        fontSize: '14px',
+                                                                        fontWeight: '400',
+                                                                    }}
+                                                                >
+                                                                    {item.lastMessageTime}
+                                                                </Typography>
+                                                            </Box>
+                                                        </ButtonBase>
 
+                                                    )
+                                                })
                                             )
-                                        })
                                         }
                                     </Box>
                                 )
@@ -1212,299 +1382,326 @@ const Inbox = () => {
                             }
                         </Box>
                     </Box>
-                    <Box
-                        className={styles.middleContainer}
-                        sx={{
-                            width: (showProfileInfo) ? '40%' : '70%',
-                            // border: "5px solid red",
-                            transition: '0.3s linear',
-                        }}
-                    >
-                        <Box className={styles.MiddleHeaderContainer}>
+                    {/* {(currentSelectedChatUser !== "") ? ( */}
+                    {/* // <Box sx={{ display: "flex", flexDirection: "row",width:"100%",border:"10px solid blue" }}> */}
+                    {(currentSelectedChatUser !== "") ?
+                        (
                             <Box
-                                className='d-flex justify-content-between'
+                                className={styles.middleContainer}
                                 sx={{
-                                    padding: '20px',
+                                    width: (showProfileInfo) ? '40%' : '70%',
+                                    // border: "5px solid red",
+                                    transition: '0.3s linear',
                                 }}
                             >
-                                {(middleShowSearch) ? (
+                                <Box className={styles.MiddleHeaderContainer}>
                                     <Box
-                                        title="search"
+                                        className='d-flex justify-content-between'
                                         sx={{
-                                            width: '70%',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            marginRight: '20px',
+                                            padding: '20px',
                                         }}
                                     >
-                                        <TextField
-                                            fullWidth
-                                            id="standard-basic"
-                                            label="Search"
-                                            variant="standard"
-                                            placeholder='Search Messages'
-                                        />
-                                    </Box>
-                                ) : (
-                                    <Box
-                                        title="search"
-                                        sx={{
-                                            width: '100%',
-                                            display: 'flex',
-                                            alignItems: 'left',
-                                            justifyContent: 'left',
-                                        }}
-                                    >
-                                        <div className={styles.middleHeaderInsideContainer}>
-                                            <div className={styles.leftmhic}>
-                                                <Avatar
-                                                    sx={{
-                                                        width: '35px',
-                                                        height: '35px',
-                                                    }}
-                                                    alt="Remy Sharp"
-                                                    src="/static/images/avatar/1.jpg"
-                                                />
-                                                <h3 className={styles.MiddleheaderTitle}>Conversation with <b style={{ fontWeight: "bold" }}>Talha Pervaiz</b></h3>
-                                            </div>
-                                            <div className={styles.rightmhic}>
-
-                                            </div>
-                                        </div>
-                                    </Box>
-                                )}
-                                <Box
-                                    role={"button"}
-                                    title="search"
-                                    sx={{
-                                        width: '30%',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        // border: '1px solid #000',
-                                    }}
-                                >
-                                    {(middleShowSearch) ? (
-                                        <SearchOffIcon
-                                            onClick={() => setMiddleShowSearch(!middleShowSearch)}
-                                            sx={{
-                                                color: '#000',
-                                                fontSize: '30px',
-                                            }}
-                                        />
-                                    ) : (
-                                        <SearchIcon
-                                            onClick={() => setMiddleShowSearch(true)}
-                                            sx={{
-                                                color: '#000',
-                                                fontSize: '30px',
-                                            }}
-                                        />
-                                    )}
-                                    <ButtonBase
-                                        sx={{
-                                            marginLeft: '10px'
-                                        }}
-                                    >
-                                        <CallIcon
-                                            sx={{
-                                                color: '#4275f6',
-                                                fontSize: '30px'
-                                            }}
-                                        />
-                                    </ButtonBase>
-                                    <ButtonBase
-                                        sx={{
-                                            marginLeft: '10px',
-                                            borderRadius: "50%"
-                                        }}
-                                        onClick={() => setShowProfileInfo(!showProfileInfo)}
-                                    >
-                                        <InfoIcon
-                                            sx={{
-                                                color: '#000',
-                                                fontSize: '30px'
-                                            }}
-                                        />
-                                    </ButtonBase>
-                                </Box>
-                            </Box>
-                        </Box>
-                        <Box
-                            id="messageContainer"
-                            // onMouseOver={() => goToLastMessage()}
-                            className={styles.MiddleBodyContainer}
-                        >
-                            {[
-                                {
-                                    // tslint:disable-next-line: max-line-length
-                                    id: 1,
-                                    name: 'Talha Pervaiz',
-                                    message: 'Hello, how are you?',
-                                    time: '2 Feb 2021',
-                                    image: '/static/images/avatar/1.jpg'
-                                },
-                                {
-                                    id: 2,
-                                    name: 'Danyal',
-                                    message: `Hello, second message?Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.`,
-                                    time: '2 Feb 2021',
-                                    image: '/static/images/avatar/2.jpg'
-                                },
-                                {
-                                    id: 3,
-                                    name: 'Asif Ali',
-                                    message: 'Hello, third message?',
-                                    time: '4 Feb 2023',
-                                    image: '/static/images/avatar/1.jpg'
-                                },
-                                {
-                                    id: 4,
-                                    name: 'Saad Fareed',
-                                    message: 'Hello, fourth message?',
-                                    time: '4 Feb 2023',
-                                    image: '/static/images/avatar/1.jpg'
-                                },
-                                {
-                                    id: 5,
-                                    name: 'Fahad',
-                                    message: 'Hello, fifth message?',
-                                    time: '14 Feb 2023',
-                                    image: '/static/images/avatar/1.jpg'
-                                }
-                            ].map((item, index) => {
-                                const messageDate = formatDate(item.time);
-                                const showDate = messageDate !== lastMessageDate;
-                                lastMessageDate = messageDate;
-
-                                return (
-                                    <Box
-                                        key={index}
-                                        sx={{
-                                            width: '100%'
-                                        }}
-                                    >
-                                        {showDate && (
-                                            <Box sx={{
-                                                display: "flex",
-                                                width: "100%",
-                                                // border:"5px solid blue"
-                                                marginBottom: '30px',
-                                                // border: "5px solid green"
-                                            }}>
-                                                <Box sx={{
-                                                    borderBottom: "1px solid black",
-                                                    width: "45%",
-                                                }}>
-                                                </Box>
-                                                <Typography sx={{
-                                                    width: "10%",
-                                                    textAlign: "center",
+                                        {(middleShowSearch) ? (
+                                            <Box
+                                                title="search"
+                                                sx={{
+                                                    width: '70%',
                                                     display: 'flex',
                                                     alignItems: 'center',
                                                     justifyContent: 'center',
+                                                    marginRight: '20px',
                                                 }}
-                                                >
-                                                    {/* Categorize by date */}
-                                                    {/* For example if the message is delivered today say today otherwise say the date, if day before say yesterday */}
-                                                    {/* Also please dont repeat the date if the message is from the same day */}
+                                            >
+                                                <TextField
+                                                    fullWidth
+                                                    id="standard-basic"
+                                                    label="Search"
+                                                    variant="standard"
+                                                    placeholder='Search Messages'
+                                                />
+                                            </Box>
+                                        ) : (
+                                            <Box
+                                                title="search"
+                                                sx={{
+                                                    width: '100%',
+                                                    display: 'flex',
+                                                    alignItems: 'left',
+                                                    justifyContent: 'left',
+                                                }}
+                                            >
+                                                <div className={styles.middleHeaderInsideContainer}>
+                                                    <div className={styles.leftmhic}>
+                                                        <Avatar
+                                                            sx={{
+                                                                width: '35px',
+                                                                height: '35px',
+                                                            }}
+                                                            alt="Remy Sharp"
+                                                            src="/static/images/avatar/1.jpg"
+                                                        />
+                                                        <h3 className={styles.MiddleheaderTitle}>Conversation with <b style={{ fontWeight: "bold" }}>{currentSelectedChatUser}</b></h3>
+                                                    </div>
+                                                    <div className={styles.rightmhic}>
 
-                                                    <Box sx={{
-                                                        display: 'flex',
-                                                        alignItems: 'center',
-                                                        justifyContent: 'center',
-                                                        width: '100px',
-                                                        height: '50px',
-                                                        backgroundColor: '#000',
-                                                        color: '#fff',
-                                                        borderRadius: '10px',
-                                                        marginTop: '10px',
-                                                        marginBottom: '-25px',
-                                                        padding: '10px',
-                                                    }}
-                                                    >
-                                                        {messageDate}
-                                                    </Box>
-
-                                                </Typography>
-                                                <Box
-                                                    sx={{
-                                                        borderBottom: "1px solid black",
-                                                        width: "45%"
-                                                    }}>
-                                                </Box>
+                                                    </div>
+                                                </div>
                                             </Box>
                                         )}
                                         <Box
-                                            className={styles.middleBodyInsideContainer}
+                                            role={"button"}
+                                            title="search"
                                             sx={{
+                                                width: '30%',
                                                 display: 'flex',
                                                 alignItems: 'center',
-                                                justifyContent: 'space-between',
-                                                padding: '10px',
-                                                paddingLeft: '20px',
-                                                width: '60%',
-                                                // borderBottom: '1px solid #000',
+                                                justifyContent: 'center',
+                                                // border: '1px solid #000',
                                             }}
                                         >
-                                            <Box
+                                            {(middleShowSearch) ? (
+                                                <SearchOffIcon
+                                                    onClick={() => setMiddleShowSearch(!middleShowSearch)}
+                                                    sx={{
+                                                        color: '#000',
+                                                        fontSize: '30px',
+                                                    }}
+                                                />
+                                            ) : (
+                                                <SearchIcon
+                                                    onClick={() => setMiddleShowSearch(true)}
+                                                    sx={{
+                                                        color: '#000',
+                                                        fontSize: '30px',
+                                                    }}
+                                                />
+                                            )}
+                                            <ButtonBase
                                                 sx={{
-                                                    display: 'flex',
-                                                    alignItems: 'left',
-                                                    justifyContent: 'flex-start',
-                                                    width: '100%',
-                                                    // border: '1px solid #000',
+                                                    marginLeft: '10px'
                                                 }}
                                             >
-                                                <Avatar
+                                                <CallIcon
                                                     sx={{
-                                                        width: '35px',
-                                                        height: '35px',
-                                                        marginTop: "15px"
+                                                        color: '#4275f6',
+                                                        fontSize: '30px'
                                                     }}
-                                                    alt="Remy Sharp"
-                                                    src={item.image}
                                                 />
-                                                <Box
+                                            </ButtonBase>
+                                            <ButtonBase
+                                                sx={{
+                                                    marginLeft: '10px',
+                                                    borderRadius: "50%"
+                                                }}
+                                                onClick={() => setShowProfileInfo(!showProfileInfo)}
+                                            >
+                                                <InfoIcon
                                                     sx={{
-                                                        marginLeft: '5px',
+                                                        color: '#000',
+                                                        fontSize: '30px'
                                                     }}
-                                                >
-                                                    <Box className="d-flex justify-content-start">
-                                                        <h3 className={styles.MiddleheaderTitle} style={{
-                                                            fontWeight: 'bold',
-                                                        }}>{item.name}</h3>
-                                                        <p className={styles.MiddleheaderTitle} style={{
-                                                            fontSize: '12px',
-                                                        }}>{item.time} - {
-
-                                                                (editedMessageId === item.id) ? (
-                                                                    <span style={{
-                                                                        color: '#000',
-                                                                        fontWeight: 'lighter',
-                                                                    }}>Edited</span>
-                                                                ) : (
-                                                                    <></>
-                                                                )
-                                                            }</p>
-                                                    </Box>
-                                                    <p className={styles.Middlemessage}>{item.message}</p>
-                                                </Box>
-                                            </Box>
+                                                />
+                                            </ButtonBase>
                                         </Box>
                                     </Box>
-                                )
-                            })}
-                        </Box>
-                        <Box className={styles.MiddleFooterContainer}
-                            sx={{
-                                width: (showProfileInfo) ? '34.3%' : '60%',
-                            }}
-                        >
-                            <InteractiveContainer />
-                        </Box>
-                    </Box>
+                                </Box>
+                                <Box
+                                    id="messageContainer"
+                                    // onMouseOver={() => goToLastMessage()}
+                                    className={styles.MiddleBodyContainer}
+                                >
+                                    {
+                                        chatListSingleChat.map((item: any, index: number) => {
+                                            const messageDate = formatDate(item.timeSent);
+                                            const showDate = messageDate !== lastMessageDate;
+                                            lastMessageDate = messageDate;
+
+                                            return (
+                                                <Box
+                                                    key={index}
+                                                    sx={{
+                                                        width: '100%'
+                                                    }}
+                                                >
+                                                    {showDate && (
+                                                        <Box sx={{
+                                                            display: "flex",
+                                                            width: "100%",
+                                                            // border:"5px solid blue"
+                                                            marginBottom: '30px',
+                                                            // border: "5px solid green"
+                                                        }}>
+                                                            <Box sx={{
+                                                                borderBottom: "1px solid black",
+                                                                width: "45%",
+                                                            }}>
+                                                            </Box>
+                                                            <Typography sx={{
+                                                                width: "10%",
+                                                                textAlign: "center",
+                                                                display: 'flex',
+                                                                alignItems: 'center',
+                                                                justifyContent: 'center',
+                                                            }}
+                                                            >
+                                                                {/* Categorize by date */}
+                                                                {/* For example if the message is delivered today say today otherwise say the date, if day before say yesterday */}
+                                                                {/* Also please dont repeat the date if the message is from the same day */}
+
+                                                                <Box sx={{
+                                                                    display: 'flex',
+                                                                    alignItems: 'center',
+                                                                    justifyContent: 'center',
+                                                                    width: '100px',
+                                                                    height: '50px',
+                                                                    backgroundColor: '#000',
+                                                                    color: '#fff',
+                                                                    borderRadius: '10px',
+                                                                    marginTop: '10px',
+                                                                    marginBottom: '-25px',
+                                                                    padding: '10px',
+                                                                }}
+                                                                >
+                                                                    {messageDate}
+                                                                </Box>
+
+                                                            </Typography>
+                                                            <Box
+                                                                sx={{
+                                                                    borderBottom: "1px solid black",
+                                                                    width: "45%"
+                                                                }}>
+                                                            </Box>
+                                                        </Box>
+                                                    )}
+                                                    <Box
+                                                        className={styles.middleBodyInsideContainer}
+                                                        sx={{
+                                                            display: 'flex',
+                                                            alignItems: 'center',
+                                                            justifyContent: 'space-between',
+                                                            padding: '10px',
+                                                            paddingLeft: '20px',
+                                                            width: '60%',
+                                                            // border: '10px solid #000',
+                                                        }}
+                                                    >
+                                                        <Box>
+                                                            {(
+                                                                // item.userIDSender === signedInUserData.uid
+                                                                item.userIDSender === signedInUserData.email
+                                                                &&
+                                                                item.userIDReceiver === currentSelectedChatUser
+                                                            ) && (
+                                                                    <Box
+                                                                        sx={{
+                                                                            display: 'flex',
+                                                                            alignItems: 'left',
+                                                                            justifyContent: 'flex-start',
+                                                                            width: '100%',
+                                                                            // border: '1px solid #000',
+                                                                            marginTop: '0px',
+                                                                            boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
+                                                                        }}
+                                                                    >
+                                                                        <MessageContainer
+                                                                            editedMessageId={editedMessageId}
+                                                                            userName={item.userNameSender}
+                                                                            timeSent={item.timeSent}
+                                                                            message={item.message}
+                                                                            id={item.id}
+                                                                        />
+                                                                    </Box>
+                                                                )}
+
+                                                            {(
+                                                                // item.userIDReceiver === signedInUserData.uid
+                                                                item.userIDReceiver === signedInUserData.email
+                                                                &&
+                                                                item.userIDSender === currentSelectedChatUser
+                                                            ) && (
+                                                                    <Box
+                                                                        sx={{
+                                                                            display: 'flex',
+                                                                            alignItems: 'left',
+                                                                            justifyContent: 'flex-end',
+                                                                            width: '100%',
+                                                                            // border: '1px solid red',
+                                                                            marginTop: '20px',
+                                                                            boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+                                                                            padding: "10px"
+                                                                        }}
+                                                                    >
+                                                                        <MessageContainer
+                                                                            editedMessageId={editedMessageId}
+                                                                            userName={item.userNameSender}
+                                                                            timeSent={item.timeSent}
+                                                                            message={item.message}
+                                                                            id={item.id}
+                                                                        />
+                                                                    </Box>
+                                                                )}
+                                                        </Box>
+                                                    </Box>
+                                                </Box>
+                                            )
+                                        })}
+                                </Box>
+                                <Box className={styles.MiddleFooterContainer}
+                                    sx={{
+                                        width: (showProfileInfo) ? '34.3%' : '60%',
+                                    }}
+                                >
+                                    <InteractiveContainer
+                                        signedInUserData={signedInUserData}
+                                        currentSelectedChatUser={currentSelectedChatUser}
+                                        isSignedIn={isSignedIn}
+                                    />
+                                </Box>
+                            </Box>
+                        ) : (
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    flexDirection: 'column',
+                                    justifyContent: 'center', border: '1px solid #000',
+                                    backgroundColor: '#fff',
+                                    color: '#000000',
+                                    cursor: 'revert',
+                                    boxShadow: "rgba(0, 0, 0, 0.05) 0px 0px 0px 1px",
+                                    width: '100%',
+                                    transition: '0.1s linear',
+                                }}
+                            >
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        flexDirection: 'column',
+                                        justifyContent: 'center',
+                                        textAlign: 'center'
+                                    }}
+                                >
+                                    <Image
+                                        src="/images/chat.png"
+                                        alt="Picture of the author"
+                                        width={80}
+                                        height={80}
+                                    />
+                                </Box>
+                                <br />
+                                <Typography
+                                    sx={{
+                                        fontSize: '20px',
+                                    }}
+                                >
+                                    Please Select any User to start chat
+                                </Typography>
+                            </Box>
+                        )
+                    }
+
                     <Box className={styles.rightContainer}
                         sx={{
                             display: (showProfileInfo) ? 'block' : 'none',
@@ -2114,6 +2311,30 @@ const Inbox = () => {
                             }
                         </Box>
                     </Box>
+                    {/* //      </Box> */}
+
+                    {/* //      ) : (
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center', border: '1px solid #000',
+                                backgroundColor: '#000',
+                                color: '#fff',
+                                cursor: 'revert',
+                                width: '100%',
+                                boxShadow: "rgba(0, 0, 0, 0.05) 0px 0px 0px 1px"
+                            }}
+                        >
+                            <Typography
+                                sx={{
+                                    fontSize: '20px',
+                                }}
+                            >
+                                Please Select any User to start chat
+                            </Typography>
+                        </Box>
+                    // )}  */}
                 </section>
             )}
         </div>

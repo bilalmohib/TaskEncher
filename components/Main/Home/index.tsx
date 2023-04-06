@@ -37,7 +37,7 @@ const Home = () => {
     // Date
     const d = new Date();
 
-    console.log("Date is equal to : ",d);
+    console.log("Date is equal to : ", d);
 
     const [currentFullLengthItem, setCurrentFullLengthItem] = useState<Number>(1);
 
@@ -202,19 +202,19 @@ const Home = () => {
                         {new Date().getHours() < 12 ? (
                             <h1 className={`${styles.welcomeHeading}`} style={{ fontWeight: "lighter" }}>
                                 Good morning, {
-                                    signedInUserData.displayName === "Anonymous" ? signedInUserData.displayName : ((signedInUserData.displayName.match(/\b(\S+)\b/gi)[0]==="Muhammad")?(signedInUserData.displayName.match(/\b(\S+)\b/gi)[1]):(signedInUserData.displayName.match(/\b(\S+)\b/gi)[0]))
+                                    signedInUserData.displayName === "Anonymous" ? signedInUserData.displayName : ((signedInUserData.displayName.match(/\b(\S+)\b/gi)[0] === "Muhammad") ? (signedInUserData.displayName.match(/\b(\S+)\b/gi)[1]) : (signedInUserData.displayName.match(/\b(\S+)\b/gi)[0]))
                                 }
                             </h1>
                         ) : new Date().getHours() < 18 ? (
                             <h1 className={`${styles.welcomeHeading}`} style={{ fontWeight: "lighter" }}>
                                 Good afternoon, {
-                                signedInUserData.displayName.match(/\S+/gi)[1] // to get first letter of each word (initials
+                                    signedInUserData.displayName.match(/\S+/gi)[1] // to get first letter of each word (initials
                                 }
                             </h1>
                         ) : (
                             <h1 className={`${styles.welcomeHeading}`} style={{ fontWeight: "lighter" }}>
                                 Good evening, {
-                                signedInUserData.displayName.match(/\S+/gi)[1]
+                                    signedInUserData.displayName.match(/\S+/gi)[1]
                                 }
                             </h1>
                         )}
@@ -247,7 +247,7 @@ const Home = () => {
                         {list &&
                             list.map((item, index) => (
                                 <div
-                                    className={`${styles.widget} ${((item.id == currentFullLengthItem) ? (styles.fullWidthWidget):(null))} ${((pointerDown && item.id == currentFullLengthItem) ? (styles.pointerDown) : (styles.pointerOut))}`}
+                                    className={`${styles.widget} ${((item.id == currentFullLengthItem) ? (styles.fullWidthWidget) : (null))} ${((pointerDown && item.id == currentFullLengthItem) ? (styles.pointerDown) : (styles.pointerOut))}`}
                                     onDragStart={e => dragStart(e, index)}
                                     onDragEnter={e => dragEnter(e, index)}
                                     onDragEnd={drop}

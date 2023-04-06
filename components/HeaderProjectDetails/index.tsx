@@ -121,6 +121,7 @@ const HeaderProjectDetails: React.FC<IProps> = ({
             }
             // @ts-ignore
             setProjectTitle(localObj?.ProjectName);
+            setFirestoreData(localObj);
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -136,6 +137,7 @@ const HeaderProjectDetails: React.FC<IProps> = ({
                         w={48}
                         IconSize={35}
                         Color="white"
+                        BGC={firestoreData?.color_code}
                     />
                     <h3 className={styles.headingProject}>
                         {projectTitle}

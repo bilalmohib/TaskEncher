@@ -20,7 +20,7 @@ const Document = () => {
             <body>
                 <div id={'globalLoader'}>
                     <div className="loader">
-                        <h1 className="headingLoader">Project Management Software</h1>
+                        <h1 className="headingLoader">TaskVibe - Streamlined Project Management</h1>
                         <div className="sk-cube-grid">
                             <div className="sk-cube sk-cube1"></div>
                             <div className="sk-cube sk-cube2"></div>

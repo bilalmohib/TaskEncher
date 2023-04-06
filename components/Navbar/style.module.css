@@ -1,19 +1,45 @@
-.nav_bar{
+.nav_bar {
     position: fixed;
     width: 100%;
     background-color: #1e1f21 !important;
     color: #ffffff;
     padding: 10px;
     display: flex;
-    height: 50px;
+    height: 70px;
     justify-content: space-between;
     align-items: center;
     z-index: 2;
 }
 
-.navbarHamburger{
+/* Name */
+.navbarCaption {
+    font-size: 24;
+    margin-top: 3px;
+    background: linear-gradient(90deg, #5e8cff 0%, #66ffeb 100%);
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -moz-text-fill-color: transparent;
+    -webkit-text-fill-color: transparent;
+}
+
+.navbarHamburger {
     box-shadow: 2px 2px 2px solid rgb(232, 232, 232);
-    /* border: 2px solid red; */
+    border: 2px solid rgba(255, 255, 255, 0.477);
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-top: 2px;
+    padding-bottom: 1px;
+    border-radius: 5px;
+}
+
+.navbarHamburger:hover {
+    cursor: pointer;
+    background-color: #ffffff;
+    color: #1e1f21;
+    border: 2px solid rgb(255, 255, 255);
+    transition: 0.3s ease-in-out;
 }
 
 .navItems {
@@ -23,8 +49,14 @@
     align-items: center;
 }
 
-.dropdown_nav{
+.dropdown_nav {
     margin-left: -100px !important;
     z-index: 10 !important;
     /* border: 1px solid red; */
+}
+
+.navbarLogo {
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
 }

@@ -39,7 +39,7 @@ const Profile: NextPage = () => {
     return (
         <div>
             <Head>
-                <title>Profile - Project Management Software</title>
+                <title>Profile - TaskEncher</title>
                 <meta name="description" content="Project Management Software" />
                 <link rel="icon" href="/logocopy.ico" />
             </Head>
@@ -100,10 +100,10 @@ const ProfileComp = () => {
                 if (signedInUserData === null) {
                     if (user.isAnonymous === true) {
                         let tempUser = {
-                            displayName: "Anonymous Guest",
-                            email: "anonymous@guest.com",
+                            displayName: "Anonymous",
+                            email: `anonymous${user.uid}@guest.com`,
                             photoURL: user.photoURL,
-                        }
+                          }
                         console.log(tempUser);
                         setSignedInUserData(tempUser);
                         setIsSignedIn(true);
@@ -169,30 +169,42 @@ const ProfileComp = () => {
                             <div className={styles.profileImageContainer}>
                                 <Image
                                     className={styles.profileImage}
-                                    width={160}
-                                    height={160}
+                                    width={120}
+                                    height={120}
                                     src={signedInUserData.photoURL}
                                     alt={signedInUserData.displayName}
                                     title={signedInUserData.displayName}
+                                    loading='eager'
                                 />
                             </div>
                             <div className={styles.profileRightContainer}>
                                 <h4 className={styles.profileName}>{signedInUserData.displayName}</h4>
                                 <p className={styles.profileInfoContainer}>
-                                    <p><CiTimer /> 10:19am local time</p>
-                                    <p style={{ marginLeft: 10 }}><AiOutlineMail /> <span className={styles.email}>bilalmohib20001@gmail.com</span></p>
+                                    <p>
+                                        <CiTimer />
+                                        {/* 10:19am  */}
+                                        &nbsp;
+                                        {new Date().toLocaleTimeString()}
+                                        &nbsp;
+                                        local time
+                                    </p>
+                                    <p style={{ marginLeft: 10 }}><AiOutlineMail />  <span className={styles.email}>bilalmohib20001@gmail.com</span></p>
                                 </p>
                             </div>
                         </div>
                         <div>
-                            <button className={`btn btn-primary ${styles.signOutBtn}`} onClick={() => {
-                                auth.signOut();
-                                router.push("/login");
-                            }}>Sign Out</button>
+                            <button
+                                className={`btn btn-primary ${styles.signOutBtn}`}
+                                onClick={() => {
+                                    auth.signOut();
+                                    router.push("/login");
+                                }}>
+                                Sign Out
+                            </button>
                         </div>
                     </div>
 
-                    {/* MAIN Profile Container */}
+                    {/* Main Profile Container */}
                     <div className={styles.profileContainerMain}>
                         <div className={styles.myTasksMainContainer}>
                             <div>

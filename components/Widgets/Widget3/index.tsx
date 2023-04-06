@@ -6,6 +6,7 @@ import {
     IconButton
 } from "@mui/material";
 import Image from 'next/image';
+import Router from "next/router";
 
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
@@ -272,6 +273,9 @@ const Widget1: React.FC<IProps> = ({
                                     <Box
                                         key={index}
                                         className={styles.peopleSlider}
+                                        onClick={() => {
+                                            Router.push(`/profile/${people.id}`);
+                                        }}
                                     >
                                         <Box
                                             className={styles.peopleSliderItem}

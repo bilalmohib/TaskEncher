@@ -26,6 +26,9 @@
 .profileImage {
     /* border: 2px solid red; */
     border-radius: 50%;
+    /* Make Image quality best  */
+    image-rendering: optimizeQuality;
+    /* Make Image quality best  */
 }
 
 /* Right Side Profile Container */
@@ -255,7 +258,7 @@
     background-color: initial;
 }
 
-.bodymyTasksContainer{
+.bodymyTasksContainer {
     /* border: 2px solid red; */
     margin-top: 30px;
     height: 420px;
@@ -263,7 +266,7 @@
 }
 
 /* My Tasks List  */
-.myTasksList{
+.myTasksList {
     border-bottom: 1px solid #f1efee;
     padding-left: 20px;
     padding-right: 20px;
@@ -271,13 +274,14 @@
     justify-content: space-between;
     display: flex;
 }
-.myTasksList:hover{
+
+.myTasksList:hover {
     background-color: #f9f8f8;
     border-radius: 5px;
     cursor: pointer;
 }
 
-.myTasksListLeft{
+.myTasksListLeft {
     /* border: 2px solid rgb(0, 17, 255); */
     display: flex;
     flex-direction: row;
@@ -285,16 +289,20 @@
     height: 30px;
     margin-bottom: 5px;
 }
-.myTasksListRight{
+
+.myTasksListRight {
     padding-top: 5px;
 }
-.pnmyTask{
+
+.pnmyTask {
     margin-left: 10px;
 }
-.taskCompleteIcon:hover{
+
+.taskCompleteIcon:hover {
     color: green;
     cursor: pointer;
 }
+
 /* My Tasks List  */
 
 /* //////////////////////////// MAIN PROFILE CONTAINER //////////////////////////// */

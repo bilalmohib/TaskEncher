@@ -242,6 +242,10 @@ const CreateProject: NextPage = () => {
         // const id = ref.id;
 
         if (user && !loading && !error) {
+
+            // Make a random color code in rgba format
+            let color_code = `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.5)`;
+
             ////////////////////////////// For New Version of Firebase(V9) //////////////////////////////
             // ADD JOB TO FIRESTORE
             const project = {
@@ -256,6 +260,8 @@ const CreateProject: NextPage = () => {
                 CurrentStage: currentStage,
                 CurrentStageCurrentTask: currentStageCurrentTask,
                 createAt: JSON.stringify(currentDate),
+                createdBy: signedInUserData.displayName,
+                color_code: color_code,
                 // UniqueID: id
             }
             addDoc(collection(db, `Data/Projects/${signedInUserData.email}`), project)
@@ -517,7 +523,7 @@ const CreateProject: NextPage = () => {
                                                     <br />
                                                     <div>
                                                         <h6>Starting Date of the Project : <span className="text-red">*</span></h6>
-                                                        <DatePicker 
+                                                        <DatePicker
                                                             onChange={setProjectStartingDate}
                                                             value={projectStartingDate}
                                                         />
@@ -600,12 +606,12 @@ const CreateProject: NextPage = () => {
                                                         <span className="text-success">
                                                             {/* {JSON.stringify(new Date(projectStartingDate).toLocaleString('en-US', { timeZone: 'Asia/Karachi' }) + ", " +new Date(projectStartingDate).toLocaleString('en-US', { timeZone: 'Asia/Karachi' }) + " " + new Date(projectStartingDate).toLocaleString('en-US', { timeZone: 'Asia/Karachi' }))} */}
                                                             {JSON.stringify(new Date(projectStartingDate).toLocaleString('en-US', { timeZone: 'Asia/Karachi' }))}
-                                                            </span>
+                                                        </span>
                                                         &nbsp; <i className="fas fa-1x text-primary fa-arrow-right"></i>
                                                         &nbsp; <span className="text-danger">
                                                             {/* {JSON.stringify(new Date(projectEndingDate).getDay() + ", " + monthNames[new Date(projectEndingDate).getMonth()] + " " + new Date(projectEndingDate).getFullYear())} */}
                                                             {JSON.stringify(new Date(projectEndingDate).toLocaleString('en-US', { timeZone: 'Asia/Karachi' }))}
-                                                            </span></h4>
+                                                        </span></h4>
                                                 </th>
                                             </tr>
                                             <tr>
@@ -777,10 +783,10 @@ const CreateProject: NextPage = () => {
                     </div>
                     <br /><br />
                 </section>
-    ) : (
-        <CustomLoader />
-    )
-}
+            ) : (
+                <CustomLoader />
+            )
+            }
         </>
     )
 }

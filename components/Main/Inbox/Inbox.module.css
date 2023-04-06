@@ -1,6 +1,6 @@
 .container {
-    /* border: 1px solid red; */
-    padding-left: 1px;
+    /* border: 5px solid red; */
+    padding-left: 2px;
     min-height: calc(100vh - 50px);
     display: flex;
     flex-direction: row;
@@ -34,12 +34,6 @@
 }
 
 .headerTitle {
-    /* margin-left: 30px;
-    color: black;
-    font-weight: lighter;
-    font-size: 26px;
-    font-family: 'Roboto', sans-serif; */
-    /* margin-left: 30px; */
     color: black;
     font-weight: normal;
     font-family: 'Roboto', sans-serif;
@@ -47,8 +41,6 @@
 
 /* Middle Container */
 .middleContainer {
-    /* border: 1px solid red; */
-    /* width: 40%; */
     height: 100%;
     border-right: 1px solid #000;
     border-left: 1px solid #000;
@@ -87,7 +79,7 @@
 
 .MiddleBodyContainer {
     /* border: 1px solid red; */
-    height: 63vh;
+    height: 63.5vh;
     overflow-y: scroll;
     display: flex;
     width: 100%;

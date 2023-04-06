@@ -9,7 +9,9 @@ import {
     Box,
     Typography,
     Link,
+    Button
 } from "@mui/material";
+import { styled } from '@mui/system';
 
 // Importing Firebase Hooks
 import { db } from "../../firebase";
@@ -23,6 +25,18 @@ import {
     signOut
 } from "firebase/auth";
 
+const GradientButton = styled(Button)(({ theme }) => ({
+    background: 'linear-gradient(90deg, #ff5e62 0%, #ff9966 100%)',
+    border: 0,
+    borderRadius: 3,
+    color: 'white',
+    height: 35,
+    padding: '0 20px',
+    '&:hover': {
+        background: 'linear-gradient(90deg, #ff9966 0%, #ff5e62 100%)',
+    },
+}));
+
 interface NavProps {
     setIsOpen: any,
     isOpen: Boolean
@@ -34,6 +48,18 @@ const Navbar: React.FC<NavProps> = ({
 }) => {
 
     const router = useRouter();
+
+    useEffect(() => {
+        document.querySelectorAll('.ripple').forEach((ripple) => {
+            ripple.addEventListener('mousedown', function (e: any) {
+                const x = e.clientX - e.target.getBoundingClientRect().left;
+                const y = e.clientY - e.target.getBoundingClientRect().top;
+
+                e.target.style.setProperty('--x', `${x}px`);
+                e.target.style.setProperty('--y', `${y}px`);
+            });
+        });
+    }, []);
 
     // signed in user data
     const [signedInUserData, setSignedInUserData] = useState<any>(null);
@@ -96,25 +122,63 @@ const Navbar: React.FC<NavProps> = ({
             <div className="container-fluid">
                 <a className="navbar-brand" href="#">
                     &nbsp;
-                    <span className={styles.navbarHamburger} onClick={() => setIsOpen(!isOpen)}> <CgMenu size={25} /> </span>
+                    <span className={`${styles.navbarHamburger} ripple`} onClick={() => setIsOpen(!isOpen)}>
+                        <CgMenu
+                            style={{
+                                marginTop: '-3px',
+                            }}
+                            size={28}
+                        />
+                    </span>
                     &nbsp; &nbsp;
-                    <span style={{ fontSize: 20, marginTop: '3px' }}>Project Management Software</span>
+                    <div className={styles.navbarLogo}>
+                        <Image
+                            src="/logocopy.png"
+                            width={42}
+                            height={42}
+                            alt="Logo"
+                            loading="lazy"
+                        />
+                    </div>
+                    <span className={styles.navbarCaption}>
+                        TaskEncher
+                    </span>
+                    <div style={{ fontSize: 10, position: 'relative', bottom: '-10px', right: '-5px' }}>
+                        Rev Up Tasks & Efficiency
+                    </div>
                 </a>
+
                 <div>
                     {(!Loading && signedInUserData) ? (
                         <div className={`${styles.navItems} navbar-nav`}>
-                            {/* <a className="nav-link active" aria-current="page" href="#">5 days left in trial</a>
+                            <a className="nav-link active" aria-current="page" href="#">
+                                {/* 5 days left in trial */}
+                                5 credits left
+                            </a>
                             <a className="nav-link" href="#">
-                                <button className="btn btn-warning btn-sm">Add billing info</button>
-                            </a> */}
+                                <GradientButton variant="contained" size="small">
+                                    Add billing info
+                                </GradientButton>
+                            </a>
 
                             {/* Avatar */}
                             <li className="nav-item dropdown">
                                 <a className="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdownMenuLink" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
-                                    <Image src={signedInUserData.photoURL} className="rounded-circle" width={22} height={22} alt={signedInUserData.displayName} loading="lazy" />
+                                    <Image
+                                        src={signedInUserData.photoURL}
+                                        className="rounded-circle"
+                                        width={32}
+                                        height={32}
+                                        alt={signedInUserData.displayName}
+                                        loading="lazy"
+                                    />
                                 </a>
                                 <ul className={`dropdown-menu ${styles.dropdown_nav}`} aria-labelledby="navbarDropdownMenuLink">
-                                    <li>
+                                    <li
+                                        onClick={() => {
+                                            router.push(`/profile/${signedInUserData.uid}`);
+                                        }}
+                                    >
                                         <a className="dropdown-item" href="#">My profile</a>
                                     </li>
                                     <li>

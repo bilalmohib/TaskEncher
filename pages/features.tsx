@@ -9,24 +9,7 @@ import {
     Card,
     CardContent,
 } from '@mui/material';
-import styled from '@emotion/styled';
 import Header from '../components/Landing/Header';
-
-const useStyles = makeStyles((theme) => ({
-    container: {
-        paddingTop: 8,
-        paddingBottom: 8,
-    },
-    featureItem: {
-        padding: 8,
-    },
-    featureTitle: {
-        marginBottom: 2,
-    },
-    featureDescription: {
-        marginTop: 1,
-    },
-}));
 
 const featuresData = [
     {
@@ -62,30 +45,37 @@ const featuresData = [
 ];
 
 const Features = () => {
-    const classes = useStyles();
-
     return (
         <>
             <Header />
-            <Container className={classes.container}>
+            <Container sx={{
+                paddingTop: 8,
+                paddingBottom: 8
+            }}>
                 <Typography variant="h2" component="h1" align="center" gutterBottom>
                     Taskencher Features
                 </Typography>
                 <Grid container spacing={4}>
                     {featuresData.map((feature, index) => (
                         <Grid item xs={12} sm={6} md={4} key={index}>
-                            <Card className={classes.featureItem}>
+                            <Card sx={{
+                                padding: 8
+                            }}>
                                 <CardContent>
                                     <Typography
                                         variant="h5"
                                         component="h2"
-                                        className={classes.featureTitle}
+                                        sx={{
+                                            marginBottom: 2
+                                        }}
                                     >
                                         {feature.title}
                                     </Typography>
                                     <Typography
                                         variant="body1"
-                                        className={classes.featureDescription}
+                                        sx={{
+                                            marginTop: 1
+                                        }}
                                     >
                                         {feature.description}
                                     </Typography>

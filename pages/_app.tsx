@@ -35,7 +35,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const { uuid } = router.query;
 
-  // Hide splash screen shen we are server side 
+  // Hide splash screen when we are server side 
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const loader = document.getElementById('globalLoader');
@@ -96,7 +96,13 @@ function MyApp({ Component, pageProps }: AppProps) {
       router.pathname === "/forgot-password" ||
       router.pathname === "/reset-password" ||
       router.pathname === "/verify-email" ||
-      router.pathname === "/createProject"
+      router.pathname === "/createProject" ||
+      router.pathname === "/features" ||
+      router.pathname === "/pricing" ||
+      router.pathname === "/about" ||
+      router.pathname === "/contact" ||
+      router.pathname === "/terms" ||
+      router.pathname === "/privacy"
     ) {
       setHideExtra(0);
     }
@@ -119,7 +125,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <>
       {(!loading) && (
         <section>
-          {(!isSignedIn && !loading) ? (
+          {(!isSignedIn && !loading && hideExtra !== 0) ? (
             <Landing />
           ) : (
             <Box>

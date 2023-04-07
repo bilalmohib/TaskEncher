@@ -16,6 +16,7 @@ const Document = () => {
                 <style>
                     {loader}
                 </style>
+                <meta name="google-site-verification" content="iOkvhZooyjqsEWKZ03unHbzCt0Rk2BVVyt2a7pvXdxU" />
             </Head>
             <body>
                 <div id={'globalLoader'}>

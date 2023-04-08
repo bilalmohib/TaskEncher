@@ -30,7 +30,7 @@ const HomePage: NextPage = () => {
   return (
     <div className={styles.container}>
       <Head>
-        <meta charSet="utf-8" />
+        <meta charSet="utf-8" lang='en' />
         <link rel="icon" href="/logocopy.ico" />
         <meta name="description" content="A project management app built with Next JS, MUI,mdbootstrap and firebase" />
         <meta name="author" content="Muhammad-Bilal-7896" />

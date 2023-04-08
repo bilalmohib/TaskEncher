@@ -13,7 +13,7 @@ import {
     Box
 } from '@mui/material';
 
-import styles from "../../../../styles/Home.module.css";
+import styles from "./style.module.css";
 
 interface MainContentProps {
     isOpen: boolean;
@@ -21,9 +21,20 @@ interface MainContentProps {
     currentMenuItem: number;
     setCurrentMenuItem: (value: number) => void;
     signedInUserData: { email: string };
+    width: number;
+    height: number;
 }
 
-const MainContent: React.FC<MainContentProps> = ({ isOpen, setIsOpen, currentMenuItem, setCurrentMenuItem, signedInUserData }) => {
+const MainContent: React.FC<MainContentProps> = (
+    {
+        isOpen,
+        setIsOpen,
+        currentMenuItem,
+        setCurrentMenuItem,
+        signedInUserData,
+        width,
+        height
+    }) => {
     return (
         <main className={styles.main}>
             <Navbar isOpen={isOpen} setIsOpen={setIsOpen} />

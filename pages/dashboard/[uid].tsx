@@ -20,6 +20,8 @@ interface GlobalProps {
     isOpen: boolean;
     currentMenuItem: number;
     setCurrentMenuItem: (currentMenuItem: number) => void;
+    width: number;
+    height: number;
 }
 
 const Dashboard: NextPage<GlobalProps> = (
@@ -27,7 +29,9 @@ const Dashboard: NextPage<GlobalProps> = (
         setIsOpen,
         isOpen,
         currentMenuItem,
-        setCurrentMenuItem
+        setCurrentMenuItem,
+        width,
+        height
     }
 ) => {
 
@@ -108,6 +112,8 @@ const Dashboard: NextPage<GlobalProps> = (
                     currentMenuItem={currentMenuItem}
                     setCurrentMenuItem={setCurrentMenuItem}
                     signedInUserData={signedInUserData}
+                    width={width}
+                    height={height}
                 />
             )}
         </div>

@@ -29,8 +29,6 @@ import 'react-calendar/dist/Calendar.css';
 import '../styles/globals.css';
 
 function MyApp({ Component, pageProps }: AppProps & { Component: React.ComponentType<any> }) {
-  const router = useRouter();
-  const { uuid } = router.query;
 
   // Hide splash screen when we are server side 
   useEffect(() => {
@@ -41,9 +39,6 @@ function MyApp({ Component, pageProps }: AppProps & { Component: React.Component
     }
   }, []);
 
-  const [hideExtra, setHideExtra] = useState<Number>(1);
-  const [loading, setLoading] = useState<Boolean>(true);
-
   const [isOpen, setIsOpen] = useState<Boolean>(true);
 
   const [currentMenuItem, setCurrentMenuItem] = useState<Number>(1);
@@ -53,6 +48,30 @@ function MyApp({ Component, pageProps }: AppProps & { Component: React.Component
   const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
   const [Loading, setloading] = useState(true);
   //_________________ For Getting SignedInUser Data _____________________
+
+  const [windowSize, setWindowSize] = useState([
+    typeof window !== 'undefined' ? window.innerWidth : 0,
+    typeof window !== 'undefined' ? window.innerHeight : 0,
+  ]);
+
+  useEffect(() => {
+    const handleWindowResize = () => {
+      setWindowSize([window.innerWidth, window.innerHeight]);
+    };
+
+    window.addEventListener('resize', handleWindowResize);
+
+    return () => {
+      window.removeEventListener('resize', handleWindowResize);
+    };
+  });
+
+  // If width is less than 1460px then set isOpen to false
+  useEffect(() => {
+    if (windowSize[0] < 1460) {
+      setIsOpen(false);
+    }
+  }, [windowSize]);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -117,6 +136,10 @@ function MyApp({ Component, pageProps }: AppProps & { Component: React.Component
         // Current Menu Item
         currentMenuItem={currentMenuItem}
         setCurrentMenuItem={setCurrentMenuItem}
+
+        // Current Height and Width of Window
+        width={windowSize[0]}
+        height={windowSize[1]}
       />
 
       <Script

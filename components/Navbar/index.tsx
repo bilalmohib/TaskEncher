@@ -231,7 +231,7 @@ const Navbar: React.FC<NavProps> = ({
                     )}
                 </div>
             </div>
-        </nav >
+        </nav>
     )
 }
 export default Navbar;

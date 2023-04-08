@@ -16,6 +16,26 @@ import { CgShapeSquare } from "react-icons/cg";
 import { FcInvite } from "react-icons/fc";
 import { useRouter } from 'next/router';
 
+import {
+    Box,
+    Typography,
+    Link,
+    Button
+} from "@mui/material";
+import { styled } from '@mui/system';
+
+// Importing Firebase Hooks
+import { db } from "../../firebase";
+import { doc, collection, onSnapshot, addDoc, query, orderBy, deleteDoc, setDoc, where } from "firebase/firestore";
+import { useCollection } from 'react-firebase-hooks/firestore';
+
+// Importing firebase
+import { auth } from "../../firebase";
+import {
+    onAuthStateChanged,
+    signOut
+} from "firebase/auth";
+
 interface IProps {
     setIsOpen: any,
     isOpen: Boolean,
@@ -30,6 +50,52 @@ const Sidebar: React.FC<IProps> = ({
     setCurrentMenuItem
 }) => {
     const router = useRouter();
+
+    const [loading, setLoading] = useState<boolean>(true);
+
+    //_________________ For Getting SignedInUser Data _____________________
+    const [signedInUserData, setSignedInUserData] = useState<any>(null);
+    const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
+    //_________________ For Getting SignedInUser Data _____________________
+
+    useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in, see docs for a list of available properties
+                // https://firebase.google.com/docs/reference/js/firebase.User
+                if (signedInUserData === null) {
+                    setIsSignedIn(true);
+                    if (user.isAnonymous === true) {
+                        let tempUser = {
+                            displayName: "Anonymous",
+                            email: `anonymous${user.uid}@guest.com`,
+                            photoURL: user.photoURL
+                        }
+                        console.log(tempUser);
+                        setSignedInUserData(tempUser);
+                        setLoading(false);
+                    } else {
+                        console.log(user);
+                        setSignedInUserData(user);
+                        setLoading(false);
+                    }
+                    // ...
+                }
+            } else {
+                // User is signed out
+                console.log("User is signed out");
+                setLoading(false);
+                setSignedInUserData(null);
+                setIsSignedIn(false);
+                // ...
+            }
+        });
+    }, [signedInUserData]);
+
+    const movingUrl = `/dashboard/${signedInUserData?.uid}`;
+
+    // Store div in a variable
+
     return (
         <section className={`${styles.sidebar} ${(isOpen) ? ("") : (styles.hideSidebar)}`}>
             <div className={styles.sidebarItemsContainer}>
@@ -49,7 +115,7 @@ const Sidebar: React.FC<IProps> = ({
                     <li className={(currentMenuItem === 1) ? (styles.selected_Menu_Item) : ("")}
                         onClick={() => {
                             setCurrentMenuItem(1)
-                            router.push('/');
+                            router.push(movingUrl);
                         }}
                     >
                         <div className='d-flex'>
@@ -59,7 +125,7 @@ const Sidebar: React.FC<IProps> = ({
                     <li className={(currentMenuItem === 2) ? (styles.selected_Menu_Item) : ("")}
                         onClick={() => {
                             setCurrentMenuItem(2)
-                            router.push('/');
+                            router.push(movingUrl);
                         }}
                     >
                         <div className='d-flex'>
@@ -69,7 +135,7 @@ const Sidebar: React.FC<IProps> = ({
                     <li className={(currentMenuItem === 3) ? (styles.selected_Menu_Item) : ("")}
                         onClick={() => {
                             setCurrentMenuItem(3)
-                            router.push('/');
+                            router.push(movingUrl);
                         }}
                     >
                         <div className='d-flex'>
@@ -79,7 +145,7 @@ const Sidebar: React.FC<IProps> = ({
                     <li className={(currentMenuItem === 4) ? (styles.selected_Menu_Item) : ("")}
                         onClick={() => {
                             setCurrentMenuItem(4)
-                            router.push('/');
+                            router.push(movingUrl);
                         }}
                     >
                         <div className='d-flex'>
@@ -89,18 +155,18 @@ const Sidebar: React.FC<IProps> = ({
                     <li className={(currentMenuItem === 5) ? (styles.selected_Menu_Item) : ("")}
                         onClick={() => {
                             setCurrentMenuItem(5)
-                            router.push('/');
+                            router.push(movingUrl);
                         }}
                     >
                         <div className='d-flex'>
                             <p> <HiChartSquareBar size={19} /> </p> <p className={styles.itemMenuListText}>Portfolios</p>
                         </div>
                     </li>
-                    <li className={(currentMenuItem === 6) ? (styles.selected_Menu_Item) : ("")} 
-                      onClick={() => {
-                        setCurrentMenuItem(6)
-                        router.push('/');
-                    }}
+                    <li className={(currentMenuItem === 6) ? (styles.selected_Menu_Item) : ("")}
+                        onClick={() => {
+                            setCurrentMenuItem(6)
+                            router.push(movingUrl);
+                        }}
                     >
                         <div className='d-flex'>
                             <p> <GiStairsGoal size={19} /> </p> <p className={styles.itemMenuListText}>Goals</p>

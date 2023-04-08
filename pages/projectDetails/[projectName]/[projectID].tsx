@@ -52,6 +52,7 @@ const ProjectDetails: NextPage = () => {
         <div>
             <Head>
                 <title>Profile - TaskEncher (Supercharge Your Workflow and Amplify Task Management) </title>
+                <meta charSet="utf-8" lang='en' />
                 <meta name="description" content="Project Management Software" />
                 <link rel="icon" href="/logocopy.ico" />
             </Head>

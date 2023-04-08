@@ -1,0 +1,314 @@
+/* Main Container */
+.container {
+    /* border: 1px solid red; */
+    background-color: #f9f8f8;
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-top: 33px;
+}
+
+.main {
+    width: auto;
+    height: auto;
+    background-color: white;
+}
+
+/* Top Profile Container */
+.profileContainerTop {
+    /* border: 3px solid green; */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Left Side Profile Image Container */
+.profileImageContainer {
+    /* border: 1px solid red; */
+    width: fit-content;
+}
+
+/* Profile Image Style */
+.profileImage {
+    /* border: 2px solid red; */
+    border-radius: 50%;
+    /* Make Image quality best  */
+    image-rendering: optimizeQuality;
+    /* Make Image quality best  */
+}
+
+/* Right Side Profile Container */
+.profileRightContainer {
+    /* border: 2px solid grey; */
+    padding-left: 30px;
+}
+
+/* Profile Display Name */
+.profileName {
+    font-size: 32px;
+    line-height: 40px;
+    color: #1e1f21;
+    font-weight: 400;
+    margin-top: 30px;
+}
+
+/* Profile Info Container */
+.profileInfoContainer {
+    /* border: 2px solid grey; */
+    display: flex;
+    margin-top: 10px;
+}
+
+.profileInfoContainer p {
+    font-size: 14px;
+    line-height: 20px;
+    color: #6D6E6F;
+    font-weight: 400;
+    margin-right: 10px;
+}
+
+.email:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+/* Sign Out Button */
+.signOutBtn {
+    border: 1px solid #0c56d0;
+    background-color: #f9f8f8;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+    line-height: 20px;
+    color: #0c56d0;
+    text-transform: none;
+    font-weight: 400;
+    margin-top: 10px;
+}
+
+/* Main Profile Container */
+.profileContainerMain {
+    /* border: 2px solid grey; */
+    display: flex;
+    flex-direction: row;
+    margin-top: 30px;
+}
+
+/* //////////////////////////// MAIN PROFILE CONTAINER //////////////////////////// */
+.profileContainerMain {
+    /* border: 2px solid rgb(255, 0, 0); */
+    display: flex;
+    flex-direction: row;
+    margin-top: 30px;
+}
+
+/* my Tasks Container */
+.myTasksMainContainer {
+    border: 1px solid #f1efee;
+    background-color: white;
+    width: 70%;
+    border-radius: 8px;
+    padding-top: 20px;
+}
+
+.viewAllTasksBtn {
+    border: 1px solid #cfcbcb;
+    background-color: white;
+    border-radius: 5px;
+    font-size: 12px;
+    box-shadow: none !important;
+    width: 110px !important;
+    line-height: 10px;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    color: #454d5b;
+    text-transform: none;
+    font-weight: 400;
+}
+
+.viewAllTasksBtn:hover {
+    border: 1px solid #b4b4b4;
+    background-color: #f9f8f8 !important;
+    color: #454d5b !important;
+}
+
+/* Header My Tasks */
+.headerMyTasks {
+    border-bottom: 1px solid #f1efee;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+}
+
+.headerMyTasks div {
+    font-size: 20px;
+    color: #1E1F21;
+}
+
+/* Right Header My Tasks */
+.myTasksHeaderRight {
+    padding-top: 0px !important;
+    margin-top: -2px !important;
+}
+
+/* Right Side Container */
+.rightSideMainContainer {
+    /* border: 2px solid rgb(200, 84, 17); */
+    width: 30%;
+    margin-left: 2.5%;
+    /* padding-left: 20px; */
+    padding-bottom: 3px;
+}
+
+/* Right Side Containers */
+.aboutMeContainer {
+    border: 1px solid #f1efee;
+    padding-top: 25px;
+    padding-left: 25px;
+    padding-right: 25px;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    margin-bottom: 25px;
+    background-color: #ffffff;
+    border-radius: 8px;
+}
+
+/* Out Side Container FCL */
+.outsideContainerFCL {
+    /* border: 3px solid rgb(30, 0, 255); */
+    overflow-y: auto;
+    height: 300px;
+    margin-bottom: 10px;
+}
+
+.frequentCollaborators {
+    border: 1px solid #f1efee;
+    border-radius: 8px !important;
+    /* padding: 25px; */
+    padding-bottom: 10px;
+    background-color: #ffffff !important;
+}
+
+.fcHeading {
+    margin-left: 25px;
+    padding-top: 25px;
+    /* border: 2px solid red; */
+}
+
+/* Heading About me */
+.aboutMeContainer h1 {
+    /* border: 3px solid rgb(0, 0, 255); */
+    font-size: 20px;
+    margin-bottom: 10px;
+    background-color: #ffffff !important;
+}
+
+.aboutMeContainer p {
+    /* border: 3px solid rgb(0, 0, 255); */
+    font-size: 14px;
+    margin-top: 22px;
+    line-height: 20px;
+    color: #6D6E6F;
+    font-weight: 400;
+    background-color: #ffffff !important;
+}
+
+.frequentCollaborators h1 {
+    /* border: 3px solid rgb(255, 0, 0); */
+    font-size: 20px;
+    margin-bottom: 25px;
+    background-color: #ffffff;
+}
+
+/* List Of frequentCollaborators */
+.frequentCollaboratorsList {
+    /* border: 3px solid rgb(255, 0, 0); */
+    background-color: #ffffff;
+    padding-bottom: 10px;
+    padding-top: 5px;
+    height: 70px;
+}
+
+.frequentCollaboratorsList:hover {
+    /* border: 3px solid rgb(6, 49, 8); */
+    background-color: #f9f8f8;
+    border-radius: 5px;
+    cursor: pointer;
+    /* display: flex;
+    flex-direction: row; */
+}
+
+.frequentCollaboratorsImageContainer {
+    /* border: 2px solid red; */
+    padding-left: 30px;
+}
+
+.frequentCollaboratorsImage {
+    border-radius: 50%;
+}
+
+.emailfcnc {
+    font-size: 14px;
+    line-height: 20px;
+    color: #1E1F21;
+    font-weight: 400;
+    padding-top: 18px;
+    margin-left: 15px;
+    background-color: inherit;
+}
+
+.emailfcnc:hover {
+    background-color: initial;
+}
+
+.bodymyTasksContainer {
+    /* border: 2px solid red; */
+    margin-top: 30px;
+    height: 420px;
+    overflow-y: auto;
+}
+
+/* My Tasks List  */
+.myTasksList {
+    border-bottom: 1px solid #f1efee;
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color: #ffffff;
+    justify-content: space-between;
+    display: flex;
+}
+
+.myTasksList:hover {
+    background-color: #f9f8f8;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.myTasksListLeft {
+    /* border: 2px solid rgb(0, 17, 255); */
+    display: flex;
+    flex-direction: row;
+    margin-top: 5px;
+    height: 30px;
+    margin-bottom: 5px;
+}
+
+.myTasksListRight {
+    padding-top: 5px;
+}
+
+.pnmyTask {
+    margin-left: 10px;
+}
+
+.taskCompleteIcon:hover {
+    color: green;
+    cursor: pointer;
+}
+
+/* My Tasks List  */
+
+/* //////////////////////////// MAIN PROFILE CONTAINER //////////////////////////// */

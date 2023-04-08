@@ -7,6 +7,12 @@
     padding-top: 33px;
 }
 
+.main {
+    width: auto;
+    height: auto;
+    background-color: white;
+}
+
 /* Top Profile Container */
 .profileContainerTop {
     /* border: 3px solid green; */

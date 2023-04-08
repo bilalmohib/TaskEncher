@@ -32,7 +32,6 @@ const Dashboard: NextPage<GlobalProps> = (
         setCurrentMenuItem,
         width,
         height
-        setCurrentMenuItem
     }
 ) => {
 

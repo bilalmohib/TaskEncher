@@ -48,6 +48,7 @@ const Landing: React.FC = () => {
 
   const MotionGrid = motion(Grid);
   const MotionPaper = motion(Paper);
+  const MotionCard = motion(Card);
 
   const features = [
     {
@@ -72,36 +73,54 @@ const Landing: React.FC = () => {
 
   const benefits = [
     {
-      title: 'Easy to use',
+      title: 'Increased Productivity',
       icon: <BsCheckCircle size={48} color="#0052CC" />,
       description:
-        'Taskencher is designed to be easy to use, so you can focus on what matters most.',
+        'Improve your team&apos;s productivity with clear goals, prioritized tasks, and real-time progress tracking.',
     },
     {
-      title: 'Real-time updates',
-      icon: <BsCheckCircle size={48} color="#0052CC" />,
+      title: 'Seamless Communication',
+      icon: <BsChatDots size={48} color="#0052CC" />,
       description:
-        'Stay up to date with your team\'s progress and get notified of any changes in real time.',
+        'Keep your team connected and engaged with our built-in chat features, ensuring effective collaboration.',
     },
     {
-      title: 'Secure and reliable',
+      title: 'Improved Efficiency',
       icon: <BsCheckCircle size={48} color="#0052CC" />,
       description:
-        'Taskencher is built on a secure and reliable platform, so you can rest assured that your data is safe.',
+        'Improve your team&apos;s efficiency with clear goals, prioritized tasks, and real-time progress tracking.',
     },
-    {
-      title: '24/7 support',
-      icon: <BsCheckCircle size={48} color="#0052CC" />,
-      description:
-        'Our team is always available to help you with any questions or concerns you may have.',
-    },
-    {
-      title: 'Free forever',
-      icon: <BsCheckCircle size={48} color="#0052CC" />,
-      description:
-        'Taskencher is completely free to use, so you can get started right away.',
-    }
   ];
+
+  const pricings = [
+    {
+      title: 'Basic',
+      price: '$10 / month',
+      features: [
+        'Up to 10 users',
+        'Basic features',
+        'Email support',
+      ]
+    },
+    {
+      title: 'Pro',
+      price: '$25 / month',
+      features: [
+        'Up to 50 users',
+        'All features',
+        'Priority support',
+      ]
+    },
+    {
+      title: 'Enterprise',
+      price: 'Custom Pricing',
+      features: [
+        'Unlimited users',
+        'Custom features',
+        'Dedicated support',
+      ]
+    },
+  ]
 
   const scrollVariants = {
     hidden: { opacity: 0, y: 50 },
@@ -128,32 +147,36 @@ const Landing: React.FC = () => {
           >
             <Grid container spacing={4}>
               <Grid item xs={12} md={6}>
-                <Typography variant="h2" sx={{ pb: 2, color: '#0052CC' }}>
-                  Welcome to Taskencher
-                </Typography>
-                <Typography variant="h5" sx={{ pb: 2, color: '#172B4D' }}>
-                  Boost your business success with efficient task management
-                </Typography>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  size="large"
-                  onClick={() => router.push('/login')}
-                >
-                  Get Started
-                </Button>
+                <ScrollTriggerAnimation animationVariants={scrollVariants}>
+                  <Typography variant="h2" sx={{ pb: 2, color: '#0052CC' }}>
+                    Welcome to Taskencher
+                  </Typography>
+                  <Typography variant="h5" sx={{ pb: 2, color: '#172B4D' }}>
+                    Boost your business success with efficient task management
+                  </Typography>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    size="large"
+                    onClick={() => router.push('/login')}
+                  >
+                    Get Started
+                  </Button>
+                </ScrollTriggerAnimation>
               </Grid>
               <Grid item xs={12} md={6}>
-                <Image
-                  src="/images/landing.png"
-                  alt="Project management illustration"
-                  width={500}
-                  height={400}
-                  objectFit="cover"
-                  objectPosition="center"
-                  loading="eager"
-                  style={{ borderRadius: '8px' }}
-                />
+                <ScrollTriggerAnimation animationVariants={scrollVariants}>
+                  <Image
+                    src="/images/landing.png"
+                    alt="Project management illustration"
+                    width={500}
+                    height={400}
+                    objectFit="cover"
+                    objectPosition="center"
+                    loading="eager"
+                    style={{ borderRadius: '8px' }}
+                  />
+                </ScrollTriggerAnimation>
               </Grid>
             </Grid>
           </motion.div>
@@ -188,95 +211,62 @@ const Landing: React.FC = () => {
           Benefits
         </Typography>
         <MotionGrid container spacing={4} variants={containerVariants}>
-          <Grid item xs={12} sm={6}>
-            <Paper elevation={3} sx={{ p: 4, textAlign: 'center' }}>
-              <BsCheckCircle size={48} color="#0052CC" />
-              <Typography variant="h6" sx={{ pt: 2 }}>
-                Increased Productivity
-              </Typography>
-              <Typography>
-                Improve your team&apos;s productivity with clear goals, prioritized tasks, and real-time progress tracking.
-              </Typography>
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Paper elevation={3} sx={{ p: 4, textAlign: 'center' }}>
-              <BsChatDots size={48} color="#0052CC" />
-              <Typography variant="h6" sx={{ pt: 2 }}>
-                Seamless Communication
-              </Typography>
-              <Typography>
-                Keep your team connected and engaged with our built-in chat features, ensuring effective collaboration.
-              </Typography>
-            </Paper>
-          </Grid>
+          {benefits.map((benefit, index) => (
+            <Grid item xs={12} sm={4} key={index}>
+              <ScrollTriggerAnimation key={index} animationVariants={scrollVariants}>
+                <MotionPaper
+                  elevation={3}
+                  sx={{ p: 4, textAlign: 'center' }}
+                  variants={itemVariants}
+                >
+                  {benefit.icon}
+                  <Typography variant="h6" sx={{ pt: 2 }}>
+                    {/* Increased Productivity */}
+                    {benefit.title}
+                  </Typography>
+                  <Typography>
+                    {/* Improve your team&apos;s productivity with clear goals, prioritized tasks, and real-time progress tracking. */}
+                    {benefit.description}
+                  </Typography>
+                </MotionPaper>
+              </ScrollTriggerAnimation>
+            </Grid>
+          ))}
         </MotionGrid>
 
         <Typography variant="h4" sx={{ pt: 8, pb: 4, color: '#0052CC' }}>
           Pricing
         </Typography>
-        <Grid container spacing={4}>
-          <Grid item xs={12} sm={4}>
-            <Card sx={{ padding: 2 }}>
-              <CardContent>
-                <Typography variant="h5" sx={{ pb: 2 }}>
-                  Basic
-                </Typography>
-                <Typography variant="h6" sx={{ pb: 2 }}>
-                  $10 / month
-                </Typography>
-                <Typography>Up to 10 users</Typography>
-                <Typography>Basic features</Typography>
-                <Typography>Email support</Typography>
-              </CardContent>
-              <CardActions>
-                <Button variant="contained" color="primary" onClick={() => router.push('/signup')}>
-                  Get Started
-                </Button>
-              </CardActions>
-            </Card>
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <Card sx={{ padding: 2 }}>
-              <CardContent>
-                <Typography variant="h5" sx={{ pb: 2 }}>
-                  Pro
-                </Typography>
-                <Typography variant="h6" sx={{ pb: 2 }}>
-                  $25 / month
-                </Typography>
-                <Typography>Up to 50 users</Typography>
-                <Typography>All features</Typography>
-                <Typography>Priority support</Typography>
-              </CardContent>
-              <CardActions>
-                <Button variant="contained" color="primary" onClick={() => router.push('/signup')}>
-                  Get Started
-                </Button>
-              </CardActions>
-            </Card>
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <Card sx={{ padding: 2 }}>
-              <CardContent>
-                <Typography variant="h5" sx={{ pb: 2 }}>
-                  Enterprise
-                </Typography>
-                <Typography variant="h6" sx={{ pb: 2 }}>
-                  Custom Pricing
-                </Typography>
-                <Typography>Unlimited users</Typography>
-                <Typography>Custom features</Typography>
-                <Typography>Dedicated support</Typography>
-              </CardContent>
-              <CardActions>
-                <Button variant="contained" color="primary" onClick={() => router.push('/contact')}>
-                  Contact Us
-                </Button>
-              </CardActions>
-            </Card>
-          </Grid>
-        </Grid>
+        <MotionGrid container spacing={4} variants={containerVariants}>
+          {pricings.map((pricing, index) => (
+            <Grid item xs={12} sm={4} key={index}>
+              <ScrollTriggerAnimation key={index} animationVariants={scrollVariants}>
+                <MotionCard
+                  elevation={3}
+                  sx={{ padding: 2 }}
+                  variants={itemVariants}
+                >
+                  <CardContent>
+                    <Typography variant="h5" sx={{ pb: 2 }}>
+                      {pricing.title}
+                    </Typography>
+                    <Typography variant="h6" sx={{ pb: 2 }}>
+                      {pricing.price}
+                    </Typography>
+                    {pricing.features.map((feature, index) => (
+                      <Typography key={index}>{feature}</Typography>
+                    ))}
+                  </CardContent>
+                  <CardActions>
+                    <Button variant="contained" color="primary" onClick={() => router.push('/signup')}>
+                      Get Started
+                    </Button>
+                  </CardActions>
+                </MotionCard>
+              </ScrollTriggerAnimation>
+            </Grid>
+          ))}
+        </MotionGrid>
       </Container>
 
       <Box sx={{ backgroundColor: '#172B4D', pt: 8, pb: 8 }}>

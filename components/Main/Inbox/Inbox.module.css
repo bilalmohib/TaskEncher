@@ -100,7 +100,7 @@
 
 /* Right Container */
 .rightContainer {
-    /* border: 10px solid rgb(0, 72, 255); */
+    border: 10px solid rgb(0, 72, 255);
     width: 30%;
     height: 100%;
 }

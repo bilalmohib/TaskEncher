@@ -26,8 +26,7 @@ import ScrollTriggerAnimation from '@app/components/ScrollTriggerAnimation';
 // import ScrollAnimation from "@app/components/ScrollAnimation";
 
 // For animations
-import { motion, useAnimation } from 'framer-motion';
-import { InView, useInView } from 'react-intersection-observer';
+import { motion } from 'framer-motion';
 
 const Landing: React.FC = () => {
   const router = useRouter();

@@ -140,46 +140,33 @@ const addData = (
     isSignedIn: boolean,
     signedInUserData: any
 ) => {
-    if (isSignedIn == false) {
-        const { pathname } = Router;
-        if (pathname == '/createProject') {
-            alert("Not Signed In Redirecting to Login Page");
-            Router.push('/');
-        }
-    }
-    else {
-        console.log("Right.Correct");
-    }
-
-    // const ref = db.collection(`Data`).doc();
-    // const id = ref.id;
 
     if (signedInUserData) {
         if (type == "singleUser") {
-            addDoc(collection(db, `Data/Chat/Single/Users`), dataObject)
+            addDoc(collection(db, `Data/Chat/Single/Users/${signedInUserData.email}`), dataObject)
                 .then(() => {
                     console.log("Data sent");
-                    const { pathname } = Router;
-                    alert("User Added Successfully.");
-                    // if (pathname == '/createProject') {
-                    //     alert("Your Project is initialized Successfully.Redirecting you to your projects page.");
-                    //     Router.push('/');
-                    // }
+                    // alert("User Added Successfully.");
                 })
                 .catch(err => {
                     console.warn(err);
                     alert(`Error creating Job: ${err.message}`);
                 });
 
-            addDoc(collection(db, `Chat/Single/Users`), dataObject)
+            const senderUserData = {
+                uid: signedInUserData.uid,
+                email: signedInUserData.email,
+                name: signedInUserData.displayName,
+                lastMessage: '',
+                lastMessageTime: new Date().toLocaleTimeString(),
+                profilePic: signedInUserData.photoURL,
+                isOnline: true
+            }
+
+            addDoc(collection(db, `Data/Chat/Single/Users/${dataObject.email}`), senderUserData)
                 .then(() => {
                     console.log("Data sent");
-                    const { pathname } = Router;
-                    alert("User Added Successfully.");
-                    // if (pathname == '/createProject') {
-                    //     alert("Your Project is initialized Successfully.Redirecting you to your projects page.");
-                    //     Router.push('/');
-                    // }
+                    // alert("User Added Successfully.");
                 })
                 .catch(err => {
                     console.warn(err);
@@ -189,12 +176,7 @@ const addData = (
             addDoc(collection(db, `Chat/Single/Chat`), dataObject)
                 .then(() => {
                     console.log("Data sent");
-                    const { pathname } = Router;
                     alert("Chat Added Successfully.");
-                    // if (pathname == '/createProject') {
-                    //     alert("Your Project is initialized Successfully.Redirecting you to your projects page.");
-                    //     Router.push('/');
-                    // }
                 })
                 .catch(err => {
                     console.warn(err);
@@ -511,11 +493,6 @@ const InteractiveContainer: React.FC<InteractiveContainerProps> = ({
                 signedInUserData,
             );
 
-            if (false) {
-                alert("Message Sent Successfully");
-                setMessage('');
-            }
-
         } else {
             alert('Please enter a message to send it');
         }
@@ -687,7 +664,9 @@ const Inbox: React.FC<InboxProps> = ({
     // For getting the UsersListSingleChat
     const [usersListSingleChat, setUsersListSingleChat] = useState<any>([]);
 
-    let q1 = query(collection(db, "Chat", "Single", "Users"));
+    // Data/Chat/Single/Users${dataObject.email}
+
+    let q1 = query(collection(db, "Data", "Chat", "Single", "Users", e));
 
     const [snapshot1, loading1, error1] = useCollection(
         q1,

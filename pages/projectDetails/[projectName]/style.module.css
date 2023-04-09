@@ -1,10 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Train+One&display=swap');
+
 .container {
     /* border: 1px solid rgb(255, 0, 0); */
     background-color: white;
-    height: 100VH !important;
+    height: 100vh !important;
 }
 
-.header{
+.header {
     position: sticky !important;
     /* border: 1px solid red; */
     top: 5.3%;
@@ -12,6 +14,40 @@
     background-color: white;
 }
 
-.mainContainer {
-    /* border: 1px solid rgb(0, 255, 0); */
+.main {
+    width: auto;
+    height: auto;
+}
+
+.rightSideContainer {
+    width: 100%;
+    height: 100%;
+
+    margin-top: 3rem;
+    /* border: 2px solid rgb(255, 0, 0);
+    background-color: rgb(144, 3, 226); */
+}
+
+/* When the right side container will shrink */
+.shrinkContainer {
+    margin-left: 15.5rem;
+    transition: 0.2s linear;
+}
+
+/* When the right side container will expand */
+.expandContainer {
+    margin-left: 0rem;
+    transition: 0.2s linear;
+}
+
+@media all and (max-width:1500px) {
+    .rightSideContainer {
+        width: 100%;
+        height: 100%;
+
+        padding-left: 2%;
+        padding-right: 2%;
+        /* border: 2px solid rgb(255, 0, 0);
+        background-color: rgb(77, 226, 3); */
+    }
 }

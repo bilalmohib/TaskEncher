@@ -301,15 +301,15 @@ const Home = () => {
     }
 
     // To display the modal after 3 seconds of the component mounting
-    useEffect(() => {
-        // Delay opening the modal for 3 seconds after the component mounts
-        const timer = setTimeout(() => {
-            setOpenModal(true);
-        }, 3000);
+    // useEffect(() => {
+    //     // Delay opening the modal for 3 seconds after the component mounts
+    //     const timer = setTimeout(() => {
+    //         setOpenModal(true);
+    //     }, 3000);
 
-        // Clean up the timer when the component is unmounted
-        return () => clearTimeout(timer);
-    }, []);
+    //     // Clean up the timer when the component is unmounted
+    //     return () => clearTimeout(timer);
+    // }, []);
 
     return (
         <div>

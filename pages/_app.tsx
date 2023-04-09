@@ -4,13 +4,6 @@ import { useRouter } from 'next/router';
 import type { AppProps } from 'next/app';
 import Script from 'next/script';
 //////////////////////////////////////////////////
-// Importing Components
-import Landing from '../components/Landing';
-import Navbar from '../components/Navbar';
-import Sidebar from '../components/Sidebar';
-import Home from '../components/Main/Home';
-import Inbox from '../components/Main/Inbox';
-import { ProjectDetailsComp } from './projectDetails/[projectName]/[projectID]';
 
 // Importing firebase
 import { db, auth } from "../firebase";
@@ -19,11 +12,7 @@ import {
 } from "firebase/auth";
 // Importing firebase
 
-// Importing Material UI Components
-import Box from '@mui/material/Box';
-
 //Importing Containers CSS Files
-import styles from '../styles/Home.module.css';
 import 'react-date-picker/dist/DatePicker.css';
 import 'react-calendar/dist/Calendar.css';
 import '../styles/globals.css';

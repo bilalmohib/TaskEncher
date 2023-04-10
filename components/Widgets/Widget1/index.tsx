@@ -185,11 +185,19 @@ const Widget1: React.FC<IProps> = ({
                         moveTo: "/createProject",
                         color_code: "#FFC107"
                     }, ...projects].map((item, index: number) => (
-                        <div key={index} onClick={() => router.push((index == 0) ? (item.moveTo) : (`/projectDetails/${item.ProjectName}/${item.id}`))}>
+                        <div
+                            key={index}
+                            // onClick={() => router.push((index == 0) ? (item.moveTo) : (`/projectDetails/${item.ProjectName}/${item.id}`))}
+                            onClick={() => {
+                                const targetUrl = index === 0 ? item.moveTo : `/projectDetails/${item.ProjectName}/${item.id}`;
+                                router.push(targetUrl, undefined, { shallow: true });
+                            }}
+
+                        >
                             <div className={styles.individualProject}>
                                 {(index === 0) ? (
                                     <div className={`${styles.icon_styleAdd}`}>
-                                        <AddIcon sx={{fontSize:30,color:"#6d6e6f"}} />
+                                        <AddIcon sx={{ fontSize: 30, color: "#6d6e6f" }} />
                                     </div>
                                 ) : (
                                     <div className={`${styles.icon_style}`} style={{

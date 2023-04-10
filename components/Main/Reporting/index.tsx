@@ -352,6 +352,15 @@ const Reporting: React.FC<ReportingProps> = ({
                                                             borderRadius: "10px",
                                                             boxShadow: "none",
                                                             border: "1px solid rgb(203, 203, 208)",
+                                                            cursor: "pointer",
+                                                            transition: "all 0.1s ease-in-out",
+                                                            "&:hover": {
+                                                                // backgroundColor: '#E5F0FF',
+                                                                // backgroundColor: '#4573d2',
+                                                                // color: 'white',
+                                                                border: "1px solid #4573d2",
+                                                                transition: "all 0.1s ease-in-out",
+                                                            }
                                                         }}
                                                         variants={itemVariants}
                                                     >

@@ -98,12 +98,18 @@ const Dashboard: NextPage<GlobalProps> = (
                 <link rel="icon" href="/logocopy.ico" />
                 <meta name="description" content="A project management app built with Next JS, MUI,mdbootstrap and firebase" />
                 <meta name="author" content="Muhammad-Bilal-7896" />
-                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                {/* <meta name="viewport" content="width=device-width, initial-scale=1" /> */}
+                <meta name="viewport" content="width=1500" />
                 <meta name="theme-color" content="#000000" />
                 <title>
                     {(loading) ? "TaskEncher: Supercharge Your Workflow and Amplify Task Management" : (isSignedIn) ? `${signedInUserData.displayName}'s Dashboard` : "TaskEncher: Supercharge Your Workflow and Amplify Task Management"}
                 </title>
             </Head>
+            {/* 
+            <Head>
+                <title>Create Project | Taskencher</title>
+                <meta name="viewport" content="width=1200" />
+            </Head> */}
 
             {(!loading && isSignedIn) && (
                 <MainContent

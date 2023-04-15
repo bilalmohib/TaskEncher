@@ -1672,7 +1672,7 @@ const Inbox: React.FC<InboxProps> = ({
                                 <br />
                                 <Typography
                                     sx={{
-                                        fontSize: '20px',
+                                        fontSize: '20px'
                                     }}
                                 >
                                     Please Select any User to start chat

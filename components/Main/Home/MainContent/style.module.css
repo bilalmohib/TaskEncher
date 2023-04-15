@@ -10,6 +10,8 @@
     height: 100%;
 
     margin-top: 3rem;
+    z-index: 0.3;
+    position:relative;
     /* border: 2px solid rgb(255, 0, 0);
     background-color: rgb(144, 3, 226); */
 }

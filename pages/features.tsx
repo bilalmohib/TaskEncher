@@ -9,7 +9,9 @@ import {
     Card,
     CardContent,
 } from '@mui/material';
-import Header from '../components/Landing/Header';
+import Header from '@app/components/Landing/Header';
+import Footer from '@app/components/Landing/Footer';
+import { motion } from 'framer-motion';
 
 const featuresData = [
     {
@@ -52,39 +54,52 @@ const Features = () => {
                 paddingTop: 8,
                 paddingBottom: 8
             }}>
-                <Typography variant="h2" component="h1" align="center" gutterBottom>
+                <Typography variant="h3" component="h1" align="center" gutterBottom
+                    className="font-serif border-b-2 border-t-0 border-l-0 border-r-0 border-solid border-gray-900"
+                >
                     Taskencher Features
                 </Typography>
-                <Grid container spacing={4}>
+                <Grid container spacing={4} className="mt-4">
                     {featuresData.map((feature, index) => (
                         <Grid item xs={12} sm={6} md={4} key={index}>
-                            <Card sx={{
-                                padding: 8
-                            }}>
-                                <CardContent>
-                                    <Typography
-                                        variant="h5"
-                                        component="h2"
-                                        sx={{
-                                            marginBottom: 2
-                                        }}
-                                    >
-                                        {feature.title}
-                                    </Typography>
-                                    <Typography
-                                        variant="body1"
-                                        sx={{
-                                            marginTop: 1
-                                        }}
-                                    >
-                                        {feature.description}
-                                    </Typography>
-                                </CardContent>
-                            </Card>
+                            <motion.div
+                                style={{ height: '300px' }}
+                                whileHover={{
+                                    scale: 1.05,
+                                    transition: { duration: 0.2 },
+                                }}
+                            >
+                                <Card sx={{
+                                    padding: 3,
+                                    height: '300px'
+                                }}>
+                                    <CardContent>
+                                        <Typography
+                                            variant="h5"
+                                            component="h2"
+                                            sx={{
+                                                marginBottom: 2
+                                            }}
+                                        >
+                                            {feature.title}
+                                        </Typography>
+                                        <Typography
+                                            variant="body1"
+                                            sx={{
+                                                marginTop: 1
+                                            }}
+                                            className='font-mono'
+                                        >
+                                            {feature.description}
+                                        </Typography>
+                                    </CardContent>
+                                </Card>
+                            </motion.div>
                         </Grid>
                     ))}
                 </Grid>
             </Container>
+            <Footer />
         </>
     );
 };

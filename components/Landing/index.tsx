@@ -23,7 +23,8 @@ import Image from 'next/image';
 //Importing components
 import Header from './Header';
 import ScrollTriggerAnimation from '@app/components/ScrollTriggerAnimation';
-// import ScrollAnimation from "@app/components/ScrollAnimation";
+import HowItWorksSection from './HowItWorksSection';
+import TestimonialsSection from './TestimonialsSection';
 
 // For animations
 import { motion, useAnimation } from 'framer-motion';
@@ -268,6 +269,12 @@ const Landing: React.FC = () => {
           ))}
         </MotionGrid>
       </Container>
+
+      {/* How It Works Section */}
+      <HowItWorksSection />
+
+      {/* Testimonials Section */}
+      <TestimonialsSection />
 
       <Box sx={{ backgroundColor: '#172B4D', pt: 8, pb: 8 }}>
         <Container maxWidth="lg">

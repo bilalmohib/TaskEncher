@@ -93,7 +93,7 @@ const ReportDetailsComp = () => {
 
     const graphReportData = [
         {
-            reportTitle:"Incomplete tasks by project",
+            reportTitle: "Incomplete tasks by project",
             reportData: [
                 {
                     name: "FYP",
@@ -108,12 +108,12 @@ const ReportDetailsComp = () => {
                     value: 5,
                 },
             ],
-            graphType: "bar",
+            graphType: "line",
             reportColor: "#FFC107",
             reportDescription: "This graph shows the number of incomplete tasks in each project.",
         },
         {
-            reportTitle:"Incomplete tasks by priority",
+            reportTitle: "Incomplete tasks by priority",
             reportData: [
                 {
                     name: "High",
@@ -128,12 +128,12 @@ const ReportDetailsComp = () => {
                     value: 5,
                 },
             ],
-            graphType: "line",
+            graphType: "bar",
             reportColor: "#4CAF50",
             reportDescription: "This graph shows the number of incomplete tasks in each priority.",
         },
         {
-            reportTitle:"Incomplete tasks by assignee",
+            reportTitle: "Incomplete tasks by assignee",
             reportData: [
                 {
                     name: "Ali",
@@ -153,7 +153,7 @@ const ReportDetailsComp = () => {
             reportDescription: "This graph shows the number of incomplete tasks in each assignee.",
         },
         {
-            reportTitle:"Incomplete tasks by due date",
+            reportTitle: "Incomplete tasks by due date",
             reportData: [
                 {
                     name: "Today",
@@ -248,8 +248,8 @@ const ReportDetailsComp = () => {
                         </Button>
                     </div>
 
-                    <div style={{ border: "5px solid red", width: "95%", marginLeft: "2.5%", marginTop: 25 }}>
-                        <Grid container spacing={4}>
+                    <div style={{ width: "95%", marginLeft: "2.5%", marginTop: 25 }}>
+                        <Grid container spacing={3}>
                             {statReportData.map((report: any, index: number) => (
                                 <Grid item xs={12} sm={6} md={3} key={index}>
                                     <StatReportIndividual
@@ -262,7 +262,7 @@ const ReportDetailsComp = () => {
                             ))}
                         </Grid>
 
-                        <Grid container spacing={4}>
+                        <Grid container spacing={3} style={{ marginTop: -50 }}>
                             {graphReportData.map((report: any, index: number) => (
                                 <Grid item xs={12} sm={6} md={6} key={index}>
                                     <GraphReportIndividual

@@ -25,7 +25,7 @@ const StatReportIndividual: React.FC<StatReportIndividualProps> = ({
                 height: "80%",
                 display: "flex",
                 flexDirection: "column",
-                borderRadius: 1,
+                borderRadius: "10px",
                 boxShadow: "none",
                 border: "1px solid #e0e0e0",
                 backgroundColor: "#fff",

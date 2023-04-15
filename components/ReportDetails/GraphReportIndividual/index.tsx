@@ -6,6 +6,10 @@ import {
     Typography
 } from "@mui/material";
 
+// importing Chart components
+import Line from '@app/components/ReportDetails/GraphReportIndividual/Charts/Line';
+import Bar from '@app/components/ReportDetails/GraphReportIndividual/Charts/Bar';
+
 interface GraphReportIndividualProps {
     reportTitle: string;
     reportData: any;
@@ -25,17 +29,20 @@ const GraphReportIndividual: React.FC<GraphReportIndividualProps> = ({
         <Card
             sx={{
                 height: "auto",
-                borderRadius: 1,
+                borderRadius: "10px",
                 boxShadow: "none",
                 border: "1px solid #e0e0e0",
                 backgroundColor: "#fff",
                 padding: "20px 0px",
+                maxHeight: "500px",
+                overflow: "auto",
+                minHeight: "500px"
             }}
         >
             <CardContent
-                sx={{
-                    border: "1px solid red",
-                }}
+            // sx={{
+            //     border: "1px solid red",
+            // }}
             >
                 <Typography
                     sx={{
@@ -62,6 +69,32 @@ const GraphReportIndividual: React.FC<GraphReportIndividualProps> = ({
                 >
                     {reportDescription}
                 </Typography>
+
+                {(graphType === "line") ? (
+                    <Line />
+                ) :
+                    (graphType === "bar") ? (
+                        <Bar />
+                    ) :
+                        (graphType === "pie") ? (
+                            <div>
+                                <p>Pie Graph</p>
+                            </div>
+                        ) :
+                            (graphType === "radar") ? (
+                                <div>
+                                    <p>Radar Graph</p>
+                                </div>
+                            ) :
+                                (graphType === "polarArea") ? (
+                                    <div>
+                                        <p>Polar Area Graph</p>
+                                    </div>
+                                ) : (
+                                    <div>
+                                        <p>Graph Type Not Found</p>
+                                    </div>
+                                )}
             </CardContent>
         </Card>
     );

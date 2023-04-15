@@ -250,7 +250,7 @@ const ReportDetailsComp = ({
                         </div>
                     </header>
 
-                    <div style={{ width: "95%", marginLeft: "2.5%", marginTop: "11%" }}>
+                    <div style={{ width: "95%", marginLeft: "2.5%", marginTop: (isOpen) ? ("11%") : ("9.5%"), transition: "0.2s linear" }}>
                         <Grid container spacing={3}>
                             {statReportData.map((report: any, index: number) => (
                                 <Grid item xs={12} sm={6} md={3} key={index}>
@@ -311,7 +311,7 @@ const ReportDetails: React.FC<MainContentProps> = (
     return (
         <div>
             <Head>
-                <title>Profile - TaskEncher (Supercharge Your Workflow and Amplify Task Management) </title>
+                <title>Reporting - TaskEncher (Supercharge Your Workflow and Amplify Task Management) </title>
                 <meta charSet="utf-8" lang='en' />
                 <meta name="description" content="Project Management Software" />
                 <link rel="icon" href="/logocopy.ico" />

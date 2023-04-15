@@ -17,7 +17,7 @@ import { motion } from 'framer-motion';
 const pricingData = [
     {
         title: 'Basic',
-        price: '$9.99/month',
+        price: '$0/month',
         features: [
             'Task Creation and Management',
             'Team Collaboration',

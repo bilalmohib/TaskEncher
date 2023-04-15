@@ -1,0 +1,143 @@
+.container {
+    /* border: 1px solid red; */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-top: 14px;
+    padding-left: 20px;
+    z-index: 1;
+    height: 78px;
+    /* border-bottom: 1px solid #e0e0e0; */
+}
+
+.isOpenHeaderStyles {
+    margin-left: 15.5rem;
+    transition: 0.2s linear;
+}
+
+.arrowIcon {
+    transition: background-color 0.3s ease;
+    width: 35px !important;
+    height: 35px !important;
+    margin-top: 5px;
+    margin-left: 20px;
+    margin-right: 10px;
+    border-radius: 5px;
+}
+
+.arrowIcon:hover {
+    background-color: #f3f1f1;
+    /* width: 20px;
+    height: 20px; */
+}
+
+/* LEFT SIDE */
+.leftSide {
+    height: 50px;
+    /* border: 2px solid rgb(0, 48, 152); */
+}
+
+.headingProject {
+    /* border: 1px solid blue; */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    align-items: center;
+    color: #1E1F21;
+    min-width: 1px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: color 200ms ease-in-out;
+    white-space: nowrap;
+    margin-top: -12px !important;
+}
+
+.statusBtn {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    box-shadow: none;
+    padding-top: 2px;
+    cursor: pointer;
+    /* border: 1px solid red; */
+    margin-top: 8px;
+    font-weight: 400;
+    border-radius: 8px;
+    padding-left: 6px;
+}
+
+.statusBtn:hover {
+    background-color: #f9f8f8;
+    color: black;
+}
+
+/* Tabs List Container */
+.downLeftTabsList {
+    /* border: 1px solid red; */
+    list-style: none;
+    margin-left: -32px;
+    display: flex;
+    flex-direction: row;
+}
+
+.downLeftTabsList li {
+    color: #6D6E6F;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 34px;
+    margin-right: 20px;
+    /* border: 1px solid green; */
+    transition-duration: .2s;
+    transition-property: box-shadow, color;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+}
+
+.selectedTabItem {
+    border-bottom: 2px solid #1E1F21 !important;
+    color: #1E1F21 !important;
+}
+
+.downLeftTabsList li:hover {
+    color: #1e1f21;
+    border-bottom: 2px solid #6d6e6f;
+    cursor: pointer;
+}
+
+/* Tabs List Container */
+
+/* ================================================= LEFT SIDE =============================================== */
+
+/* ================================================= RIGHT SIDE =============================================== */
+.rightSide {
+    /* border: 1px solid green; */
+    display: flex;
+    flex-direction: row;
+    padding-right: 25px;
+    padding-top: 10px;
+}
+
+.profileImageRightSide {
+    /* height: 24px;
+    width: 24px; */
+    /* margin-right: 10px;
+    margin-top: 10px; */
+    /* border: 1px solid red; */
+    padding-right: 15px;
+    padding-top: 3px;
+    cursor: pointer;
+}
+
+.btn_share {
+    /* border: 1px solid red; */
+    height: 28px !important;
+    padding-top: 3px !important;
+    display: flex;
+    font-weight: 400;
+    font-size: 15px;
+    flex-direction: row;
+    text-transform: none !important;
+    justify-content: center !important;
+}
+
+/* ================================================= RIGHT SIDE =============================================== */

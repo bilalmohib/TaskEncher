@@ -76,22 +76,33 @@ const Login: NextPage = () => {
                 // When the user state is known, we set the state isSignedIn to true
                 if (signedInUserData === null) {
                     // window.location.href = "/";
-                    router.push("/");
-                    setSignedInUserData(user);
+                    if (user.isAnonymous === true) {
+                        let tempUser = {
+                            displayName: "Anonymous Guest",
+                            email: "anonymous@guest.com",
+                            photoURL: user.photoURL,
+                        }
+                        console.log(tempUser);
+                        setSignedInUserData(tempUser);
+                    } else {
+                        console.log(user);
+                        setSignedInUserData(user);
+                    }
+                    router.push(`/dashboard/${user.uid}`);
                     console.log("Signed In User Data ==> ", user);
-                    setIsSignedIn(true);
+                    // setIsSignedIn(true);
                 }
             } else {
                 // User is signed out
                 console.log("User is Not Signed In Yet");
                 // When the user state is known, we set the state isSignedIn to false
-                setIsSignedIn(false);
+                // setIsSignedIn(false);
                 // ...
             }
             // When the user state is known, we set the loading state to false
             setLoading(false);
         });
-    });
+    }, [router, router.pathname]);
 
     const handleLoginWithEmail = (e: React.SyntheticEvent) => {
         e.preventDefault();

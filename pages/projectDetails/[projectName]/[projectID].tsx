@@ -33,31 +33,21 @@ import {
 
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { db, auth } from "../../../firebase";
-import CustomLoader from '../../../components/CustomLoader';
-import Overview from '../../../components/ProjectDetails/Overview';
-import HeaderProjectDetails from '../../../components/HeaderProjectDetails';
-import List from '../../../components/ProjectDetails/List';
-import Board from '../../../components/ProjectDetails/Board';
-import Timeline from '../../../components/ProjectDetails/Timeline';
-import Calender from '../../../components/ProjectDetails/Calender';
-import Workflow from '../../../components/ProjectDetails/Workflow';
-import Dashboard from '../../../components/ProjectDetails/Dashboard';
-import Messages from '../../../components/ProjectDetails/Messages';
-import Files from '../../../components/ProjectDetails/Files';
+import CustomLoader from '@app/components/CustomLoader';
+import Overview from '@app/components/ProjectDetails/Overview';
+import HeaderProjectDetails from '@app/components/HeaderProjectDetails';
+import List from '@app/components/ProjectDetails/List';
+import Board from '@app/components/ProjectDetails/Board';
+import Timeline from '@app/components/ProjectDetails/Timeline';
+import Calender from '@app/components/ProjectDetails/Calender';
+import Workflow from '@app/components/ProjectDetails/Workflow';
+import Dashboard from '@app/components/ProjectDetails/Dashboard';
+import Messages from '@app/components/ProjectDetails/Messages';
+import Files from '@app/components/ProjectDetails/Files';
+import Navbar from '@app/components/Navbar';
+import Sidebar from '@app/components/Sidebar';
 
 const currentDate = new Date();
-
-const ProjectDetails: NextPage = () => {
-    return (
-        <div>
-            <Head>
-                <title>Profile - TaskEncher (Supercharge Your Workflow and Amplify Task Management) </title>
-                <meta name="description" content="Project Management Software" />
-                <link rel="icon" href="/logocopy.ico" />
-            </Head>
-        </div>
-    )
-}
 
 const ProjectDetailsComp = () => {
 
@@ -154,7 +144,7 @@ const ProjectDetailsComp = () => {
                             setSelectedTabItemValue={setSelectedTabItemValue} />
                     </header>
 
-                    <div className={styles.mainContainer}>
+                    <div>
                         {(selectedTabItemValue === 1) ? (
                             <Overview photoURL={signedInUserData.photoURL} />
                         ) : (selectedTabItemValue === 2) ? (
@@ -189,7 +179,46 @@ const ProjectDetailsComp = () => {
     )
 }
 
-export {
-    ProjectDetails as default,
-    ProjectDetailsComp
+interface MainContentProps {
+    isOpen: boolean;
+    setIsOpen: (value: boolean) => void;
+    currentMenuItem: number;
+    setCurrentMenuItem: (value: number) => void;
+    signedInUserData: { email: string };
+    width: number;
+    height: number;
 }
+
+const ProjectDetails: React.FC<MainContentProps> = (
+    {
+        isOpen,
+        setIsOpen,
+        currentMenuItem,
+        setCurrentMenuItem,
+        signedInUserData,
+        width,
+        height
+    }) => {
+    return (
+        <div>
+            <Head>
+                <title>Profile - TaskEncher (Supercharge Your Workflow and Amplify Task Management) </title>
+                <meta charSet="utf-8" lang='en' />
+                <meta name="description" content="Project Management Software" />
+                <link rel="icon" href="/logocopy.ico" />
+            </Head>
+            <main className={styles.main}>
+                <Navbar isOpen={isOpen} setIsOpen={setIsOpen} />
+                <div className="d-flex">
+                    <Sidebar currentMenuItem={currentMenuItem} setCurrentMenuItem={setCurrentMenuItem} isOpen={isOpen} setIsOpen={setIsOpen} />
+
+                    <div style={{ marginTop: 70 }} className={`${styles.rightSideContainer} ${isOpen ? styles.shrinkContainer : styles.expandContainer}`}>
+                        <ProjectDetailsComp />
+                    </div>
+                </div>
+            </main>
+        </div>
+    )
+}
+
+export default ProjectDetails;

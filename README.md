@@ -24,7 +24,7 @@ TaskEncher offers three pricing plans to suit the needs of different users:
 ## Support
 If you need assistance or have any questions, please visit our Help Center or contact our support team at 
 <!-- Converit it to mail -->
-[Support](mailto:"support@taskencher.com")
+[Support](mailto:"bilalmohib7896@gmail.com")
 
 ## Stay Updated
 Follow us on social media and subscribe to our newsletter to stay informed about our latest updates and upcoming features.

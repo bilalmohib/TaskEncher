@@ -6,8 +6,13 @@
     padding-top: 14px;
     padding-left: 20px;
     z-index: 1;
-    margin-left: 2px;
     height: 78px;
+    /* border-bottom: 1px solid #e0e0e0; */
+}
+
+.isOpenHeaderStyles {
+    margin-left: 15.5rem;
+    transition: 0.2s linear;
 }
 
 .arrowIcon {

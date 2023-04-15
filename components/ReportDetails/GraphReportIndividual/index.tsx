@@ -9,6 +9,8 @@ import {
 // importing Chart components
 import Line from '@app/components/ReportDetails/GraphReportIndividual/Charts/Line';
 import Bar from '@app/components/ReportDetails/GraphReportIndividual/Charts/Bar';
+import Doughnut from './Charts/Doughnut';
+import Radar from './Charts/Radar';
 
 interface GraphReportIndividualProps {
     reportTitle: string;
@@ -33,7 +35,7 @@ const GraphReportIndividual: React.FC<GraphReportIndividualProps> = ({
                 boxShadow: "none",
                 border: "1px solid #e0e0e0",
                 backgroundColor: "#fff",
-                padding: "20px 0px",
+                padding: "10px 0px",
                 maxHeight: "500px",
                 overflow: "auto",
                 minHeight: "500px"
@@ -46,10 +48,10 @@ const GraphReportIndividual: React.FC<GraphReportIndividualProps> = ({
             >
                 <Typography
                     sx={{
-                        fontSize: "25px",
+                        fontSize: "20px",
                         fontWeight: 400,
                         color: "#000",
-                        textAlign: "center",
+                        textAlign: "left",
                         marginBottom: "10px",
                         // Apply the fontfamily =  -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
                         fontFamily: '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif',
@@ -62,8 +64,9 @@ const GraphReportIndividual: React.FC<GraphReportIndividualProps> = ({
                     sx={{
                         fontSize: 14,
                         fontWeight: 400,
-                        color: reportColor,
-                        textAlign: "center",
+                        // color: reportColor,
+                        color: "#000",
+                        textAlign: "left",
                         marginBottom: "10px",
                     }}
                 >
@@ -82,14 +85,10 @@ const GraphReportIndividual: React.FC<GraphReportIndividualProps> = ({
                             </div>
                         ) :
                             (graphType === "radar") ? (
-                                <div>
-                                    <p>Radar Graph</p>
-                                </div>
+                                <Radar />
                             ) :
-                                (graphType === "polarArea") ? (
-                                    <div>
-                                        <p>Polar Area Graph</p>
-                                    </div>
+                                (graphType === "doughnut") ? (
+                                    <Doughnut />
                                 ) : (
                                     <div>
                                         <p>Graph Type Not Found</p>

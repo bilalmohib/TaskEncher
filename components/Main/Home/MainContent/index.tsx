@@ -44,7 +44,7 @@ const MainContent: React.FC<MainContentProps> = (
             <div className="d-flex">
                 <Sidebar currentMenuItem={currentMenuItem} setCurrentMenuItem={setCurrentMenuItem} isOpen={isOpen} setIsOpen={setIsOpen} />
 
-                <div style={{ marginTop: 70 }} className={`${styles.rightSideContainer} ${isOpen ? styles.shrinkContainer : styles.expandContainer}`}>
+                <div style={{ marginTop: "3.8%" }} className={`${styles.rightSideContainer} ${isOpen ? styles.shrinkContainer : styles.expandContainer}`}>
                     {/* Home Page */}
                     <section className={currentMenuItem === 1 ? '' : 'd-none'}>
                         <Home />

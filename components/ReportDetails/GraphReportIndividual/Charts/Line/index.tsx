@@ -14,7 +14,7 @@ interface LineChartProps {}
 const Line: React.FC<LineChartProps> = () => {
   useEffect(() => {
     // @ts-ignore
-    const ctx = document.getElementById("myChart")?.getContext("2d");
+    const ctx = document.getElementById("myLineChart")?.getContext("2d");
     if (ctx) {
       const myChart = new Chart(ctx, {
         type: "line",
@@ -60,7 +60,7 @@ const Line: React.FC<LineChartProps> = () => {
       {/* line chart */}
       <div className="w-auto flex mx-auto my-auto">
         <div className="pt-0 rounded-xl w-full h-fit my-auto">
-          <canvas id="myChart"></canvas>
+          <canvas id="myLineChart"></canvas>
         </div>
       </div>
     </div>

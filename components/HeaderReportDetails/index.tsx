@@ -38,13 +38,15 @@ interface IProps {
     email: string,
     reportName: any,
     photoURL: string,
+    isOpen: boolean
 }
 
 const HeaderReportDetails: React.FC<IProps> = ({
     photoURL,
     reportName,
     email,
-    reportID
+    reportID,
+    isOpen
 }) => {
 
     const router = useRouter();
@@ -83,7 +85,7 @@ const HeaderReportDetails: React.FC<IProps> = ({
     // FOR GETTING REPORT TITLE
 
     return (
-        <nav className={styles.container}>
+        <nav className={`${styles.container}`}>
             <div className={styles.leftSide}>
                 <div className='d-flex'>
                     <ProjectIcon

@@ -2,9 +2,9 @@
     position: fixed !important;
     background-color: #1e1f21;
     /* border: 1px solid red; */
-    top: 4.4rem;
+    top: calc(100% - 92.8vh);
     width: 250px;
-    height: 92.8vh;
+    height: 93%;
     transition: 0.2s linear;
 }
 
@@ -33,7 +33,8 @@
     height: 43px;
     margin-top: 15px;
 }
-.btn_createSidebar:hover{
+
+.btn_createSidebar:hover {
     background-color: #2b2c2e;
 }
 
@@ -92,7 +93,7 @@
 }
 
 /* Project Members Block */
-.projectListCoverContainer{
+.projectListCoverContainer {
     margin-top: -10px;
 }
 
@@ -110,7 +111,7 @@
     margin-left: 10px;
 }
 
-.projectListContainer{
+.projectListContainer {
     /* border: 1px solid red; */
     width: 255px;
     margin-left: -25px;
@@ -118,12 +119,13 @@
     padding-left: 18px;
     padding-right: 35px;
 }
-.projectListContainer:hover{
+
+.projectListContainer:hover {
     background-color: #303132;
     cursor: pointer;
 }
 
-.projectName{
+.projectName {
     color: #ffffff;
     margin-left: 10px;
     margin-top: 2px;
@@ -132,16 +134,17 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-    width:170px; /* some width */
+    width: 170px;
+    /* some width */
 }
 
-.projectListCoverContainer{
+.projectListCoverContainer {
     list-style: none;
     margin-left: -15px;
 }
 
 /* ________________________________________ Footer block ________________________________________ */
-.sidebarFooter{
+.sidebarFooter {
     /* border: 1px solid red; */
     position: absolute;
     bottom: 0px;
@@ -154,7 +157,7 @@
     padding-bottom: 5px;
 }
 
-.sidebarFooterContainer{
+.sidebarFooterContainer {
     /* border: 1px solid red; */
     margin-left: 20px;
     margin-top: 10px;
@@ -164,4 +167,5 @@
     color: white;
     font-weight: 300;
 }
+
 /* ________________________________________ Footer block ________________________________________ */

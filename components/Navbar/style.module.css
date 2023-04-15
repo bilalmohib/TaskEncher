@@ -5,7 +5,9 @@
     color: #ffffff;
     padding: 10px;
     display: flex;
-    height: 70px;
+    /* height: 70px; */
+    height: 7.2%;
+    /* border: 1px solid red; */
     justify-content: space-between;
     align-items: center;
     z-index: 2;

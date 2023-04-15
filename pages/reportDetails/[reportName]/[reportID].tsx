@@ -51,7 +51,9 @@ import styles from './style.module.css';
 
 const currentDate = new Date();
 
-const ReportDetailsComp = () => {
+const ReportDetailsComp = ({
+    isOpen
+}: any) => {
 
     const router = useRouter();
     const { reportName, reportID } = router.query;
@@ -148,7 +150,7 @@ const ReportDetailsComp = () => {
                     value: 5,
                 },
             ],
-            graphType: "pie",
+            graphType: "radar",
             reportColor: "#F44336",
             reportDescription: "This graph shows the number of incomplete tasks in each assignee.",
         },
@@ -168,7 +170,7 @@ const ReportDetailsComp = () => {
                     value: 5,
                 },
             ],
-            graphType: "radar",
+            graphType: "doughnut",
             reportColor: "#FF9800",
             reportDescription: "This graph shows the number of incomplete tasks in each due date.",
         }
@@ -218,37 +220,37 @@ const ReportDetailsComp = () => {
         <div className={styles.container}>
             {(isSignedIn) ? (
                 <div className={styles.container}>
-                    <header className={`fixed-top ${styles.header}`}>
+                    <header className={`fixed-top ${styles.header} ${(isOpen) && (styles.shrinkContainer)}`}>
                         <HeaderReportDetails
                             reportID={reportID}
                             email={signedInUserData.email}
                             reportName={reportName}
                             photoURL={signedInUserData.photoURL}
+                            isOpen={isOpen}
                         />
+                        <div className='pl-5 border-t-[1px] border-[#edebea] border-b-[1px] border-solid w-[100%]'>
+                            <Button
+                                variant="contained"
+                                className="mt-3 mb-3"
+                                style={{
+                                    backgroundColor: "#4573d2",
+                                    color: "#ffffff",
+                                    fontWeight: 400,
+                                    fontSize: 14,
+                                    textTransform: "none",
+                                    borderRadius: 5,
+                                    padding: "10px 20px",
+                                    boxShadow: "none",
+                                    height: "35px",
+                                }}
+                            >
+                                <AiOutlinePlus className="mr-2" />
+                                Add Chart
+                            </Button>
+                        </div>
                     </header>
 
-                    <div className='pl-5 border-t-[1px] border-[#edebea] border-b-[1px] border-solid'>
-                        <Button
-                            variant="contained"
-                            className="mt-3 mb-3"
-                            style={{
-                                backgroundColor: "#4573d2",
-                                color: "#ffffff",
-                                fontWeight: 400,
-                                fontSize: 14,
-                                textTransform: "none",
-                                borderRadius: 5,
-                                padding: "10px 20px",
-                                boxShadow: "none",
-                                height: "35px",
-                            }}
-                        >
-                            <AiOutlinePlus className="mr-2" />
-                            Add Chart
-                        </Button>
-                    </div>
-
-                    <div style={{ width: "95%", marginLeft: "2.5%", marginTop: 25 }}>
+                    <div style={{ width: "95%", marginLeft: "2.5%", marginTop: "11%" }}>
                         <Grid container spacing={3}>
                             {statReportData.map((report: any, index: number) => (
                                 <Grid item xs={12} sm={6} md={3} key={index}>
@@ -262,7 +264,7 @@ const ReportDetailsComp = () => {
                             ))}
                         </Grid>
 
-                        <Grid container spacing={3} style={{ marginTop: -50 }}>
+                        <Grid container spacing={3} style={{ marginTop: -50, marginBottom: "30px" }}>
                             {graphReportData.map((report: any, index: number) => (
                                 <Grid item xs={12} sm={6} md={6} key={index}>
                                     <GraphReportIndividual
@@ -320,7 +322,9 @@ const ReportDetails: React.FC<MainContentProps> = (
                     <Sidebar currentMenuItem={currentMenuItem} setCurrentMenuItem={setCurrentMenuItem} isOpen={isOpen} setIsOpen={setIsOpen} />
 
                     <div style={{ marginTop: 70 }} className={`${styles.rightSideContainer} ${isOpen ? styles.shrinkContainer : styles.expandContainer}`}>
-                        <ReportDetailsComp />
+                        <ReportDetailsComp
+                            isOpen={isOpen}
+                        />
                     </div>
                 </div>
             </main>

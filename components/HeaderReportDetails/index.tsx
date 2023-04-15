@@ -45,8 +45,8 @@ const HeaderReportDetails: React.FC<IProps> = ({
     photoURL,
     reportName,
     email,
-    reportID,
     isOpen
+    reportID
 }) => {
 
     const router = useRouter();

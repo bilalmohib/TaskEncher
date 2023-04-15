@@ -89,6 +89,14 @@ const GraphReportIndividual: React.FC<GraphReportIndividualProps> = ({
                             ) :
                                 (graphType === "doughnut") ? (
                                     <Doughnut />
+                                <div>
+                                    <p>Radar Graph</p>
+                                </div>
+                            ) :
+                                (graphType === "polarArea") ? (
+                                    <div>
+                                        <p>Polar Area Graph</p>
+                                    </div>
                                 ) : (
                                     <div>
                                         <p>Graph Type Not Found</p>

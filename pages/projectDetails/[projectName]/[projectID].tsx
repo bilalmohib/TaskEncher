@@ -189,7 +189,6 @@ interface MainContentProps {
     height: number;
 }
 
-// const ProjectDetails: NextPage = () => {
 const ProjectDetails: React.FC<MainContentProps> = (
     {
         isOpen,

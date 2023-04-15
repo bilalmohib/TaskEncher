@@ -1,6 +1,8 @@
 //https://stackoverflow.com/questions/58173809/next-js-redirect-from-to-another-page/58182678?sfb=2#58182678
 import React, { useState, useEffect } from "react";
-import Router, { useRouter } from 'next/router'
+import Router, { useRouter } from 'next/router';
+import Head from "next/head";
+
 /// Importing Firebase
 import {
     signInWithEmailAndPassword,
@@ -289,6 +291,10 @@ const CreateProject: NextPage = () => {
 
     return (
         <>
+            <Head>
+                <title>Create Project | Taskencher</title>
+                <meta name="viewport" content="width=1200" />
+            </Head>
             {(user && !loading && !error && signedInUserData) ? (
                 <section>
                     <div className="container">

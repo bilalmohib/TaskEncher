@@ -38,7 +38,9 @@ const MainContent: React.FC<MainContentProps> = (
     }) => {
     return (
         <main className={styles.main}>
-            <Navbar isOpen={isOpen} setIsOpen={setIsOpen} />
+            <div style={{ zIndex: 1, position: "relative" }}>
+                <Navbar isOpen={isOpen} setIsOpen={setIsOpen} />
+            </div>
             <div className="d-flex">
                 <Sidebar currentMenuItem={currentMenuItem} setCurrentMenuItem={setCurrentMenuItem} isOpen={isOpen} setIsOpen={setIsOpen} />
 

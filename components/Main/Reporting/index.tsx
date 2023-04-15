@@ -362,6 +362,10 @@ const Reporting: React.FC<ReportingProps> = ({
                                                                 transition: "all 0.1s ease-in-out",
                                                             }
                                                         }}
+                                                        onClick={() => {
+                                                            const targetUrl = `/reportDetails/${reportingDashboard.title}/${reportingDashboard.dashboardID}`;
+                                                            router.push(targetUrl, undefined, { shallow: true });
+                                                        }}
                                                         variants={itemVariants}
                                                     >
                                                         <Box

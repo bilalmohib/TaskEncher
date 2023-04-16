@@ -97,7 +97,7 @@ const Landing: React.FC = () => {
   const pricings = [
     {
       title: 'Basic',
-      price: '$10 / month',
+      price: '$0 / month',
       features: [
         'Up to 10 users',
         'Basic features',

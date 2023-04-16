@@ -14,6 +14,7 @@ const nextConfig = {
       "media.istockphoto.com",
       "s.yimg.com",
       "via.placeholder.com",
+      "example.com"
     ],
   },
 };

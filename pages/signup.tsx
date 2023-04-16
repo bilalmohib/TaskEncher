@@ -26,7 +26,7 @@ import styles from "../styles/ContainerCss/Login.module.css";
 // importing firebase
 // Importing firebase
 import {
-    signInWithEmailAndPassword,
+    createUserWithEmailAndPassword,
     onAuthStateChanged,
     signOut,
     signInWithPopup,
@@ -34,7 +34,9 @@ import {
     FacebookAuthProvider,
     TwitterAuthProvider,
     signInAnonymously,
-    GithubAuthProvider
+    GithubAuthProvider,
+    updateProfile,
+    getAuth
 } from "firebase/auth";
 
 import { auth } from "../firebase/index";
@@ -52,7 +54,7 @@ import {
     Timestamp
 } from "firebase/firestore";
 
-const Login: NextPage = () => {
+const Signup: NextPage = () => {
     const router = useRouter();
 
     const [loading, setLoading] = useState<Boolean>(true);
@@ -88,7 +90,8 @@ const Login: NextPage = () => {
                         console.log(user);
                         setSignedInUserData(user);
                     }
-                    router.push(`/dashboard/${user.uid}`);
+                    alert(`Welcome ${user.email}! You are successfully logged in`);
+                    router.push(`/createProject`);
                     console.log("Signed In User Data ==> ", user);
                     // setIsSignedIn(true);
                 }
@@ -102,9 +105,9 @@ const Login: NextPage = () => {
             // When the user state is known, we set the loading state to false
             setLoading(false);
         });
-    }, [router, router.pathname]);
+    }, [router, router.pathname, signedInUserData]);
 
-    const handleLoginWithEmail = (e: React.SyntheticEvent) => {
+    const handleSignUpWithEmail = (e: React.SyntheticEvent) => {
         e.preventDefault();
 
         // if (password.length < 6) {
@@ -116,19 +119,35 @@ const Login: NextPage = () => {
             alert("Please fill all the fields");
             return;
         } else {
-            signInWithEmailAndPassword(auth, email, password)
+            createUserWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
                     // Signed in
-                    const user = userCredential.user;
+                    let user = userCredential.user;
+                    let email = user.email;
+                    // Extract the users name from the email
+                    let name = email?.split("@")[0];
+                    const auth = getAuth();
+                    // @ts-ignore
+                    updateProfile(auth.currentUser, {
+                        displayName: name,
+                        photoURL: "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI="
+                    }).then(() => {
+                        // Profile updated!
+                        // ...
+                    }).catch((error) => {
+                        // An error occurred
+                        // ...
+                    });
+
                     console.log("user is: ", user);
-                    alert("Signed In Successfully");
+                    // alert("Signed Up Successfully");
                     // ...
                 })
                 .catch((error) => {
                     const errorCode = error.code;
                     const errorMessage = error.message;
                     console.log("error is: ", errorCode, errorMessage);
-                    alert(`Error logging In : ${errorMessage}`);
+                    alert(`Error Signing Up : ${errorMessage}`);
                     // ..
                 });
         }
@@ -154,7 +173,7 @@ const Login: NextPage = () => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
                 console.log("error is: ", errorCode, errorMessage);
-                alert(`Error Logging In: ${errorMessage}`);
+                alert(`Error Signing Up: ${errorMessage}`);
                 // The email of the user's account used.
                 const email = error.customData.email;
                 // The AuthCredential type that was used.
@@ -178,7 +197,7 @@ const Login: NextPage = () => {
 
                 // console.log("Access Token is equal to : ", accessToken);
 
-                alert(`Congratulations! ${user.displayName} you are successfully SignedIn`);
+                alert(`Congratulations! ${user.displayName} you are successfully registered`);
                 // Navigate to Home Page
                 // navigate('/');
                 // ...
@@ -191,7 +210,7 @@ const Login: NextPage = () => {
                 const email = error.customData.email;
                 // The AuthCredential type that was used.
                 const credential = FacebookAuthProvider.credentialFromError(error);
-                alert("Error Signing In: " + errorMessage);
+                alert("Error Signing Up: " + errorMessage);
                 // ...
             });
     }
@@ -220,7 +239,7 @@ const Login: NextPage = () => {
                 const errorMessage = error.message;
                 // On Error show the error message.
                 console.log("error is: ", errorCode, errorMessage);
-                alert(`Error Signing In: ${errorMessage}`);
+                alert(`Error Signing Up: ${errorMessage}`);
                 // The email of the user's account used.
                 const email = error.customData.email;
                 // The AuthCredential type that was used.
@@ -239,7 +258,7 @@ const Login: NextPage = () => {
                 // const token = credential?.accessToken;
                 // The signed-in user info.
                 const user = result.user;
-                alert(`Congratulations! ${user.displayName} you are successfully SignIn`);
+                alert(`Congratulations! ${user.displayName} you are successfully registered`);
                 // Navigate to Home Page
                 // navigate('/');
                 // ...
@@ -248,7 +267,7 @@ const Login: NextPage = () => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
                 console.log("error is: ", errorCode, errorMessage);
-                alert(`Error Signing In: ${errorMessage}`);
+                alert(`Error Signing Up: ${errorMessage}`);
                 // The email of the user's account used.
                 const email = error.customData.email;
                 // The AuthCredential type that was used.
@@ -262,15 +281,15 @@ const Login: NextPage = () => {
         signInAnonymously(auth)
             .then(() => {
                 // Signed in..
-                alert("Anonymous Sign In Successful");
+                alert("Anonymous Sign Up Successful");
                 // Navigate to Home Page
                 // navigate('/');
             })
             .catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
-                console.log("Error Signing In Anonymously : ", errorCode, errorMessage);
-                alert(`Error Signing In Anonymously : ${errorMessage}`);
+                console.log("Error Signing Up Anonymously : ", errorCode, errorMessage);
+                alert(`Error Signing Up Anonymously : ${errorMessage}`);
                 // ...
             });
     }
@@ -290,7 +309,7 @@ const Login: NextPage = () => {
     return (
         <Box className={styles.container}>
             <Head>
-                <title>Login TaskEncher - Rev Up Tasks and Efficiency</title>
+                <title>SignUp TaskEncher - Rev Up Tasks and Efficiency</title>
                 <meta name="description" content="Generated by create next app" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
@@ -316,7 +335,7 @@ const Login: NextPage = () => {
                             </Typography>
                             <p style={{ fontSize: 18, color: 'red' }}>BETA</p>
                             <Typography variant="h4" className={styles.login_title}>
-                                Log in
+                                Sign Up
                             </Typography>
                             {/* Icons Section */}
                             <Box>
@@ -377,18 +396,19 @@ const Login: NextPage = () => {
                                             fullWidth
                                             size="large"
                                             className={styles.btn_login_email}
-                                            onClick={handleLoginWithEmail}
+                                            onClick={handleSignUpWithEmail}
                                         >
-                                            Log In
+                                            Sign Up
                                         </Button>
                                     </div>
                                     <div>
                                         <Typography variant="subtitle1" align="center" style={{ marginTop: '25px' }}>
-                                            Don&rsquo;t have an account?{' '}
-                                            <Link href="/signup">
+                                            Already have an account{' '}
+                                            <Link href="/login">
                                                 <a href="#" style={{ color: '#0079bf' }}>
-                                                    Sign up
+                                                    Log In
                                                 </a>
+                                                {/* Just Sign Up Using Any of the Above Methods */}
                                             </Link>
                                             {' '} Now
                                         </Typography>
@@ -410,4 +430,4 @@ const Login: NextPage = () => {
         </Box>
     );
 };
-export default Login;
+export default Signup;

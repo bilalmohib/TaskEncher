@@ -499,10 +499,40 @@ const InteractiveContainer: React.FC<InteractiveContainerProps> = ({
     }
 
     return (
-        <Box className={classes.container}>
+        <Box
+            className="w-full bg-white flex justify-center align-middle"
+            // If text field is focused, then the border should be bluish otherwise greyish border
+            sx={{
+                border: "1px solid",
+                borderColor: "grey.500",
+                borderRadius: "0px 0px 0px 0px",
+                '&:focus-within': {
+                    borderColor: "blue",
+                    borderRadius: "0px 0px 0px 0px",
+                },
+            }}
+        >
             <TextField
-                className={classes.input}
-                label="Type your message here..."
+                sx={{
+                    backgroundColor: "white",
+                    border: "none",
+                    '& .MuiOutlinedInput-root': {
+                        '& fieldset': {
+                            border: "none",
+                            borderRadius: "0px 0px 0px 0px",
+                        },
+                        '&:hover fieldset': {
+                            border: "none",
+                            borderRadius: "0px 0px 0px 0px",
+                        },
+                        '&.Mui-focused fieldset': {
+                            border: "none",
+                            borderRadius: "0px 0px 0px 0px",
+                        },
+                    },
+                }}
+                label=""
+                placeholder='Type your message here...'
                 value={message}
                 onChange={handleChange}
                 variant="outlined"
@@ -511,7 +541,23 @@ const InteractiveContainer: React.FC<InteractiveContainerProps> = ({
                 rows={7}
             />
             <IconButton
-                className={classes.sendButton}
+                sx={{
+                    backgroundColor: "white",
+                    width: "50px",
+                    height: "200px",
+                    borderRadius: "0%",
+                    alignSelf: "center",
+                    transition:"0.2s linear",
+                    '&:hover': {
+                        backgroundColor: "blue",
+                        color: "white",
+                        transition:"0.2s linear"
+                    },
+                    // '&:active': {
+                    //     backgroundColor: "white",
+                    // },
+
+                }}
                 onClick={handleSubmit}
             >
                 <SendIcon />
@@ -1628,7 +1674,7 @@ const Inbox: React.FC<InboxProps> = ({
                                 </Box>
                                 <Box className={styles.MiddleFooterContainer}
                                     sx={{
-                                        width: (showProfileInfo) ? '34.3%' : '60%',
+                                        width: (showProfileInfo) ? '39.8%' : '69.5%',
                                     }}
                                 >
                                     <InteractiveContainer

@@ -153,7 +153,7 @@ const List: React.FC<ListProps> = ({
     return (
         <div className={styles.Contaienr}>
             <div className={styles.Header}>
-                <ListHeader ProjectName={(!loading && (projectDetails !== null && projects.length !== 0)?(projectDetails.ProjectName):("... Loading Please wait"))} />
+                <ListHeader ProjectName={(!loading && (projectDetails !== null && projects.length !== 0) ? (projectDetails.ProjectName) : ("... Loading Please wait"))} />
             </div>
             <div className={styles.Body}>
                 {(!loading) ? (
@@ -170,18 +170,12 @@ const List: React.FC<ListProps> = ({
                                 {(!loading && (projectDetails !== null && projects.length !== 0)) ? (
                                     <div>
                                         <div>
-                                            {/* <div title="Create New Project" className="newProjectBtn" onClick={() => router.push('/new')}><i className="fas fa-4x fa-plus-circle"></i></div> */}
-                                            {/* <div>
-                                                <h1 className="text-center"><span className="text-danger"><b>Project Name:-</b></span> {projects.ProjectName}</h1>
-                                                <p className="text-center text-info">All the project details can be customized and updated according to your choices.</p>
-                                                <p className="text-center"> <b>Note:- </b>Project Stage and Task having <span className="text-danger">Red color</span> are the one that are active and current tasks. </p>
-                                            </div> */}
                                             <div title={`This is a sample preview of your project dear ${signedInUserData.name}`}>
                                                 <div className="table-responsive">
-                                                    <table className="table table-bordered" style={{marginLeft:"1%",width:"98%",borderLeft:"1px solid white"}}>
+                                                    <table className="table table-bordered" style={{ marginLeft: "1%", width: "98%", borderLeft: "1px solid white" }}>
                                                         <thead className={styles.projectDetailsTableHeader}>
                                                             <tr>
-                                                                <th style={{paddingLeft:0}} scope="col">Task name</th>
+                                                                <th style={{ paddingLeft: 0 }} scope="col">Task name</th>
                                                                 <th scope="col">Assignee</th>
                                                                 <th scope="col">Due date</th>
                                                                 <th scope="col">Priority</th>
@@ -213,13 +207,13 @@ const List: React.FC<ListProps> = ({
                                                                                 </div>
                                                                                 {/* Icon */}
                                                                                 &nbsp;
-                                                                                <div style={{paddingTop:1}}>
+                                                                                <div style={{ paddingTop: 1 }}>
                                                                                     {s}
                                                                                 </div>
                                                                                 &nbsp;
                                                                                 &nbsp;
                                                                                 <div className={styles.IconTasksOfTable}>
-                                                                                <i style={{fontSize:15}} className="fas fa-plus"></i>
+                                                                                    <i style={{ fontSize: 15 }} className="fas fa-plus"></i>
                                                                                 </div>
                                                                             </h5>
                                                                         </th>
@@ -256,7 +250,7 @@ const List: React.FC<ListProps> = ({
 
                                                                                         <td>{v.taskDue}</td>
                                                                                         {(v.taskPriority == "High") ? (
-                                                                                            <td style={{paddingTop:-20}}><button type="button" className="btn btn-danger btn-rounded btn-sm">{v.taskPriority}</button></td>
+                                                                                            <td style={{ paddingTop: -20 }}><button type="button" className="btn btn-danger btn-rounded btn-sm">{v.taskPriority}</button></td>
                                                                                         ) : (v.taskPriority == "Medium") ? (
                                                                                             <td><button type="button" className="btn btn-warning btn-rounded btn-sm">{v.taskPriority}</button></td>
                                                                                         ) : (v.taskPriority == "Low") ? (

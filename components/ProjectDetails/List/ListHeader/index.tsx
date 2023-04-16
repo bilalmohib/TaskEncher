@@ -5,7 +5,7 @@ import styles from './style.module.css';
 
 
 interface IProps {
-    ProjectName:string
+    ProjectName: string
 }
 
 const ListHeader: React.FC<IProps> = ({
@@ -19,7 +19,8 @@ const ListHeader: React.FC<IProps> = ({
             }}>
                 <div className="btn-group">
                     <button className={`btn btn-primary btn-sm ${styles.btn_add_task}`} type="button"> + Add task</button>
-                    <button type="button" className={`btn btn-sm btn-primary dropdown-toggle dropdown-toggle-split ${styles.btn_add_task}`} data-mdb-toggle="dropdown" aria-expanded="false">
+                    <button type="button" 
+                 className={`btn btn-sm btn-primary dropdown-toggle dropdown-toggle-split ${styles.btn_add_task}`} data-mdb-toggle="dropdown" aria-expanded="false">
                         <span className="visually-hidden">Toggle Dropdown</span>
                     </button>
                     <ul className="dropdown-menu">
@@ -30,7 +31,7 @@ const ListHeader: React.FC<IProps> = ({
             </div>
 
             {/* Incomplete tasks */}
-            <div className="btn-group" style={{ fontSize: 12, height: 28, boxShadow: "none" }}>
+            <div className="btn-group" style={{ fontSize: 16, height: 28, boxShadow: "none" }}>
                 <button type="button" className={`btn btn-btnDrop ${styles.btn_dropdown}`} data-mdb-toggle="dropdown" aria-expanded="false">
                     <IoIosArrowDropdown style={{ marginTop: -2 }} /> Incomplete tasks
                 </button>
@@ -42,7 +43,7 @@ const ListHeader: React.FC<IProps> = ({
             </div>
 
             {/* Filter */}
-            <div className="btn-group" style={{ fontSize: 12, height: 28, boxShadow: "none" }}>
+            <div className="btn-group" style={{ fontSize: 16, height: 28, boxShadow: "none" }}>
                 <button type="button" className={`btn btn-btnDrop ${styles.btn_dropdown}`} data-mdb-toggle="dropdown" aria-expanded="false">
                     <IoIosArrowDropdown style={{ marginTop: -2 }} /> Filter
                 </button>
@@ -53,8 +54,8 @@ const ListHeader: React.FC<IProps> = ({
                 </ul>
             </div>
 
-             {/* Sort */}
-             <div className="btn-group" style={{ fontSize: 12, height: 28, boxShadow: "none" }}>
+            {/* Sort */}
+            <div className="btn-group" style={{ fontSize: 16, height: 28, boxShadow: "none" }}>
                 <button type="button" className={`btn btn-btnDrop ${styles.btn_dropdown}`} data-mdb-toggle="dropdown" aria-expanded="false">
                     <IoIosArrowDropdown style={{ marginTop: -2 }} /> Sort
                 </button>

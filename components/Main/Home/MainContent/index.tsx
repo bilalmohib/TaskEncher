@@ -8,6 +8,7 @@ import Navbar from '@app/components/Navbar';
 import Sidebar from '@app/components/Sidebar';
 import Inbox from '@app/components/Main/Inbox';
 import Reporting from '@app/components/Main/Reporting';
+import MyTasks from '@app/components/Main/MyTasks';
 
 // Importing Material UI Components
 import {
@@ -44,7 +45,7 @@ const MainContent: React.FC<MainContentProps> = (
             <div className="d-flex">
                 <Sidebar currentMenuItem={currentMenuItem} setCurrentMenuItem={setCurrentMenuItem} isOpen={isOpen} setIsOpen={setIsOpen} />
 
-                <div style={{ marginTop: "3.8%" }} className={`${styles.rightSideContainer} ${isOpen ? styles.shrinkContainer : styles.expandContainer}`}>
+                <div style={{ marginTop: "3.9%" }} className={`${styles.rightSideContainer} ${isOpen ? styles.shrinkContainer : styles.expandContainer}`}>
                     {/* Home Page */}
                     <section className={currentMenuItem === 1 ? '' : 'd-none'}>
                         <Home />
@@ -52,8 +53,7 @@ const MainContent: React.FC<MainContentProps> = (
 
                     {/* My Tasks Page */}
                     <section className={currentMenuItem === 2 ? '' : 'd-none'}>
-                        <br />
-                        <h3 style={{ marginLeft: 30, marginTop: 5, color: 'black', fontWeight: 'lighter' }}>My Tasks</h3>
+                        <MyTasks />
                     </section>
 
                     {/* Inbox Page */}

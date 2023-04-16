@@ -83,54 +83,6 @@ const CreateProject: NextPage = () => {
     const [signedInUserData, setSignedInUserData] = useState<any>(null);
     const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
 
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    // useEffect(() => {
-    //     // tslint:disable-next-line: no-unused-expression
-    //     firebase.auth().onAuthStateChanged((user:any) => {
-    //         if (user) {
-    //             setStatus(true);
-    //             setSignedInUserData(user);
-    //             console.log("The signed in user data is as follows==>", user)
-    //             // loadData();
-    //         }
-    //         else {
-    //             setStatus(false);
-    //             setSignedInUserData(null);
-    //             Router.push('/')
-    //         }
-    //     })
-
-    //     //console.log("All the user data of current signed user: ", props.user_data)
-
-    //     ///////////////////////////////////This code is for RETRIVING DATABASE data//////////////////////////
-    //     // const db = firebase.firestore();
-
-    //     // db.collection('Data/abc/123')
-    //     //     .get()
-    //     //     .then(snapshot => {
-    //     //         let data = [];
-    //     //         snapshot.forEach(element => {
-    //     //             data.push(Object.assign({
-    //     //                 id: element.id,
-    //     //                 name: element.name,
-    //     //                 uid: '123',
-    //     //                 createAt: element.createAt,
-    //     //                 UniqueID: element.id
-    //     //             }, element.data()))
-    //     //         })
-    //     //         console.log("data=> ", data)
-    //     //         if (firestoreData.length != data.length) {
-    //     //             setFirestoreData(data);
-    //     //             console.log("Updated")
-    //     //         }
-
-
-    //     //     }).catch(err => {
-    //     //         console.log(err)
-    //     //     })
-    //     ///////////////////////////////////This code is for RETRIVING DATABASE data//////////////////////////
-    // })
-
     // For Checking if the user is signed in or not
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
@@ -229,16 +181,16 @@ const CreateProject: NextPage = () => {
     }
 
     const addData = () => {
-        if (isSignedIn == false) {
-            const { pathname } = Router
-            if (pathname == '/createProject') {
-                alert("Not Signed In Redirecting to Login Page")
-                Router.push('/');
-            }
-        }
-        else {
-            console.log("Right.Correct")
-        }
+        // if (isSignedIn == false) {
+        //     const { pathname } = Router
+        //     if (pathname == '/createProject') {
+        //         alert("Not Signed In Redirecting to Login Page")
+        //         Router.push('/login');
+        //     }
+        // }
+        // else {
+        //     console.log("Right.Correct")
+        // }
 
         // const ref = db.collection(`Data`).doc();
         // const id = ref.id;
@@ -272,7 +224,7 @@ const CreateProject: NextPage = () => {
                     const { pathname } = Router;
                     if (pathname == '/createProject') {
                         alert("Your Project is initialized Successfully.Redirecting you to your projects page.");
-                        Router.push('/');
+                        Router.push(`/dashboard/${signedInUserData.uid}`);
                     }
                 })
                 .catch(err => {

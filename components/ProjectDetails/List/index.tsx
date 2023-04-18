@@ -1,4 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
+import {
+    Autocomplete,
+    TextField
+} from '@mui/material';
 import Link from 'next/link';
 import styles from './style.module.css';
 
@@ -83,7 +87,7 @@ const List: React.FC<ListProps> = ({
 
     const e = email;
     /////////////////////////////////////// Database Part ////////////////////////////////////////////////
-    let q = query(collection(db, "Data", "Projects", `${email}`));
+    let q = query(collection(db, "Data", "Projects", e));
 
     const [snapshot, loading, error] = useCollection(
         q,
@@ -126,10 +130,11 @@ const List: React.FC<ListProps> = ({
             for (let i = 0; i < arrProjects.length; i++) {
                 if (arrProjects[i].id === projectID.toString()) {
                     localObj = arrProjects[i];
+                    setProjectDetails(localObj);
+                    break;
                 }
             }
             setProjects(arrProjects);
-            setProjectDetails(localObj);
             // @ts-ignore
             setProjectStages(localObj?.ProjectStages);
             // @ts-ignore
@@ -149,6 +154,26 @@ const List: React.FC<ListProps> = ({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loading, snapshot]);
     // FOR GETTING PROJECTS
+
+    interface FilmOptionType {
+        title: string;
+        year: number;
+    }
+
+    const top100Films: FilmOptionType[] = [
+        { title: 'The Shawshank Redemption', year: 1994 },
+        { title: 'The Godfather', year: 1972 },
+        { title: 'The Godfather: Part II', year: 1974 },
+    ];
+
+    const defaultProps = {
+        options: top100Films,
+        getOptionLabel: (option: FilmOptionType) => option.title,
+    };
+    const flatProps = {
+        options: top100Films.map((option) => option.title),
+    };
+    const [value, setValue] = React.useState<FilmOptionType | null>(null);
 
     return (
         <div className={styles.Contaienr}>
@@ -245,7 +270,17 @@ const List: React.FC<ListProps> = ({
                                                                                         {(v.taskAssignee == "") ? (
                                                                                             <td><i className="fas fa-user-circle fa-2x text-primary"></i></td>
                                                                                         ) : (
-                                                                                            <td>{v.taskAssignee}</td>
+                                                                                            <td>
+                                                                                                {/* {v.taskAssignee} */}
+                                                                                                <Autocomplete
+                                                                                                    {...defaultProps}
+                                                                                                    id="auto-highlight"
+                                                                                                    autoHighlight
+                                                                                                    renderInput={(params) => (
+                                                                                                        <TextField {...params} label="autoHighlight" variant="standard" />
+                                                                                                    )}
+                                                                                                />
+                                                                                            </td>
                                                                                         )}
 
                                                                                         <td>{v.taskDue}</td>

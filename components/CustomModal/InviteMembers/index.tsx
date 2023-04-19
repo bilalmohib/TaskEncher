@@ -10,7 +10,17 @@ import MultiSelectChipDropDown from '@app/components/ProjectDetails/List/MultiSe
 import MultiSelectCustomAutoComplete from '@app/components/MultiSelectCustomAutoComplete';
 import { title } from 'process';
 
-const InviteMembers = () => {
+// const InviteMembers = () => {
+interface InviteMembersProps {
+    projects: any;
+    projectMembers: string[];
+}
+
+const InviteMembers: React.FC<InviteMembersProps> = (
+    {
+        projects,
+        projectMembers
+    }) => {
 
     const styles = {
         label: {
@@ -49,12 +59,12 @@ const InviteMembers = () => {
         }
     }
 
-    const projectMembers = [
-        "bialmohib7896@gmail.com",
-        "mbilals9922@gmail.com",
-        "2019cs682@gmail.com",
-        "harisyounas@gmail.com"
-    ];
+    // const projectMembers = [
+    //     "bialmohib7896@gmail.com",
+    //     "mbilals9922@gmail.com",
+    //     "2019cs682@gmail.com",
+    //     "harisyounas@gmail.com"
+    // ];
 
     const [selectedMembers, setSelectedMembers] = React.useState<string[]>([]);
 
@@ -63,100 +73,100 @@ const InviteMembers = () => {
     // For popover
     const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
 
-    const computerScienceProjects = [
-        {
-            title: "Daraz Shopping App",
-            // Remove spaces from title and make it lowercase
-            // value: title.replace(/\s+/g, '').toLowerCase()
-            value: "darazshoppingapp"
-        },
-        {
-            title: "Ecommerce Shopping App",
-            // value: title.replace(/\s+/g, '').toLowerCase()
-            value: "ecommerceshoppingapp"
-        },
-        {
-            title: "Covid-19 Tracker App",
-            // value: title.replace(/\s+/g, '').toLowerCase()
-            value: "covid19trackerapp"
-        },
-        {
-            title: "Social Media App",
-            // value: title.replace(/\s+/g, '').toLowerCase()
-            value: "socialmediaapp"
-        },
-        {
-            title: "Food Delivery App",
-            // value: title.replace(/\s+/g, '').toLowerCase()
-            value: "fooddeliveryapp"
-        },
-        {
-            title: "Uber Clone App",
-            // value: title.replace(/\s+/g, '').toLowerCase()
-            value: "ubercloneapp"
-        },
-        {
-            title: "Netflix Clone App",
-            // value: title.replace(/\s+/g, '').toLowerCase()
-            value: "netflixcloneapp"
-        },
-        {
-            title: "Tinder Clone App",
-            // value: title.replace(/\s+/g, '').toLowerCase()
-            value: "tindercloneapp"
-        },
-        {
-            title: "Instagram Clone App",
-            // value: title.replace(/\s+/g, '').toLowerCase()
-            value: "instagramcloneapp"
-        },
-        {
-            title: "Facebook Clone App",
-            // value: title.replace(/\s+/g, '').toLowerCase()
-            value: "facebookcloneapp"
-        },
-        {
-            title: "Twitter Clone App",
-            // value: title.replace(/\s+/g, '').toLowerCase()
-            value: "twittercloneapp"
-        },
-        {
-            title: "Whatsapp Clone App",
-            // value: title.replace(/\s+/g, '').toLowerCase()
-            value: "whatsappcloneapp"
-        },
-        {
-            title: "Youtube Clone App",
-            // value: title.replace(/\s+/g, '').toLowerCase()
-            value: "youtubecloneapp"
+    // const computerScienceProjects = [
+    //     {
+    //         title: "Daraz Shopping App",
+    //         // Remove spaces from title and make it lowercase
+    //         // value: title.replace(/\s+/g, '').toLowerCase()
+    //         value: "darazshoppingapp"
+    //     },
+    //     {
+    //         title: "Ecommerce Shopping App",
+    //         // value: title.replace(/\s+/g, '').toLowerCase()
+    //         value: "ecommerceshoppingapp"
+    //     },
+    //     {
+    //         title: "Covid-19 Tracker App",
+    //         // value: title.replace(/\s+/g, '').toLowerCase()
+    //         value: "covid19trackerapp"
+    //     },
+    //     {
+    //         title: "Social Media App",
+    //         // value: title.replace(/\s+/g, '').toLowerCase()
+    //         value: "socialmediaapp"
+    //     },
+    //     {
+    //         title: "Food Delivery App",
+    //         // value: title.replace(/\s+/g, '').toLowerCase()
+    //         value: "fooddeliveryapp"
+    //     },
+    //     {
+    //         title: "Uber Clone App",
+    //         // value: title.replace(/\s+/g, '').toLowerCase()
+    //         value: "ubercloneapp"
+    //     },
+    //     {
+    //         title: "Netflix Clone App",
+    //         // value: title.replace(/\s+/g, '').toLowerCase()
+    //         value: "netflixcloneapp"
+    //     },
+    //     {
+    //         title: "Tinder Clone App",
+    //         // value: title.replace(/\s+/g, '').toLowerCase()
+    //         value: "tindercloneapp"
+    //     },
+    //     {
+    //         title: "Instagram Clone App",
+    //         // value: title.replace(/\s+/g, '').toLowerCase()
+    //         value: "instagramcloneapp"
+    //     },
+    //     {
+    //         title: "Facebook Clone App",
+    //         // value: title.replace(/\s+/g, '').toLowerCase()
+    //         value: "facebookcloneapp"
+    //     },
+    //     {
+    //         title: "Twitter Clone App",
+    //         // value: title.replace(/\s+/g, '').toLowerCase()
+    //         value: "twittercloneapp"
+    //     },
+    //     {
+    //         title: "Whatsapp Clone App",
+    //         // value: title.replace(/\s+/g, '').toLowerCase()
+    //         value: "whatsappcloneapp"
+    //     },
+    //     {
+    //         title: "Youtube Clone App",
+    //         // value: title.replace(/\s+/g, '').toLowerCase()
+    //         value: "youtubecloneapp"
 
-        },
-        {
-            title: "Google Clone App",
-            // value: title.replace(/\s+/g, '').toLowerCase()
-            value: "googlecloneapp"
-        },
-        {
-            title: "Amazon Clone App",
-            // value: title.replace(/\s+/g, '').toLowerCase()
-            value: "amazoncloneapp"
-        },
-        {
-            title: "Computer Vision App",
-            // value: title.replace(/\s+/g, '').toLowerCase()
-            value: "computervisionapp"
-        },
-        {
-            title: "Attendance Management App",
-            // value: title.replace(/\s+/g, '').toLowerCase()
-            value: "attendancemanagementapp"
-        },
-        {
-            title: "Ball Tracking App",
-            // value: title.replace(/\s+/g, '').toLowerCase()
-            value: "balltrackingapp"
-        }
-    ];
+    //     },
+    //     {
+    //         title: "Google Clone App",
+    //         // value: title.replace(/\s+/g, '').toLowerCase()
+    //         value: "googlecloneapp"
+    //     },
+    //     {
+    //         title: "Amazon Clone App",
+    //         // value: title.replace(/\s+/g, '').toLowerCase()
+    //         value: "amazoncloneapp"
+    //     },
+    //     {
+    //         title: "Computer Vision App",
+    //         // value: title.replace(/\s+/g, '').toLowerCase()
+    //         value: "computervisionapp"
+    //     },
+    //     {
+    //         title: "Attendance Management App",
+    //         // value: title.replace(/\s+/g, '').toLowerCase()
+    //         value: "attendancemanagementapp"
+    //     },
+    //     {
+    //         title: "Ball Tracking App",
+    //         // value: title.replace(/\s+/g, '').toLowerCase()
+    //         value: "balltrackingapp"
+    //     }
+    // ];
 
     return (
         <Box>
@@ -207,7 +217,7 @@ const InviteMembers = () => {
                 /> */}
                 <MultiSelectCustomAutoComplete
                     placeholder="Start typing to add projects"
-                    options={computerScienceProjects}
+                    options={projects}
                     selectedArrayList={selectedProjects}
                     setSelectedArrayList={setSelectedProjects}
                     styles={styles.input}

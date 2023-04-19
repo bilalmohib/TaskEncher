@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import Chip from '@mui/material/Chip';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
@@ -23,11 +23,32 @@ const MultiSelectCustomAutoComplete: FC<MultiSelectCustomAutoCompleteProps> = ({
     styles,
     dropDownStyles
 }) => {
+
+    // ...
+    const [updatedOptions, setUpdatedOptions] = useState([]);
+
+    useEffect(() => {
+        const newOptions: any = [];
+        for (let i = 0; i < options.length; i++) {
+            newOptions.push(
+                {
+                    title: options[i].ProjectName,
+                    value: options[i].id
+                }
+            );
+        }
+
+        setUpdatedOptions(newOptions);
+    }, [options]);
+
+    // Use 'updatedOptions' wherever you need the transformed options
+    // ...
+
     return (
         <Stack spacing={3} sx={(styles) ? (styles) : ({ width: "100%" })} >
             <Autocomplete
                 multiple
-                options={options}
+                options={updatedOptions}
                 sx={(dropDownStyles) ? (
                     dropDownStyles
                 ) : ({
@@ -47,7 +68,7 @@ const MultiSelectCustomAutoComplete: FC<MultiSelectCustomAutoCompleteProps> = ({
                 )}
                 value={selectedArrayList}
                 onChange={(event, value) => {
-                    if (value !== null) {
+                    if (value.length > 1) {
                         // Make a new array to extract the last element of the array and store in new array. Note it shold be a new array 
                         // Not a invididual element of the array
 

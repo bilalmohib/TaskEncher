@@ -39,7 +39,7 @@ const Dashboard: NextPage<GlobalProps> = (
 ) => {
 
     const router = useRouter();
-    const { uid } = router.query;
+    const { email } = router.query;
 
     // Hide splash screen when we are server side 
     useEffect(() => {
@@ -96,6 +96,9 @@ const Dashboard: NextPage<GlobalProps> = (
 
     const [isModalOpen, setIsModalOpen] = React.useState(false);
 
+    const [projects, setProjects] = useState<any>([]);
+    const [projectMembers, setProjectMembers] = useState<any>([]);
+
     return (
         <div className={styles.container}>
             <Head>
@@ -110,11 +113,6 @@ const Dashboard: NextPage<GlobalProps> = (
                     {(loading) ? "TaskEncher: Supercharge Your Workflow and Amplify Task Management" : (isSignedIn) ? `${signedInUserData.displayName}'s Dashboard` : "TaskEncher: Supercharge Your Workflow and Amplify Task Management"}
                 </title>
             </Head>
-            {/* 
-            <Head>
-                <title>Create Project | Taskencher</title>
-                <meta name="viewport" content="width=1200" />
-            </Head> */}
 
             {(!loading && isSignedIn) && (
                 <>
@@ -129,6 +127,12 @@ const Dashboard: NextPage<GlobalProps> = (
                         email={signedInUserData.email}
                         isModalOpen={isModalOpen}
                         setIsModalOpen={setIsModalOpen}
+                        // Project Members
+                        projectMembers={projectMembers}
+                        setProjectMembers={setProjectMembers}
+                        // Projects
+                        projects={projects}
+                        setProjects={setProjects}
                     />
                 </>
             )}
@@ -137,6 +141,8 @@ const Dashboard: NextPage<GlobalProps> = (
                 setOpen={setIsModalOpen}
                 modalType="inviteMembers"
                 title='Invite people to My Workspace'
+                projects={projects}
+                projectMembers={projectMembers}
             />
         </div>
     )

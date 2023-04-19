@@ -15,6 +15,8 @@ interface CustomModalProps {
     setOpen: (value: boolean) => void;
     modalType: string;
     title: string;
+    projects: any;
+    projectMembers: string[];
 }
 
 const CustomModal: React.FC<CustomModalProps> = (
@@ -22,7 +24,9 @@ const CustomModal: React.FC<CustomModalProps> = (
         open,
         setOpen,
         modalType,
-        title
+        title,
+        projects,
+        projectMembers
     }) => {
     const handleClose = () => setOpen(false);
 
@@ -90,7 +94,10 @@ const CustomModal: React.FC<CustomModalProps> = (
 
                         <Box sx={styles.modalBody}>
                             {(modalType === 'inviteMembers') && (
-                                <InviteMembers />
+                                <InviteMembers
+                                    projects={projects}
+                                    projectMembers={projectMembers}
+                                />
                             )}
                         </Box>
                     </Box>

@@ -27,7 +27,7 @@ interface IProps {
     currentMenuItem: Number,
     setCurrentMenuItem: any,
     projectMembers: string[],
-    signedInUserData: any,
+    email: any,
     projectList: any,
     isModalOpen: boolean;
     setIsModalOpen: (value: boolean) => void;
@@ -39,7 +39,7 @@ const Sidebar: React.FC<IProps> = ({
     currentMenuItem,
     setCurrentMenuItem,
     projectMembers,
-    signedInUserData,
+    email,
     projectList,
     isModalOpen,
     setIsModalOpen
@@ -80,7 +80,7 @@ const Sidebar: React.FC<IProps> = ({
         "darkred"
     ];
 
-    const movingUrl = `/dashboard/${signedInUserData.uid}`;
+    const movingUrl = `/dashboard/${email}`;
 
     // Store div in a variable
 
@@ -179,7 +179,7 @@ const Sidebar: React.FC<IProps> = ({
                     <section>
                         <ul className={styles.projectMembersBlock}>
 
-                            {(signedInUserData !== null) && (
+                            {(email !== null) && (
                                 <>
                                     {projectMembers.map((v: any, i: number) => {
                                         return (
@@ -224,7 +224,7 @@ const Sidebar: React.FC<IProps> = ({
                     {/* Projects Block */}
                     <section className="mt-8">
                         <ul className={styles.projectListCoverContainer}>
-                            {(signedInUserData !== null) && (
+                            {(email !== null) && (
                                 <>
                                     {projectList.map((v: any, i: number) => {
                                         return (

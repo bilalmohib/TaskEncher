@@ -192,8 +192,8 @@ const Widget1: React.FC<IProps> = ({
                                     const targetUrl = `/createProject`;
                                     router.push(item.moveTo);
                                 } else {
-                                    const targetUrl = `/projectDetails/${item.ProjectName}/${item.id}`;
-                                    router.push(targetUrl, undefined, { shallow: true });
+                                    const targetUrl = `/projectDetails/${signedInUserData.email}/${item.ProjectName}/${item.id}`;
+                                    router.push(targetUrl);
                                 }
                             }}
                         >

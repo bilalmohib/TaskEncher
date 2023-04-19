@@ -188,8 +188,13 @@ const Widget1: React.FC<IProps> = ({
                         <div
                             key={index}
                             onClick={() => {
-                                const targetUrl = `/projectDetails/${item.ProjectName}/${item.id}`;
-                                router.push(targetUrl, undefined, { shallow: true });
+                                if (index === 0) {
+                                    const targetUrl = `/createProject`;
+                                    router.push(item.moveTo);
+                                } else {
+                                    const targetUrl = `/projectDetails/${item.ProjectName}/${item.id}`;
+                                    router.push(targetUrl, undefined, { shallow: true });
+                                }
                             }}
                         >
                             <div className={styles.individualProject}>

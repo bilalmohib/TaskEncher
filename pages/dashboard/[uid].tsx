@@ -5,12 +5,15 @@ import Head from 'next/head';
 
 // Importing Components
 import MainContent from '@app/components/Main/Home/MainContent';
+import CustomModal from '@app/components/CustomModal';
+
+import { Button } from '@mui/material';
 
 // Importing firebase
-import { auth } from "../../firebase";
 import {
     onAuthStateChanged
 } from "firebase/auth";
+import { db, auth } from "../../firebase";
 // Importing firebase
 
 import styles from '../../styles/Home.module.css';
@@ -87,9 +90,11 @@ const Dashboard: NextPage<GlobalProps> = (
                 // ...
             }
         });
-    }, [signedInUserData]);
+    }, [router, signedInUserData]);
 
     // Store div in a variable
+
+    const [isModalOpen, setIsModalOpen] = React.useState(false);
 
     return (
         <div className={styles.container}>
@@ -112,16 +117,27 @@ const Dashboard: NextPage<GlobalProps> = (
             </Head> */}
 
             {(!loading && isSignedIn) && (
-                <MainContent
-                    setIsOpen={setIsOpen}
-                    isOpen={isOpen}
-                    currentMenuItem={currentMenuItem}
-                    setCurrentMenuItem={setCurrentMenuItem}
-                    signedInUserData={signedInUserData}
-                    width={width}
-                    height={height}
-                />
+                <>
+                    <MainContent
+                        setIsOpen={setIsOpen}
+                        isOpen={isOpen}
+                        currentMenuItem={currentMenuItem}
+                        setCurrentMenuItem={setCurrentMenuItem}
+                        signedInUserData={signedInUserData}
+                        width={width}
+                        height={height}
+                        email={signedInUserData.email}
+                        isModalOpen={isModalOpen}
+                        setIsModalOpen={setIsModalOpen}
+                    />
+                </>
             )}
+            <CustomModal
+                open={isModalOpen}
+                setOpen={setIsModalOpen}
+                modalType="inviteMembers"
+                title='Invite people to My Workspace'
+            />
         </div>
     )
 }

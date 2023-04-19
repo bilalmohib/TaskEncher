@@ -33,7 +33,7 @@ import {
 
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { db, auth } from "../../../firebase";
-import CustomLoader from '@app/components/CustomLoader';
+import CustomModal from '@app/components/CustomModal';
 import Overview from '@app/components/ProjectDetails/Overview';
 import HeaderProjectDetails from '@app/components/HeaderProjectDetails';
 import List from '@app/components/ProjectDetails/List';
@@ -46,6 +46,7 @@ import Messages from '@app/components/ProjectDetails/Messages';
 import Files from '@app/components/ProjectDetails/Files';
 import Navbar from '@app/components/Navbar';
 import Sidebar from '@app/components/Sidebar';
+import CustomLoader from '@app/components/CustomLoader';
 
 const currentDate = new Date();
 
@@ -199,24 +200,97 @@ const ProjectDetails: React.FC<MainContentProps> = (
         width,
         height
     }) => {
+
+    const [isModalOpen, setIsModalOpen] = React.useState(false);
+
+    /////////////////////////////////////// Database Part ////////////////////////////////////////////////
+
+    const email = signedInUserData.email;
+
+    let q = query(collection(db, "Data", "Projects", email));
+
+    const [snapshot, loading, error] = useCollection(
+        q,
+        {
+            snapshotListenOptions: { includeMetadataChanges: true },
+        }
+    );
+
+    const [projects, setProjects] = useState<any>([]);
+
+    const [projectStages, setProjectStages] = useState<any>([]);
+
+    const [projectMembers, setProjectMembers] = useState<any>([]);
+
+    // FOR GETTING PROJECTS
+    useEffect(() => {
+
+        if (!loading && snapshot && email) {
+            let localObj;
+
+            let arrProjects = snapshot?.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+
+            // Extract all the project members from the projects array
+            setProjects(arrProjects);
+            // @ts-ignore
+            setProjectStages(localObj?.ProjectStages);
+            // @ts-ignore
+            setProjectMembers(localObj?.ProjectMembers);
+
+            // console.clear();
+            console.log("Projects ==> ", snapshot?.docs.map(doc => ({ ...doc.data(), id: doc.id })));
+            console.log("Project Details ==> ", localObj);
+            // @ts-ignore
+            console.log("Project Stages ==> ", localObj?.ProjectStages);
+            // @ts-ignore
+            console.log("Project Members ==> ", localObj?.ProjectMembers);
+            // }
+        }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [loading, snapshot]);
+    // FOR GETTING PROJECTS
+
     return (
         <div>
             <Head>
-                <title>Profile - TaskEncher (Supercharge Your Workflow and Amplify Task Management) </title>
+                <title>Project Details - TaskEncher (Supercharge Your Workflow and Amplify Task Management) </title>
                 <meta charSet="utf-8" lang='en' />
                 <meta name="description" content="Project Management Software" />
                 <link rel="icon" href="/logocopy.ico" />
             </Head>
             <main className={styles.main}>
-                <Navbar isOpen={isOpen} setIsOpen={setIsOpen} />
+                <div style={{ position: "relative", zIndex: "100 !important" }}>
+                    <Navbar isOpen={isOpen} setIsOpen={setIsOpen} />
+                </div>
                 <div className="d-flex">
-                    <Sidebar currentMenuItem={currentMenuItem} setCurrentMenuItem={setCurrentMenuItem} isOpen={isOpen} setIsOpen={setIsOpen} />
+                    <div className='z-50'>
+                        <Sidebar
+                            currentMenuItem={currentMenuItem}
+                            setCurrentMenuItem={setCurrentMenuItem}
+                            isOpen={isOpen}
+                            setIsOpen={setIsOpen}
+                            projectMembers={projectMembers}
+                            signedInUserData={signedInUserData}
+                            projectList={projects}
+                            isModalOpen={isModalOpen}
+                            setIsModalOpen={setIsModalOpen}
+                        />
+                    </div>
 
-                    <div style={{ marginTop: 70 }} className={`${styles.rightSideContainer} ${isOpen ? styles.shrinkContainer : styles.expandContainer}`}>
+                    <div style={{ marginTop: 70, zIndex: "1 !important" }} className={`${styles.rightSideContainer} ${isOpen ? styles.shrinkContainer : styles.expandContainer}`}>
                         <ProjectDetailsComp />
                     </div>
                 </div>
             </main>
+
+            <CustomModal
+                open={isModalOpen}
+                setOpen={setIsModalOpen}
+                modalType='inviteMembers'
+                title='Invite Members'
+            />
+
         </div>
     )
 }

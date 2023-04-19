@@ -15,6 +15,25 @@ import {
     Box
 } from '@mui/material';
 
+import { db, auth } from "../../../../firebase";
+// Importing firebase
+
+import {
+    doc,
+    collection,
+    onSnapshot,
+    addDoc,
+    query,
+    orderBy,
+    deleteDoc,
+    setDoc,
+    where,
+    getFirestore,
+    updateDoc
+} from "firebase/firestore";
+
+import { useCollection } from 'react-firebase-hooks/firestore';
+
 import styles from "./style.module.css";
 
 interface MainContentProps {
@@ -25,6 +44,9 @@ interface MainContentProps {
     signedInUserData: { email: string };
     width: number;
     height: number;
+    email: string;
+    isModalOpen: boolean;
+    setIsModalOpen: (value: boolean) => void;
 }
 
 const MainContent: React.FC<MainContentProps> = (
@@ -35,15 +57,82 @@ const MainContent: React.FC<MainContentProps> = (
         setCurrentMenuItem,
         signedInUserData,
         width,
-        height
+        height,
+        email,
+        isModalOpen,
+        setIsModalOpen
     }) => {
+
+    /////////////////////////////////////// Database Part ////////////////////////////////////////////////
+    let q = query(collection(db, "Data", "Projects", email));
+
+    const [snapshot, loading, error] = useCollection(
+        q,
+        {
+            snapshotListenOptions: { includeMetadataChanges: true },
+        }
+    );
+
+    const [projects, setProjects] = useState<any>([]);
+
+    const [projectMembers, setProjectMembers] = useState<any>([]);
+
+    // FOR GETTING PROJECTS
+    useEffect(() => {
+
+        if (!loading && snapshot && email) {
+            let localObj;
+
+            let arrProjects = snapshot?.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+
+            localObj = arrProjects;
+
+            const projectMembers = localObj
+                .map((project: any) => project?.ProjectMembers) // extract ProjectMembers array from each project
+                .reduce((acc, val) => acc.concat(val), []); // concatenate all ProjectMembers arrays into a single array
+
+            // Extract all the project members from the projects array
+            setProjects(arrProjects);
+
+            // Set the project members in the state
+            setProjectMembers(projectMembers);
+
+            // console.clear();
+            console.log("Projects ==> ", snapshot?.docs.map(doc => ({ ...doc.data(), id: doc.id })));
+            console.log("Projects Local ==> ", localObj);
+            console.log("Project Members ==> ", projectMembers);
+            // }
+        }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [loading, snapshot]);
+    // FOR GETTING PROJECTS
+
     return (
         <main className={styles.main}>
-            <div style={{ zIndex: 1, position: "relative" }}>
-                <Navbar isOpen={isOpen} setIsOpen={setIsOpen} />
+            <div
+                style={{
+                    zIndex: 1,
+                    position: "relative"
+                }}
+            >
+                <Navbar
+                    isOpen={isOpen}
+                    setIsOpen={setIsOpen}
+                />
             </div>
             <div className="d-flex">
-                <Sidebar currentMenuItem={currentMenuItem} setCurrentMenuItem={setCurrentMenuItem} isOpen={isOpen} setIsOpen={setIsOpen} />
+                <Sidebar
+                    currentMenuItem={currentMenuItem}
+                    setCurrentMenuItem={setCurrentMenuItem}
+                    isOpen={isOpen}
+                    setIsOpen={setIsOpen}
+                    projectMembers={projectMembers}
+                    signedInUserData={signedInUserData}
+                    projectList={projects}
+                    isModalOpen={isModalOpen}
+                    setIsModalOpen={setIsModalOpen}
+                />
 
                 <div style={{ marginTop: "3.9%" }} className={`${styles.rightSideContainer} ${isOpen ? styles.shrinkContainer : styles.expandContainer}`}>
                     {/* Home Page */}

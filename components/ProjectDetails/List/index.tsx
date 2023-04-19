@@ -4,6 +4,9 @@ import {
     TextField
 } from '@mui/material';
 import Link from 'next/link';
+
+import MultiSelectChipDropDown from './MultiSelectChipDropDown';
+
 import styles from './style.module.css';
 
 const currentDate = new Date();
@@ -25,8 +28,11 @@ import {
     orderBy,
     deleteDoc,
     setDoc,
-    where
+    where,
+    getFirestore,
+    updateDoc
 } from "firebase/firestore";
+
 import { useCollection } from 'react-firebase-hooks/firestore';
 
 import {
@@ -44,7 +50,9 @@ const List: React.FC<ListProps> = ({
 
     const router = useRouter();
 
-    const { uuid } = router.query;
+    const { uid } = router.query;
+
+    const taskRef: any = useRef();
 
     const [status, setStatus] = useState<Boolean>(false);
     const [signedInUserData, setSignedInUserData] = useState<any>(null);
@@ -108,10 +116,7 @@ const List: React.FC<ListProps> = ({
 
     const [selectedTabItemValue, setSelectedTabItemValue] = useState<Number>(1);
 
-    const [descriptionText, setDescriptionText] = useState<string>(`
-        Welcome your team and set the tone for how you’ll work together in Asana. Add
-        meeting details, communication channels, and any other information that will help.
-    `);
+    const [currentEditedTaskValue, setCurrentEditedTaskValue] = useState(null);
 
     // for checking if edit task is clicked or not
     const [editTask, setEditTask] = useState<any>(null);
@@ -155,25 +160,43 @@ const List: React.FC<ListProps> = ({
     }, [loading, snapshot]);
     // FOR GETTING PROJECTS
 
-    interface FilmOptionType {
-        title: string;
-        year: number;
-    }
-
-    const top100Films: FilmOptionType[] = [
-        { title: 'The Shawshank Redemption', year: 1994 },
-        { title: 'The Godfather', year: 1972 },
-        { title: 'The Godfather: Part II', year: 1974 },
-    ];
-
-    const defaultProps = {
-        options: top100Films,
-        getOptionLabel: (option: FilmOptionType) => option.title,
+    const handleEditTask = (event: any, taskIndex: number) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            setCurrentEditedTaskValue(event.target.innerText);
+            alert("Task Updated Successfully" + event.target.innerText + taskIndex.toString());
+            updateTaskName(taskIndex, event.target.innerText);
+            setCurrentEditSelected(taskIndex);
+        }
     };
-    const flatProps = {
-        options: top100Films.map((option) => option.title),
+
+    const updateTaskName = async (taskId: number, newTaskName: string) => {
+        const db = getFirestore();
+        const projectRef = doc(db, 'Data', 'Projects', e, projectID);
+
+        // const updatedTask = {
+        //     [`ProjectTasks.${taskId}.taskName`]: newTaskName
+        // };
+
+        for (let i = 0; i < projects.length; i++) {
+            if (projects[i].id === projectID.toString()) {
+                projects[i].ProjectTasks[taskId].taskName = newTaskName;
+                const updatedProject = projects[i];
+                console.log("Updated Project : ", updatedProject);
+
+                try {
+                    await updateDoc(projectRef, updatedProject);
+                    alert("Task Updated Successfully");
+                    console.log('Task name updated successfully');
+                } catch (error) {
+                    console.error('Error updating task name:', error);
+                }
+                break;
+            }
+        }
     };
-    const [value, setValue] = React.useState<FilmOptionType | null>(null);
+
+    const [selectedMembers, setSelectedMembers] = React.useState<string[]>([]);
 
     return (
         <div className={styles.Contaienr}>
@@ -257,13 +280,22 @@ const List: React.FC<ListProps> = ({
                                                                                 {(v.taskSection == s) ? (
                                                                                     <>
                                                                                         <th onClick={() => {
-                                                                                            setEditTask(j)
-                                                                                            setCurrentEditSelected(null)
+                                                                                            setEditTask(j);
+                                                                                            setCurrentEditSelected(null);
                                                                                         }}
                                                                                             className={`${(editTask == j) ? (styles.editTaskStyle) : ('')} ${(currentEditSelected == j) ? (styles.editTaskStyleCurrent) : ('')} ${styles.headingTask}`}
-                                                                                            scope="row">
+                                                                                            scope="row"
+                                                                                        >
                                                                                             <i role={"button"} className={`far fa-check-circle fa-lg ${styles.taskTick}`}></i>&nbsp;&nbsp;
-                                                                                            <span onClick={() => setCurrentEditSelected(i)} className={styles.headingTaskText} contentEditable={true} style={{ paddingLeft: 10, paddingRight: 10, paddingTop: 2, paddingBottom: 2 }}>
+                                                                                            <span
+                                                                                                onKeyDown={(event) => handleEditTask(event, j)}
+                                                                                                onClick={() => setCurrentEditSelected(i)}
+                                                                                                className={styles.headingTaskText}
+                                                                                                contentEditable={true}
+                                                                                                onBlur={(event: any) => setCurrentEditedTaskValue(event.target.innerText)}
+                                                                                                ref={taskRef}
+                                                                                                style={{ paddingLeft: 10, paddingRight: 10, paddingTop: 2, paddingBottom: 2 }}
+                                                                                            >
                                                                                                 {v.taskName}
                                                                                             </span>
                                                                                         </th>
@@ -272,13 +304,16 @@ const List: React.FC<ListProps> = ({
                                                                                         ) : (
                                                                                             <td>
                                                                                                 {/* {v.taskAssignee} */}
-                                                                                                <Autocomplete
-                                                                                                    {...defaultProps}
-                                                                                                    id="auto-highlight"
-                                                                                                    autoHighlight
-                                                                                                    renderInput={(params) => (
-                                                                                                        <TextField {...params} label="autoHighlight" variant="standard" />
-                                                                                                    )}
+                                                                                                <MultiSelectChipDropDown
+                                                                                                    // optionsArray={projectDetails.ProjectMembers}
+                                                                                                    // taskAssignee={v.taskAssignee}
+
+                                                                                                    placeholder="name@company.com , name@company.com"
+                                                                                                    options={projectDetails.ProjectMembers}
+                                                                                                    selectedArrayList={selectedMembers}
+                                                                                                    setSelectedArrayList={setSelectedMembers}
+                                                                                                    styles={styles.input}
+                                                                                                    dropDownStyles={styles.dropDownStyles}
                                                                                                 />
                                                                                             </td>
                                                                                         )}

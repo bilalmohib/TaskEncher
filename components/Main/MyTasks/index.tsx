@@ -54,8 +54,8 @@ const MyTasks = () => {
     const router = useRouter();
 
     // const { projectName, projectID } = router.query;
-    const projectName = "SDC";
-    const projectID = "QrxjUjOLzziREaRZZ3Ie";
+    const projectName = "FYP";
+    const projectID = "TQnqsnjrNFYYDPnVYZtx";
 
     const [firestoreData, setFirestoreData] = useState<any>([]);
     const [status, setStatus] = useState<Boolean>(false);

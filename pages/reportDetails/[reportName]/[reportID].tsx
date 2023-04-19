@@ -319,7 +319,12 @@ const ReportDetails: React.FC<MainContentProps> = (
             <main className={styles.main}>
                 <Navbar isOpen={isOpen} setIsOpen={setIsOpen} />
                 <div className="d-flex">
-                    <Sidebar currentMenuItem={currentMenuItem} setCurrentMenuItem={setCurrentMenuItem} isOpen={isOpen} setIsOpen={setIsOpen} />
+                    {/* <Sidebar
+                        currentMenuItem={currentMenuItem}
+                        setCurrentMenuItem={setCurrentMenuItem}
+                        isOpen={isOpen}
+                        setIsOpen={setIsOpen}
+                    /> */}
 
                     <div style={{ marginTop: 70 }} className={`${styles.rightSideContainer} ${isOpen ? styles.shrinkContainer : styles.expandContainer}`}>
                         <ReportDetailsComp

@@ -97,11 +97,12 @@ const HeaderMyTasks: React.FC<IProps> = ({
             for (let i = 0; i < arrProjects.length; i++) {
                 if (arrProjects[i].id === projectID.toString()) {
                     localObj = arrProjects[i];
+                    setFirestoreData(localObj);
+                    break;
                 }
             }
             // @ts-ignore
             // setProjectTitle(localObj?.ProjectName);
-            setFirestoreData(localObj);
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps

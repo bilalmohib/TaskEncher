@@ -8,6 +8,7 @@ import Navbar from '@app/components/Navbar';
 import Sidebar from '@app/components/Sidebar';
 import Inbox from '@app/components/Main/Inbox';
 import Reporting from '@app/components/Main/Reporting';
+import ProjectDetailsInside from './ProjectDetailsInside';
 import MyTasks from '@app/components/Main/MyTasks';
 
 // Importing Material UI Components
@@ -15,7 +16,7 @@ import {
     Box
 } from '@mui/material';
 
-import { db, auth } from "../../../../firebase";
+import { db, auth } from "../../../firebase";
 // Importing firebase
 
 import {
@@ -36,12 +37,13 @@ import { useCollection } from 'react-firebase-hooks/firestore';
 
 import styles from "./style.module.css";
 
-interface MainContentProps {
+interface MainContentPDProps {
     isOpen: boolean;
     setIsOpen: (value: boolean) => void;
     currentMenuItem: number;
     setCurrentMenuItem: (value: number) => void;
-    signedInUserData: { email: string };
+    signedInUserData: any;
+    isSignedIn: boolean;
     width: number;
     height: number;
     email: string;
@@ -53,15 +55,19 @@ interface MainContentProps {
     // Projects
     projects: any;
     setProjects: (value: any) => void;
+
+    projectName: any;
+    projectID: any;
 }
 
-const MainContent: React.FC<MainContentProps> = (
+const MainContentPD: React.FC<MainContentPDProps> = (
     {
         isOpen,
         setIsOpen,
         currentMenuItem,
         setCurrentMenuItem,
         signedInUserData,
+        isSignedIn,
         width,
         height,
         email,
@@ -74,11 +80,14 @@ const MainContent: React.FC<MainContentProps> = (
 
         // Projects
         projects,
-        setProjects
+        setProjects,
+
+        projectName,
+        projectID
     }) => {
 
     /////////////////////////////////////// Database Part ////////////////////////////////////////////////
-    let q = query(collection(db, "Data", "Projects", email));
+    let q = query(collection(db, "Data", "Projects", signedInUserData.email));
 
     const [snapshot, loading, error] = useCollection(
         q,
@@ -119,65 +128,34 @@ const MainContent: React.FC<MainContentProps> = (
 
     return (
         <main className={styles.main}>
-            <div
-                style={{
-                    zIndex: 1,
-                    position: "relative"
-                }}
-            >
-                <Navbar
-                    isOpen={isOpen}
-                    setIsOpen={setIsOpen}
-                />
+            <div style={{ position: "relative", zIndex: "100 !important" }}>
+                <Navbar isOpen={isOpen} setIsOpen={setIsOpen} />
             </div>
             <div className="d-flex">
-                <Sidebar
-                    currentMenuItem={currentMenuItem}
-                    setCurrentMenuItem={setCurrentMenuItem}
-                    isOpen={isOpen}
-                    setIsOpen={setIsOpen}
-                    projectMembers={projectMembers}
-                    email={email}
-                    projectList={projects}
-                    isModalOpen={isModalOpen}
-                    setIsModalOpen={setIsModalOpen}
-                />
+                <div className='z-50'>
+                    <Sidebar
+                        currentMenuItem={currentMenuItem}
+                        setCurrentMenuItem={setCurrentMenuItem}
+                        isOpen={isOpen}
+                        setIsOpen={setIsOpen}
+                        projectMembers={projectMembers}
+                        email={email}
+                        projectList={projects}
+                        isModalOpen={isModalOpen}
+                        setIsModalOpen={setIsModalOpen}
+                    />
+                </div>
 
-                <div style={{ marginTop: "3.9%" }} className={`${styles.rightSideContainer} ${isOpen ? styles.shrinkContainer : styles.expandContainer}`}>
-                    {/* Home Page */}
-                    <section className={currentMenuItem === 1 ? '' : 'd-none'}>
-                        <Home />
-                    </section>
-
-                    {/* My Tasks Page */}
-                    <section className={currentMenuItem === 2 ? '' : 'd-none'}>
-                        <MyTasks />
-                    </section>
-
-                    {/* Inbox Page */}
-                    <section className={currentMenuItem === 3 ? '' : 'd-none'}>
-                        <Inbox email={email} />
-                    </section>
-
-                    {/* Reporting Page */}
-                    <section className={currentMenuItem === 4 ? '' : 'd-none'}>
-                        <Reporting email={email} />
-                    </section>
-
-                    {/* Portfolios Page */}
-                    <section className={currentMenuItem === 5 ? '' : 'd-none'}>
-                        <br />
-                        <h3 style={{ marginLeft: 30, marginTop: 5, color: 'black', fontWeight: 'lighter' }}>Portfolios</h3>
-                    </section>
-
-                    {/* Goals Page */}
-                    <section className={currentMenuItem === 6 ? '' : 'd-none'}>
-                        <br />
-                        <h3 style={{ marginLeft: 30, marginTop: 5, color: 'black', fontWeight: 'lighter' }}>Goals</h3>
-                    </section>
+                <div style={{ marginTop: 70, zIndex: "1 !important" }} className={`${styles.rightSideContainer} ${isOpen ? styles.shrinkContainer : styles.expandContainer}`}>
+                    <ProjectDetailsInside
+                        projectID={projectID}
+                        projectName={projectName}
+                        isSignedIn={isSignedIn}
+                        signedInUserData={signedInUserData}
+                    />
                 </div>
             </div>
         </main>
     );
 };
-export default MainContent;
+export default MainContentPD;

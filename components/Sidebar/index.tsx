@@ -18,81 +18,69 @@ import { useRouter } from 'next/router';
 
 import {
     Box,
-    Typography,
-    Link,
-    Button
+    Tooltip
 } from "@mui/material";
-import { styled } from '@mui/system';
-
-// Importing Firebase Hooks
-import { db } from "../../firebase";
-import { doc, collection, onSnapshot, addDoc, query, orderBy, deleteDoc, setDoc, where } from "firebase/firestore";
-import { useCollection } from 'react-firebase-hooks/firestore';
-
-// Importing firebase
-import { auth } from "../../firebase";
-import {
-    onAuthStateChanged,
-    signOut
-} from "firebase/auth";
 
 interface IProps {
     setIsOpen: any,
     isOpen: Boolean,
     currentMenuItem: Number,
-    setCurrentMenuItem: any
+    setCurrentMenuItem: any,
+    projectMembers: string[],
+    email: any,
+    projectList: any,
+    isModalOpen: boolean;
+    setIsModalOpen: (value: boolean) => void;
 }
 
 const Sidebar: React.FC<IProps> = ({
     setIsOpen,
     isOpen,
     currentMenuItem,
-    setCurrentMenuItem
+    setCurrentMenuItem,
+    projectMembers,
+    email,
+    projectList,
+    isModalOpen,
+    setIsModalOpen
 }) => {
     const router = useRouter();
 
-    const [loading, setLoading] = useState<boolean>(true);
+    let colors = [
+        "navy",
+        "midnightblue",
+        "darkslateblue",
+        "indigo",
+        "purple",
+        "darkmagenta",
+        "darkviolet",
+        "mediumblue",
+        "steelblue",
+        "royalblue",
+        "cornflowerblue",
+        "deepskyblue",
+        "teal",
+        "darkturquoise",
+        "cadetblue",
+        "slategray",
+        "darkolivegreen",
+        "forestgreen",
+        "darkgreen",
+        "mediumseagreen",
+        "seagreen",
+        "olivedrab",
+        "darkgoldenrod",
+        "goldenrod",
+        "saddlebrown",
+        "maroon",
+        "firebrick",
+        "crimson",
+        "indianred",
+        "brown",
+        "darkred"
+    ];
 
-    //_________________ For Getting SignedInUser Data _____________________
-    const [signedInUserData, setSignedInUserData] = useState<any>(null);
-    const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
-    //_________________ For Getting SignedInUser Data _____________________
-
-    useEffect(() => {
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                // User is signed in, see docs for a list of available properties
-                // https://firebase.google.com/docs/reference/js/firebase.User
-                if (signedInUserData === null) {
-                    setIsSignedIn(true);
-                    if (user.isAnonymous === true) {
-                        let tempUser = {
-                            displayName: "Anonymous",
-                            email: `anonymous${user.uid}@guest.com`,
-                            photoURL: user.photoURL
-                        }
-                        console.log(tempUser);
-                        setSignedInUserData(tempUser);
-                        setLoading(false);
-                    } else {
-                        console.log(user);
-                        setSignedInUserData(user);
-                        setLoading(false);
-                    }
-                    // ...
-                }
-            } else {
-                // User is signed out
-                console.log("User is signed out");
-                setLoading(false);
-                setSignedInUserData(null);
-                setIsSignedIn(false);
-                // ...
-            }
-        });
-    }, [signedInUserData]);
-
-    const movingUrl = `/dashboard/${signedInUserData?.uid}`;
+    const movingUrl = `/dashboard/${email}`;
 
     // Store div in a variable
 
@@ -104,9 +92,9 @@ const Sidebar: React.FC<IProps> = ({
                         <AiOutlinePlus size={19} />
                         &nbsp; Create
                     </button>
-                    <ul className="dropdown-menu">
+                    <ul className="dropdown-menu" style={{ zIndex: "10 !important" }}>
                         <li><a className="dropdown-item" href="#">Task</a></li>
-                        <li><a className="dropdown-item" href="#">Project</a></li>
+                        <li onClick={() => router.push('/createProject')}><a className="dropdown-item" href="#">Project</a></li>
                         <li><a className="dropdown-item" href="#">Message</a></li>
                         <li><a className="dropdown-item" href="#">Invite</a></li>
                     </ul>
@@ -177,43 +165,79 @@ const Sidebar: React.FC<IProps> = ({
                 <section className={styles.workSpaceBlock}>
                     <div className={`${styles.worspace_text_block} d-flex justify-content-between`} style={{ paddingRight: 20 }}>
                         <p style={{ fontSize: 15, letterSpacing: 1, paddingLeft: 20, paddingTop: 5, fontWeight: "350" }}>My Workspace</p>
-                        <p style={{ marginTop: 5, paddingRight: 10 }}><FiPlus size={17} /></p>
+                        <p
+                            style={{ marginTop: 5, paddingRight: 10 }}
+                            onClick={
+                                () => router.push('/createProject')
+                            }
+                        >
+                            <FiPlus size={17} />
+                        </p>
                     </div>
 
                     {/* Project Members */}
                     <section>
                         <ul className={styles.projectMembersBlock}>
+
+                            {(email !== null) && (
+                                <>
+                                    {projectMembers.map((v: any, i: number) => {
+                                        return (
+                                            <li key={i}>
+                                                <Tooltip title={v}>
+                                                    <Box
+                                                        sx={{
+                                                            width: 30,
+                                                            height: 30,
+                                                            borderRadius: "50%",
+                                                            // backgroundColor: "#f5f5f5",
+                                                            // Choose a random background color from the array of colors
+                                                            backgroundColor: colors[Math.floor(Math.random() * colors.length)],
+                                                            display: "flex",
+                                                            justifyContent: "center",
+                                                            alignItems: "center",
+                                                            fontSize: 12,
+                                                            fontWeight: "lighter",
+                                                            color: "#fff"
+                                                        }}
+                                                    >
+                                                        {
+                                                            // Extract the first and last letter of the members name i.e v
+                                                            v?.charAt(0).toUpperCase() + v?.charAt(v?.length - 1).toUpperCase()
+                                                        }
+                                                    </Box>
+                                                </Tooltip>
+                                            </li>
+                                        )
+                                    })}
+                                </>
+                            )}
+                            {/* <li> <Image alt='Email@email.com' title='Email@email.com' src={"/user.png"} width={25} height={25} /> </li>
                             <li> <Image alt='Email@email.com' title='Email@email.com' src={"/user.png"} width={25} height={25} /> </li>
                             <li> <Image alt='Email@email.com' title='Email@email.com' src={"/user.png"} width={25} height={25} /> </li>
                             <li> <Image alt='Email@email.com' title='Email@email.com' src={"/user.png"} width={25} height={25} /> </li>
-                            <li> <Image alt='Email@email.com' title='Email@email.com' src={"/user.png"} width={25} height={25} /> </li>
-                            <li> <Image alt='Email@email.com' title='Email@email.com' src={"/user.png"} width={25} height={25} /> </li>
-                            <li> <Image alt='Email@email.com' title='Email@email.com' src={"/user.png"} width={25} height={25} /> </li>
+                            <li> <Image alt='Email@email.com' title='Email@email.com' src={"/user.png"} width={25} height={25} /> </li> */}
                         </ul>
                     </section>
                     {/* Project Members */}
 
                     {/* Projects Block */}
-                    <section>
+                    <section className="mt-8">
                         <ul className={styles.projectListCoverContainer}>
-                            <li>
-                                <div className={`${styles.projectListContainer} d-flex justify-content-between`}>
-                                    <p className={styles.projectName}><CgShapeSquare style={{ marginTop: -1.5 }} color={"#9ee7e3"} size={10} /> &nbsp; Project Management Software</p>
-                                    <p style={{ marginTop: 2.5 }}><GoTriangleDown fontWeight={300} size={12} color='white' /></p>
-                                </div>
-                            </li>
-                            <li>
-                                <div className={`${styles.projectListContainer} d-flex justify-content-between`}>
-                                    <p className={styles.projectName}><CgShapeSquare style={{ marginTop: -1.5 }} color={"#b36bd4"} size={10} /> &nbsp; Testing Project</p>
-                                    <p style={{ marginTop: 2.5 }}><GoTriangleDown fontWeight={300} size={12} color='white' /></p>
-                                </div>
-                            </li>
-                            <li>
-                                <div className={`${styles.projectListContainer} d-flex justify-content-between`}>
-                                    <p className={styles.projectName}><CgShapeSquare style={{ marginTop: -1.5 }} color={"#b36bd4"} size={10} /> &nbsp; 2019-CS-682 / bilal 1:1</p>
-                                    <p style={{ marginTop: 2.5 }}><GoTriangleDown fontWeight={300} size={12} color='white' /></p>
-                                </div>
-                            </li>
+                            {(email !== null) && (
+                                <>
+                                    {projectList.map((v: any, i: number) => {
+                                        return (
+                                            <li key={i}>
+                                                <div className={`${styles.projectListContainer} d-flex justify-content-between`}>
+                                                    <p className={styles.projectName}><CgShapeSquare style={{ marginTop: -1.5 }} color={"#9ee7e3"} size={10} /> &nbsp; {v.ProjectName}</p>
+                                                    <p style={{ marginTop: 2.5 }}><GoTriangleDown fontWeight={300} size={12} color='white' /></p>
+                                                </div>
+                                            </li>
+                                        )
+                                    })}
+                                </>
+                            )}
                         </ul>
                     </section>
                     {/* Projects Block */}
@@ -224,7 +248,7 @@ const Sidebar: React.FC<IProps> = ({
                 <div className={styles.sidebarFooter}>
                     <div className={styles.sidebarFooterContainer}>
                         <p><FcInvite size={25} style={{ marginTop: 2 }} /></p>
-                        <p style={{ marginTop: 1, marginLeft: 10 }}>Invite Members</p>
+                        <p style={{ marginTop: 1, marginLeft: 10 }} className={styles.inviteMember} onClick={() => setIsModalOpen(true)}>Invite Members</p>
                     </div>
                 </div>
                 {/* Invite Members Section */}

@@ -76,6 +76,8 @@ const Profile: NextPage<GlobalProps> = (
         });
     }, [signedInUserData, isSignedIn]);
 
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
     return (
         <div className={styles.container}>
             <Head>
@@ -93,7 +95,26 @@ const Profile: NextPage<GlobalProps> = (
                     <main className={styles.main}>
                         <Navbar isOpen={isOpen} setIsOpen={setIsOpen} />
                         <div className='d-flex'>
-                            <Sidebar currentMenuItem={0} setCurrentMenuItem={setCurrentMenuItem} isOpen={isOpen} setIsOpen={setIsOpen} />
+                            {/* setIsOpen,
+    isOpen,
+    currentMenuItem,
+    setCurrentMenuItem,
+    projectMembers,
+    email,
+    projectList,
+    isModalOpen,
+    setIsModalOpen */}
+                            {/* <Sidebar
+                                setIsOpen={setIsOpen}
+                                isOpen={isOpen}
+                                currentMenuItem={currentMenuItem}
+                                setCurrentMenuItem={setCurrentMenuItem}
+                                projectMembers={[]}
+                                email={signedInUserData.email}
+                                projectList={[]}
+                                isModalOpen={isModalOpen}
+                                setIsModalOpen={setIsModalOpen}
+                            /> */}
 
                             <main style={{ marginTop: 70 }} className={`${styles.rightSideContainer} ${(isOpen) ? (styles.shrinkContainer) : (styles.expandContainer)}`}>
                                 <ProfileComp

@@ -4,7 +4,7 @@
     /* border: 1px solid rgb(255, 0, 0); */
     background-color: white;
     height: auto !important;
-    z-index: 0.3;
+    z-index: -10 !important;
 }
 
 .header {
@@ -13,6 +13,7 @@
     top: 5.3%;
     margin-left: 2px;
     background-color: white;
+    z-index: 0.1 !important;
 }
 
 .main {

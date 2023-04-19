@@ -5,12 +5,15 @@ import Head from 'next/head';
 
 // Importing Components
 import MainContent from '@app/components/Main/Home/MainContent';
+import CustomModal from '@app/components/CustomModal';
+
+import { Button } from '@mui/material';
 
 // Importing firebase
-import { auth } from "../../firebase";
 import {
     onAuthStateChanged
 } from "firebase/auth";
+import { db, auth } from "../../firebase";
 // Importing firebase
 
 import styles from '../../styles/Home.module.css';
@@ -36,7 +39,7 @@ const Dashboard: NextPage<GlobalProps> = (
 ) => {
 
     const router = useRouter();
-    const { uid } = router.query;
+    const { email } = router.query;
 
     // Hide splash screen when we are server side 
     useEffect(() => {
@@ -87,9 +90,14 @@ const Dashboard: NextPage<GlobalProps> = (
                 // ...
             }
         });
-    }, [signedInUserData]);
+    }, [router, signedInUserData]);
 
     // Store div in a variable
+
+    const [isModalOpen, setIsModalOpen] = React.useState(false);
+
+    const [projects, setProjects] = useState<any>([]);
+    const [projectMembers, setProjectMembers] = useState<any>([]);
 
     return (
         <div className={styles.container}>
@@ -105,23 +113,37 @@ const Dashboard: NextPage<GlobalProps> = (
                     {(loading) ? "TaskEncher: Supercharge Your Workflow and Amplify Task Management" : (isSignedIn) ? `${signedInUserData.displayName}'s Dashboard` : "TaskEncher: Supercharge Your Workflow and Amplify Task Management"}
                 </title>
             </Head>
-            {/* 
-            <Head>
-                <title>Create Project | Taskencher</title>
-                <meta name="viewport" content="width=1200" />
-            </Head> */}
 
             {(!loading && isSignedIn) && (
-                <MainContent
-                    setIsOpen={setIsOpen}
-                    isOpen={isOpen}
-                    currentMenuItem={currentMenuItem}
-                    setCurrentMenuItem={setCurrentMenuItem}
-                    signedInUserData={signedInUserData}
-                    width={width}
-                    height={height}
-                />
+                <>
+                    <MainContent
+                        setIsOpen={setIsOpen}
+                        isOpen={isOpen}
+                        currentMenuItem={currentMenuItem}
+                        setCurrentMenuItem={setCurrentMenuItem}
+                        signedInUserData={signedInUserData}
+                        width={width}
+                        height={height}
+                        email={signedInUserData.email}
+                        isModalOpen={isModalOpen}
+                        setIsModalOpen={setIsModalOpen}
+                        // Project Members
+                        projectMembers={projectMembers}
+                        setProjectMembers={setProjectMembers}
+                        // Projects
+                        projects={projects}
+                        setProjects={setProjects}
+                    />
+                </>
             )}
+            <CustomModal
+                open={isModalOpen}
+                setOpen={setIsModalOpen}
+                modalType="inviteMembers"
+                title='Invite people to My Workspace'
+                projects={projects}
+                projectMembers={projectMembers}
+            />
         </div>
     )
 }

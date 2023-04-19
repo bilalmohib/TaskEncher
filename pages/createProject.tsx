@@ -30,6 +30,8 @@ import {
     Timestamp
 } from "firebase/firestore";
 
+import MultiSelectDropDown from "@app/components/MultiSelectDropDown";
+
 /// Importing Firebase
 import Navbar from "../components/Navbar";
 import DatePicker from 'react-date-picker/dist/entry.nostyle';
@@ -60,7 +62,8 @@ const CreateProject: NextPage = () => {
     const [task, setTask] = useState<any>("");
     const [teamMate, setTeamMate] = useState<string>("");
     //Drop Down Selected content
-    const [assignee, setAssignee] = useState<string>("");
+    // const [assignee, setAssignee] = useState<string>("");
+    const [assigneesList, setAssigneesList] = useState<string[]>([]);
     const [taskSection, setTaskSection] = useState<string>("");
     const [currentStage, setCurrentStage] = useState<string>("");
     const [currentStageCurrentTasksArray, setCurrentStageCurrentTasksArray] = useState<any>([]);
@@ -77,7 +80,8 @@ const CreateProject: NextPage = () => {
     const [stageName, setStageName] = useState<string>("");
     const [allStageArray, setAllStageArray] = useState<any>([]);
     const [allTaskArray, setAllTaskArray] = useState<any>([]);
-    const [teamMatesArray, setTeamMatesArray] = useState<any>([]);
+    // String Array for Multi Select Drop Down
+    const [teamMatesArray, setTeamMatesArray] = useState<string[]>([]);
 
     // States for status of login users
     const [signedInUserData, setSignedInUserData] = useState<any>(null);
@@ -122,9 +126,11 @@ const CreateProject: NextPage = () => {
 
         // let newdate = year + "/" + month + "/" + day;
 
+        console.log("Assignees List ==> ", assigneesList);
+
         let taskobj = {
             taskName: task,
-            taskAssignee: assignee,
+            taskAssignee: assigneesList,
             taskDue: taskDue.toLocaleDateString(),
             taskPriority: taskPriority,
             taskSection: taskSection,
@@ -132,6 +138,10 @@ const CreateProject: NextPage = () => {
         // tasksArray.push(taskobj);
         setAllTaskArray([...allTaskArray, taskobj])
         setTask("");
+        setAssigneesList([]);
+        setTaskDue(currentDate);
+        setTaskPriority("");
+        setTaskSection("");
     }
 
     const addTeamMateInArray = () => {
@@ -159,12 +169,12 @@ const CreateProject: NextPage = () => {
         }
     }
 
-    const setTaskAssignedTo = (e: any) => {
-        let assignedTo = e.target.value
-        alert(`${assignedTo} is the assignee you selected`);
-        // setCategory(selectCategory);
-        setAssignee(assignedTo);
-    }
+    // const setTaskAssignedTo = (e: any) => {
+    //     let assignedTo = e.target.value
+    //     alert(`${assignedTo} is the assignee you selected`);
+    //     // setCategory(selectCategory);
+    //     setAssignee(assignedTo);
+    // }
 
     const setCurrentStageTo = (e: any) => {
         setCurrentStage(e);
@@ -298,7 +308,7 @@ const CreateProject: NextPage = () => {
                                         <h5><i className="fas fa-arrow-left fa-lg mr-3" onClick={() => setStage(stage - 1)}></i> &nbsp;&nbsp;Who&#39;s working on this project with you? <span className="text-danger">*</span> </h5>
                                         <br />
                                         <p>Email address</p>
-                                        <input type="email" required value={teamMate} placeholder="eg : Teammate's email i.e bilalmohib7896@gmail.com" onChange={(e) => setTeamMate(e.target.value)} className="form-control" />
+                                        <input type="email" required value={teamMate} aria-hidden="true" placeholder="eg : Teammate's email i.e bilalmohib7896@gmail.com" onChange={(e) => setTeamMate(e.target.value)} className="form-control" />
 
                                         <br />
                                         <button className="btn btn-info" onClick={addTeamMateInArray}>Add TeamMate</button>
@@ -325,16 +335,6 @@ const CreateProject: NextPage = () => {
                                                     <button className="btn btn-secondary btn-continue" onClick={() => setStage(stage + 1)}>Continue</button>
                                                 )
                                         }
-
-
-                                        {/* <ol>
-                            {firestoreData.map((v, i) => {
-                                return <li key={i}>
-                                    <h5>{v.name}<br /> {v.UniqueID}</h5>
-                                </li>
-                            })}
-                        </ol>
-                        <button className="btn btn-primary" onClick={addData}>Add data</button> */}
                                     </div>
                                 ) :
                                     (stage == 3) ? (
@@ -371,14 +371,6 @@ const CreateProject: NextPage = () => {
                                                         <button className="btn btn-secondary btn-continue" onClick={() => setStage(stage + 1)}>Continue</button>
                                                     )
                                             }
-                                            {/* <ol>
-                                        {firestoreData.map((v, i) => {
-                                         return <li key={i}>
-                                           <h5>{v.name}<br /> {v.UniqueID}</h5>
-                                          </li>
-                                        })}
-                                        </ol>
-                                        <button className="btn btn-primary" onClick={addData}>Add data</button> */}
                                         </div>
                                     ) :
                                         (stage == 4) ? (
@@ -391,7 +383,7 @@ const CreateProject: NextPage = () => {
                                                     <br />
 
                                                     <h6>Task Assigned to :<span className="text-danger">*</span></h6>
-                                                    <div className="input-group input-group-md category_select">
+                                                    {/* <div className="input-group input-group-md category_select">
                                                         <span className="input-group-addon glyphicon glyphicon-search" id="sizing-addon2"></span>
                                                         <select style={{ fontSize: "15px", width: "200px" }} value={assignee}
                                                             onChange={(e) => setTaskAssignedTo(e)} className="form-control">
@@ -401,7 +393,20 @@ const CreateProject: NextPage = () => {
                                                                 </option>
                                                             })}
                                                         </select>
-                                                    </div>
+                                                    </div> */}
+                                                    {/* <MultiSelectCustomDropDown
+                                                        options={["teamMatesArray"]}
+                                                        value={assignee}
+                                                        onChange={setTaskAssignedTo}
+                                                        placeholder="Select Teammates"
+                                                    /> */}
+                                                    <MultiSelectDropDown
+                                                        placeholder="Select Teammates"
+                                                        options={teamMatesArray}
+                                                        selectedArrayList={assigneesList}
+                                                        setSelectedArrayList={setAssigneesList}
+                                                        styles={{ width: 300, mt: 3 }}
+                                                    />
                                                     <br />
 
                                                     <div>
@@ -441,7 +446,7 @@ const CreateProject: NextPage = () => {
                                                     </div>
                                                     <br />
 
-                                                    {(task == "" || assignee == "" || taskDue == currentDate || taskPriority == "" || taskSection == "") ? (
+                                                    {(task == "" || assigneesList.length === 0 || taskDue == currentDate || taskPriority == "" || taskSection == "") ? (
                                                         <>
                                                             <span className="text-danger">Please enter all the fields with <span className="text-danger">*</span> to continue</span><br />
                                                             <button className="btn btn-info" disabled={true} onClick={addtasks}>Add task</button>
@@ -606,10 +611,16 @@ const CreateProject: NextPage = () => {
                                                                 {(v.taskSection == s) ? (
                                                                     <>
                                                                         <th scope="row"><i className="far fa-check-circle fa-lg"></i>&nbsp;&nbsp;{v.taskName}</th>
-                                                                        {(v.taskAssignee == "") ? (
-                                                                            <td><i className="fas fa-user-circle fa-2x text-primary"></i></td>
+                                                                        {(v.taskAssignee.length === 0) ? (
+                                                                            <td>
+                                                                                <i className="fas fa-user-circle fa-2x text-primary"></i></td>
                                                                         ) : (
-                                                                            <td>{v.taskAssignee}</td>
+                                                                            <td>
+                                                                                {v.taskAssignee.map((
+                                                                                    v: any, i: any) => (
+                                                                                    <span key={i}>{v}</span>
+                                                                                ))}
+                                                                            </td>
                                                                         )}
 
                                                                         <td>{v.taskDue}</td>

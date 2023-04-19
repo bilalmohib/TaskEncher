@@ -8,6 +8,7 @@
     transition: 0.2s linear;
 }
 
+
 .hideSidebar {
     margin-left: -250px !important;
     transition: 0.2s linear;
@@ -166,6 +167,12 @@
     flex-wrap: wrap;
     color: white;
     font-weight: 300;
+}
+
+
+.inviteMember:hover {
+    cursor: pointer;
+    text-decoration: underline;
 }
 
 /* ________________________________________ Footer block ________________________________________ */

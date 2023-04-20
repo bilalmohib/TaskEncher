@@ -5,7 +5,7 @@
     color: #ffffff;
     padding: 10px;
     display: flex;
-    height: 70px;
+    height: 49px;
     /* height: 7.2%; */
     /* border: 1px solid red; */
     justify-content: space-between;
@@ -16,7 +16,7 @@
 
 /* Name */
 .navbarCaption {
-    font-size: 24;
+    font-size: 20px;
     margin-top: 3px;
     background: linear-gradient(90deg, #5e8cff 0%, #66ffeb 100%);
     -webkit-background-clip: text;
@@ -28,20 +28,22 @@
 }
 
 .navbarHamburger {
-    box-shadow: 2px 2px 2px solid rgb(232, 232, 232);
-    border: 2px solid rgba(255, 255, 255, 0.477);
+    /* box-shadow: 2px 2px 2px solid rgb(232, 232, 232); */
+    /* border: 1px solid rgba(255, 255, 255, 0.477); */
     padding-left: 4px;
-    padding-right: 4px;
+    padding-right: 3px;
     padding-top: 2px;
     padding-bottom: 1px;
     border-radius: 5px;
+    height:35px;
+    width: 35px;
 }
 
 .navbarHamburger:hover {
     cursor: pointer;
-    background-color: #ffffff;
-    color: #1e1f21;
-    border: 2px solid rgb(255, 255, 255);
+    /* background-color: #ffffff; */
+    /* color: #1e1f21; */
+    /* border: 2px solid rgb(255, 255, 255); */
     transition: 0.3s ease-in-out;
 }
 

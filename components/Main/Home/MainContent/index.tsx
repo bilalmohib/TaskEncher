@@ -131,6 +131,7 @@ const MainContent: React.FC<MainContentProps> = (
                 />
             </div>
             <div className="d-flex">
+                <div style={{position:"relative",zIndex:"1000 !important"}}>
                 <Sidebar
                     currentMenuItem={currentMenuItem}
                     setCurrentMenuItem={setCurrentMenuItem}
@@ -142,8 +143,9 @@ const MainContent: React.FC<MainContentProps> = (
                     isModalOpen={isModalOpen}
                     setIsModalOpen={setIsModalOpen}
                 />
+                </div>
 
-                <div style={{ marginTop: "3.9%" }} className={`${styles.rightSideContainer} ${isOpen ? styles.shrinkContainer : styles.expandContainer}`}>
+                <div style={{ marginTop: "49px" }} className={`${styles.rightSideContainer} ${isOpen ? styles.shrinkContainer : styles.expandContainer}`}>
                     {/* Home Page */}
                     <section className={currentMenuItem === 1 ? '' : 'd-none'}>
                         <Home

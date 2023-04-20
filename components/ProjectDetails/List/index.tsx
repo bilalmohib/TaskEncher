@@ -297,6 +297,7 @@ const List: React.FC<ListProps> = ({
                                                                                                 style={{ paddingLeft: 10, paddingRight: 10, paddingTop: 2, paddingBottom: 2 }}
                                                                                             >
                                                                                                 {v.taskName}
+                                                                                                
                                                                                             </span>
                                                                                         </th>
                                                                                         {(v.taskAssignee == "") ? (
@@ -308,7 +309,7 @@ const List: React.FC<ListProps> = ({
                                                                                                     // optionsArray={projectDetails.ProjectMembers}
                                                                                                     // taskAssignee={v.taskAssignee}
 
-                                                                                                    placeholder="name@company.com , name@company.com"
+                                                                                                    placeholder=""
                                                                                                     options={projectDetails.ProjectMembers}
                                                                                                     selectedArrayList={selectedMembers}
                                                                                                     setSelectedArrayList={setSelectedMembers}

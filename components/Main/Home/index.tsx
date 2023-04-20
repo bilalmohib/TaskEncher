@@ -346,16 +346,17 @@ const Home: React.FC<HomeProps> = ({
                             </h1>
                         ) : new Date().getHours() < 18 ? (
                             <h1 className={`${styles.welcomeHeading}`} style={{ fontWeight: "lighter" }}>
-                                Good afternoon, {
-                                    signedInUserData.displayName.match(/\S+/gi)[1] // to get first letter of each word (initials
-                                }
-                            </h1>
+                            Good afternoon, {signedInUserData.displayName.match(/\S+/gi)[0] === "Muhammad" ? signedInUserData.displayName.match(/\S+/gi)[1] : signedInUserData.displayName.match(/\S+/gi)[0]}
+                          </h1>
                         ) : (
                             <h1 className={`${styles.welcomeHeading}`} style={{ fontWeight: "lighter" }}>
-                                Good evening, {
-                                    signedInUserData.displayName.match(/\S+/gi)[1]
-                                }
-                            </h1>
+  Good afternoon, {signedInUserData.displayName.match(/\S+/gi)[0] === "Muhammad" ? signedInUserData.displayName.match(/\S+/gi)[1] : signedInUserData.displayName.match(/\S+/gi)[0]}
+</h1>
+                            // <h1 className={`${styles.welcomeHeading}`} style={{ fontWeight: "lighter" }}>
+                            //     Good evening, {
+                            //         signedInUserData.displayName.match(/\S+/gi)[1]
+                            //     }
+                            // </h1>
                         )}
                     </div>
                     <section className='d-flex justify-content-center'>

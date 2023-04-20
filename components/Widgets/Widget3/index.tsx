@@ -21,211 +21,163 @@ interface IProps {
     item: Number,
     currentFullLengthItem: Number,
     setCurrentFullLengthItem: Function,
-    email: String
+    email: String,
+    projectMembers: any,
 }
 
 const Widget1: React.FC<IProps> = ({
     item,
     currentFullLengthItem,
     setCurrentFullLengthItem,
-    email
+    email,
+    projectMembers
 }) => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const [list, setList] = useState(
-        [
-            {
-                title: "Alex",
-                info: "",
-                className: styles.icon1,
-                photoURL: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-            },
-            {
-                title: "John",
-                due_tasks: "",
-                className: styles.icon2,
-                photoURL: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpUsFya9DL9bOADTtUIkMD01q4KlA1-8ESNIF05HPRug&s"
-            },
-            {
-                title: "David",
-                info: "",
-                className: styles.icon3,
-                photoURL: "https://media.istockphoto.com/id/526372013/photo/real-man-face.jpg?s=170667a&w=0&k=20&c=BAhiM5RaUP8i95PbHnWAjXHEJhtvmtGSOpbWT5j6J9g="
-            },
-            {
-                title: "Fawad",
-                info: "",
-                className: styles.icon1,
-                photoURL: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-            },
-            {
-                title: "John",
-                due_tasks: "",
-                className: styles.icon2,
-                photoURL: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpUsFya9DL9bOADTtUIkMD01q4KlA1-8ESNIF05HPRug&s"
-            },
-            {
-                title: "David",
-                info: "",
-                className: styles.icon3,
-                photoURL: "https://media.istockphoto.com/id/526372013/photo/real-man-face.jpg?s=170667a&w=0&k=20&c=BAhiM5RaUP8i95PbHnWAjXHEJhtvmtGSOpbWT5j6J9g="
-            },
-            {
-                title: "Fawad",
-                info: "",
-                className: styles.icon1,
-                photoURL: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-            },
-            {
-                title: "John",
-                due_tasks: "",
-                className: styles.icon2,
-                photoURL: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpUsFya9DL9bOADTtUIkMD01q4KlA1-8ESNIF05HPRug&s"
-            },
-            {
-                title: "David",
-                info: "",
-                className: styles.icon3,
-                photoURL: "https://media.istockphoto.com/id/526372013/photo/real-man-face.jpg?s=170667a&w=0&k=20&c=BAhiM5RaUP8i95PbHnWAjXHEJhtvmtGSOpbWT5j6J9g="
-            },
-            {
-                title: "Fawad",
-                info: "",
-                className: styles.icon1,
-                photoURL: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-            },
-            {
-                title: "Fawad",
-                info: "",
-                className: styles.icon1,
-                photoURL: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-            },
-            {
-                title: "John",
-                due_tasks: "",
-                className: styles.icon2,
-                photoURL: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpUsFya9DL9bOADTtUIkMD01q4KlA1-8ESNIF05HPRug&s"
-            },
-            {
-                title: "David",
-                info: "",
-                className: styles.icon3,
-                photoURL: "https://media.istockphoto.com/id/526372013/photo/real-man-face.jpg?s=170667a&w=0&k=20&c=BAhiM5RaUP8i95PbHnWAjXHEJhtvmtGSOpbWT5j6J9g="
-            },
-            {
-                title: "Fawad",
-                info: "",
-                className: styles.icon1,
-                photoURL: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-            },
-            {
-                title: "John",
-                due_tasks: "",
-                className: styles.icon2,
-                photoURL: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpUsFya9DL9bOADTtUIkMD01q4KlA1-8ESNIF05HPRug&s"
-            },
-            {
-                title: "David",
-                info: "",
-                className: styles.icon3,
-                photoURL: "https://media.istockphoto.com/id/526372013/photo/real-man-face.jpg?s=170667a&w=0&k=20&c=BAhiM5RaUP8i95PbHnWAjXHEJhtvmtGSOpbWT5j6J9g="
-            },
-            {
-                title: "Fawad",
-                info: "",
-                className: styles.icon1,
-                photoURL: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-            }
-        ]);
-
 
     const [startX, setStartX] = useState(0);
 
-    const peoplesList = [
-        {
-            id: 1,
-            email: "bilalmohib7896@gmail.com",
-            name: "Bilal Mohib",
-            backgroundColor: "#4573d2",
-            collaboratingTasks: 3
-        },
-        {
-            id: 2,
-            email: "mbilals9922@gmail.com",
-            name: "Ammar Mohib",
-            backgroundColor: "#b36bd4",
-            collaboratingTasks: 0
-        },
-        {
-            id: 3,
-            email: "2019cs682@student.uet.edu.pk",
-            name: "Edward Elric",
-            backgroundColor: "#4573d2",
-            collaboratingTasks: 0
-        },
-        {
-            id: 4,
-            email: "user2@email.com",
-            name: "Ulquiorra Cifer",
-            backgroundColor: "#4573d2",
-            collaboratingTasks: 0
-        },
-        {
-            id: 5,
-            email: "bilalmohib7896@gmail.com",
-            name: "Fawad Ahmed",
-            backgroundColor: "#4573d2",
-            collaboratingTasks: 3
-        },
-        {
-            id: 6,
-            email: "mbilals9922@gmail.com",
-            name: "Ishfaq Ahmed",
-            backgroundColor: "#4573d2",
-            collaboratingTasks: 0
-        },
-        {
-            id: 7,
-            email: "2019cs682@student.uet.edu.pk",
-            name: "Yasir Ayaz",
-            backgroundColor: "#4573d2",
-            collaboratingTasks: 0
-        },
-        {
-            id: 8,
-            email: "user2@email.com",
-            name: "Ehsan Ali",
-            backgroundColor: "#4573d2",
-            collaboratingTasks: 0
-        },
-        {
-            id: 9,
-            email: "bilalmohib7896@gmail.com",
-            name: "Waqas Ahmed",
-            backgroundColor: "#4573d2",
-            collaboratingTasks: 3
-        },
-        {
-            id: 10,
-            email: "mbilals9922@gmail.com",
-            name: "Qasim Iqbal",
-            backgroundColor: "#4573d2",
-            collaboratingTasks: 0
-        },
-        {
-            id: 11,
-            email: "2019cs682@student.uet.edu.pk",
-            name: "Omer Hayaat",
-            backgroundColor: "#4573d2",
-            collaboratingTasks: 0
-        },
-        {
-            id: 12,
-            email: "user2@email.com",
-            name: "Ehsan Ali",
-            backgroundColor: "#f44336",
-            collaboratingTasks: 0
+    const [localProjectMembers, setLocalProjectMembers] = useState<any>([]);
+
+    useEffect(() => {
+        let localArray = [];
+
+        let colors = [
+            "navy",
+            "midnightblue",
+            "darkslateblue",
+            "indigo",
+            "purple",
+            "darkmagenta",
+            "darkviolet",
+            "mediumblue",
+            "steelblue",
+            "royalblue",
+            "cornflowerblue",
+            "deepskyblue",
+            "teal",
+            "darkturquoise",
+            "cadetblue",
+            "slategray",
+            "darkolivegreen",
+            "forestgreen",
+            "darkgreen",
+            "mediumseagreen",
+            "seagreen",
+            "olivedrab",
+            "darkgoldenrod",
+            "goldenrod",
+            "saddlebrown",
+            "maroon",
+            "firebrick",
+            "crimson",
+            "indianred",
+            "brown",
+            "darkred"
+        ];
+
+        for (let i = 0; i < projectMembers.length; i++) {
+
+            let extractedName = projectMembers[i].split("@")[0];
+            // Put spaces between words and capitalize first letter of first word
+            extractedName = extractedName.replace(/([A-Z])/g, ' $1').replace(/^./, function (str: string) { return str.toUpperCase(); });
+
+            localArray.push({
+                id: Math.random(),
+                email: projectMembers[i],
+                name: extractedName,
+                backgroundColor: colors[Math.floor(Math.random() * colors.length)],
+                collaboratingTasks: Math.floor(Math.random() * 10)
+            });
         }
-    ];
+
+        setLocalProjectMembers(localArray);
+    }, []);
+
+    // const peoplesList = [
+    //     {
+    //         id: 1,
+    //         email: "bilalmohib7896@gmail.com",
+    //         name: "Bilal Mohib",
+    //         backgroundColor: "#4573d2",
+    //         collaboratingTasks: 3
+    //     },
+    //     {
+    //         id: 2,
+    //         email: "mbilals9922@gmail.com",
+    //         name: "Ammar Mohib",
+    //         backgroundColor: "#b36bd4",
+    //         collaboratingTasks: 0
+    //     },
+    //     {
+    //         id: 3,
+    //         email: "2019cs682@student.uet.edu.pk",
+    //         name: "Edward Elric",
+    //         backgroundColor: "#4573d2",
+    //         collaboratingTasks: 0
+    //     },
+    //     {
+    //         id: 4,
+    //         email: "user2@email.com",
+    //         name: "Ulquiorra Cifer",
+    //         backgroundColor: "#4573d2",
+    //         collaboratingTasks: 0
+    //     },
+    //     {
+    //         id: 5,
+    //         email: "bilalmohib7896@gmail.com",
+    //         name: "Fawad Ahmed",
+    //         backgroundColor: "#4573d2",
+    //         collaboratingTasks: 3
+    //     },
+    //     {
+    //         id: 6,
+    //         email: "mbilals9922@gmail.com",
+    //         name: "Ishfaq Ahmed",
+    //         backgroundColor: "#4573d2",
+    //         collaboratingTasks: 0
+    //     },
+    //     {
+    //         id: 7,
+    //         email: "2019cs682@student.uet.edu.pk",
+    //         name: "Yasir Ayaz",
+    //         backgroundColor: "#4573d2",
+    //         collaboratingTasks: 0
+    //     },
+    //     {
+    //         id: 8,
+    //         email: "user2@email.com",
+    //         name: "Ehsan Ali",
+    //         backgroundColor: "#4573d2",
+    //         collaboratingTasks: 0
+    //     },
+    //     {
+    //         id: 9,
+    //         email: "bilalmohib7896@gmail.com",
+    //         name: "Waqas Ahmed",
+    //         backgroundColor: "#4573d2",
+    //         collaboratingTasks: 3
+    //     },
+    //     {
+    //         id: 10,
+    //         email: "mbilals9922@gmail.com",
+    //         name: "Qasim Iqbal",
+    //         backgroundColor: "#4573d2",
+    //         collaboratingTasks: 0
+    //     },
+    //     {
+    //         id: 11,
+    //         email: "2019cs682@student.uet.edu.pk",
+    //         name: "Omer Hayaat",
+    //         backgroundColor: "#4573d2",
+    //         collaboratingTasks: 0
+    //     },
+    //     {
+    //         id: 12,
+    //         email: "user2@email.com",
+    //         name: "Ehsan Ali",
+    //         backgroundColor: "#f44336",
+    //         collaboratingTasks: 0
+    //     }
+    // ];
 
 
     return (
@@ -268,7 +220,7 @@ const Widget1: React.FC<IProps> = ({
 
                     <Box className={styles.subContainer}>
                         {
-                            peoplesList.map((people: any, index: number) => {
+                            localProjectMembers.map((people: any, index: number) => {
                                 return (
                                     <Box
                                         key={index}
@@ -289,7 +241,7 @@ const Widget1: React.FC<IProps> = ({
                                                 {people.name.charAt(0)}{people.name.charAt(people.name.indexOf(" ") + 1)}
                                             </Box>
                                             <Box className={styles.peopleSliderItemContent}>
-                                                <h4 className="mt-4">{people.email}</h4>
+                                                <h4 className="mt-4 pl-4 pr-0">{people.email}</h4>
                                             </Box>
                                             <p className={styles.infoContainer}>
                                                 {(people.collaboratingTasks > 0) ? (

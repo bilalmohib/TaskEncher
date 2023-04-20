@@ -146,7 +146,7 @@ const MainContentPD: React.FC<MainContentPDProps> = (
                     />
                 </div>
 
-                <div style={{ marginTop: 70, zIndex: "1 !important" }} className={`${styles.rightSideContainer} ${isOpen ? styles.shrinkContainer : styles.expandContainer}`}>
+                <div style={{ position: "relative", marginTop: "70px", zIndex: "0.2 !important" }} className={`${styles.rightSideContainer} ${isOpen ? styles.shrinkContainer : styles.expandContainer}`}>
                     <ProjectDetailsInside
                         projectID={projectID}
                         projectName={projectName}

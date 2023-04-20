@@ -2,9 +2,9 @@
     position: fixed !important;
     background-color: #1e1f21;
     /* border: 1px solid red; */
-    top: calc(100% - 92.8vh);
+    top: 70px;
     width: 250px;
-    height: 93%;
+    height: calc(100% - 70px);
     transition: 0.2s linear;
 }
 

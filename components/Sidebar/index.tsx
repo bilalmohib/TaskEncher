@@ -178,7 +178,6 @@ const Sidebar: React.FC<IProps> = ({
                     {/* Project Members */}
                     <section>
                         <ul className={styles.projectMembersBlock}>
-
                             {(email !== null) && (
                                 <>
                                     {projectMembers.map((v: any, i: number) => {
@@ -212,11 +211,6 @@ const Sidebar: React.FC<IProps> = ({
                                     })}
                                 </>
                             )}
-                            {/* <li> <Image alt='Email@email.com' title='Email@email.com' src={"/user.png"} width={25} height={25} /> </li>
-                            <li> <Image alt='Email@email.com' title='Email@email.com' src={"/user.png"} width={25} height={25} /> </li>
-                            <li> <Image alt='Email@email.com' title='Email@email.com' src={"/user.png"} width={25} height={25} /> </li>
-                            <li> <Image alt='Email@email.com' title='Email@email.com' src={"/user.png"} width={25} height={25} /> </li>
-                            <li> <Image alt='Email@email.com' title='Email@email.com' src={"/user.png"} width={25} height={25} /> </li> */}
                         </ul>
                     </section>
                     {/* Project Members */}

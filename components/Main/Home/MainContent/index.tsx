@@ -146,7 +146,10 @@ const MainContent: React.FC<MainContentProps> = (
                 <div style={{ marginTop: "3.9%" }} className={`${styles.rightSideContainer} ${isOpen ? styles.shrinkContainer : styles.expandContainer}`}>
                     {/* Home Page */}
                     <section className={currentMenuItem === 1 ? '' : 'd-none'}>
-                        <Home />
+                        <Home
+                            projectList={projects}
+                            projectMembers={projectMembers}
+                        />
                     </section>
 
                     {/* My Tasks Page */}

@@ -37,7 +37,7 @@ const ProjectDetailsInside: React.FC<ProjectDetailsInsideProps> = (
         <div className={styles.container}>
             {(isSignedIn) ? (
                 <div className={styles.container}>
-                    <header className={`fixed-top ${styles.header}`}>
+                    <header className={`${styles.header}`}>
                         <HeaderProjectDetails
                             setProjectTitle={setProjectTitle}
                             projectID={projectID}

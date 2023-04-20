@@ -60,36 +60,11 @@ const Widget1: React.FC<IProps> = ({
 }) => {
     const router = useRouter();
 
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const [list, setList] = useState(
-        [
-            {
-                title: "Create Project",
-                info: "",
-                className: styles.icon1,
-            },
-            {
-                title: "Software Development",
-                due_tasks: "",
-                className: styles.icon2,
-            },
-            {
-                title: "FYP",
-                info: "2 tasks due soon",
-                className: styles.icon3,
-            }
-        ]);
-
-
     // States for status of login users
     const [signedInUserData, setSignedInUserData] = useState<any>(null);
     const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
 
     useEffect(() => {
-
-        // console.log("Current Path : ", window.location.pathname);
-        // console.log("activeJobs ==>", activeJobs);
-
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 // User is signed in, see docs for a list of available properties
@@ -152,13 +127,11 @@ const Widget1: React.FC<IProps> = ({
             let tempProjectsObj = snapshot?.docs.map((doc, i) => ({ ...doc.data(), id: doc.id }));
 
             setProjects(tempProjectsObj);
-            // setLoading(false);
-            // console.clear();
             console.log("Projects ==> ", projects);
             // }
         }
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loading, snapshot]);
     // FOR GETTING PROJECTS
 
@@ -178,7 +151,7 @@ const Widget1: React.FC<IProps> = ({
                 </div>
             </div>
             <section className={`${styles.projectsContainer} ${((item == currentFullLengthItem) && (styles.fullWidthWidget))}`}>
-                {list &&
+                {projects &&
                     [{
                         ProjectName: "Create Project",
                         ProjectStartingDate: "",

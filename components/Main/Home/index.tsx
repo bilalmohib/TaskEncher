@@ -38,7 +38,15 @@ import {
 //Importing Containers CSS Files
 import styles from '../../../styles/Home.module.css';
 
-const Home = () => {
+interface HomeProps {
+    projectList: any;
+    projectMembers: any;
+}
+
+const Home: React.FC<HomeProps> = ({
+    projectList,
+    projectMembers
+}) => {
 
     // Month Names
     const monthNames = ["January", "February", "March", "April", "May", "June",
@@ -419,12 +427,45 @@ const Home = () => {
                                     key={index}
                                     draggable
                                 >
-                                    {item.id === 1 && <Widget1 email={signedInUserData.email} item={item.id} currentFullLengthItem={currentFullLengthItem} setCurrentFullLengthItem={setCurrentFullLengthItem} />}
-                                    {item.id === 2 && <Widget2 email={signedInUserData.email} item={item.id} currentFullLengthItem={currentFullLengthItem} setCurrentFullLengthItem={setCurrentFullLengthItem} />}
-                                    {item.id === 3 && <Widget3 email={signedInUserData.email} item={item.id} currentFullLengthItem={currentFullLengthItem} setCurrentFullLengthItem={setCurrentFullLengthItem} />}
-                                    {item.id === 4 && <Widget4 email={signedInUserData.email} item={item.id} currentFullLengthItem={currentFullLengthItem} setCurrentFullLengthItem={setCurrentFullLengthItem} />}
-                                    {item.id === 5 && <Widget5 email={signedInUserData.email} item={item.id} currentFullLengthItem={currentFullLengthItem} setCurrentFullLengthItem={setCurrentFullLengthItem} />}
-                                    {item.id === 6 && <Widget6 email={signedInUserData.email} item={item.id} currentFullLengthItem={currentFullLengthItem} setCurrentFullLengthItem={setCurrentFullLengthItem} />}
+                                    {item.id === 1 && <Widget1
+                                        email={signedInUserData.email}
+                                        item={item.id}
+                                        currentFullLengthItem={currentFullLengthItem}
+                                        setCurrentFullLengthItem={setCurrentFullLengthItem}
+                                    />}
+                                    {item.id === 2 && <Widget2
+                                        email={signedInUserData.email}
+                                        item={item.id}
+                                        currentFullLengthItem={currentFullLengthItem}
+                                        setCurrentFullLengthItem={setCurrentFullLengthItem}
+                                    />}
+                                    {item.id === 3 && <Widget3
+                                        email={signedInUserData.email}
+                                        item={item.id}
+                                        currentFullLengthItem={currentFullLengthItem}
+                                        setCurrentFullLengthItem={setCurrentFullLengthItem}
+
+                                        // Project Members
+                                        projectMembers={projectMembers}
+                                    />}
+                                    {item.id === 4 && <Widget4
+                                        email={signedInUserData.email}
+                                        item={item.id}
+                                        currentFullLengthItem={currentFullLengthItem}
+                                        setCurrentFullLengthItem={setCurrentFullLengthItem}
+                                    />}
+                                    {item.id === 5 && <Widget5
+                                        email={signedInUserData.email}
+                                        item={item.id}
+                                        currentFullLengthItem={currentFullLengthItem}
+                                        setCurrentFullLengthItem={setCurrentFullLengthItem}
+                                    />}
+                                    {item.id === 6 && <Widget6
+                                        email={signedInUserData.email}
+                                        item={item.id}
+                                        currentFullLengthItem={currentFullLengthItem}
+                                        setCurrentFullLengthItem={setCurrentFullLengthItem}
+                                    />}
                                 </div>
                             ))}
                     </section>

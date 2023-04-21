@@ -36,7 +36,7 @@ import {
 } from "firebase/auth";
 
 //Importing Containers CSS Files
-import styles from '../../../styles/Home.module.css';
+import styles from './style.module.css';
 
 interface HomeProps {
     projectList: any;
@@ -325,7 +325,7 @@ const Home: React.FC<HomeProps> = ({
             {Loading ? (
                 <CustomLoader />
             ) : (
-                <section>
+                <section className={styles.mainSectionContainer}>
                     <NewsletterModal />
                     <br />
                     <h3 style={{ marginLeft: "0px", marginTop: 5, color: "#1E1F21", fontWeight: "normal",fontSize:"20px" }}>Home</h3>

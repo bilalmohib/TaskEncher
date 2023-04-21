@@ -212,7 +212,12 @@ const List: React.FC<ListProps> = ({
     return (
         <div className={styles.Contaienr}>
             <div className={styles.Header}>
-                <ListHeader ProjectName={(!loading && (projectDetails !== null && projects.length !== 0) ? (projectDetails.ProjectName) : ("... Loading Please wait"))} />
+                <ListHeader
+                    ProjectName={((!loading) &&
+                        (projectDetails !== null && projects.length !== 0) ?
+                        (projectDetails.ProjectName) :
+                        ("... Loading Please wait"))}
+                />
             </div>
             <div className={styles.Body}>
                 {(!loading) ? (

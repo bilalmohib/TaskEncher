@@ -15,4 +15,5 @@
     margin-left: 0px;
     background-color: white;
     width: 100%;
+    z-index: 0.1 !important;
 }

@@ -12,7 +12,7 @@ interface MultiSelectCustomAutoCompleteProps {
     setSelectedArrayList?: any;
     styles?: any;
     dropDownStyles?: any;
-
+    type: string
 }
 
 const MultiSelectCustomAutoComplete: FC<MultiSelectCustomAutoCompleteProps> = ({
@@ -21,25 +21,59 @@ const MultiSelectCustomAutoComplete: FC<MultiSelectCustomAutoCompleteProps> = ({
     selectedArrayList,
     setSelectedArrayList,
     styles,
-    dropDownStyles
+    dropDownStyles,
+    type
 }) => {
 
     // ...
-    const [updatedOptions, setUpdatedOptions] = useState([]);
+    const [updatedOptions, setUpdatedOptions] = useState<any>([]);
+
+    const [lastInput, setLastInput] = useState<string>('');
+
+    const [customOption, setCustomOption] = useState<any>(null);
+
+    const [error, setError] = useState<boolean>(false);
+    const [errorMessage, setErrorMessage] = useState<string>("");
+
+    const isValidEmail = (email: string) => {
+        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
+    };
 
     useEffect(() => {
         const newOptions: any = [];
         for (let i = 0; i < options.length; i++) {
-            newOptions.push(
-                {
-                    title: options[i].ProjectName,
-                    value: options[i].id
-                }
-            );
+            if (type === "members") {
+                newOptions.push(
+                    {
+                        title: options[i].name,
+                        value: options[i].id
+                    }
+                );
+            } else if (type === "projects") {
+                newOptions.push(
+                    {
+                        title: options[i].ProjectName,
+                        value: options[i].id
+                    }
+                );
+            }
+        }
+
+        if (type === "members" && customOption) {
+            if (isValidEmail(customOption.actualTitle) === false) {
+                setError(true);
+                setErrorMessage("This email address cannot be added. Please enter a valid email address.");
+                return;
+            } else {
+                setError(false);
+                setErrorMessage("");
+                newOptions.push(customOption);
+            }
         }
 
         setUpdatedOptions(newOptions);
-    }, [options]);
+    }, [options, customOption]);
 
     // Use 'updatedOptions' wherever you need the transformed options
     // ...
@@ -47,6 +81,26 @@ const MultiSelectCustomAutoComplete: FC<MultiSelectCustomAutoCompleteProps> = ({
     return (
         <Stack spacing={3} sx={(styles) ? (styles) : ({ width: "100%" })} >
             <Autocomplete
+                freeSolo={type === "members"}
+                onInputChange={(event, value, reason) => {
+                    if (type === "members") {
+                        if (reason === 'reset') return;
+
+                        if (reason === 'input' && value.trim()) {
+                            setLastInput(value.trim());
+                            setCustomOption({
+                                title: `${value.trim()}`,
+                                actualTitle: value.trim(),
+                                value: `custom-${Date.now()}`,
+                                isCustom: true
+                            });
+                        } else {
+                            setCustomOption(null);
+                        }
+                    }
+                }}
+
+
                 multiple
                 options={updatedOptions}
                 sx={(dropDownStyles) ? (
@@ -67,20 +121,35 @@ const MultiSelectCustomAutoComplete: FC<MultiSelectCustomAutoCompleteProps> = ({
                 }
                 )}
                 value={selectedArrayList}
-                onChange={(event, value) => {
-                    if (value.length > 1) {
-                        // Make a new array to extract the last element of the array and store in new array. Note it shold be a new array 
-                        // Not a invididual element of the array
+                onChange={(event, value, reason) => {
+                    if (error) setError(false);
+                    if (value.length > 0) {
+                        let latestValue = value[value.length - 1];
 
-                        let newArray = value.slice(0, value.length - 1);
+                        if (type === "members" && typeof latestValue === 'string') {
+                            if (isValidEmail(lastInput)) {
+                                const customOption = {
+                                    title: lastInput,
+                                    value: `custom-${Date.now()}`,
+                                };
 
-                        let latestValue = value[value.length - 1].value;
-                        console.log('Array new', newArray);
-                        console.log('Latest value', latestValue);
+                                value[value.length - 1] = customOption;
+                                latestValue = customOption.value;
+                                setError(false);
+                            } else {
+                                // Remove the invalid value
+                                setError(true);
+                                setErrorMessage("Please enter a valid email address")
+                                alert("Please enter a valid email address")
+                                value.pop();
+                                return;
+                            }
+                        } else {
+                            latestValue = latestValue.value;
+                        }
 
-                        for (let i = 0; i < newArray.length; i++) {
-                            if (latestValue === newArray[i].value) {
-                                console.log('same', newArray[i].value);
+                        for (let i = 0; i < value.length - 1; i++) {
+                            if (latestValue === value[i].value) {
                                 return;
                             }
                         }
@@ -89,7 +158,8 @@ const MultiSelectCustomAutoComplete: FC<MultiSelectCustomAutoCompleteProps> = ({
                         setSelectedArrayList(value);
                     }
                 }}
-                getOptionLabel={(option: any) => option.title}
+
+                getOptionLabel={(option: any) => (typeof option === 'string' ? option : option.title)}
                 filterSelectedOptions
                 renderInput={(params) => (
                     <TextField
@@ -97,21 +167,32 @@ const MultiSelectCustomAutoComplete: FC<MultiSelectCustomAutoCompleteProps> = ({
                         placeholder={placeholder}
                     />
                 )}
-                renderTags={(value: any[], getTagProps: any) =>
-                    value.map((option, index) => (
-                        <Chip
-                            key={option.id}
-                            label={option.title}
-                            style={{
-                                backgroundColor: `hsl(${Math.floor(Math.random() * 360)}, 70%, 80%)`,
-                                marginRight: '5px',
-                                marginBottom: '5px'
-                            }}
-                            {...getTagProps({ index })}
-                        />
-                    ))
-                }
+                renderTags={(value: any[], getTagProps: any) => {
+                    return (
+                        <>
+                            {value.map((option, index) => {
+                                return (
+                                    <Chip
+                                        key={option.id}
+                                        label={option.title}
+                                        style={{
+                                            backgroundColor: `hsl(${Math.floor(Math.random() * 360)}, 70%, 80%)`,
+                                            marginRight: '5px',
+                                            marginBottom: '5px'
+                                        }}
+                                        {...getTagProps({ index })}
+                                    />
+                                )
+                            })}
+                        </>
+                    )
+                }}
             />
+            {(error && type === "members") && (
+                <div style={{ color: 'red', fontSize: '0.8rem', marginTop: '4px' }}>
+                    {errorMessage}
+                </div>
+            )}
         </Stack>
     );
 }

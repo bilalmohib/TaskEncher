@@ -70,7 +70,7 @@ const MultiSelectChipDropDown: FC<MultiSelectChipDropDownProps> = ({
                     input={<OutlinedInput />}
                     renderValue={(selected) => {
                         if (selected.length === 0) {
-                            return <span>{placeholder}</span>;
+                            return <span style={{fontWeight:"light",color:"#A1A1A1"}}>{placeholder}</span>;
                         }
                         return (
                             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
@@ -101,7 +101,7 @@ const MultiSelectChipDropDown: FC<MultiSelectChipDropDownProps> = ({
                     inputProps={{ 'aria-label': 'Without label' }}
                 >
                     <MenuItem disabled value="">
-                        <span>{placeholder}</span>
+                        <span style={{fontWeight:"light",color:"#A1A1A1"}}>{placeholder}</span>
                     </MenuItem>
                     {options.map((option: string) => (
                         <MenuItem

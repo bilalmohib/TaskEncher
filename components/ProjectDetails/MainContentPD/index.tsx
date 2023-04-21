@@ -127,12 +127,12 @@ const MainContentPD: React.FC<MainContentPDProps> = (
     // FOR GETTING PROJECTS
 
     return (
-        <main className={styles.main}>
+        <main>
             <div style={{ position: "relative", zIndex: "100 !important" }}>
                 <Navbar isOpen={isOpen} setIsOpen={setIsOpen} />
             </div>
             <div className="d-flex">
-                <div className='z-50'>
+                <div style={{ position: "relative", zIndex: "1000 !important" }}>
                     <Sidebar
                         currentMenuItem={currentMenuItem}
                         setCurrentMenuItem={setCurrentMenuItem}
@@ -146,7 +146,7 @@ const MainContentPD: React.FC<MainContentPDProps> = (
                     />
                 </div>
 
-                <div style={{ position: "relative", marginTop: "70px", zIndex: "0.2 !important" }} className={`${styles.rightSideContainer} ${isOpen ? styles.shrinkContainer : styles.expandContainer}`}>
+                <div style={{ position: "relative", marginTop: "49px", zIndex: "0.1 !important" }} className={`${styles.rightSideContainer} ${isOpen ? styles.shrinkContainer : styles.expandContainer}`}>
                     <ProjectDetailsInside
                         projectID={projectID}
                         projectName={projectName}

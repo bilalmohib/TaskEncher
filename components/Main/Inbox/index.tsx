@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/router';
 //////////////////////////////////////////////////
-import { makeStyles } from '@mui/styles';
+// import { makeStyles } from '@mui/styles';
 import { useLayoutEffect } from 'react';
 
 import styles from './Inbox.module.css';
@@ -72,7 +72,7 @@ import Image from 'next/image';
 
 //Importing Containers CSS Files
 
-const useStyles = makeStyles((theme) => ({
+const classes = {
     container: {
         display: 'flex',
         alignItems: 'center',
@@ -122,7 +122,7 @@ const useStyles = makeStyles((theme) => ({
             color: '#fff',
         },
     },
-}));
+};
 
 interface AddUserModalProps {
     setIsOpen: any,
@@ -390,7 +390,6 @@ const InteractiveContainer: React.FC<InteractiveContainerProps> = ({
     currentSelectedChatUser,
     isSignedIn
 }) => {
-    const classes = useStyles();
     const [message, setMessage] = useState('');
 
     const handleChange = (event: any) => {
@@ -547,11 +546,11 @@ const InteractiveContainer: React.FC<InteractiveContainerProps> = ({
                     height: "200px",
                     borderRadius: "0%",
                     alignSelf: "center",
-                    transition:"0.2s linear",
+                    transition: "0.2s linear",
                     '&:hover': {
                         backgroundColor: "blue",
                         color: "white",
-                        transition:"0.2s linear"
+                        transition: "0.2s linear"
                     },
                     // '&:active': {
                     //     backgroundColor: "white",

@@ -92,7 +92,7 @@ const Sidebar: React.FC<IProps> = ({
                         <AiOutlinePlus size={19} />
                         &nbsp; Create
                     </button>
-                    <ul className="dropdown-menu" style={{ zIndex: "10 !important" }}>
+                    <ul className="dropdown-menu" style={{ zIndex: "100 !important",background:"#ffffff" }}>
                         <li><a className="dropdown-item" href="#">Task</a></li>
                         <li onClick={() => router.push('/createProject')}><a className="dropdown-item" href="#">Project</a></li>
                         <li><a className="dropdown-item" href="#">Message</a></li>

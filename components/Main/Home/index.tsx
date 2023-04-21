@@ -328,7 +328,7 @@ const Home: React.FC<HomeProps> = ({
                 <section>
                     <NewsletterModal />
                     <br />
-                    <h3 style={{ marginLeft: 30, marginTop: 5, color: "black", fontWeight: "lighter" }}>Home</h3>
+                    <h3 style={{ marginLeft: "0px", marginTop: 5, color: "#1E1F21", fontWeight: "normal",fontSize:"20px" }}>Home</h3>
                     <br />
                     <div className='text-center'>
                         {d.getDate()} {monthNames[d.getMonth()]} {d.getFullYear()}
@@ -346,17 +346,16 @@ const Home: React.FC<HomeProps> = ({
                             </h1>
                         ) : new Date().getHours() < 18 ? (
                             <h1 className={`${styles.welcomeHeading}`} style={{ fontWeight: "lighter" }}>
-                            Good afternoon, {signedInUserData.displayName.match(/\S+/gi)[0] === "Muhammad" ? signedInUserData.displayName.match(/\S+/gi)[1] : signedInUserData.displayName.match(/\S+/gi)[0]}
-                          </h1>
+                                Good afternoon, {
+                                    signedInUserData.displayName === "Anonymous" ? signedInUserData.displayName : ((signedInUserData.displayName.match(/\b(\S+)\b/gi)[0] === "Muhammad") ? (signedInUserData.displayName.match(/\b(\S+)\b/gi)[1]) : (signedInUserData.displayName.match(/\b(\S+)\b/gi)[0]))
+                                }
+                            </h1>
                         ) : (
                             <h1 className={`${styles.welcomeHeading}`} style={{ fontWeight: "lighter" }}>
-  Good afternoon, {signedInUserData.displayName.match(/\S+/gi)[0] === "Muhammad" ? signedInUserData.displayName.match(/\S+/gi)[1] : signedInUserData.displayName.match(/\S+/gi)[0]}
-</h1>
-                            // <h1 className={`${styles.welcomeHeading}`} style={{ fontWeight: "lighter" }}>
-                            //     Good evening, {
-                            //         signedInUserData.displayName.match(/\S+/gi)[1]
-                            //     }
-                            // </h1>
+                                Good evening, {
+                                    signedInUserData.displayName === "Anonymous" ? signedInUserData.displayName : ((signedInUserData.displayName.match(/\b(\S+)\b/gi)[0] === "Muhammad") ? (signedInUserData.displayName.match(/\b(\S+)\b/gi)[1]) : (signedInUserData.displayName.match(/\b(\S+)\b/gi)[0]))
+                                }
+                            </h1>
                         )}
                     </div>
                     <section className='d-flex justify-content-center'>

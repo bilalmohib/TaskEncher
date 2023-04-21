@@ -127,15 +127,15 @@ const Navbar: React.FC<NavProps> = ({
                             style={{
                                 marginTop: '-3px',
                             }}
-                            size={28}
+                            size={24}
                         />
                     </span>
                     &nbsp; &nbsp;
                     <div className={styles.navbarLogo}>
                         <Image
                             src="/logocopy.png"
-                            width={42}
-                            height={42}
+                            width={30}
+                            height={30}
                             alt="Logo"
                             loading="lazy"
                         />
@@ -150,11 +150,12 @@ const Navbar: React.FC<NavProps> = ({
                             color: '#FF0000',
                             fontWeight: 'bold',
                             marginLeft: '5px',
+                            fontSize:10
                         }}
                     >
                         BETA
                     </Typography>
-                    <div style={{ fontSize: 10, position: 'relative', bottom: '-10px', right: '-5px' }}>
+                    <div style={{ fontSize: 12, position: 'relative', bottom: '-10px', right: '-5px',fontWeight:"lighter" }}>
                         Rev Up Tasks & Efficiency
                     </div>
                 </a>
@@ -162,15 +163,14 @@ const Navbar: React.FC<NavProps> = ({
                 <div>
                     {(!Loading && signedInUserData) ? (
                         <div className={`${styles.navItems} navbar-nav`}>
-                            <a className="nav-link active" aria-current="page" href="#">
-                                {/* 5 days left in trial */}
+                            {/* <a className="nav-link active" aria-current="page" href="#">
                                 5 credits left
                             </a>
                             <a className="nav-link" href="#">
                                 <GradientButton variant="contained" size="small">
                                     Add billing info
                                 </GradientButton>
-                            </a>
+                            </a> */}
 
                             {/* Avatar */}
                             <li className="nav-item dropdown">
@@ -178,8 +178,8 @@ const Navbar: React.FC<NavProps> = ({
                                     <Image
                                         src={signedInUserData.photoURL}
                                         className="rounded-circle"
-                                        width={32}
-                                        height={32}
+                                        width={25}
+                                        height={25}
                                         alt={signedInUserData.displayName}
                                         loading="lazy"
                                     />

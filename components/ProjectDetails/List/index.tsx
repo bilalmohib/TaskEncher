@@ -1,15 +1,25 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
     Autocomplete,
-    TextField
+    TextField,
 } from '@mui/material';
+// import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import Link from 'next/link';
 
 import MultiSelectChipDropDown from './MultiSelectChipDropDown';
 
 import styles from './style.module.css';
+// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+// import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+// const currentDate = new Date();
+// import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 
-const currentDate = new Date();
+// import {DateTimePickerProps, InputProps } from '@mui/lab';
+
+import dayjs, { Dayjs } from 'dayjs';
 
 interface ListProps {
     email?: any
@@ -57,6 +67,7 @@ const List: React.FC<ListProps> = ({
     const [status, setStatus] = useState<Boolean>(false);
     const [signedInUserData, setSignedInUserData] = useState<any>(null);
     const [isSignedIn, setIsSignedIn] = useState<Boolean>(false);
+      const [value, setValue] = React.useState<Dayjs | null>(dayjs('2022-04-17T15:30')); 
 
     useEffect(() => {
 
@@ -281,6 +292,10 @@ const List: React.FC<ListProps> = ({
                                                                         </tr>
                                                                     ) : (
                                                                         projectTasks.map((v: any, j: any) => {
+                                                                            function dayjs(arg0: string): any {
+                                                                                throw new Error('Function not implemented.');
+                                                                            }
+
                                                                             return <tr className={`${(projects.CurrentStageCurrentTask == v.taskName) && (`text-danger`)} ${(expandDetailsTable == i) && (styles.hideDetails)}`} key={j}>
                                                                                 {(v.taskSection == s) ? (
                                                                                     <>
@@ -302,6 +317,7 @@ const List: React.FC<ListProps> = ({
                                                                                                 style={{ paddingLeft: 10, paddingRight: 10, paddingTop: 2, paddingBottom: 2 }}
                                                                                             >
                                                                                                 {v.taskName}
+
                                                                                             </span>
                                                                                         </th>
                                                                                         {(v.taskAssignee == "") ? (
@@ -312,8 +328,7 @@ const List: React.FC<ListProps> = ({
                                                                                                 <MultiSelectChipDropDown
                                                                                                     // optionsArray={projectDetails.ProjectMembers}
                                                                                                     // taskAssignee={v.taskAssignee}
-
-                                                                                                    placeholder="name@company.com , name@company.com"
+                                                                                                    placeholder=""
                                                                                                     options={projectDetails.ProjectMembers}
                                                                                                     selectedArrayList={selectedMembers}
                                                                                                     setSelectedArrayList={setSelectedMembers}
@@ -322,8 +337,48 @@ const List: React.FC<ListProps> = ({
                                                                                                 />
                                                                                             </td>
                                                                                         )}
-
-                                                                                        <td>{v.taskDue}</td>
+                                                                                        <td>     
+                                                                                               {/* <DateTimePicker
+          label="Uncontrolled picker"
+          defaultValue={value}
+        /> */}
+         <LocalizationProvider dateAdapter={AdapterDayjs}>
+      {/* <DemoContainer components={['DateTimePicker', 'DateTimePicker']}> */}
+        {/* <DateTimePicker
+          label="Uncontrolled picker"
+          defaultValue={dayjs('2022-04-17T15:30')}
+        /> */}
+        <DateTimePicker
+        
+          label=""
+          value={value}
+          onChange={(newValue) => setValue(newValue)}
+        />
+      {/* </DemoContainer> */}
+    </LocalizationProvider>
+</td>
+                                                                                        {/* <td> */}
+                                                                                            {/* <DateTimePicker
+                                                                                              label="Uncontrolled picker"
+                                                                                              defaultValue={dayjs('2022-04-17T15:30')}
+                                                                                                // label="Controlled picker"
+                                                                                                // value={value}
+                                                                                                // onChange={(newValue) => setValue(newValue)}
+                                                                                            /> */}
+                                                                                            {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                                                                                {/* <DemoContainer components={['DateTimePicker', 'DateTimePicker']}> */}
+                                                                                                    {/* <DateTimePicker */}
+                                                                                                        {/* // label="Uncontrolled picker" */}
+                                                                                                        {/* // defaultValue={dayjs('2022-04-17T15:30')} */}
+                                                                                                    {/* // /> */}
+                                                                                                    {/* <DateTimePicker */}
+                                                                                                        {/* // label="Controlled picker" */}
+                                                                                                        {/* // value={value} */}
+                                                                                                        {/* // onChange={(newValue) => setValue(newValue)} */}
+                                                                                                    {/* // /> */}
+                                                                                                {/* </DemoContainer> */}
+                                                                                            {/* </LocalizationProvider> */}
+                                                                                        {/* </td> */}
                                                                                         {(v.taskPriority == "High") ? (
                                                                                             <td style={{ paddingTop: -20 }}><button type="button" className="btn btn-danger btn-rounded btn-sm">{v.taskPriority}</button></td>
                                                                                         ) : (v.taskPriority == "Medium") ? (
@@ -383,4 +438,5 @@ const List: React.FC<ListProps> = ({
         </div>
     )
 }
+
 export default List;

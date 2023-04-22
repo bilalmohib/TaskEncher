@@ -5,7 +5,7 @@ import 'firebase/auth';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Navbar from "../../../components/Navbar";
-import DatePicker from 'react-date-picker/dist/entry.nostyle';
+// import DatePicker from 'react-date-picker/dist/entry.nostyle';
 import CustomLoader from "../../../components/CustomLoader";
 
 import AddIcon from '@mui/icons-material/Add';

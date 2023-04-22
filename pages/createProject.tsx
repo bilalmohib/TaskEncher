@@ -34,7 +34,7 @@ import MultiSelectDropDown from "@app/components/MultiSelectDropDown";
 
 /// Importing Firebase
 import Navbar from "../components/Navbar";
-import DatePicker from 'react-date-picker/dist/entry.nostyle';
+// import DatePicker from 'react-date-picker/dist/entry.nostyle';
 
 // import Calendar from 'react-calendar';
 
@@ -411,10 +411,10 @@ const CreateProject: NextPage = () => {
 
                                                     <div>
                                                         <h6>Due Date for the Task : <span className="text-red">*</span></h6>
-                                                        <DatePicker
+                                                        {/* <DatePicker
                                                             onChange={setTaskDue}
                                                             value={taskDue}
-                                                        />
+                                                        /> */}
                                                     </div>
 
                                                     <br />
@@ -486,18 +486,18 @@ const CreateProject: NextPage = () => {
                                                     <br />
                                                     <div>
                                                         <h6>Starting Date of the Project : <span className="text-red">*</span></h6>
-                                                        <DatePicker
+                                                        {/* <DatePicker
                                                             onChange={setProjectStartingDate}
                                                             value={projectStartingDate}
-                                                        />
+                                                        /> */}
                                                     </div>
                                                     <br />
                                                     <div>
                                                         <h6>Ending Date of the Project(Estimated) : <span className="text-red">*</span></h6>
-                                                        <DatePicker
+                                                        {/* <DatePicker
                                                             onChange={setProjectEndingDate}
                                                             value={projectEndingDate}
-                                                        />
+                                                        /> */}
                                                     </div>
 
                                                     <br />

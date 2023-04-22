@@ -14,7 +14,7 @@ import { CiTimer } from "react-icons/ci";
 import { AiOutlineMail } from "react-icons/ai";
 import { BsCheckCircle } from "react-icons/bs";
 
-import DatePicker from 'react-date-picker/dist/entry.nostyle';
+// import DatePicker from 'react-date-picker/dist/entry.nostyle';
 
 import {
     doc,
@@ -181,10 +181,10 @@ const ProfileComp: React.FC<ProfileCompProps> = ({ isSignedIn, signedInUserData 
                                                         <p className={styles.pnmyTask}>{item.ProjectName}</p>
                                                     </div>
                                                     <div className={styles.myTasksListRight}>
-                                                        <DatePicker
+                                                        {/* <DatePicker
                                                             onChange={setTaskDue}
                                                             value={new Date(item.ProjectEndingDate)}
-                                                        />
+                                                        /> */}
                                                     </div>
                                                 </div>
                                             )
@@ -254,10 +254,10 @@ const ProfileComp: React.FC<ProfileCompProps> = ({ isSignedIn, signedInUserData 
                                                         <p className={styles.pnmyTask}>{item.ProjectName}</p>
                                                     </div>
                                                     <div className={styles.myTasksListRight}>
-                                                        <DatePicker
+                                                        {/* <DatePicker
                                                             onChange={setTaskDue}
                                                             value={new Date(item.ProjectEndingDate)}
-                                                        />
+                                                        /> */}
                                                     </div>
                                                 </div>
                                             )

@@ -16,6 +16,7 @@ import {
 import 'react-date-picker/dist/DatePicker.css';
 import 'react-calendar/dist/Calendar.css';
 import '../styles/globals.css';
+import '../styles/CreateProject/1.css'
 
 function MyApp({ Component, pageProps }: AppProps & { Component: React.ComponentType<any> }) {
 

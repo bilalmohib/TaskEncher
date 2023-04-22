@@ -93,7 +93,6 @@ const ProjectDetails: React.FC<MainContentProps> = (
                 <meta name="description" content="Project Management Software" />
                 <link rel="icon" href="/logocopy.ico" />
             </Head>
-
             {(!loading && isSignedIn) && (
                 <>
                     <MainContentPD

@@ -8,7 +8,7 @@ import { BsTriangle } from "react-icons/bs";
 import { TbListDetails, TbSquareRotated } from "react-icons/tb";
 import { SlLink } from "react-icons/sl";
 
-import DatePicker from 'react-date-picker/dist/entry.nostyle';
+// import DatePicker from 'react-date-picker/dist';
 
 const currentDate = new Date();
 
@@ -217,10 +217,10 @@ const Overview: React.FC<OverviewProps> = ({
                                         <p style={{ marginLeft: 5 }}>{value.name}</p>
                                     </div>
                                     <div >
-                                        <DatePicker
+                                        {/* <DatePicker
                                             onChange={setTaskDue}
                                             value={new Date(value.dueDate)}
-                                        />
+                                        /> */}
                                     </div>
                                 </div>
                             )

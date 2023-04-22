@@ -4,14 +4,14 @@
     /* border: 1px solid rgb(255, 0, 0); */
     background-color: white;
     height: auto !important;
-    z-index: 1 !important;
+    z-index: 0.1 !important;
 }
 
 .header {
     position: sticky !important;
     /* border: 1px solid red; */
-    top: 70px;
+    top: 49px;
     margin-left: 2px;
     background-color: white;
-    z-index: 100 !important;
+    z-index: 0.1 !important;
 }

@@ -1,5 +1,6 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CloseIcon from '@mui/icons-material/Close';
+
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import { BsBorderStyle } from 'react-icons/bs';
@@ -68,14 +69,6 @@ const SimpleComponent: React.FC = () => {
                 <CloseIcon style={{ fontSize: '18px', color: '$211F1E' }} />
             </span>
         </div>
-// {/* <motion.div
-// initial={{ opacity: 0, y: -50 }}
-// animate={{ opacity: 1, y: 0 }}
-// transition={{ duration: 0.5 }}
-// >
-// <h1>Hello, world!</h1>
-// <p>This component is being animated using Framer Motion.</p>
-// </motion.div>
     );
 };
 

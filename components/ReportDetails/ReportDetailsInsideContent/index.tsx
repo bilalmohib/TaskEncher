@@ -11,7 +11,7 @@ import { BsCheckCircle, BsTriangle } from "react-icons/bs";
 import { TbListDetails, TbSquareRotated } from "react-icons/tb";
 import { SlLink } from "react-icons/sl";
 
-import DatePicker from 'react-date-picker/dist/entry.nostyle';
+// import DatePicker from 'react-date-picker/dist/entry.nostyle';
 
 import {
     doc,

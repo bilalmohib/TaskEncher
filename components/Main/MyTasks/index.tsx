@@ -55,7 +55,7 @@ const MyTasks = () => {
 
     // const { projectName, projectID } = router.query;
     const projectName = "FYP";
-    const projectID = "TQnqsnjrNFYYDPnVYZtx";
+    const projectID = "60ey7xJel4dLrhBpKwIh";
 
     const [firestoreData, setFirestoreData] = useState<any>([]);
     const [status, setStatus] = useState<Boolean>(false);
@@ -103,7 +103,7 @@ const MyTasks = () => {
         <div className={styles.container}>
             {(isSignedIn) ? (
                 <div className={styles.container}>
-                    <header className={`fixed-top ${styles.header}`}>
+                    <header className={`fixed-top ${styles.header}`} style={{position:"relative",zIndex:"1000 !imoprtant"}}>
                         <HeaderMyTasks
                             projectID={projectID}
                             email={signedInUserData.email}

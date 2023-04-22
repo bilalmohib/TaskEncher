@@ -10,7 +10,10 @@
 .header {
     position: sticky !important;
     /* border: 1px solid red; */
-    top: 5.3%;
-    margin-left: 2px;
+    top: 49px;
+    /* margin-left: 2px; */
+    margin-left: 0px;
     background-color: white;
+    width: 100%;
+    z-index: 0.1 !important;
 }

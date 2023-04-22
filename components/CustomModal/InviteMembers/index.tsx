@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
     Box,
     Button,
@@ -59,13 +59,6 @@ const InviteMembers: React.FC<InviteMembersProps> = (
         }
     }
 
-    // const projectMembers = [
-    //     "bialmohib7896@gmail.com",
-    //     "mbilals9922@gmail.com",
-    //     "2019cs682@gmail.com",
-    //     "harisyounas@gmail.com"
-    // ];
-
     const [selectedMembers, setSelectedMembers] = React.useState<string[]>([]);
 
     const [selectedProjects, setSelectedProjects] = React.useState<string[]>([]);
@@ -73,100 +66,73 @@ const InviteMembers: React.FC<InviteMembersProps> = (
     // For popover
     const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
 
-    // const computerScienceProjects = [
-    //     {
-    //         title: "Daraz Shopping App",
-    //         // Remove spaces from title and make it lowercase
-    //         // value: title.replace(/\s+/g, '').toLowerCase()
-    //         value: "darazshoppingapp"
-    //     },
-    //     {
-    //         title: "Ecommerce Shopping App",
-    //         // value: title.replace(/\s+/g, '').toLowerCase()
-    //         value: "ecommerceshoppingapp"
-    //     },
-    //     {
-    //         title: "Covid-19 Tracker App",
-    //         // value: title.replace(/\s+/g, '').toLowerCase()
-    //         value: "covid19trackerapp"
-    //     },
-    //     {
-    //         title: "Social Media App",
-    //         // value: title.replace(/\s+/g, '').toLowerCase()
-    //         value: "socialmediaapp"
-    //     },
-    //     {
-    //         title: "Food Delivery App",
-    //         // value: title.replace(/\s+/g, '').toLowerCase()
-    //         value: "fooddeliveryapp"
-    //     },
-    //     {
-    //         title: "Uber Clone App",
-    //         // value: title.replace(/\s+/g, '').toLowerCase()
-    //         value: "ubercloneapp"
-    //     },
-    //     {
-    //         title: "Netflix Clone App",
-    //         // value: title.replace(/\s+/g, '').toLowerCase()
-    //         value: "netflixcloneapp"
-    //     },
-    //     {
-    //         title: "Tinder Clone App",
-    //         // value: title.replace(/\s+/g, '').toLowerCase()
-    //         value: "tindercloneapp"
-    //     },
-    //     {
-    //         title: "Instagram Clone App",
-    //         // value: title.replace(/\s+/g, '').toLowerCase()
-    //         value: "instagramcloneapp"
-    //     },
-    //     {
-    //         title: "Facebook Clone App",
-    //         // value: title.replace(/\s+/g, '').toLowerCase()
-    //         value: "facebookcloneapp"
-    //     },
-    //     {
-    //         title: "Twitter Clone App",
-    //         // value: title.replace(/\s+/g, '').toLowerCase()
-    //         value: "twittercloneapp"
-    //     },
-    //     {
-    //         title: "Whatsapp Clone App",
-    //         // value: title.replace(/\s+/g, '').toLowerCase()
-    //         value: "whatsappcloneapp"
-    //     },
-    //     {
-    //         title: "Youtube Clone App",
-    //         // value: title.replace(/\s+/g, '').toLowerCase()
-    //         value: "youtubecloneapp"
 
-    //     },
-    //     {
-    //         title: "Google Clone App",
-    //         // value: title.replace(/\s+/g, '').toLowerCase()
-    //         value: "googlecloneapp"
-    //     },
-    //     {
-    //         title: "Amazon Clone App",
-    //         // value: title.replace(/\s+/g, '').toLowerCase()
-    //         value: "amazoncloneapp"
-    //     },
-    //     {
-    //         title: "Computer Vision App",
-    //         // value: title.replace(/\s+/g, '').toLowerCase()
-    //         value: "computervisionapp"
-    //     },
-    //     {
-    //         title: "Attendance Management App",
-    //         // value: title.replace(/\s+/g, '').toLowerCase()
-    //         value: "attendancemanagementapp"
-    //     },
-    //     {
-    //         title: "Ball Tracking App",
-    //         // value: title.replace(/\s+/g, '').toLowerCase()
-    //         value: "balltrackingapp"
-    //     }
-    // ];
+    // To get the value of the selected member
+    useEffect(() => {
+        console.log("selectedMembers", selectedMembers);
+    }, [selectedMembers]);
+
+    const [modifiedProjectMembers, setModifiedProjectMembers] = React.useState<any>([]);
+
+    // Modify the projectMembers array and make it an array of objects such that it contains the name 
+    // and the email of the member and extract first and last name first letter and make it the avatar
+    useEffect(() => {
+        const localModifiedProjectMembers = projectMembers.map((member: string) => {
+            const name = member.split("@")[0];
+            const email = member;
+            const firstName = email.split(".")[0];
+            const lastName = email.split(".")[1];
+            // Extract first and last name first letter and make it the avatar
+            const avatar = firstName.charAt(0) + lastName.charAt(0);
+            return {
+                id: member,
+                name: member,
+                email: email,
+                avatar: avatar
+            }
+        });
+        console.log("localModifiedProjectMembers", localModifiedProjectMembers);
+
+        setModifiedProjectMembers(localModifiedProjectMembers);
+
+    }, [projectMembers]);
+
+    async function sendInvite(name: string, email: string) {
+        // name, email, link, projectName, senderName
+        const sendData = {
+            "name": "BILAL",
+            "email": "bilalmohib7896@gmail.com",
+            "link": "https://www.google.com",
+            "projectName": "FYP",
+            "senderName": "M. Bilal"
+        }
+        const response = await fetch('/api/send-invite', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(sendData),
+        });
+
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.message);
+        }
+
+        return await response.json();
+    }
+
+    async function sendInvites() {
+        sendInvite('John Doe', 'john@example.com')
+            .then((response) => {
+                console.log(response.message);
+                alert(response.message);
+            })
+            .catch((error) => {
+                console.error(error.message)
+                alert(error.message);
+            });
+    }
 
     return (
         <Box>
@@ -174,7 +140,7 @@ const InviteMembers: React.FC<InviteMembersProps> = (
                 Email addresses
             </Typography>
             <Box sx={{ mt: "8px" }}>
-                {/* <MultiSelectDropDown
+                {/* <MultiSelectChipDropDown
                     placeholder="name@company.com , name@company.com"
                     options={projectMembers}
                     selectedArrayList={selectedMembers}
@@ -182,13 +148,15 @@ const InviteMembers: React.FC<InviteMembersProps> = (
                     styles={styles.input}
                     dropDownStyles={styles.dropDownStyles}
                 /> */}
-                <MultiSelectChipDropDown
+
+                <MultiSelectCustomAutoComplete
                     placeholder="name@company.com , name@company.com"
-                    options={projectMembers}
+                    options={modifiedProjectMembers}
                     selectedArrayList={selectedMembers}
                     setSelectedArrayList={setSelectedMembers}
                     styles={styles.input}
                     dropDownStyles={styles.dropDownStyles}
+                    type="members"
                 />
             </Box>
             <Typography sx={styles.inputInfo} variant="h6" component="h2">
@@ -207,14 +175,6 @@ const InviteMembers: React.FC<InviteMembersProps> = (
             </Typography>
 
             <Box sx={{ mt: "15px" }}>
-                {/* <MultiSelectChipDropDown
-                    placeholder="Start typing to add projects"
-                    options={projectMembers}
-                    selectedArrayList={selectedMembers}
-                    setSelectedArrayList={setSelectedMembers}
-                    styles={styles.input}
-                    dropDownStyles={styles.dropDownStyles}
-                /> */}
                 <MultiSelectCustomAutoComplete
                     placeholder="Start typing to add projects"
                     options={projects}
@@ -222,6 +182,7 @@ const InviteMembers: React.FC<InviteMembersProps> = (
                     setSelectedArrayList={setSelectedProjects}
                     styles={styles.input}
                     dropDownStyles={styles.dropDownStyles}
+                    type="projects"
                 />
             </Box>
 
@@ -251,6 +212,7 @@ const InviteMembers: React.FC<InviteMembersProps> = (
                             color: "#fff",
                         }
                     }}
+                    onClick={sendInvites}
                 >
                     Send
                 </Button>

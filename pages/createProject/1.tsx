@@ -18,10 +18,15 @@ const SimpleComponent: React.FC = () => {
                 </div>
   
                 <span className='buttonSpan'>
-                    <span style={{display:'inline-block', marginRight: '20px'}}>
+                    <span className='buttonSpan' style={{display:'inline-block', marginRight: '20px'}}>
                         <Button
                             variant="contained"
                             sx={{
+                                '&:hover': {
+                                    backgroundColor: '#FFFFFF',
+                                    boxShadow: 'none'
+                                     // replace with your desired color
+                                  },
                                 marginTop: '100px', borderRadius: '20px', backgroundColor: 'white', border: '1px dashed #B0ABAC', boxShadow: 'none', width: '130px', height: '130px',
                             }}
                         //   startIcon={<AddIcon sx={{color: '#B0ABAC'}} />}

@@ -14,7 +14,7 @@ import { CiTimer } from "react-icons/ci";
 import { AiOutlineMail } from "react-icons/ai";
 import { BsCheckCircle } from "react-icons/bs";
 
-import DatePicker from 'react-date-picker/dist/entry.nostyle';
+import DatePicker from 'react-date-picker';
 
 import {
     doc,
@@ -50,8 +50,8 @@ interface ProfileCompProps {
 const ProfileComp: React.FC<ProfileCompProps> = ({ isSignedIn, signedInUserData }) => {
     const router = useRouter();
     const { uuid } = router.query;
-
-    const [taskDue, setTaskDue] = useState<Date>(new Date());
+    // const [value, onChange] = useState(new Date());
+    const [taskDue, setTaskDue] = useState(new Date());
 
     const frequentCollaboratorsList = [
         {

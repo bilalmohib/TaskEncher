@@ -34,7 +34,7 @@ import MultiSelectDropDown from "@app/components/MultiSelectDropDown";
 
 /// Importing Firebase
 import Navbar from "../components/Navbar";
-import DatePicker from 'react-date-picker/dist/entry.nostyle';
+import DatePicker from 'react-date-picker';
 
 // import Calendar from 'react-calendar';
 
@@ -415,7 +415,7 @@ const CreateProject: NextPage = () => {
                                                             onChange={setTaskDue}
                                                             value={taskDue}
                                                         />
-                                                    </div>
+                                                   </div>
 
                                                     <br />
 

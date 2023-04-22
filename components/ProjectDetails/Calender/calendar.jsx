@@ -142,6 +142,6 @@ CalendarDayHeader.propTypes = {
 };
 export function CalendarDayHeader({ calendarDayObject }) {
   return (
-    <div className={styles.daygriditemheader}>{calendarDayObject.dayOfMonth}</div>
+    <div className={styles.daygriditemheader}><h5>{calendarDayObject.dayOfMonth}</h5></div>
   );
 }

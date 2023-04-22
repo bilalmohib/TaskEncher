@@ -40,12 +40,16 @@ animation-delay: 3s; */
   
     /* add some padding to make the button more clickable */
     padding: 12px 16px;
+    margin-top: -10px;
+
 }
 .buttonSpan:hover {
-    cursor: pointer;
+    /* cursor: pointer;
     box-shadow: 0;
     background-color: white;
     animation-name: trans;
     animation-duration: 1.5s;
-    transform: translateY(-5px);
+    transform: translateY(-5px); */
+    margin-top: -10px;
+
 }

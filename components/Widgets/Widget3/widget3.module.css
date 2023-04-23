@@ -3,6 +3,7 @@
     padding-left: 10px;
     padding-top: 30px;
     height: 100%;
+    border-radius: 8px;
 }
 
 .container>div>h1 {

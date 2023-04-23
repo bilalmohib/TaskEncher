@@ -1,6 +1,7 @@
 .container {
     background-color: rgb(255, 255, 255);
     height: 100%;
+    border-radius: 8px;
 }
 
 .container>h1 {

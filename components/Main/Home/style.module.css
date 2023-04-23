@@ -123,7 +123,7 @@
     color: black;
     border: 1px solid #edeae9;
     border-radius: 8px;
-    padding: 0.3rem;
+    padding: 0rem;
     height: 24.5rem;
 
     transition: 1s linear;
@@ -139,10 +139,6 @@
     /* border: 1px solid #bebebe; */
     transition: 0.1s linear;
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-}
-
-.widget:focus {
-    border: 1.5px solid #ff0000;
 }
 
 .fullWidthWidget {

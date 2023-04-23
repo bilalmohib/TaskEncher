@@ -82,7 +82,7 @@ const MultiSelectCustomAutoComplete: FC<MultiSelectCustomAutoCompleteProps> = ({
         <Stack spacing={3} sx={(styles) ? (styles) : ({ width: "100%" })} >
             <Autocomplete
                 freeSolo={type === "members"}
-                onInputChange={(event, value, reason) => {
+                onInputChange={(event: any, value: any, reason: any) => {
                     if (type === "members") {
                         if (reason === 'reset') return;
 
@@ -121,7 +121,7 @@ const MultiSelectCustomAutoComplete: FC<MultiSelectCustomAutoCompleteProps> = ({
                 }
                 )}
                 value={selectedArrayList}
-                onChange={(event, value, reason) => {
+                onChange={(event: any, value: any, reason: any) => {
                     if (error) setError(false);
                     if (value.length > 0) {
                         let latestValue = value[value.length - 1];

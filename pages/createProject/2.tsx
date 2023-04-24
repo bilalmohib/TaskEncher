@@ -20,7 +20,10 @@ import styled from 'styled-components';
 const SimpleComponent: React.FC = () => {
   
   const [age, setAge] = useState("");
-
+  const [titleValue, settitleValue] = useState('');
+  const handletitleChange = (event:  React.ChangeEvent<HTMLInputElement>) => {
+    settitleValue(event.target.value);
+  };
   const handleChange = (event: SelectChangeEvent) => {
     setAge(event.target.value);
   };
@@ -70,6 +73,8 @@ const handleButtonSelection = (event: React.MouseEvent<HTMLElement>, newSelectio
         id="filled-hidden-label-small"
         variant="filled"
         size="small"
+        value={titleValue}
+      onChange={handletitleChange}
       />
     </Stack>
             {/* <Box component="form"
@@ -202,7 +207,8 @@ const handleButtonSelection = (event: React.MouseEvent<HTMLElement>, newSelectio
       <ToggleButton value="button3">Button 3</ToggleButton>
     </ToggleButtonGroup> */}
             </div>
-            <span style={{position: 'absolute', right: '0px', bottom: '30px', border: '2px solid #D0CBCB', borderRadius: '4px', boxShadow:'1px 2px 9px #D0CBCB'}}>
+            <span style={{position: 'absolute', right: '0px', bottom: '20px', border: '2px solid #D0CBCB', borderRadius: '4px', boxShadow:'1px 2px 9px #D0CBCB'}}>
+        <div style={{position:'absolute', top:'15px', left: '70px', fontWeight:'500'}}>{titleValue}</div>
               {(selectedButton === "button1") ? <img src="https://d3ki9tyy5l5ruj.cloudfront.net/obj/efa34dcd90db1f5a77cc3f1bb864dd3d91def55d/List,%20no%20avatars.png" width="850px" height="600px" alt="" /> : (selectedButton === "button2") ? <img src="https://d3ki9tyy5l5ruj.cloudfront.net/obj/621e3fecc417a5455269791daa22b5d5b1feda2b/Board,%20no%20avatars.png" width="850px" height="600px" alt="" /> : (selectedButton === "button3") ? <img src="https://d3ki9tyy5l5ruj.cloudfront.net/obj/bfeb331070017599fda4c96907b2fb7cea28d858/Timeline,%20no%20avatars.png" width="850px" height="600px" alt="" />: <img src="https://d3ki9tyy5l5ruj.cloudfront.net/obj/63306c12043b0a783a7ff409222ce80cc48e1dc1/Calendar,%20no%20avatars.png" width="850px" height="600px" alt="" /> }
             </span>
             <span style={{ position: 'absolute', right: '20px', top: '15.5px' }}>

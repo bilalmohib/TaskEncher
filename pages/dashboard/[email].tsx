@@ -140,7 +140,7 @@ const Dashboard: NextPage<GlobalProps> = (
                 open={isModalOpen}
                 setOpen={setIsModalOpen}
                 modalType="inviteMembers"
-                title='Invite people to My Workspace'
+                title='Add people to TaskEncher Software'
                 projects={projects}
                 projectMembers={projectMembers}
             />

@@ -6,13 +6,15 @@ interface CustomPopOverProps {
     anchorEl: HTMLElement | null;
     setAnchorEl: (value: HTMLElement | null) => void;
     title: string;
+    iconColor?: string;
 }
 
 const CustomPopOver: React.FC<CustomPopOverProps> = (
     {
         anchorEl,
         setAnchorEl,
-        title
+        title,
+        iconColor
     }) => {
 
     const open = Boolean(anchorEl);
@@ -34,7 +36,7 @@ const CustomPopOver: React.FC<CustomPopOverProps> = (
                 onMouseLeave={handlePopoverClose}
                 sx={{ display: "inline" }}
             >
-                <InfoIcon />
+                <InfoIcon style={{ color: iconColor ? (iconColor) : "#727374" }} />
             </Typography>
             <Popover
                 id="mouse-over-popover"

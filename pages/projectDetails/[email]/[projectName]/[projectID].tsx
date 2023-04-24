@@ -124,7 +124,7 @@ const ProjectDetails: React.FC<MainContentProps> = (
                 open={isModalOpen}
                 setOpen={setIsModalOpen}
                 modalType='inviteMembers'
-                title='Invite Members'
+                title='Add people to TaskEncher Software'
                 projects={projects}
                 projectMembers={projectMembers}
             />

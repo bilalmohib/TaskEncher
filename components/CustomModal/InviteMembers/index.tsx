@@ -4,11 +4,12 @@ import {
     Button,
     Typography
 } from '@mui/material';
-import MultiSelectDropDown from '@app/components/MultiSelectDropDown';
+import Image from 'next/image';
 import CustomPopOver from '@app/components/CustomPopOver';
-import MultiSelectChipDropDown from '@app/components/ProjectDetails/List/MultiSelectChipDropDown';
 import MultiSelectCustomAutoComplete from '@app/components/MultiSelectCustomAutoComplete';
-import { title } from 'process';
+
+import { FcGoogle } from 'react-icons/fc';
+import { FaGithub } from 'react-icons/fa';
 
 // const InviteMembers = () => {
 interface InviteMembersProps {
@@ -59,6 +60,37 @@ const InviteMembers: React.FC<InviteMembersProps> = (
         }
     }
 
+    // List of buttons
+    const buttonsList = [
+        {
+            id: 0,
+            name: "Google",
+            icon: <FcGoogle title="Google" style={{ fontSize: 22 }} />,
+        },
+        {
+            id: 1,
+            name: "Slack",
+            icon: <Image
+                src="/images/Modal/InviteMember/slack.svg"
+                alt="Slack"
+                title='Slack'
+                width={20}
+                height={20}
+            />,
+        },
+        {
+            id: 2,
+            name: "Microsoft",
+            icon: <Image
+                src="/images/Modal/InviteMember/microsoft.svg"
+                alt="Slack"
+                title='Slack'
+                width={20}
+                height={20}
+            />,
+        }
+    ];
+
     const [selectedMembers, setSelectedMembers] = React.useState<string[]>([]);
 
     const [selectedProjects, setSelectedProjects] = React.useState<string[]>([]);
@@ -66,6 +98,8 @@ const InviteMembers: React.FC<InviteMembersProps> = (
     // For popover
     const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
 
+    // For popover
+    const [anchorEl1, setAnchorEl1] = React.useState<HTMLElement | null>(null);
 
     // To get the value of the selected member
     useEffect(() => {
@@ -137,18 +171,15 @@ const InviteMembers: React.FC<InviteMembersProps> = (
     return (
         <Box>
             <Typography sx={styles.label} variant="h6" component="h2">
-                Email addresses
+                Email addresses &nbsp;
+                <CustomPopOver
+                    anchorEl={anchorEl1}
+                    setAnchorEl={setAnchorEl1}
+                    iconColor='#2196f3'
+                    title="Enter the email addresses of the people you want to invite."
+                />
             </Typography>
             <Box sx={{ mt: "8px" }}>
-                {/* <MultiSelectChipDropDown
-                    placeholder="name@company.com , name@company.com"
-                    options={projectMembers}
-                    selectedArrayList={selectedMembers}
-                    setSelectedArrayList={setSelectedMembers}
-                    styles={styles.input}
-                    dropDownStyles={styles.dropDownStyles}
-                /> */}
-
                 <MultiSelectCustomAutoComplete
                     placeholder="name@company.com , name@company.com"
                     options={modifiedProjectMembers}
@@ -166,10 +197,53 @@ const InviteMembers: React.FC<InviteMembersProps> = (
             <br />
 
             <Typography sx={styles.label} variant="h6" component="h2">
+                or add from &nbsp;
+                <CustomPopOver
+                    anchorEl={anchorEl1}
+                    setAnchorEl={setAnchorEl1}
+                    iconColor='#2196f3'
+                    title="Add Users From Google, Github, Slack, etc. See the list of supported services below."
+                />
+            </Typography>
+
+            <Box sx={{ mt: "15px", display: "flex", justifyContent: "space-between" }}>
+                {buttonsList.map((item: any, index: number) => {
+                    return (
+                        <Button
+                            key={index}
+                            variant="contained"
+                            sx={{
+                                width: "32%",
+                                height: "auto",
+                                border: "1px solid #eff0f2",
+                                backgroundColor: "#fff",
+                                color: "#3F51B5",
+                                fontSize: "16px",
+                                fontWeight: "lighter",
+                                textTransform: "none",
+                                '&:hover': {
+                                    backgroundColor: "#fff",
+                                    color: "#3F51B5",
+                                }
+                            }}
+                        >
+                            <Box sx={{ display: "flex", alignItems: "center" }}>
+                                {item.icon}
+                                <Box sx={{ ml: "10px", color: "black" }}>{item.name}</Box>
+                            </Box>
+                        </Button>
+                    )
+                })}
+            </Box>
+
+            <br />
+
+            <Typography sx={styles.label} variant="h6" component="h2">
                 Add to projects &nbsp;
                 <CustomPopOver
                     anchorEl={anchorEl}
                     setAnchorEl={setAnchorEl}
+                    iconColor='#2196f3'
                     title="Help your team mates get started.This is the first project they will see"
                 />
             </Typography>

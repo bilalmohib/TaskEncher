@@ -1,28 +1,61 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CloseIcon from '@mui/icons-material/Close';
-import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 import Button from '@mui/material/Button';
-import AddIcon from '@mui/icons-material/Add';
-import { BsBorderStyle } from 'react-icons/bs';
-import { motion } from 'framer-motion';
 import { useState } from 'react';
-import logo from './logo.png';
 import Stack from '@mui/material/Stack';
 import styled from 'styled-components';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
+
+function TabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+function a11yProps(index: number) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
 
 const SimpleComponent: React.FC = () => {
-  
+  const [value, setValue] = useState(0);  
   const [age, setAge] = useState("");
   const [titleValue, settitleValue] = useState('');
   const handletitleChange = (event:  React.ChangeEvent<HTMLInputElement>) => {
     settitleValue(event.target.value);
+  };
+  const handletabChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
   };
   const handleChange = (event: SelectChangeEvent) => {
     setAge(event.target.value);
@@ -209,6 +242,71 @@ const handleButtonSelection = (event: React.MouseEvent<HTMLElement>, newSelectio
             </div>
             <span style={{position: 'absolute', right: '0px', bottom: '20px', border: '2px solid #D0CBCB', borderRadius: '4px', boxShadow:'1px 2px 9px #D0CBCB'}}>
         <div style={{position:'absolute', top:'15px', left: '70px', fontWeight:'500'}}>{titleValue}</div>
+        {/* <Box sx={{ width: '100%' }}> */}
+      {/* <Box sx={{ borderBottom: 1, borderColor: 'divider' }}> */}
+       <div style={{position: 'absolute', top: '35px', left: '70px', display: 'flex'}}>
+        <p style={{color: '#6d6e6f', fontSize: '15px', fontWeight: '500'}}>Overview</p>
+        <div style={{paddingLeft:'15px'}}>
+        {(selectedButton === "button1") ?  <p style={{color: '#236BC4', fontSize: '15px', fontWeight: '500'}}>List</p> : <p style={{color: '#6d6e6f', fontSize: '15px', fontWeight: '500'}}>List</p> }
+      {(selectedButton === "button1") ?  <hr 
+        style={{
+          borderTop: '3px solid #236BC4',
+          textShadow: 'none',
+          boxShadow: 'none',
+           position: 'relative', bottom: '7px'
+        }} 
+        /> : <div></div>
+  }
+        </div>
+        <div style={{paddingLeft:'15px'}}>
+        {/* <p style={{color: '#6d6e6f', fontSize: '15px', fontWeight: '500'}}>Board</p> */}
+        {(selectedButton === "button2") ?  <p style={{color: '#236BC4', fontSize: '15px', fontWeight: '500'}}>Board</p> : <p style={{color: '#6d6e6f', fontSize: '15px', fontWeight: '500'}}>Board</p> }
+      {(selectedButton === "button2") ?  <hr 
+        style={{
+          borderTop: '3px solid #236BC4',
+          textShadow: 'none',
+          boxShadow: 'none',
+           position: 'relative', bottom: '7px'
+        }} 
+        /> : <div></div>
+  }
+        {/* <hr style={{borderTop: '3px solid black', position: 'relative', bottom: '7px'}} /> */}
+        </div>
+        <div style={{paddingLeft:'15px'}}>
+        {/* <p style={{color: '#6d6e6f', fontSize: '15px', fontWeight: '500'}}>Timeline</p> */}
+        {(selectedButton === "button3") ?  <p style={{color: '#236BC4', fontSize: '15px', fontWeight: '500'}}>Timeline</p> : <p style={{color: '#6d6e6f', fontSize: '15px', fontWeight: '500'}}>Timeline</p> }
+      {(selectedButton === "button3") ?  <hr 
+        style={{
+          borderTop: '3px solid #236BC4',
+          textShadow: 'none',
+          boxShadow: 'none',
+           position: 'relative', bottom: '7px'
+        }} 
+        /> : <div></div>
+  }
+        {/* <hr style={{borderTop: '3px solid black', position: 'relative', bottom: '7px'}} /> */}
+        </div>
+        <div style={{paddingLeft:'15px'}}>
+        {/* <p style={{color: '#6d6e6f', fontSize: '15px', fontWeight: '500'}}>Calender</p> */}
+        {(selectedButton === "button4") ?  <p style={{color: '#236BC4', fontSize: '15px', fontWeight: '500'}}>Calender</p> : <p style={{color: '#6d6e6f', fontSize: '15px', fontWeight: '500'}}>Calender</p> }
+      {(selectedButton === "button4") ?  <hr 
+        style={{
+          borderTop: '3px solid #236BC4',
+          textShadow: 'none',
+          boxShadow: 'none',
+           position: 'relative', bottom: '7px'
+        }} 
+        /> : <div></div>
+  }
+        {/* <hr style={{borderTop: '3px solid black', position: 'relative', bottom: '7px'}} /> */}
+        </div>
+        <div style={{paddingLeft:'15px'}}>
+        <p style={{color: '#6d6e6f', fontSize: '15px', fontWeight: '500'}}>Workflow</p>
+        {/* <hr style={{borderTop: '3px solid black', position: 'relative', bottom: '7px'}} /> */}
+        </div>
+        </div>
+      {/* </Box> */}
+      {/* </Box> */}
               {(selectedButton === "button1") ? <img src="https://d3ki9tyy5l5ruj.cloudfront.net/obj/efa34dcd90db1f5a77cc3f1bb864dd3d91def55d/List,%20no%20avatars.png" width="850px" height="600px" alt="" /> : (selectedButton === "button2") ? <img src="https://d3ki9tyy5l5ruj.cloudfront.net/obj/621e3fecc417a5455269791daa22b5d5b1feda2b/Board,%20no%20avatars.png" width="850px" height="600px" alt="" /> : (selectedButton === "button3") ? <img src="https://d3ki9tyy5l5ruj.cloudfront.net/obj/bfeb331070017599fda4c96907b2fb7cea28d858/Timeline,%20no%20avatars.png" width="850px" height="600px" alt="" />: <img src="https://d3ki9tyy5l5ruj.cloudfront.net/obj/63306c12043b0a783a7ff409222ce80cc48e1dc1/Calendar,%20no%20avatars.png" width="850px" height="600px" alt="" /> }
             </span>
             <span style={{ position: 'absolute', right: '20px', top: '15.5px' }}>

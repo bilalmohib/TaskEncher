@@ -1,16 +1,10 @@
 /* Main Container */
 .container {
     /* border: 1px solid red; */
-    background-color: #f9f8f8;
+    /* background-color: #f9f8f8; */
     padding-left: 10%;
     padding-right: 10%;
     padding-top: 33px;
-}
-
-.main {
-    width: auto;
-    height: auto;
-    background-color: white;
 }
 
 /* Top Profile Container */
@@ -47,7 +41,8 @@
 .profileName {
     font-size: 32px;
     line-height: 40px;
-    color: #1e1f21;
+    /* color: #1e1f21; */
+    color: white;
     font-weight: 400;
     margin-top: 30px;
 }
@@ -104,8 +99,9 @@
 
 /* my Tasks Container */
 .myTasksMainContainer {
-    border: 1px solid #f1efee;
-    background-color: white;
+    border: 1px solid #f1eeef;
+    /* background-color: white; */
+    background-color: #f9f8f80a;
     width: 70%;
     border-radius: 8px;
     padding-top: 20px;
@@ -113,7 +109,8 @@
 
 .viewAllTasksBtn {
     border: 1px solid #cfcbcb;
-    background-color: white;
+    /* background-color: white; */
+    background-color: #f9f8f80a;
     border-radius: 5px;
     font-size: 12px;
     box-shadow: none !important;
@@ -121,7 +118,8 @@
     line-height: 10px;
     padding-left: 0px !important;
     padding-right: 0px !important;
-    color: #454d5b;
+    /* color: #454d5b; */
+    color: white;
     text-transform: none;
     font-weight: 400;
 }
@@ -141,6 +139,7 @@
     padding-left: 20px;
     padding-right: 20px;
     padding-bottom: 20px;
+    color: white;
 }
 
 .headerMyTasks div {
@@ -172,7 +171,8 @@
     margin-bottom: 20px;
     padding-bottom: 20px;
     margin-bottom: 25px;
-    background-color: #ffffff;
+    background-color: #f9f8f80a;
+    /* background-color: #ffffff; */
     border-radius: 8px;
 }
 
@@ -189,12 +189,17 @@
     border-radius: 8px !important;
     /* padding: 25px; */
     padding-bottom: 10px;
-    background-color: #ffffff !important;
+    /* background-color: #ffffff !important; */
+    background-color: #f9f8f80a;
 }
 
 .fcHeading {
     margin-left: 25px;
     padding-top: 25px;
+    background-color: transparent;
+    font-size: 20px;
+    margin-bottom: 25px;
+    color: white;
     /* border: 2px solid red; */
 }
 
@@ -203,7 +208,8 @@
     /* border: 3px solid rgb(0, 0, 255); */
     font-size: 20px;
     margin-bottom: 10px;
-    background-color: #ffffff !important;
+    /* background-color: #ffffff !important; */
+    color: white;
 }
 
 .aboutMeContainer p {
@@ -211,22 +217,16 @@
     font-size: 14px;
     margin-top: 22px;
     line-height: 20px;
-    color: #6D6E6F;
+    /* color: #6D6E6F; */
+    color: white;
     font-weight: 400;
-    background-color: #ffffff !important;
-}
-
-.frequentCollaborators h1 {
-    /* border: 3px solid rgb(255, 0, 0); */
-    font-size: 20px;
-    margin-bottom: 25px;
-    background-color: #ffffff;
+    /* background-color: #ffffff !important; */
 }
 
 /* List Of frequentCollaborators */
 .frequentCollaboratorsList {
     /* border: 3px solid rgb(255, 0, 0); */
-    background-color: #ffffff;
+    /* background-color: #ffffff; */
     padding-bottom: 10px;
     padding-top: 5px;
     height: 70px;
@@ -234,7 +234,7 @@
 
 .frequentCollaboratorsList:hover {
     /* border: 3px solid rgb(6, 49, 8); */
-    background-color: #f9f8f8;
+    background-color: #3f3f3f6e;
     border-radius: 5px;
     cursor: pointer;
     /* display: flex;
@@ -253,7 +253,8 @@
 .emailfcnc {
     font-size: 14px;
     line-height: 20px;
-    color: #1E1F21;
+    /* color: #1E1F21; */
+    color: white;
     font-weight: 400;
     padding-top: 18px;
     margin-left: 15px;

@@ -328,12 +328,17 @@ const Home: React.FC<HomeProps> = ({
                 <section className={styles.mainSectionContainer}>
                     <NewsletterModal />
                     <br />
-                    <h3 style={{ marginLeft: "0px", marginTop: 5, color: "#1E1F21", fontWeight: "normal",fontSize:"20px" }}>Home</h3>
+                    <h3 style={{
+                        marginLeft: "0px", marginTop: 5,
+                        //  color: "#1E1F21",
+                        color: "white",
+                        fontWeight: "normal", fontSize: "20px"
+                    }}>Home</h3>
                     <br />
-                    <div className='text-center'>
+                    <div className='text-center text-white'>
                         {d.getDate()} {monthNames[d.getMonth()]} {d.getFullYear()}
                     </div>
-                    <div>
+                    <div className="text-white">
                         {/* Audio Player */}
                         {/* {currentAudio} */}
                         {/* Audio Player */}
@@ -363,7 +368,7 @@ const Home: React.FC<HomeProps> = ({
                             <div className={styles.stats1}>
                                 {/* Months */}
                                 <div className="btn-group" style={{ fontSize: 12, height: 28, boxShadow: "none" }}>
-                                    <button type="button" className={`btn btn-btnDrop ${styles.btn_dropdown}`} data-mdb-toggle="dropdown" aria-expanded="false">
+                                    <button type="button" className={`btn btn-btnDrop text-white ${styles.btn_dropdown}`} data-mdb-toggle="dropdown" aria-expanded="false">
                                         My month <IoIosArrowDropdown style={{ marginTop: -2 }} />
                                     </button>
                                     <ul className="dropdown-menu">

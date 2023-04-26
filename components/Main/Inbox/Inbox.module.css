@@ -42,6 +42,7 @@
 /* Middle Container */
 .middleContainer {
     height: 100%;
+    /* border: 10px solid red; */
     border-right: 1px solid #000;
     border-left: 1px solid #000;
 }
@@ -62,7 +63,7 @@
     margin-left: 10px;
 }
 
-.Middlemessage{
+.Middlemessage {
     font-size: 14px;
     font-weight: lighter;
     margin-left: 10px;

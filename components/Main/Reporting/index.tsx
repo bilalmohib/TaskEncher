@@ -314,7 +314,10 @@ const Reporting: React.FC<ReportingProps> = ({
                             display: "flex",
                             flexDirection: "column",
                             justifyContent: "center",
-                            alignItems: "center"
+                            alignItems: "center",
+                            backgroundColor: "#ffffff !important",
+                            // border: "1px solid red",
+                            background: "#ffffff !important"
                         }}
                     >
                         <Box
@@ -322,23 +325,44 @@ const Reporting: React.FC<ReportingProps> = ({
                                 borderBottom: "1px solid rgb(203, 203, 208)",
                                 marginTop: "25px",
                                 width: "96%",
+                                backgroundColor: "#ffffff !important",
+                                // border: "1px solid red",
+                                background: "#ffffff !important",
                             }}
                         >
-                            <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
-                                <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
+                            <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}
+                                sx={{
+                                    backgroundColor: "#ffffff !important",
+                                    // border: "1px solid red",
+                                    background: "#ffffff !important",
+                                }}
+                            >
+                                <AccordionSummary aria-controls="panel1d-content" id="panel1d-header"
+                                    sx={{
+                                        backgroundColor: "#ffffff !important",
+                                        // border: "1px solid red",
+                                        background: "#ffffff !important",
+                                    }}
+                                >
                                     <Typography
                                         variant="h5"
                                         sx={{
                                             // marginTop: "5px",
                                             color: 'black',
                                             fontWeight: 'lighter',
-                                            // lineHeight: "1.8px"
+                                            // lineHeight: "1.8px",
                                         }}
                                     >
                                         Recents
                                     </Typography>
                                 </AccordionSummary>
-                                <AccordionDetails>
+                                <AccordionDetails
+                                    sx={{
+                                        backgroundColor: "#ffffff !important",
+                                        // border: "1px solid red",
+                                        background: "#ffffff !important",
+                                    }}
+                                >
                                     <MotionGrid container spacing={4} variants={containerVariants}>
                                         {dashboardList.map((reportingDashboard, index) => (
                                             <Grid item xs={12} sm={4} key={index}>
@@ -348,7 +372,7 @@ const Reporting: React.FC<ReportingProps> = ({
                                                         sx={{
                                                             p: 4,
                                                             // backgroundColor: '#E5F0FF',
-                                                            backgroundColor: 'transparent',
+                                                            backgroundColor: 'white',
                                                             borderRadius: "10px",
                                                             boxShadow: "none",
                                                             border: "1px solid rgb(203, 203, 208)",

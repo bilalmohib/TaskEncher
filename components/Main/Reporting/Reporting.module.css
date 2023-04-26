@@ -4,6 +4,7 @@
     min-height: calc(100vh - 50px);
     display: flex;
     flex-direction: column;
+    background-color: white;
 }
 
 .addDashboardContainer {
@@ -12,4 +13,5 @@
     border-bottom: 1px solid rgb(203, 203, 208);
     padding-top: 15px;
     padding-bottom: 15px;
+    background-color: white;
 }

@@ -3,6 +3,8 @@ import { useRouter } from 'next/router';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 // Importing Components
+import ProfileComp from '@app/components/Pages/Profile/ProfileComp';
+
 import Home from '@app/components/Main/Home';
 import Navbar from '@app/components/Navbar';
 import Sidebar from '@app/components/Sidebar';
@@ -36,7 +38,7 @@ import { useCollection } from 'react-firebase-hooks/firestore';
 
 import styles from "./style.module.css";
 
-interface MainContentProps {
+interface MainContentProfileProps {
     isOpen: boolean;
     setIsOpen: (value: boolean) => void;
     currentMenuItem: number;
@@ -55,7 +57,7 @@ interface MainContentProps {
     setProjects: (value: any) => void;
 }
 
-const MainContent: React.FC<MainContentProps> = (
+const MainContentProfile: React.FC<MainContentProfileProps> = (
     {
         isOpen,
         setIsOpen,
@@ -131,58 +133,28 @@ const MainContent: React.FC<MainContentProps> = (
                 />
             </div>
             <div className="d-flex">
-                <div style={{position:"relative",zIndex:"1000 !important"}}>
-                <Sidebar
-                    currentMenuItem={currentMenuItem}
-                    setCurrentMenuItem={setCurrentMenuItem}
-                    isOpen={isOpen}
-                    setIsOpen={setIsOpen}
-                    projectMembers={projectMembers}
-                    email={email}
-                    projectList={projects}
-                    isModalOpen={isModalOpen}
-                    setIsModalOpen={setIsModalOpen}
-                />
+                <div style={{ position: "relative", zIndex: "1000 !important" }}>
+                    <Sidebar
+                        currentMenuItem={currentMenuItem}
+                        setCurrentMenuItem={setCurrentMenuItem}
+                        isOpen={isOpen}
+                        setIsOpen={setIsOpen}
+                        projectMembers={projectMembers}
+                        email={email}
+                        projectList={projects}
+                        isModalOpen={isModalOpen}
+                        setIsModalOpen={setIsModalOpen}
+                    />
                 </div>
 
                 <div style={{ marginTop: "49px" }} className={`${styles.rightSideContainer} ${isOpen ? styles.shrinkContainer : styles.expandContainer}`}>
-                    {/* Home Page */}
-                    <section className={currentMenuItem === 1 ? '' : 'd-none'}>
-                        <Home
-                            projectList={projects}
-                            projectMembers={projectMembers}
-                        />
-                    </section>
-
-                    {/* My Tasks Page */}
-                    <section className={currentMenuItem === 2 ? '' : 'd-none'}>
-                        <MyTasks />
-                    </section>
-
-                    {/* Inbox Page */}
-                    <section className={currentMenuItem === 3 ? '' : 'd-none'}>
-                        <Inbox email={email} />
-                    </section>
-
-                    {/* Reporting Page */}
-                    <section className={currentMenuItem === 4 ? '' : 'd-none'}>
-                        <Reporting email={email} />
-                    </section>
-
-                    {/* Portfolios Page */}
-                    {/* <section className={currentMenuItem === 5 ? '' : 'd-none'}>
-                        <br />
-                        <h3 style={{ marginLeft: 30, marginTop: 5, color: 'black', fontWeight: 'lighter' }}>Portfolios</h3>
-                    </section> */}
-
-                    {/* Goals Page */}
-                    <section className={currentMenuItem === 6 ? '' : 'd-none'}>
-                        <br />
-                        <h3 style={{ marginLeft: 30, marginTop: 5, color: 'black', fontWeight: 'lighter' }}>Goals</h3>
-                    </section>
+                    <ProfileComp
+                        isSignedIn={signedInUserData !== null}
+                        signedInUserData={signedInUserData}
+                    />
                 </div>
             </div>
         </main>
     );
 };
-export default MainContent;
+export default MainContentProfile;

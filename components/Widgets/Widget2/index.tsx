@@ -73,7 +73,7 @@ const MyTasksII: React.FC<MyTasksProps> = ({
             <div className="d-flex">
                 <div
                     className={styles.projectStyle}
-                    style={{ backgroundColor: colors[Math.floor(Math.random() * colors.length)]}}
+                    style={{ backgroundColor: colors[Math.floor(Math.random() * colors.length)] }}
                 >
                     {project}
                 </div>
@@ -157,7 +157,7 @@ const Widget2: React.FC<IProps> = ({
                     />
                 </div>
                 <div className={styles.right_Container_Header}>
-                    <h4>My Tasks</h4>
+                    <h4 className="text-white">My Tasks</h4>
                     <div>
                         <ul className={styles.bottomRightList}>
                             <li

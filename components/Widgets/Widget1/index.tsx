@@ -138,7 +138,7 @@ const Widget1: React.FC<IProps> = ({
     return (
         <div className={styles.container}>
             <div className="d-flex">
-                <h1>Projects</h1>
+                <h1 className='text-white'>Projects</h1>
                 {/* Secondary */}
                 <div className="btn-group" style={{ fontSize: 12, height: 28, boxShadow: "none", marginTop: "-10px", marginLeft: 20 }}>
                     <button type="button" className={`btn btn-btnDrop ${styles.btn_dropdown}`} data-mdb-toggle="dropdown" aria-expanded="false">

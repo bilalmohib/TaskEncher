@@ -92,7 +92,7 @@ const Sidebar: React.FC<IProps> = ({
                         <AiOutlinePlus size={19} />
                         &nbsp; Create
                     </button>
-                    <ul className="dropdown-menu" style={{ position:"relative",zIndex: "2000 !important",background:"#ffffff" }}>
+                    <ul className="dropdown-menu" style={{ position: "relative", zIndex: "2000 !important", background: "#ffffff" }}>
                         <li><a className="dropdown-item" href="#">Task</a></li>
                         <li onClick={() => router.push('/createProject')}><a className="dropdown-item" href="#">Project</a></li>
                         <li><a className="dropdown-item" href="#">Message</a></li>
@@ -107,7 +107,7 @@ const Sidebar: React.FC<IProps> = ({
                         }}
                     >
                         <div className='d-flex'>
-                            <p> <IoHomeOutline size={19} /> </p> <p className={styles.itemMenuListText}>Home</p>
+                            <p> <IoHomeOutline size={22} /> </p> <p className={styles.itemMenuListText}>Home</p>
                         </div>
                     </li>
                     <li className={(currentMenuItem === 2) ? (styles.selected_Menu_Item) : ("")}
@@ -117,7 +117,7 @@ const Sidebar: React.FC<IProps> = ({
                         }}
                     >
                         <div className='d-flex'>
-                            <p> <BsCheckCircle size={19} /> </p> <p className={styles.itemMenuListText}>My Tasks</p>
+                            <p> <BsCheckCircle size={22} /> </p> <p className={styles.itemMenuListText}>My Tasks</p>
                         </div>
                     </li>
                     <li className={(currentMenuItem === 3) ? (styles.selected_Menu_Item) : ("")}
@@ -127,7 +127,7 @@ const Sidebar: React.FC<IProps> = ({
                         }}
                     >
                         <div className='d-flex'>
-                            <p> <BsBell size={19} /> </p> <p className={styles.itemMenuListText}>Inbox</p>
+                            <p> <BsBell size={22} /> </p> <p className={styles.itemMenuListText}>Inbox</p>
                         </div>
                     </li>
                     <li className={(currentMenuItem === 4) ? (styles.selected_Menu_Item) : ("")}
@@ -137,17 +137,21 @@ const Sidebar: React.FC<IProps> = ({
                         }}
                     >
                         <div className='d-flex'>
-                            <p> <BiStats size={19} /> </p> <p className={styles.itemMenuListText}>Reporting</p>
+                            <p> <BiStats size={22} /> </p> <p className={styles.itemMenuListText}>Reporting</p>
                         </div>
                     </li>
                     <li className={(currentMenuItem === 5) ? (styles.selected_Menu_Item) : ("")}
                         onClick={() => {
                             setCurrentMenuItem(5)
-                            router.push(movingUrl);
+                            // router.push(movingUrl);
+                            router.push(`/profile/${email}`)
                         }}
                     >
                         <div className='d-flex'>
-                            <p> <HiChartSquareBar size={19} /> </p> <p className={styles.itemMenuListText}>Portfolios</p>
+                            <p> <HiChartSquareBar size={22} /> </p> <p className={styles.itemMenuListText}>
+                                {/* Portfolios */}
+                                Profile
+                            </p>
                         </div>
                     </li>
                     <li className={(currentMenuItem === 6) ? (styles.selected_Menu_Item) : ("")}
@@ -157,7 +161,7 @@ const Sidebar: React.FC<IProps> = ({
                         }}
                     >
                         <div className='d-flex'>
-                            <p> <GiStairsGoal size={19} /> </p> <p className={styles.itemMenuListText}>Goals</p>
+                            <p> <GiStairsGoal size={22} /> </p> <p className={styles.itemMenuListText}>Goals</p>
                         </div>
                     </li>
                 </ul>

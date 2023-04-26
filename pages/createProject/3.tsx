@@ -47,7 +47,7 @@ function a11yProps(index: number) {
     };
 }
 
-const SimpleComponent: React.FC = () => {
+const SimpleCom: React.FC = () => {
     const [value, setValue] = useState(0);
     const [age, setAge] = useState("");
     const [titleValue, settitleValue] = useState('');
@@ -208,4 +208,4 @@ const SimpleComponent: React.FC = () => {
     );
 };
 
-export default SimpleComponent;
+export default SimpleCom;

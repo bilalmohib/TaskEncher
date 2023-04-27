@@ -12,7 +12,10 @@
 .Body {
     /* border: 2px solid blue; */
 }
-
+.multiselect {
+    /* background-color: red; */
+    color: red;
+}
 /* Table Header */
 .projectDetailsTableHeader tr th {
     font-weight: 300;

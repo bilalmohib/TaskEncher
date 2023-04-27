@@ -9,6 +9,7 @@ import Sidebar from '@app/components/Sidebar';
 import Inbox from '@app/components/Main/Inbox';
 import Reporting from '@app/components/Main/Reporting';
 import MyTasks from '@app/components/Main/MyTasks';
+import Notifications from '@app/components/notifications';
 
 // Importing Material UI Components
 import {
@@ -177,8 +178,9 @@ const MainContent: React.FC<MainContentProps> = (
 
                     {/* Goals Page */}
                     <section className={currentMenuItem === 6 ? '' : 'd-none'}>
-                        <br />
-                        <h3 style={{ marginLeft: 30, marginTop: 5, color: 'black', fontWeight: 'lighter' }}>Goals</h3>
+                        {/* <br />
+                        <h3 style={{ marginLeft: 30, marginTop: 5, color: 'black', fontWeight: 'lighter' }}>Notifications</h3> */}
+                        <Notifications />
                     </section>
                 </div>
             </div>

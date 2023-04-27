@@ -73,7 +73,7 @@ const MultiSelectChipDropDown: FC<MultiSelectChipDropDownProps> = ({
                             return <span style={{fontWeight:"light",color:"#A1A1A1"}}>{placeholder}</span>;
                         }
                         return (
-                            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, }}>
                                 {selected.map((value: any) => (
                                     <Chip key={value} label={value} />
                                 ))}
@@ -83,18 +83,29 @@ const MultiSelectChipDropDown: FC<MultiSelectChipDropDownProps> = ({
                     sx={(dropDownStyles) ? (
                         dropDownStyles
                     ) : ({
+                        paddingLeft: '3px',
                         '& .MuiOutlinedInput-notchedOutline': {
                             borderColor: '#E5E5E5',
-                            borderWidth: '1px',
+                            borderWidth: '0px',
                         },
                         '&:hover .MuiOutlinedInput-notchedOutline': {
                             borderColor: '#E5E5E5',
-                            borderWidth: '1px',
+                            borderWidth: '0px',
                         },
                         '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
                             // Give the default border color of material ui input
-                            borderWidth: '1px',
+                            borderWidth: '0px',
                         }
+                        // '& .MuiOutlinedInput-notchedOutline': {
+                        //     border: 'none',
+                        //   },
+                        //   '&:hover .MuiOutlinedInput-notchedOutline': {
+                        //     border: 'none',
+                        //   },
+                        //   '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                        //     // Give the default border color of material ui input
+                        //     borderWidth: '1px',
+                        //   }
                     }
                     )}
                     MenuProps={MenuProps}

@@ -123,7 +123,7 @@ const SimpleCom: React.FC = () => {
                             <span style={{ paddingLeft: '20px', fontSize: '16px', fontWeight: '400' }}>Set up Workflow</span>
                             {/* <span style={{paddingLeft: '20px', fontSize: '14px', }}>Assign, set due dates</span> */}
                             <span style={{ paddingLeft: '20px', fontSize: '14px', fontWeight: '300' }}>
-                                Automate and visualize your team'process</span>
+                            Automate and visualize your team process</span>
                         </div>
                     </ToggleButton>
                 </ToggleButtonGroup>

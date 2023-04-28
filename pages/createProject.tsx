@@ -259,7 +259,7 @@ const CreateProject: NextPage = () => {
                 <meta name="viewport" content="width=1200" />
             </Head>
             {(user && !loading && !error && signedInUserData) ? (
-                <section>
+                <section className="main">
                     <div className="container">
                         <div className="fixed-top">
                             <Navbar isOpen={isOpen} setIsOpen={setIsOpen} />

@@ -9,6 +9,7 @@ import InviteMembers from './InviteMembers';
 import IconButton from '@mui/material/IconButton';
 
 import CloseIcon from '@mui/icons-material/Close';
+import CustomizeSettings from './CustomizeSettings';
 
 interface CustomModalProps {
     open: boolean;
@@ -17,6 +18,10 @@ interface CustomModalProps {
     title: string;
     projects: any;
     projectMembers: string[];
+
+    // Widgets
+    widgetsList?: any;
+    setWidgetsList?: (value: any) => void;
 }
 
 const CustomModal: React.FC<CustomModalProps> = (
@@ -26,7 +31,11 @@ const CustomModal: React.FC<CustomModalProps> = (
         modalType,
         title,
         projects,
-        projectMembers
+        projectMembers,
+
+        // Widgets
+        widgetsList,
+        setWidgetsList,
     }) => {
     const handleClose = () => setOpen(false);
 
@@ -97,6 +106,13 @@ const CustomModal: React.FC<CustomModalProps> = (
                                 <InviteMembers
                                     projects={projects}
                                     projectMembers={projectMembers}
+                                />
+                            )}
+
+                            {(modalType === 'customize') && (
+                                <CustomizeSettings
+                                    widgetsList={widgetsList}
+                                    setWidgetsList={setWidgetsList}
                                 />
                             )}
                         </Box>

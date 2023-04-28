@@ -371,6 +371,7 @@ const List: React.FC<ListProps> = ({ email, projectName, projectID }) => {
                                                   scope="row"
                                                 >
                                                   <i
+                                                  style={{paddingTop: '22.5px'}}
                                                     role={"button"}
                                                     className={`far fa-check-circle fa-lg taskTick`}
                                                   ></i>
@@ -422,7 +423,7 @@ const List: React.FC<ListProps> = ({ email, projectName, projectID }) => {
                                                       setSelectedArrayList={
                                                         setSelectedMembers
                                                       }
-                                                      styles={styles.input}
+                                                      styles={styles.multiselect}
                                                       dropDownStyles={
                                                         styles.dropDownStyles
                                                       }
@@ -434,6 +435,20 @@ const List: React.FC<ListProps> = ({ email, projectName, projectID }) => {
                                                     dateAdapter={AdapterDayjs}
                                                   >
                                                     <DateTimePicker
+                                                    sx={{
+                                                      '& .MuiOutlinedInput-notchedOutline': {
+                                                        borderColor: '#E5E5E5',
+                                                        borderWidth: '0px',
+                                                    },
+                                                    '&:hover .MuiOutlinedInput-notchedOutline': {
+                                                        borderColor: '#E5E5E5',
+                                                        borderWidth: '0px',
+                                                    },
+                                                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                                        // Give the default border color of material ui input
+                                                        borderWidth: '0px',
+                                                    }
+                                                    }}
                                                       label=""
                                                       value={value}
                                                       onChange={(newValue) =>
@@ -444,9 +459,10 @@ const List: React.FC<ListProps> = ({ email, projectName, projectID }) => {
                                                 </td>
                                                 {v.taskPriority == "High" ? (
                                                   <td
-                                                    style={{ paddingTop: -20 }}
+                                                    style={{ paddingTop: '20px' }}
                                                   >
                                                     <button
+                                                    style={{boxShadow: 'none'}}
                                                       type="button"
                                                       className="btn btn-danger btn-rounded btn-sm"
                                                     >
@@ -455,8 +471,12 @@ const List: React.FC<ListProps> = ({ email, projectName, projectID }) => {
                                                   </td>
                                                 ) : v.taskPriority ==
                                                   "Medium" ? (
-                                                  <td>
+                                                  <td 
+                                                  style={{ paddingTop: '20px' }}
+                                                  >
                                                     <button
+                                                    style={{boxShadow: 'none'}}
+                                                    
                                                       type="button"
                                                       className="btn btn-warning btn-rounded btn-sm"
                                                     >
@@ -464,8 +484,11 @@ const List: React.FC<ListProps> = ({ email, projectName, projectID }) => {
                                                     </button>
                                                   </td>
                                                 ) : v.taskPriority == "Low" ? (
-                                                  <td>
+                                                  <td
+                                                  style={{ paddingTop: '20px' }}
+                                                  >
                                                     <button
+                                                    style={{boxShadow: 'none'}}
                                                       type="button"
                                                       className="btn btn-info btn-rounded btn-sm"
                                                     >
@@ -475,7 +498,7 @@ const List: React.FC<ListProps> = ({ email, projectName, projectID }) => {
                                                 ) : (
                                                   <td></td>
                                                 )}
-                                                <td>
+                                                <td style={{paddingTop: '22.5px'}}> 
                                                   <h6>{v.taskSection}</h6>
                                                 </td>
                                               </>

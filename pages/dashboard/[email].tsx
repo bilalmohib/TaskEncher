@@ -175,7 +175,7 @@ const Dashboard: NextPage<GlobalProps> = (
             </Head>
 
             {(!loading && isSignedIn) && (
-                <>
+                <div>
                     <MainContent
                         setIsOpen={setIsOpen}
                         isOpen={isOpen}
@@ -201,7 +201,7 @@ const Dashboard: NextPage<GlobalProps> = (
                         widgetsList={widgetsList}
                         setWidgetsList={setWidgetsList}
                     />
-                </>
+                </div>
             )}
             <CustomModal
                 open={isModalOpen}

@@ -6,38 +6,49 @@
 @tailwind components;
 @tailwind utilities;
 
-html,
+/* html,
 body {
   padding: 0;
   margin: 0;
+  height: 100%;
   /* font-family: 'Montserrat', sans-serif; */
+/* }
+
+.main {
+  background: url(https://images.pexels.com/photos/2531709/pexels-photo-2531709.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-attachment: fixed; */
+/* } */
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 .main {
-  width: auto;
-  height: auto;
-  /* border: 2px solid red; */
-  /* background-color: #ec0404; */
-  /* background-image: url("https://images.pexels.com/photos/2531709/pexels-photo-2531709.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"); */
-  /* background-image: url(https://images.pexels.com/photos/36767/tree-natur-nightsky-cloud.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1); */
-  /* background-image: url(https://images.pexels.com/photos/427900/pexels-photo-427900.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1); */
-  /* background-image: url(https://images.pexels.com/photos/67563/plane-aircraft-jet-airbase-67563.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1); */
-  /* background-image: url(https://images.pexels.com/photos/326081/pexels-photo-326081.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1); */
-  /* background-image: url(https://images.pexels.com/photos/716834/pexels-photo-716834.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1); */
-  /* background-image: url(https://images.pexels.com/photos/754148/pexels-photo-754148.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1); */
-  /* background-image:url(https://images.pexels.com/photos/6074172/pexels-photo-6074172.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1); */
-  /* background-image: url(https://images.pexels.com/photos/131674/pexels-photo-131674.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1); */
-  /* background-image: url(https://images.pexels.com/photos/730895/pexels-photo-730895.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1); */
-  /* background-image: url(https://images.pexels.com/photos/869258/pexels-photo-869258.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1); */
-  /* correct background-image: url(https://images.unsplash.com/photo-1536183922588-166604504d5e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1469&q=80); */
-  /* background-image: url(https://images.unsplash.com/photo-1468657988500-aca2be09f4c6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80); */
-  background-image: url(https://images.pexels.com/photos/2426074/pexels-photo-2426074.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1);
+  position: relative;
+  width: 100%;
+  min-height: 100%;
+  padding-bottom: 0px; /* You can adjust this value according to your needs */
+}
+
+.main:after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url(https://www.pixelstalk.net/wp-content/uploads/2016/05/New-Wallpaper-Full-HD-1920x1080.jpg);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
   image-rendering: optimizeQuality;
-  background-attachment: unset;
-  height: 200vh;
+  z-index: -1;
 }
 
 /* .main {

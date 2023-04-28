@@ -52,8 +52,16 @@ const Dashboard: NextPage<GlobalProps> = (
 
     const [loading, setLoading] = useState<boolean>(true);
 
-    const [widgetsList, setWidgetsList] = useState([
-        {
+    const [widgetsList, setWidgetsList] = useState({
+        backgroundImages: [
+            "https://images.pexels.com/photos/36767/tree-natur-nightsky-cloud.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+            "https://images.pexels.com/photos/2531709/pexels-photo-2531709.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+            "https://images.pexels.com/photos/427900/pexels-photo-427900.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+            "https://images.pexels.com/photos/67563/plane-aircraft-jet-airbase-67563.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+            "https://images.pexels.com/photos/326081/pexels-photo-326081.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+            "https://images.pexels.com/photos/716834/pexels-photo-716834.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        ],
+        widgets: [{
             id: 1,
             src: <audio id='hoverSoundClip'>
                 <source src="audio/1.mp3" />
@@ -80,34 +88,43 @@ const Dashboard: NextPage<GlobalProps> = (
             name: "People",
             isVisible: true
         },
-        {
-            id: 4,
-            src: <audio id='hoverSoundClip'>
-                <source src="audio/4.mp3" />
-                Your browser is not invited for super fun audio time.
-            </audio>,
-            name: "Tasks I've Assigned",
-            isVisible: false
-        },
-        {
-            id: 5,
-            src: <audio id='hoverSoundClip'>
-                <source src="audio/5.mp3" />
-                Your browser is not invited for super fun audio time.
-            </audio>,
-            name: "My goals",
-            isVisible: false
-        },
-        {
-            id: 6,
-            src: <audio id='hoverSoundClip'>
-                <source src="audio/6.mp3" />
-                Your browser is not invited for super fun audio time.
-            </audio>,
-            name: "Manager Tasks",
-            isVisible: false
-        }
-    ]);
+            // {
+            //     id: 4,
+            //     src: <audio id='hoverSoundClip'>
+            //         <source src="audio/4.mp3" />
+            //         Your browser is not invited for super fun audio time.
+            //     </audio>,
+            //     name: "Tasks I've Assigned",
+            //     isVisible: false
+            // },
+            // {
+            //     id: 5,
+            //     src: <audio id='hoverSoundClip'>
+            //         <source src="audio/5.mp3" />
+            //         Your browser is not invited for super fun audio time.
+            //     </audio>,
+            //     name: "My goals",
+            //     isVisible: false
+            // },
+            // {
+            //     id: 6,
+            //     src: <audio id='hoverSoundClip'>
+            //         <source src="audio/6.mp3" />
+            //         Your browser is not invited for super fun audio time.
+            //     </audio>,
+            //     name: "Manager Tasks",
+            //     isVisible: false
+            // }
+        ]
+    });
+
+    const [selectedBackgroundImage, setSelectedBackgroundImage] = useState(
+        "https://www.pixelstalk.net/wp-content/uploads/2016/05/New-Wallpaper-Full-HD-1920x1080.jpg"
+    );
+
+    useEffect(() => {
+        document.documentElement.style.setProperty("--selected-bg-image", `url(${selectedBackgroundImage})`);
+    }, [selectedBackgroundImage]);
 
     //_________________ For Getting SignedInUser Data _____________________
     const [signedInUserData, setSignedInUserData] = useState<any>(null);
@@ -223,6 +240,10 @@ const Dashboard: NextPage<GlobalProps> = (
                 // Widgets
                 widgetsList={widgetsList}
                 setWidgetsList={setWidgetsList}
+
+                // Background Image
+                selectedBackgroundImage={selectedBackgroundImage}
+                setSelectedBackgroundImage={setSelectedBackgroundImage}
             />
         </div>
     )

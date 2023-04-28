@@ -366,7 +366,7 @@ const Home: React.FC<HomeProps> = ({
                     {/* ++++++++++++++++++++++++++++++++++++ Widgets Container ++++++++++++++++++++++++++++++++++++ */}
                     <section className={styles.widgetsContainer}>
                         {widgetsList &&
-                            widgetsList.map((item: any, index: number) => (
+                            widgetsList.widgets.map((item: any, index: number) => (
                                 <div
                                     className={`${((item.id == currentFullLengthItem) ? (styles.fullWidthWidget) : (null))} ${((pointerDown && item.id == currentFullLengthItem) ? (styles.pointerDown) : (styles.pointerOut))}`}
                                     onDragStart={e => dragStart(e, index)}

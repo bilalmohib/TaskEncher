@@ -87,26 +87,39 @@ import styles from "./style.module.css";
 interface CustomizeSettingsProps {
     widgetsList: any;
     setWidgetsList: any;
+
+    // Background Image
+    selectedBackgroundImage?: string;
+    setSelectedBackgroundImage?: (value: string) => void;
 }
 
 const CustomizeSettings: React.FC<CustomizeSettingsProps> = ({
     widgetsList,
     setWidgetsList,
+
+    // Background Image
+    selectedBackgroundImage,
+    setSelectedBackgroundImage,
 }) => {
 
     const toggleWidgetVisibility = (id: any) => {
-        setWidgetsList((widgetsList: any) =>
-            widgetsList.map((widget: any) =>
+        setWidgetsList((prevState: any) => {
+            const updatedWidgets = prevState.widgets.map((widget: any) =>
                 widget.id === id
                     ? { ...widget, isVisible: !widget.isVisible }
                     : widget
-            )
-        );
+            );
+
+            return {
+                ...prevState,
+                widgets: updatedWidgets,
+            };
+        });
     };
 
     return (
         <div className={styles.modalBody}>
-            <h6 className="font-light leading-6">Customize the background and the widgets you want to see on your Dashboard.</h6>
+            <h6 className="font-medium font-sans text-[25px] leading-12 mb-2" style={{ textDecoration: "underline" }}>Customize the background and the widgets you want to see on your Dashboard.</h6>
             <FormControl component="fieldset" variant="standard"
                 sx={{
                     width: "100%",
@@ -126,7 +139,7 @@ const CustomizeSettings: React.FC<CustomizeSettingsProps> = ({
                         gap: "0.5rem",
                     }}
                 >
-                    {widgetsList.map((widget: any, index: number) => (
+                    {widgetsList.widgets.map((widget: any, index: number) => (
                         <CustomFormControlLabel
                             key={index}
                             control={
@@ -140,6 +153,25 @@ const CustomizeSettings: React.FC<CustomizeSettingsProps> = ({
                     ))}
                 </FormGroup>
             </FormControl>
+
+            <h6 className="font-medium font-sans text-[25px] leading-12 mt-4 mb-2" style={{ textDecoration: "underline" }}>Choose the background Image of your Dashboard.</h6>
+
+            <div className={styles.colorPicker}>
+                <div className={styles.colorPickerItem}>
+                    {/* <div className={styles.colorPickerItemColor} style={{ backgroundColor: "#F87171" }}></div> */}
+                    {widgetsList.backgroundImages.map((backgroundImage: string, index: number) => (
+                        <div key={index} className={styles.colorPickerItemColor}
+                            //@ts-ignore
+                            onClick={() => setSelectedBackgroundImage(backgroundImage)}
+                            style={{
+                                backgroundImage: `url(${backgroundImage})`,
+                                backgroundSize: "cover",
+                                backgroundPosition: "center",
+                                backgroundRepeat: "no-repeat"
+                            }}></div>
+                    ))}
+                </div>
+            </div>
         </div>
     )
 }

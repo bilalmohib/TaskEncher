@@ -22,6 +22,10 @@ interface CustomModalProps {
     // Widgets
     widgetsList?: any;
     setWidgetsList?: (value: any) => void;
+
+    // Background Image
+    selectedBackgroundImage?: string;
+    setSelectedBackgroundImage?: (value: string) => void;
 }
 
 const CustomModal: React.FC<CustomModalProps> = (
@@ -36,17 +40,21 @@ const CustomModal: React.FC<CustomModalProps> = (
         // Widgets
         widgetsList,
         setWidgetsList,
+
+        // Background Image
+        selectedBackgroundImage,
+        setSelectedBackgroundImage,
     }) => {
     const handleClose = () => setOpen(false);
 
     const styles = {
         modal: {
             position: 'absolute' as 'absolute',
-            top: '40%',
+            top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
-            width: 560,
-            height: "auto",
+            width: 1060,
+            height: "900px",
             bgcolor: '#ffffff',
             borderRadius: 3,
             // boxShadow: 24,
@@ -113,6 +121,10 @@ const CustomModal: React.FC<CustomModalProps> = (
                                 <CustomizeSettings
                                     widgetsList={widgetsList}
                                     setWidgetsList={setWidgetsList}
+
+                                    // Background Image
+                                    selectedBackgroundImage={selectedBackgroundImage}
+                                    setSelectedBackgroundImage={setSelectedBackgroundImage}
                                 />
                             )}
                         </Box>

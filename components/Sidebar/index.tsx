@@ -161,7 +161,7 @@ const Sidebar: React.FC<IProps> = ({
                         }}
                     >
                         <div className='d-flex'>
-                            <p> <GiStairsGoal size={22} /> </p> <p className={styles.itemMenuListText}>Goals</p>
+                            <p> <BsBell size={19} /> </p> <p className={styles.itemMenuListText}>Notifications</p>
                         </div>
                     </li>
                 </ul>

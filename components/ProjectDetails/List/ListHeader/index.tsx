@@ -31,7 +31,7 @@ const ListHeader: React.FC<IProps> = ({
             </div>
 
             {/* Incomplete tasks */}
-            <div className="btn-group" style={{ fontSize: 16, height: 28, boxShadow: "none" }}>
+            <div className="btn-group" style={{ fontSize: 16, height: 28, boxShadow: "none", position: 'absolute', right:'50px' }}>
                 <button type="button" className={`btn btn-btnDrop ${styles.btn_dropdown}`} data-mdb-toggle="dropdown" aria-expanded="false">
                     <IoIosArrowDropdown style={{ marginTop: -2 }} /> Incomplete tasks
                 </button>
@@ -43,7 +43,7 @@ const ListHeader: React.FC<IProps> = ({
             </div>
 
             {/* Filter */}
-            <div className="btn-group" style={{ fontSize: 16, height: 28, boxShadow: "none" }}>
+            {/* <div className="btn-group" style={{ fontSize: 16, height: 28, boxShadow: "none" }}>
                 <button type="button" className={`btn btn-btnDrop ${styles.btn_dropdown}`} data-mdb-toggle="dropdown" aria-expanded="false">
                     <IoIosArrowDropdown style={{ marginTop: -2 }} /> Filter
                 </button>
@@ -52,10 +52,10 @@ const ListHeader: React.FC<IProps> = ({
                     <li><a className="dropdown-item" href="#">Due this week</a></li>
                     <li><a className="dropdown-item" href="#">Due next week</a></li>
                 </ul>
-            </div>
+            </div> */}
 
             {/* Sort */}
-            <div className="btn-group" style={{ fontSize: 16, height: 28, boxShadow: "none" }}>
+            <div className="btn-group" style={{ fontSize: 16, height: 28, boxShadow: "none", position: 'absolute', right:'5px' }}>
                 <button type="button" className={`btn btn-btnDrop ${styles.btn_dropdown}`} data-mdb-toggle="dropdown" aria-expanded="false">
                     <IoIosArrowDropdown style={{ marginTop: -2 }} /> Sort
                 </button>

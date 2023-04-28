@@ -22,6 +22,113 @@ const IconButton: React.FC<IconButtonProps> = ({ icon, children, ...rest }) => {
   );
 };
 
+const Feed = () => {
+  return (
+    <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+    <div style={{ display: 'flex', padding: '10px', boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)', flexDirection: 'column', width: '50%'}}>
+      {/* Avatar */}
+      <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+      <img src="https://via.placeholder.com/50x50" alt="Avatar" style={{ borderRadius: '50%', marginRight: '10px' }} />
+      <div>Ammar Mohib updated Feed</div>
+      </div>
+      
+      <div style={{paddingTop: '0px'}}></div>
+      {/* Text content */}
+      <div style={{ display: 'flex', flexDirection: 'column', paddingLeft: '10px', paddingTop: '20px' }}>
+      <div>hi</div>
+        <div style={{ display: 'flex', alignItems: 'center', marginTop: '5px', flexDirection: 'row' }}>
+          <div style={{ color: 'red', marginRight: '10px' }}>comment</div>
+          <div>Yesterday at 12:00 pm</div>
+        </div>
+      </div>
+    </div>
+    </div>
+  );
+};
+
+const Status = () => {
+  return (
+<div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+    <div style={{ display: 'flex', padding: '10px', boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)', flexDirection: 'column', width: '50%'}}>
+      {/* Avatar */}
+      <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+      <img src="https://via.placeholder.com/50x50" alt="Avatar" style={{ borderRadius: '50%', marginRight: '10px' }} />
+      <div>Ammar Mohib updated Status</div>
+      </div>
+      
+      <div style={{paddingTop: '0px'}}></div>
+      {/* Text content */}
+      <div style={{ display: 'flex', flexDirection: 'column', paddingLeft: '10px', paddingTop: '20px' }}>
+      <div>hi</div>
+        <div style={{ display: 'flex', alignItems: 'center', marginTop: '5px', flexDirection: 'row' }}>
+          <div style={{ color: 'red', marginRight: '10px' }}>comment</div>
+          <div>Yesterday at 12:00 pm</div>
+        </div>
+      </div>
+    </div>
+    </div>
+  );
+};
+
+const ActivityStream = () => {
+  return (
+    <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+    <div style={{ display: 'flex', padding: '10px', boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)', flexDirection: 'column', width: '50%'}}>
+      {/* Avatar */}
+      <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+      <img src="https://via.placeholder.com/50x50" alt="Avatar" style={{ borderRadius: '50%', marginRight: '10px' }} />
+      <div>Ammar Mohib updated Activity</div>
+      </div>
+      
+      <div style={{paddingTop: '0px'}}></div>
+      {/* Text content */}
+      <div style={{ display: 'flex', flexDirection: 'column', paddingLeft: '10px', paddingTop: '20px' }}>
+      <div>hi</div>
+        <div style={{ display: 'flex', alignItems: 'center', marginTop: '5px', flexDirection: 'row' }}>
+          <div style={{ color: 'red', marginRight: '10px' }}>comment</div>
+          <div>Yesterday at 12:00 pm</div>
+        </div>
+      </div>
+    </div>
+    </div>
+  );
+};
+interface TabButtonProps {
+  text: string;
+  active: boolean;
+  onClick: () => void;
+}
+const TabButton = ({ text, active, onClick }: TabButtonProps) => {
+  const backgroundColor = active ? '#fff' : '#fff';
+  const color = active ? '#000' : '#000';
+
+  return (
+    (active === true) ? <div
+      style={{ backgroundColor, color, padding: '0px', borderRadius: '5px', cursor: 'pointer', marginRight: '10px' }}
+      onClick={onClick}
+    >
+      <div style={{paddingTop: '30px',}}>{text}</div>
+       <hr 
+        style={{
+          // borderColor: 'red',
+          // borderTop: '4px solid #c52a04',
+          // textShadow: 'none',
+          // boxShadow: 'none',
+          height: '4px',
+          backgroundColor: 'red',
+          border: 'none'
+  
+          //  paddingBottom: '10px'
+        }} 
+        /> 
+    </div> : <div
+      style={{ backgroundColor, color, padding: '10px', borderRadius: '5px', cursor: 'pointer', marginRight: '10px' }}
+      onClick={onClick}
+    >
+      {text}
+    </div>
+  );
+};
 const Notifications: React.FC = () => {
   const avatarUrl = 'https://via.placeholder.com/50';
   const [Projects, setProjects] = React.useState('');
@@ -29,11 +136,29 @@ const Notifications: React.FC = () => {
     setProjects(event.target.value);
   };
   const [isTextAreaOpen, setIsTextAreaOpen] = React.useState(false);
-
+  
   // Event handler for when the text field is tapped
   const handleTextFieldTap = () => {
     setIsTextAreaOpen(true);
   };
+  
+  const [activeTab, setActiveTab] = React.useState<string>('feed');
+  
+  const handleTabClick = (tab: string) => {
+    setActiveTab(tab);
+  };
+  
+
+  let content;
+
+  if (activeTab === 'feed') {
+    content = <Feed />;
+  } else if (activeTab === 'status') {
+    content = <Status />;
+  } else if (activeTab === 'activityStream') {
+    content = <ActivityStream />;
+  }
+
   return (
     <div style={{height: '100%'}}>
       <div style={{boxShadow: '1px 1px 1px #888888', height: '90px'}}>
@@ -102,24 +227,38 @@ const Notifications: React.FC = () => {
         {/* <FormHelperText>Without label</FormHelperText> */}
       </FormControl>
       </div>
-      <div style={{ display: 'flex', alignItems: 'center', padding: '10px' }}>
-      {/* Avatar */}
-      <img src={avatarUrl} alt="Avatar" style={{ borderRadius: '50%', marginRight: '10px' }} />
-
-      {/* Text field */}
-      <div style={{ flex: 1 }}>
-        {isTextAreaOpen ? (
-          <textarea
-            placeholder="Enter your text here"
-            style={{ width: '100%', height: '100px', border: '1px solid #ccc', borderRadius: '5px', padding: '10px' }}
-          />
-        ) : (
-          <div onClick={handleTextFieldTap} style={{ width: '100%', height: '40px', border: '1px solid #ccc', borderRadius: '5px', padding: '10px' }}>
-            Click here to add text
-          </div>
-        )}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '10px', textAlign: 'center', paddingTop: '30px', flexDirection: 'column'}}>
+  {/* Avatar */}
+  <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+    <div>
+  <img src={avatarUrl} alt="Avatar" style={{ borderRadius: '50%', marginRight: '10px'}} />
+  </div>
+  <div>
+  {isTextAreaOpen ? (
+      <textarea
+        placeholder="Enter your text here"
+        style={{ width: '100vh', height: '100px', border: '1px solid #ccc', borderRadius: '5px' }}
+      />
+    ) : (
+      <div onClick={handleTextFieldTap} style={{ width: '100vh', height: '40px', border: '1px solid #ccc', borderRadius: '5px', padding: '7px' }}>
+        Click here to add text
       </div>
+    )}
     </div>
+  </div>
+  {/* Text field */}
+      
+  <div style={{}}>
+  
+  </div>
+</div>
+<div style={{ display: 'flex', alignItems: 'center', marginLeft:'270px', marginTop: '50px' }}>
+        <TabButton text="Feed" active={activeTab === 'feed'}  onClick={() => handleTabClick('feed')} />
+        <TabButton text="Status" active={activeTab === 'status'} onClick={() => handleTabClick('status')} />
+        <TabButton text="Activity Stream" active={activeTab === 'activityStream'} onClick={() => handleTabClick('activityStream')} />
+      </div>
+      <hr style={{position: 'relative', bottom: '34px'}} />
+      {content}
       </div>
       );
   }

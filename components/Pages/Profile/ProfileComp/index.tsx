@@ -162,7 +162,7 @@ const ProfileComp: React.FC<ProfileCompProps> = ({ isSignedIn, signedInUserData 
                         <div className={styles.myTasksMainContainer}>
                             <div>
                                 <header className={styles.headerMyTasks}>
-                                    <div>
+                                    <div className='text-white'>
                                         My tasks
                                     </div>
                                     <div className={styles.myTasksHeaderRight}>
@@ -196,7 +196,7 @@ const ProfileComp: React.FC<ProfileCompProps> = ({ isSignedIn, signedInUserData 
 
                         <div className={styles.rightSideMainContainer}>
                             <div className={styles.aboutMeContainer}>
-                                <h1>About me</h1>
+                                <h1 className=''>About me</h1>
                                 <p>Use this space to tell people about yourself.</p>
                             </div>
                             <div className={styles.frequentCollaborators}>
@@ -240,7 +240,7 @@ const ProfileComp: React.FC<ProfileCompProps> = ({ isSignedIn, signedInUserData 
                         <div className={styles.myTasksMainContainer}>
                             <div>
                                 <header className={styles.headerMyTasks}>
-                                    <div>
+                                    <div className='text-white'>
                                         My recent projects
                                     </div>
                                 </header>

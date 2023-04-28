@@ -160,7 +160,7 @@ const Notifications: React.FC = () => {
   }
 
   return (
-    <div style={{height: '100%'}}>
+    <div style={{height: '100%',backgroundColor: 'white'}}>
       <div style={{boxShadow: '1px 1px 1px #888888', height: '90px'}}>
     <div style={{ display: 'flex', alignItems: 'center' }}>
       <div style={{ flex: 1 }}>

@@ -1,17 +1,31 @@
 .sidebar {
     position: fixed !important;
-    background-color: #1e1f21;
+    /* background-color: #1e1f21; */
+    /* background-color: #2a2b2e35; */
+    background-color: #cacfd317;
     /* border: 1px solid red; */
     top: 49px;
-    width: 250px;
+    /* width: 250px; */
+    width: 320px;
     height: calc(100% - 49px);
     transition: 0.2s linear;
     z-index: 1000 !important;
 }
 
+.sidebar::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    backdrop-filter: blur(50px);
+    /* Adjust the blur value to your preference */
+    z-index: -1;
+}
 
 .hideSidebar {
-    margin-left: -250px !important;
+    margin-left: -320px !important;
     transition: 0.2s linear;
 }
 
@@ -51,9 +65,10 @@
 .SidebarMenuList li {
     color: #d7d6d5;
     cursor: pointer;
-    width: 250px !important;
+    /* width: 250px !important; */
+    width: 320px !important;
     margin-left: -27px;
-    height: 38px;
+    height: 46px;
     padding-top: 2.5%;
     padding-left: 25px;
     /* border:1px solid red; */
@@ -70,6 +85,7 @@
 
 .itemMenuListText {
     margin-top: 2px;
+    font-size: 18px;
 }
 
 .itemMenuListText {
@@ -78,8 +94,9 @@
 
 /* __________________________________ Workspace block ___________________________________ */
 .workSpaceBlock {
-    /* border: 1px solid #424244; */
-    width: 248px;
+    /* border: 1px solid #0303ff; */
+    /* width: 248px; */
+    width: 320px;
     margin-left: -20px;
 }
 
@@ -101,6 +118,7 @@
 
 .projectMembersBlock {
     /* border: 1px solid red; */
+    width: 345px;
     list-style: none;
     margin-left: -25px;
     display: flex;
@@ -115,7 +133,8 @@
 
 .projectListContainer {
     /* border: 1px solid red; */
-    width: 255px;
+    /* width: 255px; */
+    width: 328px;
     margin-left: -25px;
     height: 30px;
     padding-left: 18px;
@@ -151,10 +170,13 @@
     position: absolute;
     bottom: 0px;
     margin-left: -25px;
-    width: 252px;
+    /* width: 252px; */
+    width: 325px;
     height: 50px;
-    background-color: #1e1f21;
-    border-top: 1px solid #424244;
+    /* background-color: #1e1f21; */
+    background-color: #565f664e;
+    /* border-top: 1px solid #424244; */
+    border-top: 1px solid #42424488;
     border-bottom: 1px solid #424244;
     padding-bottom: 5px;
 }

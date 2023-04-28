@@ -7,6 +7,7 @@ import CustomLoader from '../../CustomLoader';
 import { IoIosArrowDropdown } from 'react-icons/io';
 import { AiOutlineCheck } from "react-icons/ai";
 import { BsPeople } from "react-icons/bs";
+import EditIcon from '@mui/icons-material/Edit';
 // Importing Widgets
 import Widget1 from '../../Widgets/Widget1';
 import Widget2 from '../../Widgets/Widget2';
@@ -41,11 +42,26 @@ import styles from './style.module.css';
 interface HomeProps {
     projectList: any;
     projectMembers: any;
+    // Customized Modal
+    isModalOpenCustomized: boolean;
+    setIsModalOpenCustomized: (value: boolean) => void;
+
+    //Widgets
+    widgetsList: any;
+    setWidgetsList: (value: any) => void;
 }
 
 const Home: React.FC<HomeProps> = ({
     projectList,
-    projectMembers
+    projectMembers,
+
+    // Customized Modal
+    isModalOpenCustomized,
+    setIsModalOpenCustomized,
+
+    //Widgets
+    widgetsList,
+    setWidgetsList
 }) => {
 
     // Month Names
@@ -65,58 +81,6 @@ const Home: React.FC<HomeProps> = ({
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const dragOverItem = useRef<any>();
-
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const [list, setList] = useState([
-        {
-            id: 1,
-            src: <audio id='hoverSoundClip'>
-                <source src="audio/1.mp3" />
-                Your browser is not invited for super fun audio time.
-            </audio>,
-            name: "Projects",
-        },
-        {
-            id: 2,
-            src: <audio id='hoverSoundClip'>
-                <source src="audio/2.mp3" />
-                Your browser is not invited for super fun audio time.
-            </audio>,
-            name: "My Priorities",
-        },
-        {
-            id: 3,
-            src: <audio id='hoverSoundClip'>
-                <source src="audio/3.mp3" />
-                Your browser is not invited for super fun audio time.
-            </audio>,
-            name: "People",
-        },
-        // {
-        //     id: 4,
-        //     src: <audio id='hoverSoundClip'>
-        //         <source src="audio/4.mp3" />
-        //         Your browser is not invited for super fun audio time.
-        //     </audio>,
-        //     name: "Tasks I've Assigned",
-        // },
-        // {
-        //     id: 5,
-        //     src: <audio id='hoverSoundClip'>
-        //         <source src="audio/5.mp3" />
-        //         Your browser is not invited for super fun audio time.
-        //     </audio>,
-        //     name: "My goals",
-        // },
-        // {
-        //     id: 6,
-        //     src: <audio id='hoverSoundClip'>
-        //         <source src="audio/6.mp3" />
-        //         Your browser is not invited for super fun audio time.
-        //     </audio>,
-        //     name: "Manager Tasks",
-        // }
-    ]);
 
     // ________________________ For Login ________________________ //
 
@@ -198,13 +162,13 @@ const Home: React.FC<HomeProps> = ({
     };
 
     const drop = (e: any) => {
-        const copyListItems = [...list];
+        const copyListItems = [...widgetsList];
         const dragItemContent = copyListItems[dragItem.current];
         copyListItems.splice(dragItem.current, 1);
         copyListItems.splice(dragOverItem.current, 0, dragItemContent);
         dragItem.current = null;
         dragOverItem.current = null;
-        setList(copyListItems);
+        setWidgetsList(copyListItems);
     };
 
     // Add this function inside the Home component, just before the return statement
@@ -328,12 +292,30 @@ const Home: React.FC<HomeProps> = ({
                 <section className={styles.mainSectionContainer}>
                     <NewsletterModal />
                     <br />
-                    <h3 style={{ marginLeft: "0px", marginTop: 5, color: "#1E1F21", fontWeight: "normal",fontSize:"20px" }}>Home</h3>
+                    {/* <h3 style={{
+                        marginLeft: "0px", marginTop: 5,
+                        //  color: "#1E1F21",
+                        color: "white",
+                        fontWeight: "normal", fontSize: "20px"
+                    }}>Home</h3> */}
+                    {/* <Button 
+                    className={styles.customizeButton}
+                    >
+                        Customize
+                    </Button> */}
+                    <Button
+                        variant="contained"
+                        endIcon={<EditIcon />}
+                        className={styles.customizeButton}
+                        onClick={() => setIsModalOpenCustomized(true)}
+                    >
+                        Customize ...
+                    </Button>
                     <br />
-                    <div className='text-center'>
+                    <div className='text-center text-white'>
                         {d.getDate()} {monthNames[d.getMonth()]} {d.getFullYear()}
                     </div>
-                    <div>
+                    <div className="text-white">
                         {/* Audio Player */}
                         {/* {currentAudio} */}
                         {/* Audio Player */}
@@ -363,7 +345,7 @@ const Home: React.FC<HomeProps> = ({
                             <div className={styles.stats1}>
                                 {/* Months */}
                                 <div className="btn-group" style={{ fontSize: 12, height: 28, boxShadow: "none" }}>
-                                    <button type="button" className={`btn btn-btnDrop ${styles.btn_dropdown}`} data-mdb-toggle="dropdown" aria-expanded="false">
+                                    <button type="button" className={`btn btn-btnDrop text-white ${styles.btn_dropdown}`} data-mdb-toggle="dropdown" aria-expanded="false">
                                         My month <IoIosArrowDropdown style={{ marginTop: -2 }} />
                                     </button>
                                     <ul className="dropdown-menu">
@@ -383,10 +365,10 @@ const Home: React.FC<HomeProps> = ({
 
                     {/* ++++++++++++++++++++++++++++++++++++ Widgets Container ++++++++++++++++++++++++++++++++++++ */}
                     <section className={styles.widgetsContainer}>
-                        {list &&
-                            list.map((item, index) => (
+                        {widgetsList &&
+                            widgetsList.widgets.map((item: any, index: number) => (
                                 <div
-                                    className={`${styles.widget} ${((item.id == currentFullLengthItem) ? (styles.fullWidthWidget) : (null))} ${((pointerDown && item.id == currentFullLengthItem) ? (styles.pointerDown) : (styles.pointerOut))}`}
+                                    className={`${((item.id == currentFullLengthItem) ? (styles.fullWidthWidget) : (null))} ${((pointerDown && item.id == currentFullLengthItem) ? (styles.pointerDown) : (styles.pointerOut))}`}
                                     onDragStart={e => dragStart(e, index)}
                                     onDragEnter={e => dragEnter(e, index)}
                                     onDragEnd={drop}
@@ -427,45 +409,69 @@ const Home: React.FC<HomeProps> = ({
                                     key={index}
                                     draggable
                                 >
-                                    {item.id === 1 && <Widget1
-                                        email={signedInUserData.email}
-                                        item={item.id}
-                                        currentFullLengthItem={currentFullLengthItem}
-                                        setCurrentFullLengthItem={setCurrentFullLengthItem}
-                                    />}
-                                    {item.id === 2 && <Widget2
-                                        email={signedInUserData.email}
-                                        item={item.id}
-                                        currentFullLengthItem={currentFullLengthItem}
-                                        setCurrentFullLengthItem={setCurrentFullLengthItem}
-                                    />}
-                                    {item.id === 3 && <Widget3
-                                        email={signedInUserData.email}
-                                        item={item.id}
-                                        currentFullLengthItem={currentFullLengthItem}
-                                        setCurrentFullLengthItem={setCurrentFullLengthItem}
+                                    {(item.id === 1 && item.isVisible) &&
+                                        <div className={styles.widget}>
+                                            <Widget1
+                                                email={signedInUserData.email}
+                                                item={item.id}
+                                                currentFullLengthItem={currentFullLengthItem}
+                                                setCurrentFullLengthItem={setCurrentFullLengthItem}
+                                            />
+                                        </div>
+                                    }
+                                    {(item.id === 2 && item.isVisible) &&
+                                        <div className={styles.widget}>
+                                            <Widget2
+                                                email={signedInUserData.email}
+                                                item={item.id}
+                                                currentFullLengthItem={currentFullLengthItem}
+                                                setCurrentFullLengthItem={setCurrentFullLengthItem}
+                                            />
+                                        </div>
+                                    }
+                                    {(item.id === 3 && item.isVisible) &&
+                                        <div className={styles.widget}>
+                                            <Widget3
+                                                email={signedInUserData.email}
+                                                item={item.id}
+                                                currentFullLengthItem={currentFullLengthItem}
+                                                setCurrentFullLengthItem={setCurrentFullLengthItem}
 
-                                        // Project Members
-                                        projectMembers={projectMembers}
-                                    />}
-                                    {item.id === 4 && <Widget4
-                                        email={signedInUserData.email}
-                                        item={item.id}
-                                        currentFullLengthItem={currentFullLengthItem}
-                                        setCurrentFullLengthItem={setCurrentFullLengthItem}
-                                    />}
-                                    {item.id === 5 && <Widget5
-                                        email={signedInUserData.email}
-                                        item={item.id}
-                                        currentFullLengthItem={currentFullLengthItem}
-                                        setCurrentFullLengthItem={setCurrentFullLengthItem}
-                                    />}
-                                    {item.id === 6 && <Widget6
-                                        email={signedInUserData.email}
-                                        item={item.id}
-                                        currentFullLengthItem={currentFullLengthItem}
-                                        setCurrentFullLengthItem={setCurrentFullLengthItem}
-                                    />}
+                                                // Project Members
+                                                projectMembers={projectMembers}
+                                            />
+                                        </div>
+                                    }
+                                    {(item.id === 4 && item.isVisible) &&
+                                        <div className={styles.widget}>
+                                            <Widget4
+                                                email={signedInUserData.email}
+                                                item={item.id}
+                                                currentFullLengthItem={currentFullLengthItem}
+                                                setCurrentFullLengthItem={setCurrentFullLengthItem}
+                                            />
+                                        </div>
+                                    }
+                                    {(item.id === 5 && item.isVisible) &&
+                                        <div className={styles.widget}>
+                                            <Widget5
+                                                email={signedInUserData.email}
+                                                item={item.id}
+                                                currentFullLengthItem={currentFullLengthItem}
+                                                setCurrentFullLengthItem={setCurrentFullLengthItem}
+                                            />
+                                        </div>
+                                    }
+                                    {(item.id === 6 && item.isVisible) &&
+                                        <div className={styles.widget}>
+                                            <Widget6
+                                                email={signedInUserData.email}
+                                                item={item.id}
+                                                currentFullLengthItem={currentFullLengthItem}
+                                                setCurrentFullLengthItem={setCurrentFullLengthItem}
+                                            />
+                                        </div>
+                                    }
                                 </div>
                             ))}
                     </section>

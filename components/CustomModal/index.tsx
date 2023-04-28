@@ -9,6 +9,7 @@ import InviteMembers from './InviteMembers';
 import IconButton from '@mui/material/IconButton';
 
 import CloseIcon from '@mui/icons-material/Close';
+import CustomizeSettings from './CustomizeSettings';
 
 interface CustomModalProps {
     open: boolean;
@@ -17,6 +18,14 @@ interface CustomModalProps {
     title: string;
     projects: any;
     projectMembers: string[];
+
+    // Widgets
+    widgetsList?: any;
+    setWidgetsList?: (value: any) => void;
+
+    // Background Image
+    selectedBackgroundImage?: string;
+    setSelectedBackgroundImage?: (value: string) => void;
 }
 
 const CustomModal: React.FC<CustomModalProps> = (
@@ -26,18 +35,26 @@ const CustomModal: React.FC<CustomModalProps> = (
         modalType,
         title,
         projects,
-        projectMembers
+        projectMembers,
+
+        // Widgets
+        widgetsList,
+        setWidgetsList,
+
+        // Background Image
+        selectedBackgroundImage,
+        setSelectedBackgroundImage,
     }) => {
     const handleClose = () => setOpen(false);
 
     const styles = {
         modal: {
             position: 'absolute' as 'absolute',
-            top: '40%',
+            top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
-            width: 560,
-            height: "auto",
+            width: 1060,
+            height: "900px",
             bgcolor: '#ffffff',
             borderRadius: 3,
             // boxShadow: 24,
@@ -97,6 +114,17 @@ const CustomModal: React.FC<CustomModalProps> = (
                                 <InviteMembers
                                     projects={projects}
                                     projectMembers={projectMembers}
+                                />
+                            )}
+
+                            {(modalType === 'customize') && (
+                                <CustomizeSettings
+                                    widgetsList={widgetsList}
+                                    setWidgetsList={setWidgetsList}
+
+                                    // Background Image
+                                    selectedBackgroundImage={selectedBackgroundImage}
+                                    setSelectedBackgroundImage={setSelectedBackgroundImage}
                                 />
                             )}
                         </Box>

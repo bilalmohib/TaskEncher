@@ -1,0 +1,188 @@
+   {/* <Box
+                                id="messageContainer"
+                                // onMouseOver={() => goToLastMessage()}
+                                className={styles.MiddleBodyContainer}
+                            >
+                                {(currentTab === 0) ? (
+                                    <>
+                                        {chatListSingleChat.map((item: any, index: number) => {
+                                            const messageDate = formatDate(item.timeSent);
+                                            const showDate = messageDate !== lastMessageDate;
+
+                                            if (showDate) {
+                                                lastMessageDate = messageDate;
+                                            }
+
+                                            return (
+                                                <Box
+                                                    key={index}
+                                                    sx={{
+                                                        width: "100%",
+                                                    }}
+                                                >
+                                                    {
+                                                        item.userIDSender === signedInUserData.email &&
+                                                        item.userIDReceiver ===
+                                                        currentSelectedChatUser && (
+                                                            <DateCategorizationChat
+                                                                messageDate={messageDate}
+                                                                showDate={showDate}
+                                                            />
+                                                        )
+                                                    }
+
+                                                    {
+                                                        item.userIDReceiver === signedInUserData.email &&
+                                                        item.userIDSender ===
+                                                        currentSelectedChatUser && (
+                                                            <DateCategorizationChat
+                                                                messageDate={messageDate}
+                                                                showDate={showDate}
+                                                            />
+                                                        )
+                                                    }
+
+                                                    <Box
+                                                        className={styles.middleBodyInsideContainer}
+                                                        sx={{
+                                                            display: "flex",
+                                                            alignItems: "center",
+                                                            justifyContent: "space-between",
+                                                            padding: "10px",
+                                                            paddingLeft: "20px",
+                                                            width: "60%",
+                                                            // border: '10px solid #000',
+                                                        }}
+                                                    >
+                                                        <section>
+                                                            {item.userIDSender === signedInUserData.email &&
+                                                                item.userIDReceiver ===
+                                                                currentSelectedChatUser && (
+                                                                    <>
+                                                                        <Box
+                                                                            sx={{
+                                                                                display: "flex",
+                                                                                alignItems: "left",
+                                                                                justifyContent: "flex-start",
+                                                                                width: "100%",
+                                                                                // border: '1px solid red',
+                                                                                marginTop: "0px",
+                                                                                boxShadow:
+                                                                                    "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+                                                                            }}
+                                                                        >
+                                                                            <MessageContainer
+                                                                                editedMessageId={editedMessageId}
+                                                                                userName={item.userNameSender}
+                                                                                timeSent={item.timeSent}
+                                                                                message={item.message}
+                                                                                id={item.id}
+                                                                            />
+                                                                        </Box>
+                                                                    </>
+                                                                )}
+
+                                                            {item.userIDReceiver === signedInUserData.email &&
+                                                                item.userIDSender ===
+                                                                currentSelectedChatUser && (
+                                                                    <Box
+                                                                        sx={{
+                                                                            display: "flex",
+                                                                            alignItems: "left",
+                                                                            justifyContent: "flex-end",
+                                                                            width: "100%",
+                                                                            // border: '1px solid red',
+                                                                            marginTop: "0px",
+                                                                            boxShadow:
+                                                                                "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+                                                                            padding: "10px",
+                                                                        }}
+                                                                    >
+                                                                        <MessageContainer
+                                                                            editedMessageId={editedMessageId}
+                                                                            userName={item.userNameSender}
+                                                                            timeSent={item.timeSent}
+                                                                            message={item.message}
+                                                                            id={item.id}
+                                                                        />
+                                                                    </Box>
+                                                                )}
+                                                        </section>
+                                                    </Box>
+                                                </Box>
+                                            );
+                                        })}
+                                    </>
+                                ) : (currentTab === 1) ? (
+                                    <Box
+                                        className={styles.middleBodyInsideContainer}
+                                        sx={{
+                                            // display: "flex",
+                                            // alignItems: "center",
+                                            // justifyContent: "space-between",
+                                            width: "100%",
+                                            paddingTop: "30px",
+                                            // border: '10px solid #000',
+                                        }}
+                                    >
+                                        {chatListProjectChat.map((item: any, index: number) => {
+                                            const messageDate = formatDate(item.timeSent);
+                                            const showDate = messageDate !== lastMessageDate;
+
+                                            if (showDate) {
+                                                lastMessageDate = messageDate;
+                                            }
+
+                                            return (
+                                                <Box
+                                                    key={index}
+                                                    sx={{
+                                                        width: "100%",
+                                                    }}
+                                                >
+                                                    <DateCategorizationChat
+                                                        messageDate={messageDate}
+                                                        showDate={showDate}
+                                                    />
+                                                    <Box>
+                                                        {
+                                                            ((item.userIDReceiver ===
+                                                                currentSelectedProjectChatUser))
+                                                            &&
+                                                            (
+                                                                <Box
+                                                                    sx={{
+                                                                        // display: "flex",
+                                                                        // alignItems: "left",
+                                                                        // justifyContent: "flex-start",
+                                                                        width: "350px",
+                                                                        border: '1px solid grey',
+                                                                        marginTop: "0px",
+                                                                        marginLeft: "30px",
+                                                                        marginBottom: "20px",
+                                                                        borderRadius: "10px",
+                                                                        // boxShadow:
+                                                                        //     "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+                                                                    }}
+                                                                >
+                                                                    <MessageContainer
+                                                                        editedMessageId={editedMessageId}
+                                                                        userName={item.userNameSender}
+                                                                        timeSent={item.timeSent}
+                                                                        message={item.message}
+                                                                        id={item.id}
+                                                                    />
+                                                                </Box>
+                                                            )
+                                                        }
+                                                    </Box>
+                                                </Box>
+                                            );
+                                        })}
+                                    </Box>
+                                ) : (
+                                    <>
+                                        <h1>Invalid Tab Selected</h1>
+                                    </>
+                                )}
+                            </Box> */}

@@ -61,11 +61,11 @@ const SimpleCom: React.FC = () => {
         setAge(event.target.value);
     };
     const Container = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 16px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 16px;
 `;
 
     const Logo = styled.img`
@@ -123,7 +123,7 @@ const SimpleCom: React.FC = () => {
                             <span style={{ paddingLeft: '20px', fontSize: '16px', fontWeight: '400' }}>Set up Workflow</span>
                             {/* <span style={{paddingLeft: '20px', fontSize: '14px', }}>Assign, set due dates</span> */}
                             <span style={{ paddingLeft: '20px', fontSize: '14px', fontWeight: '300' }}>
-                            Automate and visualize your team process</span>
+                                Automate and visualize your team process</span>
                         </div>
                     </ToggleButton>
                 </ToggleButtonGroup>
@@ -168,12 +168,12 @@ const SimpleCom: React.FC = () => {
                     </div>
                     <div style={{ paddingLeft: '15px' }}>
                         {/* <p style={{color: '#6d6e6f', fontSize: '15px', fontWeight: '500'}}>Board</p> */}
-                         <p style={{ color: '#6d6e6f', fontSize: '15px', fontWeight: '500' }}>Board</p>
+                        <p style={{ color: '#6d6e6f', fontSize: '15px', fontWeight: '500' }}>Board</p>
                         {/* <hr style={{borderTop: '3px solid black', position: 'relative', bottom: '7px'}} /> */}
                     </div>
                     <div style={{ paddingLeft: '15px' }}>
                         {/* <p style={{color: '#6d6e6f', fontSize: '15px', fontWeight: '500'}}>Timeline</p> */}
-                         <p style={{ color: '#6d6e6f', fontSize: '15px', fontWeight: '500' }}>Timeline</p>
+                        <p style={{ color: '#6d6e6f', fontSize: '15px', fontWeight: '500' }}>Timeline</p>
                         {/* <hr style={{borderTop: '3px solid black', position: 'relative', bottom: '7px'}} /> */}
                     </div>
                     <div style={{ paddingLeft: '15px' }}>
@@ -182,7 +182,7 @@ const SimpleCom: React.FC = () => {
                         {/* <hr style={{borderTop: '3px solid black', position: 'relative', bottom: '7px'}} /> */}
                     </div>
                     <div style={{ paddingLeft: '15px' }}>
-                    {(selectedButton === "button3") ? <p style={{ color: '#236BC4', fontSize: '15px', fontWeight: '500' }}>Workflow</p> : <p style={{ color: '#6d6e6f', fontSize: '15px', fontWeight: '500' }}>Workflow</p> }
+                        {(selectedButton === "button3") ? <p style={{ color: '#236BC4', fontSize: '15px', fontWeight: '500' }}>Workflow</p> : <p style={{ color: '#6d6e6f', fontSize: '15px', fontWeight: '500' }}>Workflow</p>}
                         {(selectedButton === "button3") ? <hr
                             style={{
                                 borderTop: '3px solid #236BC4',
@@ -192,7 +192,7 @@ const SimpleCom: React.FC = () => {
                             }}
                         /> : <div></div>
                         }
-                        
+
                         {/* <hr style={{borderTop: '3px solid black', position: 'relative', bottom: '7px'}} /> */}
                     </div>
                 </div>

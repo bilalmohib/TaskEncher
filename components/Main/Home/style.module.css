@@ -11,10 +11,35 @@
     /* text-shadow: 2px 5px 10px #000000; */
 }
 
+.customizeButton {
+    /* border: 1px solid red !important; */
+    border-radius: 20px !important;
+    background-color: #938a8a43 !important;
+    color: white !important;
+    font-size: 15px !important;
+    font-weight: 300 !important;
+    text-transform: none !important;
+    box-shadow: none !important;
+    
+}
+
+.customizeButton::before {
+    content: "" !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    backdrop-filter: blur(50px) !important;
+    /* Adjust the blur value to your preference */
+    z-index: -1 !important;
+}
+
 .mainSectionContainer {
     /* border: 3px solid red;  */
     width: 95%;
     margin-left: 2.5%;
+    height: 100vh;
 }
 
 
@@ -180,13 +205,13 @@
 /* _______________________________ Pointer Out _______________________________ */
 .pointerOut {
     cursor: pointer;
-    border: 1px solid #edeae9;
+    /* border: 1px solid #edeae9; */
     transition: 0.3s linear !important;
 }
 
 .pointerDown {
     cursor: pointer;
-    border: 1px solid black;
+    /* border: 1px solid black; */
     transition: 0.3s linear !important;
 }
 

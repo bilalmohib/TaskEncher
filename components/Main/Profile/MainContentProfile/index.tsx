@@ -120,7 +120,7 @@ const MainContentProfile: React.FC<MainContentProfileProps> = (
     // FOR GETTING PROJECTS
 
     return (
-        <main className={styles.main}>
+        <main className="main">
             <div
                 style={{
                     zIndex: 1,

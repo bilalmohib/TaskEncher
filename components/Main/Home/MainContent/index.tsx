@@ -53,6 +53,13 @@ interface MainContentProps {
     // Projects
     projects: any;
     setProjects: (value: any) => void;
+    // Customized Modal
+    isModalOpenCustomized: boolean;
+    setIsModalOpenCustomized: (value: boolean) => void;
+
+    //Widgets
+    widgetsList: any;
+    setWidgetsList: (value: any) => void;
 }
 
 const MainContent: React.FC<MainContentProps> = (
@@ -74,7 +81,15 @@ const MainContent: React.FC<MainContentProps> = (
 
         // Projects
         projects,
-        setProjects
+        setProjects,
+
+        // Customized Modal
+        isModalOpenCustomized,
+        setIsModalOpenCustomized,
+
+        //Widgets
+        widgetsList,
+        setWidgetsList
     }) => {
 
     /////////////////////////////////////// Database Part ////////////////////////////////////////////////
@@ -118,7 +133,7 @@ const MainContent: React.FC<MainContentProps> = (
     // FOR GETTING PROJECTS
 
     return (
-        <main className={styles.main}>
+        <main className="main">
             <div
                 style={{
                     zIndex: 1,
@@ -151,6 +166,10 @@ const MainContent: React.FC<MainContentProps> = (
                         <Home
                             projectList={projects}
                             projectMembers={projectMembers}
+                            isModalOpenCustomized={isModalOpenCustomized}
+                            setIsModalOpenCustomized={setIsModalOpenCustomized}
+                            widgetsList={widgetsList}
+                            setWidgetsList={setWidgetsList}
                         />
                     </section>
 

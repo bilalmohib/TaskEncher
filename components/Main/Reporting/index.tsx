@@ -287,219 +287,227 @@ const Reporting: React.FC<ReportingProps> = ({
             {Loading ? (
                 <CustomLoader />
             ) : (
-                <section className={styles.container}>
-                    <h3 style={{ marginLeft: 30, marginTop: 30, color: 'black', fontWeight: 'lighter' }}>Reporting</h3>
-                    <Box
-                        className={styles.addDashboardContainer}
-                    >
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            sx={{
-                                marginLeft: "30px",
-                                color: 'white',
-                                fontWeight: 'lighter',
-                                textTransform: 'none',
-                                fontSize: '16px',
-                            }}
-                        // onClick={() => alert("Add Dashboard")}
+                <div className='main'>
+                    <section className={styles.container}>
+                        <h3 style={{ marginLeft: 30, marginTop: 30, color: 'black', fontWeight: 'lighter' }}>Reporting</h3>
+                        <Box
+                            className={styles.addDashboardContainer}
                         >
-                            + Add dashboard
-                        </Button>
-                    </Box>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                sx={{
+                                    marginLeft: "30px",
+                                    color: 'white',
+                                    fontWeight: 'lighter',
+                                    textTransform: 'none',
+                                    fontSize: '16px',
+                                }}
+                            // onClick={() => alert("Add Dashboard")}
+                            >
+                                + Add dashboard
+                            </Button>
+                        </Box>
 
-                    <Box
-                        sx={{
-                            width: "100%",
-                            display: "flex",
-                            flexDirection: "column",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            backgroundColor: "#ffffff !important",
-                            // border: "1px solid red",
-                            background: "#ffffff !important"
-                        }}
-                    >
                         <Box
                             sx={{
-                                borderBottom: "1px solid rgb(203, 203, 208)",
-                                marginTop: "25px",
-                                width: "96%",
-                                backgroundColor: "#ffffff !important",
+                                width: "100%",
+                                display: "flex",
+                                flexDirection: "column",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                // backgroundColor: "#ffffff !important",
                                 // border: "1px solid red",
-                                background: "#ffffff !important",
+                                background: "transparent !important"
                             }}
                         >
-                            <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}
+                            <Box
                                 sx={{
-                                    backgroundColor: "#ffffff !important",
+                                    borderBottom: "1px solid rgb(203, 203, 208)",
+                                    marginTop: "25px",
+                                    width: "96%",
+                                    // backgroundColor: "#ffffff !important",
                                     // border: "1px solid red",
-                                    background: "#ffffff !important",
+                                    // background: "#ffffff !important",
+                                    background: "transparent !important"
                                 }}
                             >
-                                <AccordionSummary aria-controls="panel1d-content" id="panel1d-header"
+                                <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}
                                     sx={{
-                                        backgroundColor: "#ffffff !important",
+                                        // backgroundColor: "#ffffff !important",
                                         // border: "1px solid red",
-                                        background: "#ffffff !important",
+                                        // background: "#ffffff !important",
+                                        background: "transparent !important"
                                     }}
                                 >
-                                    <Typography
-                                        variant="h5"
+                                    <AccordionSummary aria-controls="panel1d-content" id="panel1d-header"
                                         sx={{
-                                            // marginTop: "5px",
-                                            color: 'black',
-                                            fontWeight: 'lighter',
-                                            // lineHeight: "1.8px",
+                                            // backgroundColor: "#ffffff !important",
+                                            // border: "1px solid red",
+                                            // background: "#ffffff !important",
+                                            background: "transparent !important"
                                         }}
                                     >
-                                        Recents
-                                    </Typography>
-                                </AccordionSummary>
-                                <AccordionDetails
-                                    sx={{
-                                        backgroundColor: "#ffffff !important",
-                                        // border: "1px solid red",
-                                        background: "#ffffff !important",
-                                    }}
-                                >
-                                    <MotionGrid container spacing={4} variants={containerVariants}>
-                                        {dashboardList.map((reportingDashboard, index) => (
-                                            <Grid item xs={12} sm={4} key={index}>
-                                                <ScrollTriggerAnimation key={index} animationVariants={scrollVariants}>
-                                                    <MotionPaper
-                                                        elevation={3}
-                                                        sx={{
-                                                            p: 4,
-                                                            // backgroundColor: '#E5F0FF',
-                                                            backgroundColor: 'white',
-                                                            borderRadius: "10px",
-                                                            boxShadow: "none",
-                                                            border: "1px solid rgb(203, 203, 208)",
-                                                            cursor: "pointer",
-                                                            transition: "all 0.1s ease-in-out",
-                                                            "&:hover": {
+                                        <Typography
+                                            variant="h5"
+                                            sx={{
+                                                // marginTop: "5px",
+                                                color: 'black',
+                                                fontWeight: 'lighter',
+                                                // lineHeight: "1.8px",
+                                            }}
+                                        >
+                                            Recents
+                                        </Typography>
+                                    </AccordionSummary>
+                                    <AccordionDetails
+                                        sx={{
+                                            // backgroundColor: "#ffffff !important",
+                                            // border: "1px solid red",
+                                            // background: "#ffffff !important",
+                                            background: "transparent !important"
+                                        }}
+                                    >
+                                        <MotionGrid container spacing={4} variants={containerVariants}>
+                                            {dashboardList.map((reportingDashboard, index) => (
+                                                <Grid item xs={12} sm={4} key={index}>
+                                                    {/* <ScrollTriggerAnimation key={index} animationVariants={scrollVariants}> */}
+                                                        <MotionPaper
+                                                            elevation={3}
+                                                            sx={{
+                                                                p: 4,
                                                                 // backgroundColor: '#E5F0FF',
-                                                                // backgroundColor: '#4573d2',
-                                                                // color: 'white',
-                                                                border: "1px solid #4573d2",
+                                                                // backgroundColor: 'white',
+                                                                background: "transparent !important",
+                                                                borderRadius: "10px",
+                                                                boxShadow: "none",
+                                                                border: "1px solid rgb(203, 203, 208)",
+                                                                cursor: "pointer",
                                                                 transition: "all 0.1s ease-in-out",
-                                                            }
-                                                        }}
-                                                        onClick={() => {
-                                                            const targetUrl = `/reportDetails/${reportingDashboard.title}/${reportingDashboard.dashboardID}`;
-                                                            router.push(targetUrl, undefined, { shallow: true });
-                                                        }}
-                                                        variants={itemVariants}
-                                                    >
-                                                        <Box
-                                                            sx={{
-                                                                display: "flex",
-                                                                flexDirection: "row"
+                                                                "&:hover": {
+                                                                    // backgroundColor: '#E5F0FF',
+                                                                    // backgroundColor: '#4573d2',
+                                                                    // color: 'white',
+                                                                    border: "1px solid #4573d2",
+                                                                    transition: "all 0.1s ease-in-out",
+                                                                }
                                                             }}
-                                                        >
-                                                            <Box sx={{ width: "20%" }}>
-                                                                <Box
-                                                                    sx={{
-                                                                        // backgroundColor: '#E5F0FF',
-                                                                        backgroundColor: '#4573d2',
-                                                                        width: "70px",
-                                                                        height: "60px",
-                                                                        borderRadius: "10px",
-                                                                        display: "flex",
-                                                                        justifyContent: "center",
-                                                                        alignItems: "center"
-                                                                    }}
-                                                                >
-                                                                    {reportingDashboard.icon}
-                                                                </Box>
-                                                            </Box>
-                                                            <Typography
-                                                                variant="h5"
-                                                                sx={{
-                                                                    display: "flex",
-                                                                    justifyContent: "center",
-                                                                    alignItems: "center",
-                                                                    marginLeft: 4,
-                                                                    width: "80%"
-                                                                }}
-                                                            >
-                                                                {reportingDashboard.title}
-                                                            </Typography>
-                                                        </Box>
-                                                        <br />
-
-                                                        <Typography
-                                                            sx={{
-                                                                marginBottom: 3,
-                                                                display: '-webkit-box',
-                                                                WebkitBoxOrient: 'vertical',
-                                                                WebkitLineClamp: 3,
-                                                                overflow: 'hidden',
-                                                                textOverflow: 'ellipsis',
+                                                            onClick={() => {
+                                                                const targetUrl = `/reportDetails/${reportingDashboard.title}/${reportingDashboard.dashboardID}`;
+                                                                router.push(targetUrl, undefined, { shallow: true });
                                                             }}
-                                                        >
-                                                            {reportingDashboard.description}
-                                                        </Typography>
-
-                                                        <hr />
-                                                        <Box
-                                                            sx={{
-                                                                display: "flex",
-                                                                flexDirection: "row",
-                                                                marginTop: 3
-                                                            }}
+                                                            variants={itemVariants}
                                                         >
                                                             <Box
                                                                 sx={{
-                                                                    backgroundColor: '#f9aaef',
-                                                                    width: "40px",
-                                                                    height: "40px",
-                                                                    borderRadius: "50%",
                                                                     display: "flex",
-                                                                    justifyContent: "center",
-                                                                    alignItems: "center",
-                                                                    fontSize: "18px"
+                                                                    flexDirection: "row"
                                                                 }}
                                                             >
-                                                                MB
+                                                                <Box sx={{ width: "20%" }}>
+                                                                    <Box
+                                                                        sx={{
+                                                                            // backgroundColor: '#E5F0FF',
+                                                                            // backgroundColor: '#4573d2',
+                                                                            width: "70px",
+                                                                            height: "60px",
+                                                                            borderRadius: "10px",
+                                                                            display: "flex",
+                                                                            justifyContent: "center",
+                                                                            alignItems: "center",
+                                                                            background: "transparent !important"
+                                                                        }}
+                                                                    >
+                                                                        {reportingDashboard.icon}
+                                                                    </Box>
+                                                                </Box>
+                                                                <Typography
+                                                                    variant="h5"
+                                                                    sx={{
+                                                                        display: "flex",
+                                                                        justifyContent: "center",
+                                                                        alignItems: "center",
+                                                                        marginLeft: 4,
+                                                                        width: "80%"
+                                                                    }}
+                                                                >
+                                                                    {reportingDashboard.title}
+                                                                </Typography>
                                                             </Box>
+                                                            <br />
+
                                                             <Typography
-                                                                variant="h6"
                                                                 sx={{
-                                                                    display: "flex",
-                                                                    justifyContent: "center",
-                                                                    alignItems: "center",
-                                                                    marginLeft: 3,
-                                                                    fontWeight: 'lighter',
+                                                                    marginBottom: 3,
+                                                                    display: '-webkit-box',
+                                                                    WebkitBoxOrient: 'vertical',
+                                                                    WebkitLineClamp: 3,
+                                                                    overflow: 'hidden',
+                                                                    textOverflow: 'ellipsis',
                                                                 }}
                                                             >
-                                                                owned by {reportingDashboard.createdBy}
+                                                                {reportingDashboard.description}
                                                             </Typography>
-                                                            <Typography
-                                                                variant="h6"
+
+                                                            <hr />
+                                                            <Box
                                                                 sx={{
                                                                     display: "flex",
-                                                                    justifyContent: "center",
-                                                                    alignItems: "center",
-                                                                    marginLeft: 3,
-                                                                    fontWeight: 'lighter',
-                                                                    fontSize: "16px"
+                                                                    flexDirection: "row",
+                                                                    marginTop: 3
                                                                 }}
                                                             >
-                                                                {new Date(reportingDashboard.createdAt).toDateString()}
-                                                            </Typography>
-                                                        </Box>
-                                                    </MotionPaper>
-                                                </ScrollTriggerAnimation>
-                                            </Grid>
-                                        ))}
-                                    </MotionGrid>
-                                </AccordionDetails>
-                            </Accordion>
+                                                                <Box
+                                                                    sx={{
+                                                                        backgroundColor: '#f9aaef',
+                                                                        width: "40px",
+                                                                        height: "40px",
+                                                                        borderRadius: "50%",
+                                                                        display: "flex",
+                                                                        justifyContent: "center",
+                                                                        alignItems: "center",
+                                                                        fontSize: "18px"
+                                                                    }}
+                                                                >
+                                                                    MB
+                                                                </Box>
+                                                                <Typography
+                                                                    variant="h6"
+                                                                    sx={{
+                                                                        display: "flex",
+                                                                        justifyContent: "center",
+                                                                        alignItems: "center",
+                                                                        marginLeft: 3,
+                                                                        fontWeight: 'lighter',
+                                                                    }}
+                                                                >
+                                                                    owned by {reportingDashboard.createdBy}
+                                                                </Typography>
+                                                                <Typography
+                                                                    variant="h6"
+                                                                    sx={{
+                                                                        display: "flex",
+                                                                        justifyContent: "center",
+                                                                        alignItems: "center",
+                                                                        marginLeft: 3,
+                                                                        fontWeight: 'lighter',
+                                                                        fontSize: "16px"
+                                                                    }}
+                                                                >
+                                                                    {new Date(reportingDashboard.createdAt).toDateString()}
+                                                                </Typography>
+                                                            </Box>
+                                                        </MotionPaper>
+                                                    {/* </ScrollTriggerAnimation> */}
+                                                </Grid>
+                                            ))}
+                                        </MotionGrid>
+                                    </AccordionDetails>
+                                </Accordion>
+                            </Box>
                         </Box>
-                    </Box>
-                </section>
+                    </section>
+                </div>
             )}
         </div>
     );

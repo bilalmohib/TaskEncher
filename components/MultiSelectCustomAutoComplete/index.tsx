@@ -12,7 +12,9 @@ interface MultiSelectCustomAutoCompleteProps {
     setSelectedArrayList?: any;
     styles?: any;
     dropDownStyles?: any;
-    type: string
+    type: string,
+    error?: boolean;
+    setError?: (value: boolean) => void;
 }
 
 const MultiSelectCustomAutoComplete: FC<MultiSelectCustomAutoCompleteProps> = ({
@@ -22,7 +24,9 @@ const MultiSelectCustomAutoComplete: FC<MultiSelectCustomAutoCompleteProps> = ({
     setSelectedArrayList,
     styles,
     dropDownStyles,
-    type
+    type,
+    error,
+    setError
 }) => {
 
     // ...
@@ -32,7 +36,6 @@ const MultiSelectCustomAutoComplete: FC<MultiSelectCustomAutoCompleteProps> = ({
 
     const [customOption, setCustomOption] = useState<any>(null);
 
-    const [error, setError] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string>("");
 
     const isValidEmail = (email: string) => {
@@ -62,10 +65,12 @@ const MultiSelectCustomAutoComplete: FC<MultiSelectCustomAutoCompleteProps> = ({
 
         if (type === "members" && customOption) {
             if (isValidEmail(customOption.actualTitle) === false) {
+                // @ts-ignore
                 setError(true);
                 setErrorMessage("This email address cannot be added. Please enter a valid email address.");
                 return;
             } else {
+                // @ts-ignore
                 setError(false);
                 setErrorMessage("");
                 newOptions.push(customOption);
@@ -82,6 +87,7 @@ const MultiSelectCustomAutoComplete: FC<MultiSelectCustomAutoCompleteProps> = ({
         <Stack spacing={3} sx={(styles) ? (styles) : ({ width: "100%" })} >
             <Autocomplete
                 freeSolo={type === "members"}
+                error={error}
                 onInputChange={(event: any, value: any, reason: any) => {
                     if (type === "members") {
                         if (reason === 'reset') return;
@@ -99,8 +105,6 @@ const MultiSelectCustomAutoComplete: FC<MultiSelectCustomAutoCompleteProps> = ({
                         }
                     }
                 }}
-
-
                 multiple
                 options={updatedOptions}
                 sx={(dropDownStyles) ? (
@@ -122,6 +126,7 @@ const MultiSelectCustomAutoComplete: FC<MultiSelectCustomAutoCompleteProps> = ({
                 )}
                 value={selectedArrayList}
                 onChange={(event: any, value: any, reason: any) => {
+                    // @ts-ignore
                     if (error) setError(false);
                     if (value.length > 0) {
                         let latestValue = value[value.length - 1];
@@ -135,9 +140,11 @@ const MultiSelectCustomAutoComplete: FC<MultiSelectCustomAutoCompleteProps> = ({
 
                                 value[value.length - 1] = customOption;
                                 latestValue = customOption.value;
+                                // @ts-ignore
                                 setError(false);
                             } else {
                                 // Remove the invalid value
+                                // @ts-ignore
                                 setError(true);
                                 setErrorMessage("Please enter a valid email address")
                                 alert("Please enter a valid email address")
@@ -178,7 +185,7 @@ const MultiSelectCustomAutoComplete: FC<MultiSelectCustomAutoCompleteProps> = ({
                                         style={{
                                             backgroundColor: `hsl(${Math.floor(Math.random() * 360)}, 70%, 80%)`,
                                             marginRight: '5px',
-                                            marginBottom: '5px'
+                                            marginBottom: '5px',
                                         }}
                                         {...getTagProps({ index })}
                                     />

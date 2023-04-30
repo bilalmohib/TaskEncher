@@ -126,6 +126,7 @@ const Dashboard: NextPage<GlobalProps> = (
         document.documentElement.style.setProperty("--selected-bg-image", `url(${selectedBackgroundImage})`);
     }, [selectedBackgroundImage]);
 
+
     //_________________ For Getting SignedInUser Data _____________________
     const [signedInUserData, setSignedInUserData] = useState<any>(null);
     const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
@@ -176,6 +177,9 @@ const Dashboard: NextPage<GlobalProps> = (
     const [projects, setProjects] = useState<any>([]);
     const [projectMembers, setProjectMembers] = useState<any>([]);
 
+    // Add Task Model
+    const [isAddTaskModalOpen, setIsAddTaskModalOpen] = React.useState(false);
+
     return (
         <div className={styles.container}>
             <Head>
@@ -217,6 +221,10 @@ const Dashboard: NextPage<GlobalProps> = (
                         // Widgets
                         widgetsList={widgetsList}
                         setWidgetsList={setWidgetsList}
+
+                        // Add Task Model
+                        isAddTaskModalOpen={isAddTaskModalOpen}
+                        setIsAddTaskModalOpen={setIsAddTaskModalOpen}
                     />
                 </div>
             )}
@@ -244,6 +252,15 @@ const Dashboard: NextPage<GlobalProps> = (
                 // Background Image
                 selectedBackgroundImage={selectedBackgroundImage}
                 setSelectedBackgroundImage={setSelectedBackgroundImage}
+            />
+
+            <CustomModal
+                open={isAddTaskModalOpen}
+                setOpen={setIsAddTaskModalOpen}
+                modalType="addTasks"
+                title='Add Task'
+                projects={projects}
+                projectMembers={projectMembers}
             />
         </div>
     )

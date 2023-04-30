@@ -63,11 +63,13 @@ const CustomPopOver: React.FC<CustomPopOverProps> = (
                     pb: 1,
                     backgroundColor: "#363639",
                     color: "white",
-                    width: "200px",
+                    width: "fit-content",
                     borderRadius: "5px",
                     fontSize: "12px",
                     fontWeight: 400,
                     height: "auto",
+                    maxWidth: "200px",
+                    minWidth: "fit-content"
                 }}
                 >
                     {title}

@@ -47,9 +47,19 @@ import Files from '@app/components/ProjectDetails/Files';
 import Navbar from '@app/components/Navbar';
 import Sidebar from '@app/components/Sidebar';
 
-const currentDate = new Date();
+interface MyTasksProps {
+    // Add Task Model Open
+    isAddTaskModalOpen: boolean;
+    setIsAddTaskModalOpen: (value: boolean) => void;
+}
 
-const MyTasks = () => {
+const MyTasks: NextPage<MyTasksProps> = (
+    {
+        // Add Task Model Open
+        isAddTaskModalOpen,
+        setIsAddTaskModalOpen
+    }
+) => {
 
     const router = useRouter();
 
@@ -103,7 +113,7 @@ const MyTasks = () => {
         <div className={styles.container}>
             {(isSignedIn) ? (
                 <div className={styles.container}>
-                    <header className={`fixed-top ${styles.header}`} style={{position:"relative",zIndex:"1000 !imoprtant"}}>
+                    <header className={`fixed-top ${styles.header}`} style={{ position: "relative", zIndex: "1000 !imoprtant" }}>
                         <HeaderMyTasks
                             projectID={projectID}
                             email={signedInUserData.email}
@@ -118,6 +128,10 @@ const MyTasks = () => {
                                 email={signedInUserData.email}
                                 projectName={projectName}
                                 projectID={projectID}
+
+                                // Add Task Model Open
+                                isAddTaskModalOpen={isAddTaskModalOpen}
+                                setIsAddTaskModalOpen={setIsAddTaskModalOpen}
                             />
                         ) : (selectedTabItemValue === 2) ? (
                             <Board />

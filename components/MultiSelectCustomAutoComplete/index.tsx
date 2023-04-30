@@ -87,7 +87,6 @@ const MultiSelectCustomAutoComplete: FC<MultiSelectCustomAutoCompleteProps> = ({
         <Stack spacing={3} sx={(styles) ? (styles) : ({ width: "100%" })} >
             <Autocomplete
                 freeSolo={type === "members"}
-                error={error}
                 onInputChange={(event: any, value: any, reason: any) => {
                     if (type === "members") {
                         if (reason === 'reset') return;
@@ -171,6 +170,7 @@ const MultiSelectCustomAutoComplete: FC<MultiSelectCustomAutoCompleteProps> = ({
                 renderInput={(params) => (
                     <TextField
                         {...params}
+                        error={error}
                         placeholder={placeholder}
                     />
                 )}

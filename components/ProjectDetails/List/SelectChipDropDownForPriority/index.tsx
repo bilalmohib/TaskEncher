@@ -43,7 +43,7 @@ function getStyles(name: string, selectedUsers: readonly string[], theme: Theme)
     };
 }
 
-interface MultiSelectChipDropDownProps {
+interface SelectChipDropDownProps {
     placeholder: string;
     options: string[];
     selectedArrayList: string[];
@@ -56,7 +56,7 @@ interface MultiSelectChipDropDownProps {
     type: string;
 }
 
-const MultiSelectChipDropDown: FC<MultiSelectChipDropDownProps> = ({
+const SelectChipDropDown: FC<SelectChipDropDownProps> = ({
     placeholder,
     options,
     selectedArrayList,
@@ -75,30 +75,30 @@ const MultiSelectChipDropDown: FC<MultiSelectChipDropDownProps> = ({
             target: { value },
         } = event;
 
-        if (type === "taskAssignee") {
-            const newTaskAssigneeList = (typeof value === 'string' ? value.split(',') : value);
-            updateTaskAssigneeList(taskId, newTaskAssigneeList);
+        if (type === "taskPriority") {
+            const newTaskPriorityList = (typeof value === 'string' ? value.split(',') : value);
+            updateTaskAssigneeList(taskId, newTaskPriorityList);
 
-            console.log("newTaskAssigneeList: ", newTaskAssigneeList);
+            console.log("newTaskPriorityList: ", newTaskPriorityList);
         }
     };
 
-    const updateTaskAssigneeList = async (taskId: number, newTaskAssignees: string[]) => {
+    const updateTaskAssigneeList = async (taskId: number, newTaskPriority: string[]) => {
         const db = getFirestore();
         const projectRef = doc(db, "Data", "Projects", email, projectID);
 
         for (let i = 0; i < projects.length; i++) {
             if (projects[i].id === projectID.toString()) {
-                projects[i].ProjectTasks[taskId].taskAssignee = newTaskAssignees;
+                projects[i].ProjectTasks[taskId].taskPriority = newTaskPriority[0];
                 const updatedProject = projects[i];
                 console.log("Updated Project : ", updatedProject);
 
                 try {
                     await updateDoc(projectRef, updatedProject);
                     // alert("Task Updated Successfully");
-                    console.log("Task name updated successfully");
+                    console.log("Task Priority updated successfully");
                 } catch (error) {
-                    console.error("Error updating task name:", error);
+                    console.error("Error updating task priority:", error);
                 }
                 break;
             }
@@ -111,7 +111,6 @@ const MultiSelectChipDropDown: FC<MultiSelectChipDropDownProps> = ({
                 role="button"
                 sx={styles}>
                 <Select
-                    multiple
                     displayEmpty
                     value={selectedArrayList}
                     onChange={handleChange}
@@ -178,4 +177,4 @@ const MultiSelectChipDropDown: FC<MultiSelectChipDropDownProps> = ({
         </div >
     );
 }
-export default MultiSelectChipDropDown;
+export default SelectChipDropDown;

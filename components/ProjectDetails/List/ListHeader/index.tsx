@@ -5,11 +5,19 @@ import styles from './style.module.css';
 
 
 interface IProps {
-    ProjectName: string
+    ProjectName: string;
+
+    // Add Task Model Open
+    isAddTaskModalOpen: boolean;
+    setIsAddTaskModalOpen: (value: boolean) => void;
 }
 
 const ListHeader: React.FC<IProps> = ({
-    ProjectName
+    ProjectName,
+
+    // Add Task Model Open
+    isAddTaskModalOpen,
+    setIsAddTaskModalOpen
 }) => {
     return (
         <div className={styles.container}>
@@ -18,9 +26,15 @@ const ListHeader: React.FC<IProps> = ({
                 marginTop: 3
             }}>
                 <div className="btn-group">
-                    <button className={`btn btn-primary btn-sm ${styles.btn_add_task}`} type="button"> + Add task</button>
-                    <button type="button" 
-                 className={`btn btn-sm btn-primary dropdown-toggle dropdown-toggle-split ${styles.btn_add_task}`} data-mdb-toggle="dropdown" aria-expanded="false">
+                    <button
+                        className={`btn btn-primary btn-sm ${styles.btn_add_task}`}
+                        type="button"
+                        onClick={() => setIsAddTaskModalOpen(!isAddTaskModalOpen)}
+                    >
+                        + Add task
+                    </button>
+                    <button type="button"
+                        className={`btn btn-sm btn-primary dropdown-toggle dropdown-toggle-split ${styles.btn_add_task}`} data-mdb-toggle="dropdown" aria-expanded="false">
                         <span className="visually-hidden">Toggle Dropdown</span>
                     </button>
                     <ul className="dropdown-menu">
@@ -31,7 +45,7 @@ const ListHeader: React.FC<IProps> = ({
             </div>
 
             {/* Incomplete tasks */}
-            <div className="btn-group" style={{ fontSize: 16, height: 28, boxShadow: "none", position: 'absolute', right:'50px' }}>
+            <div className="btn-group" style={{ fontSize: 16, height: 28, boxShadow: "none", position: 'absolute', right: '50px' }}>
                 <button type="button" className={`btn btn-btnDrop ${styles.btn_dropdown}`} data-mdb-toggle="dropdown" aria-expanded="false">
                     <IoIosArrowDropdown style={{ marginTop: -2 }} /> Incomplete tasks
                 </button>
@@ -55,7 +69,7 @@ const ListHeader: React.FC<IProps> = ({
             </div> */}
 
             {/* Sort */}
-            <div className="btn-group" style={{ fontSize: 16, height: 28, boxShadow: "none", position: 'absolute', right:'5px' }}>
+            <div className="btn-group" style={{ fontSize: 16, height: 28, boxShadow: "none", position: 'absolute', right: '5px' }}>
                 <button type="button" className={`btn btn-btnDrop ${styles.btn_dropdown}`} data-mdb-toggle="dropdown" aria-expanded="false">
                     <IoIosArrowDropdown style={{ marginTop: -2 }} /> Sort
                 </button>

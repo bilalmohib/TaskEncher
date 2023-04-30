@@ -55,9 +55,16 @@ interface MainContentPDProps {
     // Projects
     projects: any;
     setProjects: (value: any) => void;
+    // Project Sections
+    projectSections: string[];
+    setProjectSections: (value: string[]) => void;
 
     projectName: any;
     projectID: any;
+
+    // Add Task Model Open
+    isAddTaskModalOpen: boolean;
+    setIsAddTaskModalOpen: (value: boolean) => void;
 }
 
 const MainContentPD: React.FC<MainContentPDProps> = (
@@ -82,8 +89,17 @@ const MainContentPD: React.FC<MainContentPDProps> = (
         projects,
         setProjects,
 
+        // Project Sections
+        projectSections,
+        setProjectSections,
+
+        // Project Details
         projectName,
-        projectID
+        projectID,
+
+        // Add Task Model Open
+        isAddTaskModalOpen,
+        setIsAddTaskModalOpen
     }) => {
 
     /////////////////////////////////////// Database Part ////////////////////////////////////////////////
@@ -106,20 +122,29 @@ const MainContentPD: React.FC<MainContentPDProps> = (
 
             localObj = arrProjects;
 
-            const projectMembers = localObj
+            const localProjectMembers = localObj
                 .map((project: any) => project?.ProjectMembers) // extract ProjectMembers array from each project
                 .reduce((acc, val) => acc.concat(val), []); // concatenate all ProjectMembers arrays into a single array
+
+            const localProjectSections = localObj
+                .map((project: any) => project?.ProjectStages) // extract ProjectMembers array from each project
+                .reduce((acc, val) => acc.concat(val), []); // concatenate all ProjectMembers arrays into a single array
+
 
             // Extract all the project members from the projects array
             setProjects(arrProjects);
 
             // Set the project members in the state
-            setProjectMembers(projectMembers);
+            setProjectMembers(localProjectMembers);
+
+            // Set the project sections in the state
+            setProjectSections(localProjectSections);
 
             // console.clear();
             console.log("Projects ==> ", snapshot?.docs.map(doc => ({ ...doc.data(), id: doc.id })));
             console.log("Projects Local ==> ", localObj);
             console.log("Project Members ==> ", projectMembers);
+            console.log("Project Sections ==> ", projectSections);
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -146,12 +171,16 @@ const MainContentPD: React.FC<MainContentPDProps> = (
                     />
                 </div>
 
-                <div style={{ position: "relative", marginTop: "50px", zIndex: "0.1 !important" }} className={`${styles.rightSideContainer} ${isOpen ? styles.shrinkContainer : styles.expandContainer}`}>
+                <div style={{ position: "relative", marginTop: "49.4px", zIndex: "0.1 !important" }} className={`${styles.rightSideContainer} ${isOpen ? styles.shrinkContainer : styles.expandContainer}`}>
                     <ProjectDetailsInside
                         projectID={projectID}
                         projectName={projectName}
                         isSignedIn={isSignedIn}
                         signedInUserData={signedInUserData}
+
+                        // Add Task Model Open
+                        isAddTaskModalOpen={isAddTaskModalOpen}
+                        setIsAddTaskModalOpen={setIsAddTaskModalOpen}
                     />
                 </div>
             </div>

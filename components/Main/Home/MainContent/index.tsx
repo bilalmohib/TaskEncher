@@ -48,12 +48,15 @@ interface MainContentProps {
     email: string;
     isModalOpen: boolean;
     setIsModalOpen: (value: boolean) => void;
+
     // Project Members
     projectMembers: string[];
     setProjectMembers: (value: string[]) => void;
+
     // Projects
     projects: any;
     setProjects: (value: any) => void;
+
     // Customized Modal
     isModalOpenCustomized: boolean;
     setIsModalOpenCustomized: (value: boolean) => void;
@@ -61,6 +64,10 @@ interface MainContentProps {
     //Widgets
     widgetsList: any;
     setWidgetsList: (value: any) => void;
+
+    // Add Task Model Open
+    isAddTaskModalOpen: boolean;
+    setIsAddTaskModalOpen: (value: boolean) => void;
 }
 
 const MainContent: React.FC<MainContentProps> = (
@@ -90,7 +97,11 @@ const MainContent: React.FC<MainContentProps> = (
 
         //Widgets
         widgetsList,
-        setWidgetsList
+        setWidgetsList,
+
+        // Add Task Model Open
+        isAddTaskModalOpen,
+        setIsAddTaskModalOpen
     }) => {
 
     /////////////////////////////////////// Database Part ////////////////////////////////////////////////
@@ -147,18 +158,18 @@ const MainContent: React.FC<MainContentProps> = (
                 />
             </div>
             <div className="d-flex">
-                <div style={{position:"relative",zIndex:"1000 !important"}}>
-                <Sidebar
-                    currentMenuItem={currentMenuItem}
-                    setCurrentMenuItem={setCurrentMenuItem}
-                    isOpen={isOpen}
-                    setIsOpen={setIsOpen}
-                    projectMembers={projectMembers}
-                    email={email}
-                    projectList={projects}
-                    isModalOpen={isModalOpen}
-                    setIsModalOpen={setIsModalOpen}
-                />
+                <div style={{ position: "relative", zIndex: "1000 !important" }}>
+                    <Sidebar
+                        currentMenuItem={currentMenuItem}
+                        setCurrentMenuItem={setCurrentMenuItem}
+                        isOpen={isOpen}
+                        setIsOpen={setIsOpen}
+                        projectMembers={projectMembers}
+                        email={email}
+                        projectList={projects}
+                        isModalOpen={isModalOpen}
+                        setIsModalOpen={setIsModalOpen}
+                    />
                 </div>
 
                 <div style={{ marginTop: "49px" }} className={`${styles.rightSideContainer} ${isOpen ? styles.shrinkContainer : styles.expandContainer}`}>
@@ -176,7 +187,11 @@ const MainContent: React.FC<MainContentProps> = (
 
                     {/* My Tasks Page */}
                     <section className={currentMenuItem === 2 ? '' : 'd-none'}>
-                        <MyTasks />
+                        <MyTasks
+                            // Add Task Model
+                            isAddTaskModalOpen={isAddTaskModalOpen}
+                            setIsAddTaskModalOpen={setIsAddTaskModalOpen}
+                        />
                     </section>
 
                     {/* Inbox Page */}

@@ -41,6 +41,12 @@ const Document = () => {
                 <Main />
                 <NextScript />
                 {/* <!-- MDB --> */}
+                <script
+                    async
+                    defer
+                    crossOrigin="anonymous"
+                    src="https://connect.facebook.net/en_US/sdk.js"
+                ></script>
                 <Script
                     type="text/javascript"
                     src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.1.0/mdb.min.js"

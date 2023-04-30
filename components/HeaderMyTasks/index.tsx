@@ -5,6 +5,7 @@ import { GiCircle, GiPlainCircle } from 'react-icons/gi';
 import { BsPeopleFill } from 'react-icons/bs';
 import { FaCheckCircle } from 'react-icons/fa';
 import Image from 'next/image';
+import ShareModal from '../shareModel';
 
 import {
     doc,
@@ -78,6 +79,7 @@ const HeaderMyTasks: React.FC<IProps> = ({
     const [status, setStatus] = useState<Boolean>(false);
     const [signedInUserData, setSignedInUserData] = useState<any>(null);
     const [isSignedIn, setIsSignedIn] = useState<Boolean>(false);
+    const [isModalOpened, setModelOpened] = useState<boolean>(false);
 
     let q = query(collection(db, "Data", "Projects", `${email}`));
 
@@ -87,7 +89,10 @@ const HeaderMyTasks: React.FC<IProps> = ({
             snapshotListenOptions: { includeMetadataChanges: true },
         }
     );
-
+    const isOpenedButton = () => {
+        // alert("Great Shot!");
+        setModelOpened(true);
+      }
     // FOR GETTING PROJECT TITLE
     useEffect(() => {
 
@@ -169,11 +174,12 @@ const HeaderMyTasks: React.FC<IProps> = ({
                         loading="lazy"
                     />
                 </div>
-                <button className={`btn btn-primary ${styles.btn_share}`}>
+                <button className={`btn btn-primary ${styles.btn_share}`} onClick={isOpenedButton}>
                     <BsPeopleFill size={16} style={{ marginTop: 3 }} />
                     &nbsp;
                     Share
                 </button>
+                <ShareModal isOpen={isModalOpened} setIsOpen={setModelOpened} />
             </div>
         </nav>
     )

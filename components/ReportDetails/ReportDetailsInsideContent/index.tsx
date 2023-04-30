@@ -10,7 +10,7 @@ import { AiOutlineMail, AiOutlinePlus } from "react-icons/ai";
 import { BsCheckCircle, BsTriangle } from "react-icons/bs";
 import { TbListDetails, TbSquareRotated } from "react-icons/tb";
 import { SlLink } from "react-icons/sl";
-
+import { db, auth } from "../../../firebase";
 // import DatePicker from 'react-date-picker/dist/entry.nostyle';
 
 import {
@@ -31,7 +31,6 @@ import {
 } from "firebase/auth";
 
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { db, auth } from "../../../firebase";
 import CustomLoader from '@app/components/CustomLoader';
 import HeaderReportDetails from '@app/components/HeaderReportDetails';
 import Navbar from '@app/components/Navbar';
@@ -45,7 +44,6 @@ import {
 
 import StatReportIndividual from '@app/components/ReportDetails/StatReportIndividual';
 import GraphReportIndividual from '@app/components/ReportDetails/GraphReportIndividual';
-
 // Importing Styles
 import styles from './style.module.css';
 
@@ -176,12 +174,13 @@ const ReportDetailsInsideContent: NextPage<ReportDetailsInsideContentProps> = ({
             reportDescription: "This graph shows the number of incomplete tasks in each due date.",
         }
     ];
-
     const [firestoreData, setFirestoreData] = useState<any>([]);
     const [status, setStatus] = useState<Boolean>(false);
     const [signedInUserData, setSignedInUserData] = useState<any>(null);
     const [isSignedIn, setIsSignedIn] = useState<Boolean>(false);
-
+    const router = useRouter();
+    const { email, projectName, projectID } = router.query;
+    const [projects, setProjects] = useState<any>([]);
     useEffect(() => {
 
         // console.log("Current Path : ", window.location.pathname);
@@ -216,7 +215,45 @@ const ReportDetailsInsideContent: NextPage<ReportDetailsInsideContentProps> = ({
             }
         });
     }, [signedInUserData, isSignedIn]);
+/// === = == == = == = = == = data from firestore = == == == = == = =
+console.log(signedInUserData);
+// let q = query(collection(db, "Data", "Projects", signedInUserData.reloadUserInfo.email));
+// const [snapshot, loading, error] = useCollection(
+//     q,
+//     {
+//         snapshotListenOptions: { includeMetadataChanges: true },
+//     }
+// );
 
+    // FOR GETTING PROJECTS
+    // useEffect(() => {
+
+        
+    //     if (!loading && snapshot && signedInUserData.reloadUserInfo.email) {
+    //         let localObj;
+
+    //         let arrProjects = snapshot?.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+
+    //         localObj = arrProjects;
+
+    //         const projectMembers = localObj
+    //             .map((project: any) => project?.ProjectMembers) // extract ProjectMembers array from each project
+    //             .reduce((acc, val) => acc.concat(val), []); // concatenate all ProjectMembers arrays into a single array
+
+    //         // Extract all the project members from the projects array
+    //         setProjects(arrProjects);
+
+    //         // Set the project members in the state
+    //         // setProjectMembers(projectMembers);
+
+    //         // console.clear();
+    //         console.log("Projects ==> ", snapshot?.docs.map(doc => ({ ...doc.data(), id: doc.id })));
+    //         console.log("Projects Local ==> ", localObj);
+    //         console.log("Project Members ==> ", projectMembers);
+    //     }
+
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [loading, snapshot]);
     return (
         <div className={styles.container}>
             {(isSignedIn) ? (
@@ -281,6 +318,7 @@ const ReportDetailsInsideContent: NextPage<ReportDetailsInsideContentProps> = ({
                             ))}
                         </Grid>
                     </div>
+                    <div>{projects}</div>
                 </div>
             ) : (
                 <CustomLoader />

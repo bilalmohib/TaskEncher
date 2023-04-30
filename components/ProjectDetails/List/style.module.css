@@ -12,10 +12,12 @@
 .Body {
     /* border: 2px solid blue; */
 }
+
 .multiselect {
     /* background-color: red; */
     color: red;
 }
+
 /* Table Header */
 .projectDetailsTableHeader tr th {
     font-weight: 300;
@@ -50,7 +52,7 @@
     padding-top: 9px !important;
     padding-left: 35px !important;
     padding-bottom: 5px !important;
-    width: 50%;
+    width: 20%;
 }
 
 .headingTask:hover {
@@ -59,6 +61,26 @@
     cursor: pointer;
 }
 
+.assigneeTd {
+    width: 250px;
+    /* display: flex;
+    align-items: center;
+    justify-content: center; */
+}
+
+.dueDateTd {
+    width: 270px;
+    /* display: flex;
+    align-items: center;
+    justify-content: center; */
+}
+
+.priorityTd {
+    width: 150px;
+    /* display: flex;
+    align-items: center;
+    justify-content: center; */
+}
 
 /* Task Description */
 .projectDetailsBody tr td {

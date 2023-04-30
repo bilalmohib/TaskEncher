@@ -18,12 +18,6 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 
 import dayjs, { Dayjs } from "dayjs";
 
-interface ListProps {
-  email?: any;
-  projectName?: any;
-  projectID?: any;
-}
-
 import { useRouter } from "next/router";
 
 import {
@@ -46,20 +40,57 @@ import { onAuthStateChanged } from "firebase/auth";
 
 import { db, auth } from "../../../firebase";
 import ListHeader from "./ListHeader";
+import { formatDate } from "react-calendar/dist/cjs/shared/dateFormatter";
+import updateTask from "@app/lib/updateTask";
+import SelectChipDropDownForPriority from "./SelectChipDropDownForPriority";
 
-const List: React.FC<ListProps> = ({ email, projectName, projectID }) => {
+interface ListProps {
+  email?: any;
+  projectName?: any;
+  projectID?: any;
+
+  // Add Task Model Open
+  isAddTaskModalOpen: boolean;
+  setIsAddTaskModalOpen: (value: boolean) => void;
+}
+
+const List: React.FC<ListProps> = (
+  {
+    email,
+    projectName,
+    projectID,
+
+    // Add Task Model Open
+    isAddTaskModalOpen,
+    setIsAddTaskModalOpen
+  }
+) => {
   const router = useRouter();
 
   const { uid } = router.query;
 
   const taskRef: any = useRef();
 
-  const [status, setStatus] = useState<Boolean>(false);
   const [signedInUserData, setSignedInUserData] = useState<any>(null);
   const [isSignedIn, setIsSignedIn] = useState<Boolean>(false);
-  const [value, setValue] = React.useState<Dayjs | null>(
-    dayjs("2022-04-17T15:30")
-  );
+
+  let temp: any = formatDate(new Date().toISOString());
+
+  function formatDate(dateString: string | undefined) {
+    // @ts-ignore
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  }
+
+  const getDateTimeInDayjs = (date: any) => {
+    return dayjs(date);
+  };
 
   useEffect(() => {
     // console.log("Current Path : ", window.location.pathname);
@@ -103,6 +134,8 @@ const List: React.FC<ListProps> = ({ email, projectName, projectID }) => {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
 
+  const [selectedMembers, setSelectedMembers] = React.useState<string[]>([]);
+
   // GETTINGS Project Details
   const [projectDetails, setProjectDetails] = useState<any>(null);
   // const [loading, setLoading] = useState(true);
@@ -112,8 +145,6 @@ const List: React.FC<ListProps> = ({ email, projectName, projectID }) => {
   const [projectStages, setProjectStages] = useState<any>([]);
 
   const [projectTasks, setProjectTasks] = useState<any>([]);
-
-  const [selectedTabItemValue, setSelectedTabItemValue] = useState<Number>(1);
 
   const [currentEditedTaskValue, setCurrentEditedTaskValue] = useState(null);
 
@@ -146,6 +177,17 @@ const List: React.FC<ListProps> = ({ email, projectName, projectID }) => {
       // @ts-ignore
       setProjectTasks(localObj?.ProjectTasks);
 
+      // Set the selected members for the project to project tasks assignee
+      let tempSelectedMembers: string[] = [];
+      // @ts-ignore
+      for (let i = 0; i < localObj?.ProjectTasks.length; i++) {
+        // @ts-ignore
+        if (localObj?.ProjectTasks[i]?.taskAssignee[0] !== null)
+          // @ts-ignore
+          tempSelectedMembers.push(localObj?.ProjectTasks[i]?.taskAssignee[0]);
+      }
+      setSelectedMembers(tempSelectedMembers);
+
       // setLoading(false);
       // console.clear();
       console.log(
@@ -168,43 +210,15 @@ const List: React.FC<ListProps> = ({ email, projectName, projectID }) => {
     if (event.key === "Enter") {
       event.preventDefault();
       setCurrentEditedTaskValue(event.target.innerText);
-      alert(
-        "Task Updated Successfully" +
-          event.target.innerText +
-          taskIndex.toString()
-      );
-      updateTaskName(taskIndex, event.target.innerText);
-      setCurrentEditSelected(taskIndex);
+      // alert(
+      //   "Task Updated Successfully" +
+      //   event.target.innerText +
+      //   taskIndex.toString()
+      // );
+      updateTask(taskIndex, event.target.innerText, "taskName", e, projectID.toString(), projects);
+      // setCurrentEditSelected(taskIndex);
     }
   };
-
-  const updateTaskName = async (taskId: number, newTaskName: string) => {
-    const db = getFirestore();
-    const projectRef = doc(db, "Data", "Projects", e, projectID);
-
-    // const updatedTask = {
-    //     [`ProjectTasks.${taskId}.taskName`]: newTaskName
-    // };
-
-    for (let i = 0; i < projects.length; i++) {
-      if (projects[i].id === projectID.toString()) {
-        projects[i].ProjectTasks[taskId].taskName = newTaskName;
-        const updatedProject = projects[i];
-        console.log("Updated Project : ", updatedProject);
-
-        try {
-          await updateDoc(projectRef, updatedProject);
-          alert("Task Updated Successfully");
-          console.log("Task name updated successfully");
-        } catch (error) {
-          console.error("Error updating task name:", error);
-        }
-        break;
-      }
-    }
-  };
-
-  const [selectedMembers, setSelectedMembers] = React.useState<string[]>([]);
 
   return (
     <div className={styles.Contaienr}>
@@ -215,6 +229,10 @@ const List: React.FC<ListProps> = ({ email, projectName, projectID }) => {
               ? projectDetails.ProjectName
               : "... Loading Please wait"
           }
+
+          // Add Task Model Open
+          isAddTaskModalOpen={isAddTaskModalOpen}
+          setIsAddTaskModalOpen={setIsAddTaskModalOpen}
         />
       </div>
       <div className={styles.Body}>
@@ -236,8 +254,8 @@ const List: React.FC<ListProps> = ({ email, projectName, projectID }) => {
             ) : (
               <div>
                 {!loading &&
-                projectDetails !== null &&
-                projects.length !== 0 ? (
+                  projectDetails !== null &&
+                  projects.length !== 0 ? (
                   <div>
                     <div>
                       <div
@@ -273,11 +291,10 @@ const List: React.FC<ListProps> = ({ email, projectName, projectID }) => {
                                   >
                                     <tr>
                                       <th
-                                        className={`${
-                                          projects.CurrentStage == s
-                                            ? `text-danger`
-                                            : ``
-                                        } ${styles.stageHeading}`}
+                                        className={`${projects.CurrentStage == s
+                                          ? `text-danger`
+                                          : ``
+                                          } ${styles.stageHeading}`}
                                         scope="row"
                                         colSpan={5}
                                       >
@@ -296,11 +313,10 @@ const List: React.FC<ListProps> = ({ email, projectName, projectID }) => {
                                             {/* Icon */}
                                             <i
                                               style={{ paddingTop: 3 }}
-                                              className={`fas ${
-                                                expandDetailsTable == i
-                                                  ? "fa-caret-right"
-                                                  : "fa-caret-down"
-                                              } mr-3`}
+                                              className={`fas ${expandDetailsTable == i
+                                                ? "fa-caret-right"
+                                                : "fa-caret-down"
+                                                } mr-3`}
                                             ></i>
                                           </div>
                                           {/* Icon */}
@@ -333,21 +349,13 @@ const List: React.FC<ListProps> = ({ email, projectName, projectID }) => {
                                       </tr>
                                     ) : (
                                       projectTasks.map((v: any, j: any) => {
-                                        function dayjs(arg0: string): any {
-                                          throw new Error(
-                                            "Function not implemented."
-                                          );
-                                        }
-
                                         return (
                                           <tr
-                                            className={`${
-                                              projects.CurrentStageCurrentTask ==
-                                                v.taskName && `text-danger`
-                                            } ${
-                                              expandDetailsTable == i &&
+                                            className={`${projects.CurrentStageCurrentTask ==
+                                              v.taskName && `text-danger`
+                                              } ${expandDetailsTable == i &&
                                               styles.hideDetails
-                                            }`}
+                                              }`}
                                             key={j}
                                           >
                                             {v.taskSection == s ? (
@@ -359,19 +367,17 @@ const List: React.FC<ListProps> = ({ email, projectName, projectID }) => {
                                                       null
                                                     );
                                                   }}
-                                                  className={`${
-                                                    editTask == j
-                                                      ? styles.editTaskStyle
-                                                      : ""
-                                                  } ${
-                                                    currentEditSelected == j
+                                                  className={`${editTask == j
+                                                    ? styles.editTaskStyle
+                                                    : ""
+                                                    } ${currentEditSelected == j
                                                       ? styles.editTaskStyleCurrent
                                                       : ""
-                                                  } ${styles.headingTask}`}
+                                                    } ${styles.headingTask}`}
                                                   scope="row"
                                                 >
                                                   <i
-                                                  style={{paddingTop: '22.5px'}}
+                                                    style={{ paddingTop: '22.5px' }}
                                                     role={"button"}
                                                     className={`far fa-check-circle fa-lg taskTick`}
                                                   ></i>
@@ -403,102 +409,141 @@ const List: React.FC<ListProps> = ({ email, projectName, projectID }) => {
                                                     {v.taskName}
                                                   </span>
                                                 </th>
-                                                {v.taskAssignee == "" ? (
+                                                {/* {v.taskAssignee == "" ? (
                                                   <td>
                                                     <i className="fas fa-user-circle fa-2x text-primary"></i>
                                                   </td>
-                                                ) : (
-                                                  <td>
-                                                    {/* {v.taskAssignee} */}
-                                                    <MultiSelectChipDropDown
-                                                      // optionsArray={projectDetails.ProjectMembers}
-                                                      // taskAssignee={v.taskAssignee}
-                                                      placeholder=""
-                                                      options={
-                                                        projectDetails.ProjectMembers
-                                                      }
-                                                      selectedArrayList={
-                                                        selectedMembers
-                                                      }
-                                                      setSelectedArrayList={
-                                                        setSelectedMembers
-                                                      }
-                                                      styles={styles.multiselect}
-                                                      dropDownStyles={
-                                                        styles.dropDownStyles
-                                                      }
-                                                    />
-                                                  </td>
-                                                )}
-                                                <td>
+                                                ) : ( */}
+                                                <td
+                                                  className={styles.assigneeTd}
+                                                >
+                                                  {/* {v.taskAssignee} */}
+                                                  <MultiSelectChipDropDown
+                                                    // optionsArray={projectDetails.ProjectMembers}
+                                                    // taskAssignee={v.taskAssignee}
+                                                    placeholder="Please select assignee"
+                                                    options={
+                                                      projectDetails.ProjectMembers
+                                                    }
+                                                    selectedArrayList={
+                                                      v.taskAssignee
+                                                    }
+                                                    projects={projects}
+                                                    projectID={projectID.toString()}
+                                                    email={e}
+                                                    taskId={j}
+                                                    type={"taskAssignee"}
+                                                    styles={styles.multiselect}
+                                                    dropDownStyles={
+                                                      styles.dropDownStyles
+                                                    }
+                                                  />
+                                                </td>
+                                                {/* // )} */}
+                                                <td
+                                                  className={styles.dueDateTd}
+                                                >
                                                   <LocalizationProvider
                                                     dateAdapter={AdapterDayjs}
                                                   >
                                                     <DateTimePicker
-                                                    sx={{
-                                                      '& .MuiOutlinedInput-notchedOutline': {
-                                                        borderColor: '#E5E5E5',
-                                                        borderWidth: '0px',
-                                                    },
-                                                    '&:hover .MuiOutlinedInput-notchedOutline': {
-                                                        borderColor: '#E5E5E5',
-                                                        borderWidth: '0px',
-                                                    },
-                                                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                                                        // Give the default border color of material ui input
-                                                        borderWidth: '0px',
-                                                    }
-                                                    }}
+                                                      sx={{
+                                                        '& .MuiOutlinedInput-notchedOutline': {
+                                                          borderColor: '#E5E5E5',
+                                                          borderWidth: '0px',
+                                                        },
+                                                        '&:hover .MuiOutlinedInput-notchedOutline': {
+                                                          borderColor: '#E5E5E5',
+                                                          borderWidth: '0px',
+                                                        },
+                                                        '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                                          // Give the default border color of material ui input
+                                                          borderWidth: '0px',
+                                                        }
+                                                      }}
                                                       label=""
-                                                      value={value}
+                                                      value={getDateTimeInDayjs(v.taskDue)}
                                                       onChange={(newValue) =>
-                                                        setValue(newValue)
+                                                      // setValue(newValue)
+                                                      // alert(formatDate(newValue, 'MM/dd/yyyy hh:mm a'))
+                                                      {
+                                                        let tempDate: string = formatDate(newValue?.toString());
+                                                        updateTask(j, tempDate, "taskDue", e, projectID.toString(), projects);
+                                                        console.log(
+                                                          formatDate(newValue?.toString())
+                                                        )
+                                                      }
                                                       }
                                                     />
                                                   </LocalizationProvider>
                                                 </td>
-                                                {v.taskPriority == "High" ? (
-                                                  <td
-                                                    style={{ paddingTop: '20px' }}
-                                                  >
-                                                    <button
-                                                    style={{boxShadow: 'none'}}
+                                                {/* {v.taskPriority == "High" ? ( */}
+                                                <td
+                                                  className={styles.priorityTd}
+                                                // style={{ paddingBottom: '20px' }}
+                                                >
+                                                  <SelectChipDropDownForPriority
+                                                    placeholder="Select a priority"
+                                                    options={
+                                                      [
+                                                        'High',
+                                                        'Medium',
+                                                        'Low'
+                                                      ]
+                                                    }
+                                                    selectedArrayList={
+                                                      [v.taskPriority]
+                                                    }
+                                                    projects={projects}
+                                                    projectID={projectID.toString()}
+                                                    email={e}
+                                                    taskId={j}
+                                                    type={"taskPriority"}
+                                                    styles={styles.multiselect}
+                                                    dropDownStyles={
+                                                      styles.dropDownStyles
+                                                    }
+                                                  />
+                                                  {/* <button
+                                                      style={{ boxShadow: 'none' }}
                                                       type="button"
                                                       className="btn btn-danger btn-rounded btn-sm"
                                                     >
                                                       {v.taskPriority}
-                                                    </button>
-                                                  </td>
-                                                ) : v.taskPriority ==
-                                                  "Medium" ? (
-                                                  <td 
-                                                  style={{ paddingTop: '20px' }}
-                                                  >
-                                                    <button
-                                                    style={{boxShadow: 'none'}}
-                                                    
-                                                      type="button"
-                                                      className="btn btn-warning btn-rounded btn-sm"
-                                                    >
-                                                      {v.taskPriority}
-                                                    </button>
-                                                  </td>
-                                                ) : v.taskPriority == "Low" ? (
-                                                  <td
-                                                  style={{ paddingTop: '20px' }}
-                                                  >
-                                                    <button
-                                                    style={{boxShadow: 'none'}}
-                                                      type="button"
-                                                      className="btn btn-info btn-rounded btn-sm"
-                                                    >
-                                                      {v.taskPriority}
-                                                    </button>
-                                                  </td>
-                                                ) : (
-                                                  <td></td>
-                                                )}
-                                                <td style={{paddingTop: '22.5px'}}> 
+                                                    </button> */}
+                                                </td>
+                                                {/* // ) : v.taskPriority ==
+                                                //   "Medium" ? (
+                                                //   <td */}
+                                                {/* //     className={styles.priorityTd}
+                                                //     style={{ paddingTop: '20px' }}
+                                                //   >
+                                                //     <button
+                                                //       style={{ boxShadow: 'none' }}
+
+                                                //       type="button"
+                                                //       className="btn btn-warning btn-rounded btn-sm"
+                                                //     >
+                                                //       {v.taskPriority}
+                                                //     </button>
+                                                //   </td>
+                                                // ) : v.taskPriority == "Low" ? (
+                                                //   <td
+                                                //     className={styles.priorityTd}
+                                                //     style={{ paddingTop: '20px' }}
+                                                //   >
+                                                //     <button
+                                                //       style={{ boxShadow: 'none' }}
+                                                //       type="button"
+                                                //       className="btn btn-info btn-rounded btn-sm"
+                                                //     >
+                                                //       {v.taskPriority}
+                                                //     </button>
+                                                //   </td>
+                                                // ) : (
+                                                //   <td></td>
+                                                // )} */}
+                                                <td style={{ paddingTop: '22.5px' }}>
                                                   <h6>{v.taskSection}</h6>
                                                 </td>
                                               </>

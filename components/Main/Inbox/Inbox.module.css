@@ -4,6 +4,7 @@
     min-height: calc(100vh - 50px);
     display: flex;
     flex-direction: row;
+    background-color: white;
 }
 
 /* Left Container */
@@ -43,13 +44,13 @@
 .middleContainer {
     height: 100%;
     /* border: 10px solid red; */
-    border-right: 1px solid #000;
-    border-left: 1px solid #000;
+    border-right: 1px solid #5088c0;
+    border-left: 1px solid #5088c0;
 }
 
 .MiddleHeaderContainer {
     font-size: 20px;
-    border-bottom: 1px solid rgb(52, 52, 56);
+    /* border-bottom: 1px solid rgb(52, 52, 56); */
 }
 
 .MiddleheaderTitle {

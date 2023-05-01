@@ -77,11 +77,17 @@ const ProjectDetails: React.FC<MainContentProps> = (
         });
     }, [router, signedInUserData]);
 
+    // Projects
     const [projects, setProjects] = useState<any>([]);
-
+    // Project Members
     const [projectMembers, setProjectMembers] = useState<string[]>([]);
+    // Project Sections
+    const [projectSections, setProjectSections] = useState<any>([]);
 
     const [isModalOpen, setIsModalOpen] = React.useState(false);
+
+    // Add Task Model
+    const [isAddTaskModalOpen, setIsAddTaskModalOpen] = React.useState(false);
 
     /////////////////////////////////////// Database Part ////////////////////////////////////////////////
 
@@ -113,9 +119,16 @@ const ProjectDetails: React.FC<MainContentProps> = (
                         // Projects
                         projects={projects}
                         setProjects={setProjects}
+                        // Project Sections
+                        projectSections={projectSections}
+                        setProjectSections={setProjectSections}
 
                         projectName={projectName}
                         projectID={projectID}
+
+                        // Add Task Model
+                        isAddTaskModalOpen={isAddTaskModalOpen}
+                        setIsAddTaskModalOpen={setIsAddTaskModalOpen}
                     />
                 </>
             )}
@@ -127,6 +140,18 @@ const ProjectDetails: React.FC<MainContentProps> = (
                 title='Add people to TaskEncher Software'
                 projects={projects}
                 projectMembers={projectMembers}
+            />
+
+            <CustomModal
+                open={isAddTaskModalOpen}
+                setOpen={setIsAddTaskModalOpen}
+                modalType="addTasks"
+                title='Add Task'
+                projects={projects}
+                projectMembers={projectMembers}
+                projectSections={projectSections}
+                email={(signedInUserData !== null) ? (signedInUserData.email) : ("")}
+                projectID={projectID?.toString()}
             />
 
         </div>

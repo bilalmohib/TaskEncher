@@ -19,6 +19,10 @@ interface ProjectDetailsInsideProps {
     projectName: any;
     isSignedIn: boolean;
     signedInUserData: any;
+
+    // Add Task Model Open
+    isAddTaskModalOpen: boolean;
+    setIsAddTaskModalOpen: (value: boolean) => void;
 }
 
 const ProjectDetailsInside: React.FC<ProjectDetailsInsideProps> = (
@@ -26,7 +30,11 @@ const ProjectDetailsInside: React.FC<ProjectDetailsInsideProps> = (
         projectID,
         projectName,
         isSignedIn,
-        signedInUserData
+        signedInUserData,
+
+        // Add Task Model Open
+        isAddTaskModalOpen,
+        setIsAddTaskModalOpen
     }) => {
 
     const [selectedTabItemValue, setSelectedTabItemValue] = useState<Number>(1);
@@ -56,6 +64,10 @@ const ProjectDetailsInside: React.FC<ProjectDetailsInsideProps> = (
                                 email={signedInUserData.email}
                                 projectName={projectName}
                                 projectID={projectID}
+
+                                // Add Task Model Open
+                                isAddTaskModalOpen={isAddTaskModalOpen}
+                                setIsAddTaskModalOpen={setIsAddTaskModalOpen}
                             />
                         ) : (selectedTabItemValue === 3) ? (
                             <Board />

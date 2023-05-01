@@ -5,7 +5,7 @@ import { GiCircle, GiPlainCircle } from 'react-icons/gi';
 import { BsPeopleFill } from 'react-icons/bs';
 import { FaCheckCircle } from 'react-icons/fa';
 import Image from 'next/image';
-
+import ShareModal from '../shareModel';
 import {
     doc,
     collection,
@@ -98,6 +98,7 @@ const HeaderProjectDetails: React.FC<IProps> = ({
     const [status, setStatus] = useState<Boolean>(false);
     const [signedInUserData, setSignedInUserData] = useState<any>(null);
     const [isSignedIn, setIsSignedIn] = useState<Boolean>(false);
+    const [isShareButton, setShareButton] = useState<boolean>(false);
 
     let q = query(collection(db, "Data", "Projects", `${email}`));
 
@@ -153,7 +154,7 @@ const HeaderProjectDetails: React.FC<IProps> = ({
                                 <li><a className="dropdown-item" href="#">Something else here</a></li>
                                 <li><hr className="dropdown-divider" /></li>
                                 <li><a className="dropdown-item" href="#">Separated link</a></li>
-                            </ul>
+                             </ul>
                         </div>
                     </div>
                     <div>
@@ -191,13 +192,15 @@ const HeaderProjectDetails: React.FC<IProps> = ({
                         loading="lazy"
                     />
                 </div>
-                <button className={`btn btn-primary ${styles.btn_share}`}>
+                <button onClick={()=>setShareButton(true)} className={`btn btn-primary ${styles.btn_share}`}>
                     <BsPeopleFill size={16} style={{ marginTop: 3 }} />
                     &nbsp;
                     Share
                 </button>
+            <ShareModal isOpen={isShareButton} setIsOpen={setShareButton}  />
             </div>
         </nav>
     )
+
 }
 export default HeaderProjectDetails;

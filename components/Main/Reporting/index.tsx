@@ -289,7 +289,7 @@ const Reporting: React.FC<ReportingProps> = ({
             ) : (
                 <div className='main'>
                     <section className={styles.container}>
-                        <h3 style={{ marginLeft: 30, marginTop: 30, color: 'black', fontWeight: 'lighter' }}>Reporting</h3>
+                        <h3 style={{ marginLeft: 30, marginTop: 30, color: 'white', fontWeight: 'lighter' }}>Reporting</h3>
                         <Box
                             className={styles.addDashboardContainer}
                         >
@@ -365,7 +365,7 @@ const Reporting: React.FC<ReportingProps> = ({
                                             // backgroundColor: "#ffffff !important",
                                             // border: "1px solid red",
                                             // background: "#ffffff !important",
-                                            background: "transparent !important"
+                                            background: "white !important"
                                         }}
                                     >
                                         <MotionGrid container spacing={4} variants={containerVariants}>

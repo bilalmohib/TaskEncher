@@ -189,7 +189,15 @@ const ShareModal: React.FC<ShareModalProps> = ({
                 </Box>
                 <div style={{paddingTop: '20px'}}>
                 <div style={{border: '1px solid black', borderRadius: '20px',  display: 'flex', flexDirection: 'row', alignItems: 'start', justifyContent: 'start', paddingTop: '20px'}}>
+                    <div style={{
+                          width: '80%', 
+                          whiteSpace: 'nowrap', 
+                          overflow: 'clip', 
+                          textOverflow: 'clip' 
+                        
+                    }}>
                 <p style={{color: 'blue', paddingLeft: '10px'}}>{currentUrl}</p>
+                </div>
                 <Button variant="contained" style={{borderRadius: '20px', position: 'absolute', bottom: '45px', right: '50px'}}>Copy</Button>
                 </div>
                 </div>

@@ -10,6 +10,8 @@ import IconButton from '@mui/material/IconButton';
 
 import CloseIcon from '@mui/icons-material/Close';
 import CustomizeSettings from './CustomizeSettings';
+import AddTasksModalBody from './AddTasksModalBody';
+import Draggable from 'react-draggable';
 
 interface CustomModalProps {
     open: boolean;
@@ -18,6 +20,11 @@ interface CustomModalProps {
     title: string;
     projects: any;
     projectMembers: string[];
+    // Project Sections
+    projectSections?: any;
+
+    email?: string;
+    projectID?: string;
 
     // Widgets
     widgetsList?: any;
@@ -36,6 +43,10 @@ const CustomModal: React.FC<CustomModalProps> = (
         title,
         projects,
         projectMembers,
+        projectSections,
+        // Email
+        email,
+        projectID,
 
         // Widgets
         widgetsList,
@@ -45,17 +56,41 @@ const CustomModal: React.FC<CustomModalProps> = (
         selectedBackgroundImage,
         setSelectedBackgroundImage,
     }) => {
+
     const handleClose = () => setOpen(false);
+
+    const [isDragging, setIsDragging] = React.useState(false);
+
+    const handleDragStart = () => {
+        setIsDragging(true);
+    };
+
+    const handleDragStop = () => {
+        setIsDragging(false);
+    };
 
     const styles = {
         modal: {
+            // position: 'absolute' as 'absolute',
+            // top: '50%',
+            // left: '50%',
+            // transform: 'translate(-50%, -50%)',
+            width: 1060,
+            height: "700px",
+            bgcolor: '#ffffff',
+            borderRadius: 3,
+            // boxShadow: 24,
+            fontSize: "16px",
+            cursor: isDragging ? "grabbing" : 'grab'
+        },
+        modalOuter: {
             position: 'absolute' as 'absolute',
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
             width: 1060,
-            height: "900px",
-            bgcolor: '#ffffff',
+            height: "700px",
+            bgcolor: 'transparent',
             borderRadius: 3,
             // boxShadow: 24,
             fontSize: "16px",
@@ -94,42 +129,62 @@ const CustomModal: React.FC<CustomModalProps> = (
                     },
                 }}
             >
-                <Fade in={open}>
-                    <Box sx={styles.modal}>
-                        {/* Modal Header  */}
-                        <Box sx={styles.modalHeader}>
-                            <Box sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
-                                <Typography sx={styles.modalTitle} variant="h6" component="h2">
-                                    {title}
-                                </Typography>
-                                {/* <Button onClick={handleClose}>X</Button> */}
-                                <IconButton sx={{ width: "35px", height: "35px" }} onClick={handleClose} aria-label="Close">
-                                    <CloseIcon />
-                                </IconButton>
-                            </Box>
+                <Box sx={styles.modalOuter}>
+                    <Draggable onStart={handleDragStart} onStop={handleDragStop}>
+                        <Box>
+                            <Fade in={open}>
+                                <Box sx={styles.modal}>
+                                    {/* Modal Header  */}
+                                    <Box sx={styles.modalHeader}>
+                                        <Box sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
+                                            <Typography sx={styles.modalTitle} variant="h6" component="h2">
+                                                {title}
+                                            </Typography>
+                                            {/* <Button onClick={handleClose}>X</Button> */}
+                                            <IconButton sx={{ width: "35px", height: "35px" }} onClick={handleClose} aria-label="Close">
+                                                <CloseIcon />
+                                            </IconButton>
+                                        </Box>
+                                    </Box>
+
+                                    <Box sx={styles.modalBody}>
+                                        {(modalType === 'inviteMembers') && (
+                                            <InviteMembers
+                                                projects={projects}
+                                                projectMembers={projectMembers}
+                                            />
+                                        )}
+
+                                        {(modalType === 'customize') && (
+                                            <CustomizeSettings
+                                                widgetsList={widgetsList}
+                                                setWidgetsList={setWidgetsList}
+
+                                                // Background Image
+                                                selectedBackgroundImage={selectedBackgroundImage}
+                                                setSelectedBackgroundImage={setSelectedBackgroundImage}
+                                            />
+                                        )}
+
+                                        {(modalType === 'addTasks') && (
+                                            <AddTasksModalBody
+                                                projects={projects}
+                                                projectMembers={projectMembers}
+                                                projectSections={projectSections}
+                                                // @ts-ignore
+                                                email={email}
+                                                // @ts-ignore
+                                                projectID={projectID}
+
+                                                handleClose={handleClose}
+                                            />
+                                        )}
+                                    </Box>
+                                </Box>
+                            </Fade>
                         </Box>
-
-                        <Box sx={styles.modalBody}>
-                            {(modalType === 'inviteMembers') && (
-                                <InviteMembers
-                                    projects={projects}
-                                    projectMembers={projectMembers}
-                                />
-                            )}
-
-                            {(modalType === 'customize') && (
-                                <CustomizeSettings
-                                    widgetsList={widgetsList}
-                                    setWidgetsList={setWidgetsList}
-
-                                    // Background Image
-                                    selectedBackgroundImage={selectedBackgroundImage}
-                                    setSelectedBackgroundImage={setSelectedBackgroundImage}
-                                />
-                            )}
-                        </Box>
-                    </Box>
-                </Fade>
+                    </Draggable>
+                </Box>
             </Modal>
         </div>
     );

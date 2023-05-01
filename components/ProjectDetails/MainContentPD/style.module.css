@@ -1,9 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Train+One&display=swap');
 
 .container {
-    /* border: 1px solid rgb(255, 0, 0); */
-    /* background-color: white; */
-    background-color: transparent;
+    /* border: 10px solid rgb(255, 0, 0) !important; */
+    background-color: white;
+    /* background-color: transparent; */
     height: auto !important;
     z-index: -10 !important;
     position: relative;
@@ -13,9 +13,11 @@
     width: 100%;
     height: 100%;
 
-    margin-top: 3rem;
-    /* border: 2px solid rgb(255, 0, 0);
-    background-color: rgb(144, 3, 226); */
+    margin-top: 50px;
+    /* border: 2px solid rgb(255, 0, 0); */
+    /* background-color: rgb(144, 3, 226); */
+    background-color: white;
+    height: 95vh;
 }
 
 /* When the right side container will shrink */

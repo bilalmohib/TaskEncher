@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useLayoutEffect } from "react";
-
 import SearchIcon from "@mui/icons-material/Search";
 import SearchOffIcon from "@mui/icons-material/SearchOff";
 import MessageIcon from "@mui/icons-material/Message";
@@ -74,12 +73,16 @@ import Image from "next/image";
 //Importing Containers CSS Files
 import styles from "./Inbox.module.css";
 
+
+
+
+ 
 interface InboxProps {
     email: string;
 }
 
 const Inbox: React.FC<InboxProps> = ({ email }) => {
-
+      
     const convertDate = (date: string) => {
         const d = new Date(date);
         // const ye = new Intl.DateTimeFormat("en", { year: "numeric" }).format(d);
@@ -474,6 +477,7 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                                             >
                                                 <AddBoxIcon
                                                     sx={{
+                                                        color: '#5088c0',
                                                         fontSize: "30px",
                                                     }}
                                                 />
@@ -514,10 +518,10 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                                                     alignItems: "left",
                                                     justifyContent: "left",
                                                     paddingTop: "5px",
-                                                    paddingLeft: "10px",
+                                                    paddingLeft: "25px",
                                                 }}
                                             >
-                                                <h3 className={styles.headerTitle}>General Inbox</h3>
+                                                <h5 className={styles.headerTitle} style={{color: '#5088c0'}}>General Inbox</h5>
                                             </Box>
                                         )}
                                     </Box>
@@ -533,7 +537,7 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                                         <SearchOffIcon
                                             onClick={() => setShowSearch(!showSearch)}
                                             sx={{
-                                                color: "#000",
+                                                color: "#5088c0",
                                                 fontSize: "30px",
                                             }}
                                         />
@@ -541,7 +545,7 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                                         <SearchIcon
                                             onClick={() => setShowSearch(true)}
                                             sx={{
-                                                color: "#000",
+                                                color: "#5088c0",
                                                 fontSize: "30px",
                                             }}
                                         />
@@ -551,8 +555,8 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                             <Box
                                 className="d-flex justify-content-between"
                                 sx={{
-                                    borderBottom: "1px solid #000",
-                                    borderTop: "1px solid #000",
+                                    borderBottom: "1px solid #5088c0",
+                                    borderTop: "1px solid #5088c0",
                                     ml: "0px",
                                 }}
                             >
@@ -565,10 +569,10 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                                         borderBottom:
                                             currentTab === 0 ? "1px solid #000" : "1px solid #fff",
                                         boxShadow: "none",
-                                        backgroundColor: currentTab === 0 ? "#000" : "#fff",
+                                        backgroundColor: currentTab === 0 ? "#5088c0" : "#fff",
                                         color: currentTab === 0 ? "#fff" : "#000",
                                         "&:hover": {
-                                            backgroundColor: currentTab === 0 ? "#000" : "#fff",
+                                            backgroundColor: currentTab === 0 ? "#5088c0" : "#fff",
                                             color: currentTab === 0 ? "#fff" : "#000",
                                         },
                                     }}
@@ -579,7 +583,7 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                                     }}
                                     startIcon={<MessageIcon />}
                                 >
-                                    1-1 Messages
+                                 Messages
                                 </Button>
                                 <Button
                                     variant="contained"
@@ -587,12 +591,12 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                                     sx={{
                                         border: "none",
                                         borderBottom:
-                                            currentTab === 1 ? "1px solid #000" : "1px solid #fff",
+                                            currentTab === 1 ? "1px solid blue" : "1px solid #fff",
                                         boxShadow: "none",
-                                        backgroundColor: currentTab === 1 ? "#000" : "#fff",
+                                        backgroundColor: currentTab === 1 ? "#5088c0" : "#fff",
                                         color: currentTab === 1 ? "#fff" : "#000",
                                         "&:hover": {
-                                            backgroundColor: currentTab === 1 ? "#000" : "#fff",
+                                            backgroundColor: currentTab === 1 ? "#5088c0" : "#fff",
                                             color: currentTab === 1 ? "#fff" : "#000",
                                         },
                                     }}
@@ -989,6 +993,7 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                                             display: "flex",
                                             alignItems: "center",
                                             justifyContent: "center",
+                                            // border: 
                                             // border: '1px solid #000',
                                         }}
                                     >
@@ -1076,7 +1081,8 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                                                                 item.userIDSender === currentSelectedChatUser))) ||
                                                         (currentTab === 1 && item.userIDReceiver === currentSelectedProjectChatUser)) ? (
                                                         <>
-                                                            <Box
+                                                        {/* {item. */}                                                          
+                                                          <Box
                                                                 sx={{
                                                                     display: "flex",
                                                                     alignItems: "left",
@@ -1086,12 +1092,13 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                                                                             : "flex-end",
                                                                     width: "100%",
                                                                     marginTop: "0px",
-                                                                    boxShadow:
-                                                                        "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+                                                                    // boxShadow:
+                                                                        // "rgba(100, 100, 111, 0.2) 0.5px 0.5px 0.5px 0.5px",
                                                                     padding: "10px",
                                                                 }}
                                                             >
                                                                 <MessageContainer
+                                                                userPic={item.userpic}
                                                                     editedMessageId={editedMessageId}
                                                                     userName={item.userNameSender}
                                                                     timeSent={item.timeSent}
@@ -1114,6 +1121,7 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                             <Box
                                 className={styles.MiddleFooterContainer}
                                 sx={{
+                                    // height: '100px',
                                     width: showProfileInfo ? "39.8%" : "69.5%",
                                 }}
                             >

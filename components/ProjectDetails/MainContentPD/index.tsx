@@ -1,20 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useRouter } from 'next/router';
-import type { NextPage } from 'next';
-import Head from 'next/head';
+import React, { useEffect } from 'react';
 // Importing Components
-import Home from '@app/components/Main/Home';
 import Navbar from '@app/components/Navbar';
 import Sidebar from '@app/components/Sidebar';
-import Inbox from '@app/components/Main/Inbox';
-import Reporting from '@app/components/Main/Reporting';
 import ProjectDetailsInside from './ProjectDetailsInside';
-import MyTasks from '@app/components/Main/MyTasks';
-
-// Importing Material UI Components
-import {
-    Box
-} from '@mui/material';
+import { SnackbarProvider, enqueueSnackbar } from 'notistack'
 
 import { db, auth } from "../../../firebase";
 // Importing firebase
@@ -126,10 +115,11 @@ const MainContentPD: React.FC<MainContentPDProps> = (
                 .map((project: any) => project?.ProjectMembers) // extract ProjectMembers array from each project
                 .reduce((acc, val) => acc.concat(val), []); // concatenate all ProjectMembers arrays into a single array
 
+            // Loop over the projects array and where the project id matches the project id in the project members array, extract the project sections
             const localProjectSections = localObj
-                .map((project: any) => project?.ProjectStages) // extract ProjectMembers array from each project
-                .reduce((acc, val) => acc.concat(val), []); // concatenate all ProjectMembers arrays into a single array
-
+                .filter((project: any) => project?.id === projectID)
+                .map((project: any) => project?.ProjectStages) // extract ProjectSections array from each project
+                .reduce((acc, val) => acc.concat(val), []); // concatenate all ProjectSections arrays into a single array
 
             // Extract all the project members from the projects array
             setProjects(arrProjects);
@@ -182,6 +172,7 @@ const MainContentPD: React.FC<MainContentPDProps> = (
                         isAddTaskModalOpen={isAddTaskModalOpen}
                         setIsAddTaskModalOpen={setIsAddTaskModalOpen}
                     />
+                    <SnackbarProvider />
                 </div>
             </div>
         </main>

@@ -3,6 +3,7 @@ import {
     getFirestore,
     updateDoc,
 } from "firebase/firestore";
+import { SnackbarProvider, enqueueSnackbar } from 'notistack'
 
 const addTask = async (
     taskObj: any,
@@ -24,7 +25,14 @@ const addTask = async (
             try {
                 await updateDoc(projectRef, updatedProject);
                 console.log("New task added successfully");
-                alert("New task added successfully");
+                let message: string = "New task added successfully";
+                enqueueSnackbar(
+                    message,
+                    {
+                        variant: 'success', 
+                        anchorOrigin: { vertical: 'bottom', horizontal: 'right' } 
+                    },
+                )
             } catch (error: any) {
                 console.error("Error adding new task:", error);
                 alert("Error adding new task:" + error?.Message);

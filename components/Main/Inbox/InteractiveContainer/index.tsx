@@ -385,6 +385,7 @@ const InteractiveContainer: React.FC<InteractiveContainerProps> = ({
           <input
           id="fileUpload"
             type="file"
+            
             // hidden
             // style={{display: 'none'}}
             style={{

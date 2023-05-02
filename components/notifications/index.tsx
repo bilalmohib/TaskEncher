@@ -35,7 +35,58 @@ const Feed = () => {
       <div style={{paddingTop: '0px'}}></div>
       {/* Text content */}
       <div style={{ display: 'flex', flexDirection: 'column', paddingLeft: '10px', paddingTop: '20px' }}>
-      <div>hi</div>
+      <div>The project created successfully</div>
+        <div style={{ display: 'flex', alignItems: 'center', marginTop: '5px', flexDirection: 'row' }}>
+          <div style={{ color: 'red', marginRight: '10px' }}>comment</div>
+          <div>Yesterday at 12:00 pm</div>
+        </div>
+      </div>
+    </div>
+    <div style={{ display: 'flex', padding: '10px', boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)', flexDirection: 'column', width: '50%', marginTop: '20px'}}>
+      {/* Avatar */}
+      <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+      <img src="https://via.placeholder.com/50x50" alt="Avatar" style={{ borderRadius: '50%', marginRight: '10px' }} />
+      <div>Ammar Mohib updated Feed</div>
+      </div>
+      
+      <div style={{paddingTop: '0px'}}></div>
+      {/* Text content */}
+      <div style={{ display: 'flex', flexDirection: 'column', paddingLeft: '10px', paddingTop: '20px' }}>
+      <div>Task created successfully</div>
+        <div style={{ display: 'flex', alignItems: 'center', marginTop: '5px', flexDirection: 'row' }}>
+          <div style={{ color: 'red', marginRight: '10px' }}>comment</div>
+          <div>Yesterday at 12:00 pm</div>
+        </div>
+      </div>
+    </div>
+    <div style={{ display: 'flex', padding: '10px', boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)', flexDirection: 'column', width: '50%', marginTop: '20px'}}>
+      {/* Avatar */}
+      <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+      <img src="https://via.placeholder.com/50x50" alt="Avatar" style={{ borderRadius: '50%', marginRight: '10px' }} />
+      <div>M Bilal updated Feed</div>
+      </div>
+      
+      <div style={{paddingTop: '0px'}}></div>
+      {/* Text content */}
+      <div style={{ display: 'flex', flexDirection: 'column', paddingLeft: '10px', paddingTop: '20px' }}>
+      <div>Task assigned to Ammar Mohib</div>
+        <div style={{ display: 'flex', alignItems: 'center', marginTop: '5px', flexDirection: 'row' }}>
+          <div style={{ color: 'red', marginRight: '10px' }}>comment</div>
+          <div>Yesterday at 12:00 pm</div>
+        </div>
+      </div>
+    </div>
+    <div style={{ display: 'flex', padding: '10px', boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)', flexDirection: 'column', width: '50%', marginTop: '20px'}}>
+      {/* Avatar */}
+      <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+      <img src="https://via.placeholder.com/50x50" alt="Avatar" style={{ borderRadius: '50%', marginRight: '10px' }} />
+      <div>Ammar Mohib updated Feed</div>
+      </div>
+      
+      <div style={{paddingTop: '0px'}}></div>
+      {/* Text content */}
+      <div style={{ display: 'flex', flexDirection: 'column', paddingLeft: '10px', paddingTop: '20px' }}>
+      <div>Task completed</div>
         <div style={{ display: 'flex', alignItems: 'center', marginTop: '5px', flexDirection: 'row' }}>
           <div style={{ color: 'red', marginRight: '10px' }}>comment</div>
           <div>Yesterday at 12:00 pm</div>

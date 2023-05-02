@@ -1,12 +1,14 @@
-import React, { useState, FC } from 'react';
+import React, { useState, FC, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBold, faItalic, faUnderline } from '@fortawesome/free-solid-svg-icons';
+import { storage } from '@app/firebase';
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import {
-    Box,
-    Typography,
-    TextField,
-    Button,
-    IconButton,
+  Box,
+  Typography,
+  TextField,
+  Button,
+  IconButton,
 } from '@mui/material';
 
 import SendIcon from '@mui/icons-material/Send';
@@ -20,215 +22,337 @@ import { BsSkipStartCircle } from 'react-icons/bs';
 import { CiStar } from 'react-icons/ci';
 //Creating a bottom toolbar
 interface ToolbarProps {
-    onBoldClick: () => void;
-    onItalicClick: () => void;
-    onUnderlineClick: () => void;
-    onButtonClick: () => void;
-  }
-  
-  const Toolbar: React.FC<ToolbarProps> = ({
-    onBoldClick,
-    onItalicClick,
-    onUnderlineClick,
-    onButtonClick,
-  }) => (
-    <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
-      <div style={{ display: 'flex' }}>
-        <FontAwesomeIcon icon={faBold} onClick={onBoldClick} style={{ marginRight: '10px', cursor: 'pointer' }} />
-        <FontAwesomeIcon icon={faItalic} onClick={onItalicClick} style={{ marginRight: '10px', cursor: 'pointer' }} />
-        <FontAwesomeIcon icon={faUnderline} onClick={onUnderlineClick} style={{ marginRight: '10px', cursor: 'pointer' }} />
-      </div>
-      <button onClick={onButtonClick} style={{ marginLeft: 'auto' }}>
-        Submit
-      </button>
+  onBoldClick: () => void;
+  onItalicClick: () => void;
+  onUnderlineClick: () => void;
+  onButtonClick: () => void;
+}
+
+const Toolbar: React.FC<ToolbarProps> = ({
+  onBoldClick,
+  onItalicClick,
+  onUnderlineClick,
+  onButtonClick,
+}) => (
+  <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
+    <div style={{ display: 'flex' }}>
+      <FontAwesomeIcon icon={faBold} onClick={onBoldClick} style={{ marginRight: '10px', cursor: 'pointer' }} />
+      <FontAwesomeIcon icon={faItalic} onClick={onItalicClick} style={{ marginRight: '10px', cursor: 'pointer' }} />
+      <FontAwesomeIcon icon={faUnderline} onClick={onUnderlineClick} style={{ marginRight: '10px', cursor: 'pointer' }} />
     </div>
-  );
+    <button onClick={onButtonClick} style={{ marginLeft: 'auto' }}>
+      Submit
+    </button>
+  </div>
+);
 interface InteractiveContainerProps {
-    currentSelectedChatUser: string;
-    signedInUserData: any;
-    isSignedIn: boolean;
-    chatType: "Single" | "Project"
+  currentSelectedChatUser: string;
+  signedInUserData: any;
+  isSignedIn: boolean;
+  chatType: "Single" | "Project"
 }
 
 const InteractiveContainer: React.FC<InteractiveContainerProps> = ({
-    signedInUserData,
-    currentSelectedChatUser,
-    isSignedIn,
-    chatType
+  signedInUserData,
+  currentSelectedChatUser,
+  isSignedIn,
+  chatType
 }) => {
-    const [message, setMessage] = useState('');
+  const [message, setMessage] = useState('');
 
-    const handleChange = (event: any) => {
-        setMessage(event.target.value);
-    };
-    // const [text, setText] = useState('');
-    // const handleSubmit = () => {
-    //     console.log(text); // or send the text to a server
-    //   };
-    
-      const handleTextChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setMessage(event.target.value);
-      };
- 
-    const handleSubmit = async () => {
-        // userIDSender: this.userIDSender,
-        // userNameSender: this.userNameSender,
-        // userIDReceiver: this.userIDReceiver,
-        // userNameReceiver: this.userNameReceiver,
-        // message:this.message,
-        // timeSent:this.timeSent,
-        // isUserOnline:this.isUserOnline
+  const handleChange = (event: any) => {
+    setMessage(event.target.value);
+  };
+  // const [text, setText] = useState('');
+  // const handleSubmit = () => {
+  //     console.log(text); // or send the text to a server
+  //   };
 
-        if (message !== '' && currentSelectedChatUser !== "" && signedInUserData !== null) {
+  const handleTextChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setMessage(event.target.value);
+  };
+
+  const handleSubmit = async () => {
+    // userIDSender: this.userIDSender,
+    // userNameSender: this.userNameSender,
+    // userIDReceiver: this.userIDReceiver,
+    // userNameReceiver: this.userNameReceiver,
+    // message:this.message,
+    // timeSent:this.timeSent,
+    // isUserOnline:this.isUserOnline
+
+    if (message !== '' && currentSelectedChatUser !== "" && signedInUserData !== null) {
+      if (chatType === "Single") {
+        // Get Current User's Display Name from email
+        let displayNameReceiver = currentSelectedChatUser.split("@")[0];
+        let receiverId = currentSelectedChatUser;
+
+        let senderId = signedInUserData.email;
+        let displayNameSender = senderId.split("@")[0];
+
+        const messageObject = {
+          // userIDSender: signedInUserData.uid,
+          // userNameSender: signedInUserData.displayName,
+          userIDSender: senderId,
+          userNameSender: displayNameSender,
+          userIDReceiver: receiverId,
+          userNameReceiver: displayNameReceiver,
+          message: message,
+          timeSent: new Date().toLocaleString(),
+          isUserOnline: true
+        }
+
+        console.log("Message Object: ", messageObject);
+
+        // Adding chat to firestore
+        addData(
+          messageObject,
+          "singleChat",
+          isSignedIn,
+          signedInUserData
+        );
+      } else {
+        // Get Current User's Display Name from email
+        let displayNameReceiver = currentSelectedChatUser.split("@")[0];
+        let receiverId = currentSelectedChatUser;
+
+        let senderId = signedInUserData.email;
+        let displayNameSender = senderId.split("@")[0];
+
+        const messageObject = {
+          // userIDSender: signedInUserData.uid,
+          // userNameSender: signedInUserData.displayName,
+          userIDSender: senderId,
+          userNameSender: displayNameSender,
+          // userIDReceiver: receiverId,
+          // userNameReceiver: displayNameReceiver,
+          userIDReceiver: receiverId,
+          message: message,
+          timeSent: new Date().toLocaleString(),
+          isUserOnline: true
+        }
+
+        console.log("Project Chat Message Object: ", messageObject);
+
+        // Adding chat to firestore
+        addData(
+          messageObject,
+          "ProjectChat",
+          isSignedIn,
+          signedInUserData
+        );
+      }
+
+      // // Clearing the message field
+      // setMessage('');
+    } else {
+      alert('Please enter a message to send it');
+    }
+  }
+  const [file, setFile] = useState<File>();
+  const inputFile = useRef(null) 
+  // progress
+  const [percent, setPercent] = useState(0);
+
+  // Handle file upload event and update state
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files.length > 0) {
+      setFile(event.target.files[0]);
+    }
+    const storageRef = ref(storage, `/files/${file!.name}`);
+
+    // progress can be paused and resumed. It also exposes progress updates.
+    // Receives the storage reference and the file to upload.
+    const uploadTask = uploadBytesResumable(storageRef, file!);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const percent = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+
+        // update progress
+        setPercent(percent);
+      },
+      (err) => console.log(err),
+      () => {
+        // download url
+        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+          console.log(url);
+          if (url !== '' && currentSelectedChatUser !== "" && signedInUserData !== null) {
             if (chatType === "Single") {
-                // Get Current User's Display Name from email
-                let displayNameReceiver = currentSelectedChatUser.split("@")[0];
-                let receiverId = currentSelectedChatUser;
+              // Get Current User's Display Name from email
+              let displayNameReceiver = currentSelectedChatUser.split("@")[0];
+              let receiverId = currentSelectedChatUser;
 
-                let senderId = signedInUserData.email;
-                let displayNameSender = senderId.split("@")[0];
+              let senderId = signedInUserData.email;
+              let displayNameSender = senderId.split("@")[0];
 
-                const messageObject = {
-                    // userIDSender: signedInUserData.uid,
-                    // userNameSender: signedInUserData.displayName,
-                    userIDSender: senderId,
-                    userNameSender: displayNameSender,
-                    userIDReceiver: receiverId,
-                    userNameReceiver: displayNameReceiver,
-                    message: message,
-                    timeSent: new Date().toLocaleString(),
-                    isUserOnline: true
-                }
+              const messageObject = {
+                // userIDSender: signedInUserData.uid,
+                // userNameSender: signedInUserData.displayName,
+                userIDSender: senderId,
+                userNameSender: displayNameSender,
+                userIDReceiver: receiverId,
+                userNameReceiver: displayNameReceiver,
+                message: url,
+                timeSent: new Date().toLocaleString(),
+                isUserOnline: true
+              }
 
-                console.log("Message Object: ", messageObject);
+              console.log("Message Object: ", messageObject);
 
-                // Adding chat to firestore
-                addData(
-                    messageObject,
-                    "singleChat",
-                    isSignedIn,
-                    signedInUserData
-                );
+              // Adding chat to firestore
+              addData(
+                messageObject,
+                "singleChat",
+                isSignedIn,
+                signedInUserData
+              );
             } else {
-                // Get Current User's Display Name from email
-                let displayNameReceiver = currentSelectedChatUser.split("@")[0];
-                let receiverId = currentSelectedChatUser;
+              // Get Current User's Display Name from email
+              let displayNameReceiver = currentSelectedChatUser.split("@")[0];
+              let receiverId = currentSelectedChatUser;
 
-                let senderId = signedInUserData.email;
-                let displayNameSender = senderId.split("@")[0];
+              let senderId = signedInUserData.email;
+              let displayNameSender = senderId.split("@")[0];
 
-                const messageObject = {
-                    // userIDSender: signedInUserData.uid,
-                    // userNameSender: signedInUserData.displayName,
-                    userIDSender: senderId,
-                    userNameSender: displayNameSender,
-                    // userIDReceiver: receiverId,
-                    // userNameReceiver: displayNameReceiver,
-                    userIDReceiver: receiverId,
-                    message: message,
-                    timeSent: new Date().toLocaleString(),
-                    isUserOnline: true
-                }
+              const messageObject = {
+                // userIDSender: signedInUserData.uid,
+                // userNameSender: signedInUserData.displayName,
+                userIDSender: senderId,
+                userNameSender: displayNameSender,
+                // userIDReceiver: receiverId,
+                // userNameReceiver: displayNameReceiver,
+                userIDReceiver: receiverId,
+                message: url,
+                timeSent: new Date().toLocaleString(),
+                isUserOnline: true
+              }
 
-                console.log("Project Chat Message Object: ", messageObject);
+              console.log("Project Chat Message Object: ", messageObject);
 
-                // Adding chat to firestore
-                addData(
-                    messageObject,
-                    "ProjectChat",
-                    isSignedIn,
-                    signedInUserData
-                );
+              // Adding chat to firestore
+              addData(
+                messageObject,
+                "ProjectChat",
+                isSignedIn,
+                signedInUserData
+              );
             }
 
             // // Clearing the message field
             // setMessage('');
-        } else {
-            alert('Please enter a message to send it');
-        }
+          } else {
+            alert('Please upload an image to send it');
+          }
+        });
+      }
+    );
+  };
+
+  const handleUpload = () => {
+    if (!file) {
+      // ref.fileUploader.click();
+      // alert("Please upload an image first!");
     }
 
-    return (
-        // <Box
-        //     className="w-full bg-white flex justify-center align-middle"
-        //     // If text field is focused, then the border should be bluish otherwise greyish border
-        //     sx={{
-        //         border: "1px solid",
-        //         borderColor: "grey.500",
-        //         borderRadius: "0px 0px 0px 0px",
-        //         '&:focus-within': {
-        //             borderColor: "blue",
-        //             borderRadius: "0px 0px 0px 0px",
-        //         },
-        //     }}
-        // >
-        //     <TextField
-        //         sx={{
-        //             backgroundColor: "white",
-        //             border: "none",
-        //             '& .MuiOutlinedInput-root': {
-        //                 '& fieldset': {
-        //                     border: "none",
-        //                     borderRadius: "0px 0px 0px 0px",
-        //                 },
-        //                 '&:hover fieldset': {
-        //                     border: "none",
-        //                     borderRadius: "0px 0px 0px 0px",
-        //                 },
-        //                 '&.Mui-focused fieldset': {
-        //                     border: "none",
-        //                     borderRadius: "0px 0px 0px 0px",
-        //                 },
-        //             },
-        //         }}
-        //         label=""
-        //         placeholder='Type your message here...'
-        //         value={message}
-        //         onChange={handleChange}
-        //         variant="outlined"
-        //         multiline
-        //         fullWidth
-        //         rows={7}
-        //         // Trigger Send on Enter Press
-        //         onKeyDown={(event: React.KeyboardEvent) => {
-        //             if (event.key === 'Enter' && !event.shiftKey) {
-        //                 event.preventDefault();
-        //                 handleSubmit();
-        //             }
-        //         }}
-        //     />
-        //     <IconButton
-        //         sx={{
-        //             backgroundColor: "white",
-        //             width: "50px",
-        //             height: "200px",
-        //             borderRadius: "0%",
-        //             alignSelf: "center",
-        //             transition: "0.2s linear",
-        //             '&:hover': {
-        //                 backgroundColor: "blue",
-        //                 color: "white",
-        //                 transition: "0.2s linear"
-        //             },
-        //             // '&:active': {
-        //             //     backgroundColor: "white",
-        //             // },
+    // const storageRef = ref(storage, `/files/${file!.name}`);
 
-        //         }}
-        //         onClick={handleSubmit}
-        //     >
-        //         <SendIcon />
-        //     </IconButton>
-        // </Box>
-        <div style={{display: 'flex', alignItems:'center', justifyContent: 'center'}}>
-             {/* <textarea value={text} onChange={handleTextChange} />
-      <Toolbar
-        onBoldClick={handleBoldClick}
-        onItalicClick={handleItalicClick}
-        onUnderlineClick={handleUnderlineClick}
-        onButtonClick={handleSubmit}
-      /> */}
-         <textarea
+    // // progress can be paused and resumed. It also exposes progress updates.
+    // // Receives the storage reference and the file to upload.
+    // const uploadTask = uploadBytesResumable(storageRef, file!);
+
+    // uploadTask.on(
+    //   "state_changed",
+    //   (snapshot) => {
+    //     const percent = Math.round(
+    //       (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+    //     );
+
+    //     // update progress
+    //     setPercent(percent);
+    //   },
+    //   (err) => console.log(err),
+    //   () => {
+    //     // download url
+    //     getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+    //       console.log(url);
+    //       if (url !== '' && currentSelectedChatUser !== "" && signedInUserData !== null) {
+    //         if (chatType === "Single") {
+    //           // Get Current User's Display Name from email
+    //           let displayNameReceiver = currentSelectedChatUser.split("@")[0];
+    //           let receiverId = currentSelectedChatUser;
+
+    //           let senderId = signedInUserData.email;
+    //           let displayNameSender = senderId.split("@")[0];
+
+    //           const messageObject = {
+    //             // userIDSender: signedInUserData.uid,
+    //             // userNameSender: signedInUserData.displayName,
+    //             userIDSender: senderId,
+    //             userNameSender: displayNameSender,
+    //             userIDReceiver: receiverId,
+    //             userNameReceiver: displayNameReceiver,
+    //             message: url,
+    //             timeSent: new Date().toLocaleString(),
+    //             isUserOnline: true
+    //           }
+
+    //           console.log("Message Object: ", messageObject);
+
+    //           // Adding chat to firestore
+    //           addData(
+    //             messageObject,
+    //             "singleChat",
+    //             isSignedIn,
+    //             signedInUserData
+    //           );
+    //         } else {
+    //           // Get Current User's Display Name from email
+    //           let displayNameReceiver = currentSelectedChatUser.split("@")[0];
+    //           let receiverId = currentSelectedChatUser;
+
+    //           let senderId = signedInUserData.email;
+    //           let displayNameSender = senderId.split("@")[0];
+
+    //           const messageObject = {
+    //             // userIDSender: signedInUserData.uid,
+    //             // userNameSender: signedInUserData.displayName,
+    //             userIDSender: senderId,
+    //             userNameSender: displayNameSender,
+    //             // userIDReceiver: receiverId,
+    //             // userNameReceiver: displayNameReceiver,
+    //             userIDReceiver: receiverId,
+    //             message: url,
+    //             timeSent: new Date().toLocaleString(),
+    //             isUserOnline: true
+    //           }
+
+    //           console.log("Project Chat Message Object: ", messageObject);
+
+    //           // Adding chat to firestore
+    //           addData(
+    //             messageObject,
+    //             "ProjectChat",
+    //             isSignedIn,
+    //             signedInUserData
+    //           );
+    //         }
+
+    //         // // Clearing the message field
+    //         // setMessage('');
+    //       } else {
+    //         alert('Please upload an image to send it');
+    //       }
+    //     });
+    //   }
+    // );
+  };
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <textarea
         value={message}
         onChange={handleChange}
         style={{
@@ -239,7 +363,7 @@ const InteractiveContainer: React.FC<InteractiveContainerProps> = ({
           // border: 'none',
           borderRadius: '10px',
           resize: 'none',
-          outline: 'none' 
+          outline: 'none'
         }}
       />
       <div
@@ -256,27 +380,49 @@ const InteractiveContainer: React.FC<InteractiveContainerProps> = ({
         <IconButton style={{ marginRight: '10px' }}><BsRecord2 /></IconButton>
         <IconButton style={{ marginRight: '10px', width: '35px', height: '35px' }}>@</IconButton>
         <IconButton style={{ marginRight: '10px' }}><CiStar /></IconButton>
-        <IconButton style={{ marginRight: '10px' }}><MdAttachFile /></IconButton>
+        <IconButton style={{ marginRight: '10px' }} >
+        <label htmlFor="fileUpload">
+          <input
+          id="fileUpload"
+            type="file"
+            // hidden
+            // style={{display: 'none'}}
+            style={{
+              width: '0px',
+              height: '0px',
+              display: 'none'
+              // visibility: 'hidden'
+              // position: "absolute",
+              // left: "-9999px",
+              // visibility: "hidden"
+            }}
+            onChange={handleFileChange}            
+          />
+          <MdAttachFile />
+        {/* <div>
+          <h3>Open</h3>
+          <p>Other stuff in here</p>
+        </div> */}
+      </label>
+      {/* <input hidden id="fileUpload" type="file" accept="video/*" /> */}
+        </IconButton>
+        {/* <input type="file" title=""
+          value="" /> */}
       </div>
-      {/* <button
+      {/* {/* <input type="file" onChange={handleChange} accept="/image/*" />
+      <button onClick={handleUpload}>Upload to Firebase</button>
+      <p>{percent} "% done"</p> */}
+
+      <Button
+        onClick={handleSubmit}
         style={{
           position: 'absolute',
-          bottom: '100px',
-          right: '10px',
-        }}
-      >
-        Submit
-      </button> */}
-      <Button
-      onClick={handleSubmit}
-       style={{
-        position: 'absolute',
-        bottom: '70px',
-        boxShadow: 'none',
-        right: '40px',
-      }} variant="contained">Comment</Button>
-        </div>
-    );
+          bottom: '70px',
+          boxShadow: 'none',
+          right: '40px',
+        }} variant="contained">Comment</Button>
+    </div>
+  );
 };
 
 export default InteractiveContainer;

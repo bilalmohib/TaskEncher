@@ -3,6 +3,7 @@ import {
     getFirestore,
     updateDoc,
 } from "firebase/firestore";
+import { enqueueSnackbar } from 'notistack';
 
 const updateTask = async (
     taskId: number,
@@ -24,9 +25,25 @@ const updateTask = async (
 
                 try {
                     await updateDoc(projectRef, updatedProject);
-                    console.log("Task name updated successfully");
-                } catch (error) {
-                    console.error("Error updating task name:", error);
+                    let message: string = "Task name updated successfully";
+                    console.log(message);
+                    enqueueSnackbar(
+                        message,
+                        {
+                            variant: 'success',
+                            anchorOrigin: { vertical: 'bottom', horizontal: 'right' }
+                        },
+                    )
+                } catch (error: any) {
+                    let message = `Error updating task name: ${error?.message}`
+                    console.error(message);
+                    enqueueSnackbar(
+                        message,
+                        {
+                            variant: 'error',
+                            anchorOrigin: { vertical: 'bottom', horizontal: 'right' }
+                        },
+                    )
                 }
             }
 
@@ -37,27 +54,27 @@ const updateTask = async (
 
                 try {
                     await updateDoc(projectRef, updatedProject);
-                    console.log("Task due date updated successfully");
-                } catch (error) {
-                    console.error("Error updating task due date:", error);
+                    let message: string = "Task Due Date has been updated successfully";
+                    console.log(message);
+                    enqueueSnackbar(
+                        message,
+                        {
+                            variant: 'success',
+                            anchorOrigin: { vertical: 'bottom', horizontal: 'right' }
+                        },
+                    )
+                } catch (error: any) {
+                    let message = `Error updating task Due Date: ${error?.message}`
+                    console.error(message);
+                    enqueueSnackbar(
+                        message,
+                        {
+                            variant: 'error',
+                            anchorOrigin: { vertical: 'bottom', horizontal: 'right' }
+                        },
+                    )
                 }
             }
-
-            if (type === "addTask") {
-                // Add a new task to the ProjectTasks array
-                const newTask = updateThing;
-                projects[i].ProjectTasks.push(newTask);
-                const updatedProject: any = projects[i];
-                console.log("Updated Project : ", updatedProject);
-
-                try {
-                    await updateDoc(projectRef, updatedProject);
-                    console.log("New task added successfully");
-                } catch (error) {
-                    console.error("Error adding new task:", error);
-                }
-            }
-            break;
         }
     }
 };

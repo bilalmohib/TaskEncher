@@ -8,6 +8,12 @@
     background-color: transparent;
 }
 
+.main{
+    height: 100vh;
+    width: 100%;
+    background-color: white;
+}
+
 .addDashboardContainer {
     margin-top: 20px;
     border-top: 1px solid rgb(203, 203, 208);

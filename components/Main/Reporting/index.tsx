@@ -202,51 +202,52 @@ const Reporting: React.FC<ReportingProps> = ({
             dashboardID: "1234567890",
             dashboardURL: "https://www.google.com",
         },
-        {
-            title: ' Project Success Overview',
-            icon: <GoDeviceDesktop
-                size={35}
-                // color="#0052CC"
-                color="#ffffff"
-            />,
-            description:
-                "The Project Success Overview provides a comprehensive snapshot of your team's project performance, showcasing essential metrics, progress updates, and task accomplishment rates. Gain actionable insights that empower informed decision-making, optimize processes, allocate resources effectively, and elevate project outcomes. Monitor project vitality and maintain command with instant access to crucial data.",
-            createdBy: "You",
-            createdAt: "02/11/2022",
-            lastModified: "02/11/2022",
-            lastModifiedBy: "You",
-            projectID: "1234567890",
-            projectURL: "https://www.google.com",
-            dashboardType: "Project Performance Dashboard",
-            dashboardID: "1234567890",
-            dashboardURL: "https://www.google.com",
-        },
-        {
-            title: 'Project Progress Insights',
-            icon: <GoDeviceDesktop
-                size={35}
-                // color="#0052CC" 
-                color="#ffffff"
-            />,
-            description:
-                "The Project Progress Insights dashboard offers a holistic view of your team's project achievements, tracking key performance indicators, milestones, and task completion trends. Make data-driven decisions to streamline workflows, prioritize resources, and improve project results. Stay informed and on track with real-time visibility into the essential aspects of your projects' performance.",
-            createdBy: "You",
-            createdAt: "04/08/2001",
-            lastModified: "12/12/2021",
-            lastModifiedBy: "You",
-            projectID: "1234567890",
-            projectURL: "https://www.google.com",
-            dashboardType: "Project Performance Dashboard",
-            dashboardID: "1234567890",
-            dashboardURL: "https://www.google.com",
-        },
+        // {
+        //     title: ' Project Success Overview',
+        //     icon: <GoDeviceDesktop
+        //         size={35}
+        //         // color="#0052CC"
+        //         color="#ffffff"
+        //     />,
+        //     description:
+        //         "The Project Success Overview provides a comprehensive snapshot of your team's project performance, showcasing essential metrics, progress updates, and task accomplishment rates. Gain actionable insights that empower informed decision-making, optimize processes, allocate resources effectively, and elevate project outcomes. Monitor project vitality and maintain command with instant access to crucial data.",
+        //     createdBy: "You",
+        //     createdAt: "02/11/2022",
+        //     lastModified: "02/11/2022",
+        //     lastModifiedBy: "You",
+        //     projectID: "1234567890",
+        //     projectURL: "https://www.google.com",
+        //     dashboardType: "Project Performance Dashboard",
+        //     dashboardID: "1234567890",
+        //     dashboardURL: "https://www.google.com",
+        // },
+        // {
+        //     title: 'Project Progress Insights',
+        //     icon: <GoDeviceDesktop
+        //         size={35}
+        //         // color="#0052CC" 
+        //         color="#ffffff"
+        //     />,
+        //     description:
+        //         "The Project Progress Insights dashboard offers a holistic view of your team's project achievements, tracking key performance indicators, milestones, and task completion trends. Make data-driven decisions to streamline workflows, prioritize resources, and improve project results. Stay informed and on track with real-time visibility into the essential aspects of your projects' performance.",
+        //     createdBy: "You",
+        //     createdAt: "04/08/2001",
+        //     lastModified: "12/12/2021",
+        //     lastModifiedBy: "You",
+        //     projectID: "1234567890",
+        //     projectURL: "https://www.google.com",
+        //     dashboardType: "Project Performance Dashboard",
+        //     dashboardID: "1234567890",
+        //     dashboardURL: "https://www.google.com",
+        // },
     ];
 
     ////////////////////////////////////// FOR GETTING PROJECTS DATA //////////////////////////////////////
     const e = email;
 
     // FOR GETTING PROJECTS
-    let q = query(collection(db, "Data", "Projects", `${e}`));
+    // let q = query(collection(db, "Data", "Projects", `${e}`));
+    let q = query(collection(db, "Projects"));
 
     const [snapshot, loading, error] = useCollection(
         q,
@@ -264,7 +265,23 @@ const Reporting: React.FC<ReportingProps> = ({
 
         if (!loading) {
             let projectMembers = [];
-            let tempProjectsObj: any = snapshot?.docs.map((doc, i) => ({ ...doc.data(), id: doc.id }));
+
+            let localObj: any;
+
+            let arrProjects = snapshot?.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+
+            localObj = arrProjects;
+
+            // Now only i need projects that are created by me means email is equal to signedInUserData.email
+            // or that are shared with me means project members array contains signedInUserData.email
+
+            // Filter the projects array and extract only those projects that are created by me
+            // localObj = localObj.filter((project: any) => );
+
+            // Filter the projects array and extract only those projects that are shared with me
+            localObj = localObj.filter((project: any) => project?.ProjectMembers?.includes(email) || project?.createdBy === email);
+
+            let tempProjectsObj: any = localObj;
 
             setProjects(tempProjectsObj);
 
@@ -287,10 +304,10 @@ const Reporting: React.FC<ReportingProps> = ({
             {Loading ? (
                 <CustomLoader />
             ) : (
-                <div className='main'>
+                <div className={styles.main}>
                     <section className={styles.container}>
                         <h3 style={{ marginLeft: 30, marginTop: 30, color: 'black', fontWeight: 'lighter' }}>Reporting</h3>
-                        <Box
+                        {/* <Box
                             className={styles.addDashboardContainer}
                         >
                             <Button
@@ -307,7 +324,7 @@ const Reporting: React.FC<ReportingProps> = ({
                             >
                                 + Add dashboard
                             </Button>
-                        </Box>
+                        </Box> */}
 
                         <Box
                             sx={{
@@ -371,7 +388,7 @@ const Reporting: React.FC<ReportingProps> = ({
                                         <MotionGrid container spacing={4} variants={containerVariants}>
                                             {dashboardList.map((reportingDashboard, index) => (
                                                 <Grid item xs={12} sm={4} key={index}>
-                                                    {/* <ScrollTriggerAnimation key={index} animationVariants={scrollVariants}> */}
+                                                    <ScrollTriggerAnimation key={index} animationVariants={scrollVariants}>
                                                         <MotionPaper
                                                             elevation={3}
                                                             sx={{
@@ -408,14 +425,14 @@ const Reporting: React.FC<ReportingProps> = ({
                                                                     <Box
                                                                         sx={{
                                                                             // backgroundColor: '#E5F0FF',
-                                                                            // backgroundColor: '#4573d2',
+                                                                            backgroundColor: '#4573d2',
                                                                             width: "70px",
                                                                             height: "60px",
                                                                             borderRadius: "10px",
                                                                             display: "flex",
                                                                             justifyContent: "center",
                                                                             alignItems: "center",
-                                                                            background: "transparent !important"
+                                                                            // background: "transparent !important"
                                                                         }}
                                                                     >
                                                                         {reportingDashboard.icon}
@@ -498,7 +515,7 @@ const Reporting: React.FC<ReportingProps> = ({
                                                                 </Typography>
                                                             </Box>
                                                         </MotionPaper>
-                                                    {/* </ScrollTriggerAnimation> */}
+                                                    </ScrollTriggerAnimation>
                                                 </Grid>
                                             ))}
                                         </MotionGrid>

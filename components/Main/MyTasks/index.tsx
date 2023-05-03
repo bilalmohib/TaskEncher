@@ -46,18 +46,21 @@ import Messages from '@app/components/ProjectDetails/Messages';
 import Files from '@app/components/ProjectDetails/Files';
 import Navbar from '@app/components/Navbar';
 import Sidebar from '@app/components/Sidebar';
+import ListMT from '@app/components/MyTasks/ListMT';
 
 interface MyTasksProps {
     // Add Task Model Open
     isAddTaskModalOpen: boolean;
     setIsAddTaskModalOpen: (value: boolean) => void;
+    projectMembers: string[];
 }
 
 const MyTasks: NextPage<MyTasksProps> = (
     {
         // Add Task Model Open
         isAddTaskModalOpen,
-        setIsAddTaskModalOpen
+        setIsAddTaskModalOpen,
+        projectMembers
     }
 ) => {
 
@@ -112,7 +115,7 @@ const MyTasks: NextPage<MyTasksProps> = (
     return (
         <div className={styles.container}>
             {(isSignedIn) ? (
-                <div className={styles.container}>
+                <div className={styles.mainSectionContainer}>
                     <header className={`fixed-top ${styles.header}`} style={{ position: "relative", zIndex: "1000 !imoprtant" }}>
                         <HeaderMyTasks
                             projectID={projectID}
@@ -124,22 +127,23 @@ const MyTasks: NextPage<MyTasksProps> = (
 
                     <div>
                         {(selectedTabItemValue === 1) ? (
-                            <List
+                            <ListMT
                                 email={signedInUserData.email}
-                                projectName={projectName}
-                                projectID={projectID}
+                                // projectName={projectName}
+                                // projectID={projectID}
 
                                 // Add Task Model Open
                                 isAddTaskModalOpen={isAddTaskModalOpen}
                                 setIsAddTaskModalOpen={setIsAddTaskModalOpen}
+                                projectMembers={projectMembers}
                             />
+                        // ) : (selectedTabItemValue === 2) ? (
+                        //     <Board />
                         ) : (selectedTabItemValue === 2) ? (
-                            <Board />
-                        ) : (selectedTabItemValue === 3) ? (
                             <Calender />
-                        ) : (selectedTabItemValue === 4) ? (
+                        ) : (selectedTabItemValue === 3) ? (
                             <Messages />
-                        ) : (selectedTabItemValue === 5) ? (
+                        ) : (selectedTabItemValue === 4) ? (
                             <Files />
                         ) : (
                             <>Please Select the correct tab</>

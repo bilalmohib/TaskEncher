@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useLayoutEffect } from "react";
-
 import SearchIcon from "@mui/icons-material/Search";
 import SearchOffIcon from "@mui/icons-material/SearchOff";
 import MessageIcon from "@mui/icons-material/Message";
@@ -65,14 +64,12 @@ import DateCategorizationChat from "./DateCategorizationChat";
 import InteractiveContainer from "./InteractiveContainer";
 import MessageContainer from "./MessageContainer";
 import AddUserModal from "./AddUserModal";
-import CustomPopOver from "@app/components/CustomPopOver";
-
-import addData from "../../../utilities/components/Inbox/addData";
 
 import Image from "next/image";
 
 //Importing Containers CSS Files
 import styles from "./Inbox.module.css";
+
 
 interface InboxProps {
     email: string;
@@ -237,7 +234,7 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
     const e = email;
 
     // FOR GETTING PROJECTS
-    let q = query(collection(db, "Data", "Projects", `${e}`));
+    let q = query(collection(db, "Projects"));
 
     const [snapshot, loading, error] = useCollection(q, {
         snapshotListenOptions: { includeMetadataChanges: true },
@@ -281,10 +278,23 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
     useEffect(() => {
         if (!loading) {
             let projectMembers = [];
-            let tempProjectsObj: any = snapshot?.docs.map((doc, i) => ({
-                ...doc.data(),
-                id: doc.id,
-            }));
+
+            let localObj: any;
+
+            let arrProjects = snapshot?.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+
+            localObj = arrProjects;
+
+            // Now only i need projects that are created by me means email is equal to signedInUserData.email
+            // or that are shared with me means project members array contains signedInUserData.email
+
+            // Filter the projects array and extract only those projects that are created by me
+            // localObj = localObj.filter((project: any) => );
+
+            // Filter the projects array and extract only those projects that are shared with me
+            localObj = localObj.filter((project: any) => project?.ProjectMembers?.includes(email) || project?.createdBy === email);
+
+            let tempProjectsObj: any = localObj;
 
             setProjects(tempProjectsObj);
 
@@ -474,6 +484,7 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                                             >
                                                 <AddBoxIcon
                                                     sx={{
+                                                        color: '#5088c0',
                                                         fontSize: "30px",
                                                     }}
                                                 />
@@ -514,10 +525,10 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                                                     alignItems: "left",
                                                     justifyContent: "left",
                                                     paddingTop: "5px",
-                                                    paddingLeft: "10px",
+                                                    paddingLeft: "25px",
                                                 }}
                                             >
-                                                <h3 className={styles.headerTitle}>General Inbox</h3>
+                                                <h5 className={styles.headerTitle} style={{ color: '#5088c0' }}>General Inbox</h5>
                                             </Box>
                                         )}
                                     </Box>
@@ -533,7 +544,7 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                                         <SearchOffIcon
                                             onClick={() => setShowSearch(!showSearch)}
                                             sx={{
-                                                color: "#000",
+                                                color: "#5088c0",
                                                 fontSize: "30px",
                                             }}
                                         />
@@ -541,7 +552,7 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                                         <SearchIcon
                                             onClick={() => setShowSearch(true)}
                                             sx={{
-                                                color: "#000",
+                                                color: "#5088c0",
                                                 fontSize: "30px",
                                             }}
                                         />
@@ -551,8 +562,8 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                             <Box
                                 className="d-flex justify-content-between"
                                 sx={{
-                                    borderBottom: "1px solid #000",
-                                    borderTop: "1px solid #000",
+                                    borderBottom: "1px solid #5088c0",
+                                    borderTop: "1px solid #5088c0",
                                     ml: "0px",
                                 }}
                             >
@@ -565,10 +576,10 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                                         borderBottom:
                                             currentTab === 0 ? "1px solid #000" : "1px solid #fff",
                                         boxShadow: "none",
-                                        backgroundColor: currentTab === 0 ? "#000" : "#fff",
+                                        backgroundColor: currentTab === 0 ? "#5088c0" : "#fff",
                                         color: currentTab === 0 ? "#fff" : "#000",
                                         "&:hover": {
-                                            backgroundColor: currentTab === 0 ? "#000" : "#fff",
+                                            backgroundColor: currentTab === 0 ? "#5088c0" : "#fff",
                                             color: currentTab === 0 ? "#fff" : "#000",
                                         },
                                     }}
@@ -579,7 +590,7 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                                     }}
                                     startIcon={<MessageIcon />}
                                 >
-                                    1-1 Messages
+                                    Messages
                                 </Button>
                                 <Button
                                     variant="contained"
@@ -587,12 +598,12 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                                     sx={{
                                         border: "none",
                                         borderBottom:
-                                            currentTab === 1 ? "1px solid #000" : "1px solid #fff",
+                                            currentTab === 1 ? "1px solid blue" : "1px solid #fff",
                                         boxShadow: "none",
-                                        backgroundColor: currentTab === 1 ? "#000" : "#fff",
+                                        backgroundColor: currentTab === 1 ? "#5088c0" : "#fff",
                                         color: currentTab === 1 ? "#fff" : "#000",
                                         "&:hover": {
-                                            backgroundColor: currentTab === 1 ? "#000" : "#fff",
+                                            backgroundColor: currentTab === 1 ? "#5088c0" : "#fff",
                                             color: currentTab === 1 ? "#fff" : "#000",
                                         },
                                     }}
@@ -989,6 +1000,7 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                                             display: "flex",
                                             alignItems: "center",
                                             justifyContent: "center",
+                                            // border: 
                                             // border: '1px solid #000',
                                         }}
                                     >
@@ -1050,11 +1062,10 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                                             width: "100%",
                                         }}
                                     >
-                                        <DateCategorizationChat
+                                        {/* <DateCategorizationChat
                                             messageDate={date}
                                             showDate={true}
-                                        />
-
+                                        /> */}
                                         {messages.map((item: any, index: number) => (
                                             <Box
                                                 key={index}
@@ -1076,6 +1087,7 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                                                                 item.userIDSender === currentSelectedChatUser))) ||
                                                         (currentTab === 1 && item.userIDReceiver === currentSelectedProjectChatUser)) ? (
                                                         <>
+                                                            {/* {item. */}
                                                             <Box
                                                                 sx={{
                                                                     display: "flex",
@@ -1086,12 +1098,13 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                                                                             : "flex-end",
                                                                     width: "100%",
                                                                     marginTop: "0px",
-                                                                    boxShadow:
-                                                                        "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+                                                                    // boxShadow:
+                                                                    // "rgba(100, 100, 111, 0.2) 0.5px 0.5px 0.5px 0.5px",
                                                                     padding: "10px",
                                                                 }}
                                                             >
                                                                 <MessageContainer
+                                                                    userPic={item.userpic}
                                                                     editedMessageId={editedMessageId}
                                                                     userName={item.userNameSender}
                                                                     timeSent={item.timeSent}
@@ -1114,6 +1127,7 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                             <Box
                                 className={styles.MiddleFooterContainer}
                                 sx={{
+                                    // height: '100px',
                                     width: showProfileInfo ? "39.8%" : "69.5%",
                                 }}
                             >

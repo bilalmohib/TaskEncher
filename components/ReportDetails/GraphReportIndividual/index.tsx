@@ -74,10 +74,14 @@ const GraphReportIndividual: React.FC<GraphReportIndividualProps> = ({
                 </Typography>
 
                 {(graphType === "line") ? (
-                    <Line />
+                    <Line
+                        reportData={reportData}
+                    />
                 ) :
                     (graphType === "bar") ? (
-                        <Bar />
+                        <Bar
+                            reportData={reportData}
+                        />
                     ) :
                         (graphType === "pie") ? (
                             <div>
@@ -85,10 +89,14 @@ const GraphReportIndividual: React.FC<GraphReportIndividualProps> = ({
                             </div>
                         ) :
                             (graphType === "radar") ? (
-                                <Radar />
+                                <Radar
+                                    reportData={reportData}
+                                />
                             ) :
                                 (graphType === "doughnut") ? (
-                                    <Doughnut />
+                                    <Doughnut
+                                        reportData={reportData}
+                                    />
                                 ) : (
                                     <div>
                                         <p>Graph Type Not Found</p>

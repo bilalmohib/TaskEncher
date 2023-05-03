@@ -1,70 +1,169 @@
-import React from 'react';
-import Head from 'next/head';
+import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
+import type { NextPage } from 'next';
+import Image from 'next/image';
+import Head from 'next/head';
 
-// Importing Icons
-import Navbar from '@app/components/Navbar';
-import Sidebar from '@app/components/Sidebar';
+import {
+    onAuthStateChanged,
+} from "firebase/auth";
 
-import StatReportIndividual from '@app/components/ReportDetails/StatReportIndividual';
-import GraphReportIndividual from '@app/components/ReportDetails/GraphReportIndividual';
-import ReportDetailsInsideContent from '@app/components/ReportDetails/ReportDetailsInsideContent';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { db, auth } from "../../../firebase";
+import CustomModal from '@app/components/CustomModal';
+import CustomLoader from '@app/components/CustomLoader';
+import MainContentPD from '@app/components/ProjectDetails/MainContentPD';
+import MainContentRD from '@app/components/ReportDetails/MainContentRD';
 
-// Importing Styles
-import styles from './style.module.css';
-
-interface ReportDetailsProps {
+interface MainContentProps {
+    setIsOpen: (isOpen: boolean) => void;
     isOpen: boolean;
-    setIsOpen: (value: boolean) => void;
     currentMenuItem: number;
-    setCurrentMenuItem: (value: number) => void;
-    signedInUserData: { email: string };
+    setCurrentMenuItem: (currentMenuItem: number) => void;
     width: number;
     height: number;
 }
 
-const ReportDetails: React.FC<ReportDetailsProps> = (
+const ProjectDetails: React.FC<MainContentProps> = (
     {
-        isOpen,
         setIsOpen,
+        isOpen,
         currentMenuItem,
         setCurrentMenuItem,
-        signedInUserData,
         width,
         height
     }) => {
     const router = useRouter();
     const { reportName, reportID } = router.query;
 
+    const [loading, setLoading] = useState<boolean>(true);
+
+    //_________________ For Getting SignedInUser Data _____________________
+    const [signedInUserData, setSignedInUserData] = useState<any>(null);
+    const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
+    //_________________ For Getting SignedInUser Data _____________________
+
+    useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in, see docs for a list of available properties
+                // https://firebase.google.com/docs/reference/js/firebase.User
+                if (signedInUserData === null) {
+                    setIsSignedIn(true);
+                    if (user.isAnonymous === true) {
+                        let tempUser = {
+                            displayName: "Anonymous",
+                            email: `anonymous${user.uid}@guest.com`,
+                            photoURL: user.photoURL
+                        }
+                        console.log(tempUser);
+                        setSignedInUserData(tempUser);
+                        setLoading(false);
+                    } else {
+                        console.log(user);
+                        setSignedInUserData(user);
+                        setLoading(false);
+                    }
+                    // ...
+                }
+            } else {
+                // User is signed out
+                console.log("User is signed out");
+                setLoading(false);
+                setSignedInUserData(null);
+                setIsSignedIn(false);
+                router.push("/");
+                // ...
+            }
+        });
+    }, [router, signedInUserData]);
+
+    // Projects
+    const [projects, setProjects] = useState<any>([]);
+    // Project Members
+    const [projectMembers, setProjectMembers] = useState<string[]>([]);
+    // Project Sections
+    const [projectSections, setProjectSections] = useState<any>([]);
+
+    const [isModalOpen, setIsModalOpen] = React.useState(false);
+
+    // Add Task Model
+    const [isAddTaskModalOpen, setIsAddTaskModalOpen] = React.useState(false);
+
+    /////////////////////////////////////// Database Part ////////////////////////////////////////////////
+
     return (
         <div>
             <Head>
-                <title>Reporting - TaskEncher (Supercharge Your Workflow and Amplify Task Management) </title>
+                <title>Project Details - TaskEncher (Supercharge Your Workflow and Amplify Task Management) </title>
                 <meta charSet="utf-8" lang='en' />
                 <meta name="description" content="Project Management Software" />
                 <link rel="icon" href="/logocopy.ico" />
             </Head>
-            <main className={styles.main}>
-                <Navbar isOpen={isOpen} setIsOpen={setIsOpen} />
-                <div className="d-flex">
-                    {/* <Sidebar
+            {(!loading && isSignedIn) && (
+                <>
+                    <MainContentRD
+                        setIsOpen={setIsOpen}
+                        isOpen={isOpen}
                         currentMenuItem={currentMenuItem}
                         setCurrentMenuItem={setCurrentMenuItem}
-                        isOpen={isOpen}
-                        setIsOpen={setIsOpen}
-                    /> */}
+                        signedInUserData={signedInUserData}
+                        isSignedIn={isSignedIn}
+                        width={width}
+                        height={height}
+                        email={signedInUserData.email}
+                        isModalOpen={isModalOpen}
+                        setIsModalOpen={setIsModalOpen}
 
-                    <div style={{ marginTop: 70 }} className={`${styles.rightSideContainer} ${isOpen ? styles.shrinkContainer : styles.expandContainer}`}>
-                        <ReportDetailsInsideContent
-                            isOpen={isOpen}
-                            showHeader={true}
-                            reportID={reportID}
-                            reportName={reportName}
-                        />
-                    </div>
-                </div>
-            </main>
+                        // Project Members
+                        projectMembers={projectMembers}
+                        setProjectMembers={setProjectMembers}
+
+                        // Projects
+                        projects={projects}
+                        setProjects={setProjects}
+
+                        // Project Sections
+                        projectSections={projectSections}
+                        setProjectSections={setProjectSections}
+
+                        reportName={reportName}
+                        reportID={reportID}
+
+                        // Add Task Model
+                        isAddTaskModalOpen={isAddTaskModalOpen}
+                        setIsAddTaskModalOpen={setIsAddTaskModalOpen}
+
+                        // Invited Members Modal
+                        isInvitedMembersModalOpen={isModalOpen}
+                        setIsInvitedMembersModalOpen={setIsModalOpen}
+                    />
+                </>
+            )}
+
+            <CustomModal
+                open={isModalOpen}
+                setOpen={setIsModalOpen}
+                modalType='inviteMembers'
+                title='Add people to TaskEncher Software'
+                projects={projects}
+                projectMembers={projectMembers}
+            />
+
+            <CustomModal
+                open={isAddTaskModalOpen}
+                setOpen={setIsAddTaskModalOpen}
+                modalType="addTasks"
+                title='Add Task'
+                projects={projects}
+                projectMembers={projectMembers}
+                projectSections={projectSections}
+                email={(signedInUserData !== null) ? (signedInUserData.email) : ("")}
+                projectID={reportID?.toString()}
+            />
+
         </div>
     )
 }
-export default ReportDetails;
+
+export default ProjectDetails;

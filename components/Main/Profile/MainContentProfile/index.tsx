@@ -80,7 +80,8 @@ const MainContentProfile: React.FC<MainContentProfileProps> = (
     }) => {
 
     /////////////////////////////////////// Database Part ////////////////////////////////////////////////
-    let q = query(collection(db, "Data", "Projects", email));
+    // let q = query(collection(db, "Data", "Projects", email));
+    let q = query(collection(db, "Projects"));
 
     const [snapshot, loading, error] = useCollection(
         q,
@@ -93,15 +94,22 @@ const MainContentProfile: React.FC<MainContentProfileProps> = (
     useEffect(() => {
 
         if (!loading && snapshot && email) {
-            let localObj;
-
+            let localObj: any;
             let arrProjects = snapshot?.docs.map(doc => ({ ...doc.data(), id: doc.id }));
-
             localObj = arrProjects;
 
-            const projectMembers = localObj
+            // Now only i need projects that are created by me means email is equal to signedInUserData.email
+            // or that are shared with me means project members array contains signedInUserData.email
+
+            // Filter the projects array and extract only those projects that are created by me
+            // localObj = localObj.filter((project: any) => );
+
+            // Filter the projects array and extract only those projects that are shared with me
+            localObj = localObj.filter((project: any) => project?.ProjectMembers?.includes(email) || project?.createdBy === email);
+
+            const projectMembers: any = localObj
                 .map((project: any) => project?.ProjectMembers) // extract ProjectMembers array from each project
-                .reduce((acc, val) => acc.concat(val), []); // concatenate all ProjectMembers arrays into a single array
+                .reduce((acc: any, val: any) => acc.concat(val), []); // concatenate all ProjectMembers arrays into a single array
 
             // Extract all the project members from the projects array
             setProjects(arrProjects);
@@ -151,6 +159,8 @@ const MainContentProfile: React.FC<MainContentProfileProps> = (
                     <ProfileComp
                         isSignedIn={signedInUserData !== null}
                         signedInUserData={signedInUserData}
+                        projectMembers={projectMembers}
+                        email={email}
                     />
                 </div>
             </div>

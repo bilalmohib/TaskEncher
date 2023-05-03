@@ -14,7 +14,8 @@ const updateTask = async (
     projects: any // Add the projects array as an argument
 ) => {
     const db = getFirestore();
-    const projectRef = doc(db, "Data", "Projects", email, projectID);
+    // const projectRef = doc(db, "Data", "Projects", email, projectID);
+    const projectRef = doc(db, "Projects", projectID);
 
     for (let i = 0; i < projects.length; i++) {
         if (projects[i].id === projectID.toString()) {
@@ -65,6 +66,35 @@ const updateTask = async (
                     )
                 } catch (error: any) {
                     let message = `Error updating task Due Date: ${error?.message}`
+                    console.error(message);
+                    enqueueSnackbar(
+                        message,
+                        {
+                            variant: 'error',
+                            anchorOrigin: { vertical: 'bottom', horizontal: 'right' }
+                        },
+                    )
+                }
+            }
+
+            if (type === "taskStatus") {
+                projects[i].ProjectTasks[taskId].taskStatus = updateThing;
+                const updatedProject: any = projects[i];
+                console.log("Updated Project : ", updatedProject);
+
+                try {
+                    await updateDoc(projectRef, updatedProject);
+                    let message: string = `Task Status has been updated successfully to: ${updateThing}`;
+                    console.log(message);
+                    enqueueSnackbar(
+                        message,
+                        {
+                            variant: 'success',
+                            anchorOrigin: { vertical: 'bottom', horizontal: 'right' }
+                        },
+                    )
+                } catch (error: any) {
+                    let message = `Error updating task Status: ${error?.message}`
                     console.error(message);
                     enqueueSnackbar(
                         message,

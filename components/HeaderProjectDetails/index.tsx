@@ -28,9 +28,11 @@ import {
     Box,
     Typography,
     Link,
+    Tooltip
 } from "@mui/material";
 
 import styles from './style.module.css';
+import colors from '@app/lib/colors';
 
 interface IProps {
     photoURL: any,
@@ -40,6 +42,7 @@ interface IProps {
     email: string,
     projectID?: any,
     setProjectTitle?: any,
+    projectMembers: any
 }
 
 const HeaderProjectDetails: React.FC<IProps> = ({
@@ -49,10 +52,26 @@ const HeaderProjectDetails: React.FC<IProps> = ({
     projectTitle,
     email,
     projectID,
-    setProjectTitle
+    setProjectTitle,
+    projectMembers
 }) => {
 
     const router = useRouter();
+
+    // For POPOVER
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [selectedMember, setSelectedMember] = React.useState(null);
+
+    const handleMouseEnter = (event: any, member: any) => {
+        setAnchorEl(event.currentTarget);
+        setSelectedMember(member);
+    };
+
+    const handleMouseLeave = () => {
+        setAnchorEl(null);
+        setSelectedMember(null);
+    };
+    // For POPOVER
 
     const tabItems = [
         {
@@ -63,32 +82,32 @@ const HeaderProjectDetails: React.FC<IProps> = ({
             id: 2,
             name: "List"
         },
+        // {
+        //     id: 3,
+        //     name: "Board"
+        // },
+        // {
+        //     id: 4,
+        //     name: "Timeline"
+        // },
         {
             id: 3,
-            name: "Board"
-        },
-        {
-            id: 4,
-            name: "Timeline"
-        },
-        {
-            id: 5,
             name: "Calender"
         },
+        // {
+        //     id: 6,
+        //     name: "Workflow"
+        // },
         {
-            id: 6,
-            name: "Workflow"
-        },
-        {
-            id: 7,
+            id: 4,
             name: "Dashboard"
         },
         {
-            id: 8,
+            id: 5,
             name: "Messages"
         },
         {
-            id: 9,
+            id: 6,
             name: "Files"
         }
     ];
@@ -99,7 +118,8 @@ const HeaderProjectDetails: React.FC<IProps> = ({
     const [signedInUserData, setSignedInUserData] = useState<any>(null);
     const [isSignedIn, setIsSignedIn] = useState<Boolean>(false);
 
-    let q = query(collection(db, "Data", "Projects", `${email}`));
+    // let q = query(collection(db, "Data", "Projects", `${email}`));
+    let q = query(collection(db, "Projects"));
 
     const [snapshot, loading, error] = useCollection(
         q,
@@ -112,16 +132,33 @@ const HeaderProjectDetails: React.FC<IProps> = ({
     useEffect(() => {
 
         if (!loading && snapshot && email) {
-            let localObj;
-            let arrProjects = snapshot?.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+            let localObj1: any;
+            let localObj: any;
+
+            let arrProjectsLocal = snapshot?.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+
+            localObj1 = arrProjectsLocal;
+
+            // Now only i need projects that are created by me means email is equal to signedInUserData.email
+            // or that are shared with me means project members array contains signedInUserData.email
+
+            // Filter the projects array and extract only those projects that are created by me
+            // localObj = localObj.filter((project: any) => );
+
+            // Filter the projects array and extract only those projects that are shared with me
+            localObj1 = localObj1.filter((project: any) => project?.ProjectMembers?.includes(email) || project?.createdBy === email);
+
+            // Extract all the project members from the projects array
+
+            let arrProjects = localObj1;
             for (let i = 0; i < arrProjects.length; i++) {
                 if (arrProjects[i].id === projectID.toString()) {
                     localObj = arrProjects[i];
+                    setFirestoreData(localObj);
+                    setProjectTitle(localObj?.ProjectName);
+                    break;
                 }
             }
-            // @ts-ignore
-            setProjectTitle(localObj?.ProjectName);
-            setFirestoreData(localObj);
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -182,14 +219,36 @@ const HeaderProjectDetails: React.FC<IProps> = ({
             </div>
             <div className={styles.rightSide}>
                 <div className={styles.profileImageRightSide}>
-                    <Image
-                        width={24}
-                        height={24}
-                        style={{ borderRadius: "50%" }}
-                        src={photoURL}
-                        alt="Picture of the author"
-                        loading="lazy"
-                    />
+                    {projectMembers.map((member: any, index: number) => (
+                        <Box key={index}>
+                            <Tooltip title={member} arrow>
+                                <Box
+                                    sx={{
+                                        width: '36px',
+                                        height: '36px',
+                                        borderRadius: '50%',
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        color: 'white',
+                                        marginLeft: '-10px',
+                                        backgroundColor: colors[Math.floor(Math.random() * colors.length)],
+                                    }}
+                                >
+                                    {
+                                        // Extracting the first letter and last letter of the name
+                                        member.split(' ').map((item: any, index: number) => {
+                                            if (index === 0 || index === member.split(' ').length - 1) {
+                                                return item[0] + item[item.length - 1];
+                                            }
+                                            return null;
+                                        })
+                                    }
+                                </Box>
+                            </Tooltip>
+                        </Box>
+                    ))}
+                    {/* projectMembers */}
                 </div>
                 <button className={`btn btn-primary ${styles.btn_share}`}>
                     <BsPeopleFill size={16} style={{ marginTop: 3 }} />
@@ -197,7 +256,7 @@ const HeaderProjectDetails: React.FC<IProps> = ({
                     Share
                 </button>
             </div>
-        </nav>
+        </nav >
     )
 }
 export default HeaderProjectDetails;

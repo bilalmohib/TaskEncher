@@ -1,0 +1,59 @@
+.container {
+    display: flex;
+    /* border: 2px solid red; */
+    background-color: #ffffff;
+    /* border-bottom: 1px solid #e0e0e0; */
+    padding-top: 10px;
+    padding-left: 12px;
+    padding-bottom: 12px;
+    width: 100%;
+}
+
+/* Add task button */
+.btn_add_task {
+    /* background-color: #ffffff;
+    border: 1px solid #777977; */
+    border-radius: 5px;
+    /* color: #000; */
+    font-size: 14px;
+    font-weight: 300;
+    padding-top: 4px;
+    height: 28px;
+    cursor: pointer;
+    text-transform: none;
+}
+
+.btn_add_task:hover {
+    /* background-color: #e3e3e3; */
+    /* color: #000; */
+}
+
+/* Add task button */
+
+/* Drop down button style */
+.btn_dropdown {
+    height: 23px !important;
+    margin-top: 4px;
+    font-size: 12px;
+    text-transform: none;
+    margin-left: 5px;
+    padding-left: 10px;
+    padding-right: 14px;
+    padding-top: 3px;
+    font-weight: 300;
+    color: #6d6d6d;
+    background-color: transparent;
+    border-radius: 6px !important;
+}
+
+.btn_dropdown:hover {
+    background-color: #f3f1f1;
+    color: #2c2a2a;
+}
+
+.btn_dropdown:focus {
+    background-color: #f3f1f1;
+    box-shadow: none !important;
+}
+
+/* Drop down button style */

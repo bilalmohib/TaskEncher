@@ -8,6 +8,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
+import { enqueueSnackbar } from 'notistack';
 
 import {
     doc,
@@ -85,7 +86,7 @@ const MultiSelectChipDropDown: FC<MultiSelectChipDropDownProps> = ({
 
     const updateTaskAssigneeList = async (taskId: number, newTaskAssignees: string[]) => {
         const db = getFirestore();
-        const projectRef = doc(db, "Data", "Projects", email, projectID);
+        const projectRef = doc(db, "Projects", projectID);
 
         for (let i = 0; i < projects.length; i++) {
             if (projects[i].id === projectID.toString()) {
@@ -95,10 +96,25 @@ const MultiSelectChipDropDown: FC<MultiSelectChipDropDownProps> = ({
 
                 try {
                     await updateDoc(projectRef, updatedProject);
-                    // alert("Task Updated Successfully");
-                    console.log("Task name updated successfully");
-                } catch (error) {
-                    console.error("Error updating task name:", error);
+                    let message: string = "Task Assignee has been updated successfully";
+                    console.log(message);
+                    enqueueSnackbar(
+                        message,
+                        {
+                            variant: 'success',
+                            anchorOrigin: { vertical: 'bottom', horizontal: 'right' }
+                        },
+                    )
+                } catch (error: any) {
+                    let message: string = `Error updating task name: ${error?.message}`;
+                    console.log(message);
+                    enqueueSnackbar(
+                        message,
+                        {
+                            variant: 'success',
+                            anchorOrigin: { vertical: 'bottom', horizontal: 'right' }
+                        },
+                    )
                 }
                 break;
             }

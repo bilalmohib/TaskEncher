@@ -114,8 +114,10 @@ const ReportDetailsInsideContent: NextPage<ReportDetailsInsideContentProps> = ({
     ];
 
     // Graph Report Data
+    // Graph Report Data
     const graphReportData: any = [
         {
+            "reportID": "ITBPL",
             "reportTitle": "Incomplete tasks by project",
             "reportData": {
                 labels: ["What a Name", "FYP"],
@@ -134,6 +136,7 @@ const ReportDetailsInsideContent: NextPage<ReportDetailsInsideContentProps> = ({
             "reportDescription": "This graph shows the number of incomplete tasks in each project."
         },
         {
+            "reportID": "ITBPB",
             "reportTitle": "Incomplete tasks by priority",
             "reportData": {
                 labels: ["High", "Medium", "Low"],
@@ -152,6 +155,7 @@ const ReportDetailsInsideContent: NextPage<ReportDetailsInsideContentProps> = ({
             "reportDescription": "This graph shows the number of incomplete tasks in each priority."
         },
         {
+            "reportID": "ITBPR",
             "reportTitle": "Incomplete tasks by assignee",
             "reportData": {
                 labels: [
@@ -175,6 +179,7 @@ const ReportDetailsInsideContent: NextPage<ReportDetailsInsideContentProps> = ({
             "reportDescription": "This graph shows the number of incomplete tasks in each assignee."
         },
         {
+            "reportID": "ITBPD",
             "reportTitle": "Incomplete tasks by due date",
             "reportData": {
                 labels: ["Today", "Tomorrow", "NextWeek"],
@@ -191,14 +196,95 @@ const ReportDetailsInsideContent: NextPage<ReportDetailsInsideContentProps> = ({
             "graphType": "doughnut",
             "reportColor": "#FF9800",
             "reportDescription": "This graph shows the number of incomplete tasks in each due date."
+        },
+        {
+            "reportID": "CTBPL",
+            "reportTitle": "Completed tasks by project",
+            "reportData": {
+                labels: ["What a Name", "FYP", "New"],
+                datasets: [
+                    {
+                        data: [5, 4, 7],
+                        backgroundColor: colors,
+                        label: "Completed Tasks by Project",
+                        borderColor: colors,
+                        fill: false
+                    }
+                ],
+            },
+            "graphType": "line",
+            "reportColor": "#FFC107",
+            "reportDescription": "This graph shows the number of completed tasks in each project."
+        },
+        {
+            "reportID": "CTBPB",
+            "reportTitle": "Completed tasks by priority",
+            "reportData": {
+                labels: ["High", "Medium", "Low"],
+                datasets: [
+                    {
+                        data: [2, 3, 0],
+                        backgroundColor: ["#FF0000", "#FFA500", "#FFFF00"],
+                        label: "Completed Tasks",
+                        borderColor: ["#FF0000", "#FFA500", "#FFFF00"],
+                        fill: false
+                    }
+                ],
+            },
+            "graphType": "bar",
+            "reportColor": "#4CAF50",
+            "reportDescription": "This graph shows the number of completed tasks in each priority."
+        },
+        {
+            "reportID": "CTBPR",
+            "reportTitle": "Completed tasks by assignee",
+            "reportData": {
+                labels: [
+                    "bilalmohib7896@gmail.com",
+                    "bilalmohib2001@gmail.com",
+                    "bilalfullstackdevelper@gmail.com",
+                    "mbilals9922@gmail.com",
+                ],
+                datasets: [
+                    {
+                        data: [4, 5, 1, 2],
+                        backgroundColor: colors,
+                        label: "Completed Tasks",
+                        borderColor: colors,
+                        fill: false
+                    }
+                ],
+            },
+            "graphType": "radar",
+            "reportColor": "#F44336",
+            "reportDescription": "This graph shows the number of completed tasks in each assignee."
+        },
+        {
+            "reportID": "CTBPD",
+            "reportTitle": "Completed tasks by due date",
+            "reportData": {
+                labels: ["Today", "Tomorrow", "NextWeek"],
+                datasets: [
+                    {
+                        data: [4, 0, 2],
+                        backgroundColor: ["rgb(75, 192, 192)", "rgb(255, 99, 132)", "rgb(255,165,0)"],
+                        label: "Completed Tasks",
+                        borderColor: ["rgb(75, 192, 192)", "rgb(255, 99, 132)", "rgb(255,165,0)"],
+                        fill: false
+                    }
+                ],
+            },
+            "graphType": "doughnut",
+            "reportColor": "#FF9800",
+            "reportDescription": "This graph shows the number of completed tasks in each due date."
         }
     ];
 
     // States for Report Data
-    const [statReportDataState, setStatReportDataState] = useState<any>(statReportData);
-    const [graphReportDataState, setGraphReportDataState] = useState<any>(graphReportData);
+    const [statReportDataState, setStatReportDataState] = useState<any>(null);
+    const [graphReportDataState, setGraphReportDataState] = useState<any>(null);
 
-    const e = signedInUserData.email;
+    const email = signedInUserData.email;
     /////////////////////////////////////// Database Part ////////////////////////////////////////////////
     // let q = query(collection(db, "Data", "Projects", e));
     let q = query(collection(db, "Projects"));
@@ -212,7 +298,7 @@ const ReportDetailsInsideContent: NextPage<ReportDetailsInsideContentProps> = ({
     const [projects, setProjects] = useState<any>([]);
 
     useEffect(() => {
-        if (!loading && snapshot && e) {
+        if (!loading && snapshot && email) {
 
             let localObj: any;
 
@@ -227,7 +313,7 @@ const ReportDetailsInsideContent: NextPage<ReportDetailsInsideContentProps> = ({
             // localObj = localObj.filter((project: any) => );
 
             // Filter the projects array and extract only those projects that are shared with me
-            localObj = localObj.filter((project: any) => project?.ProjectMembers?.includes(signedInUserData.email) || project?.createdBy === signedInUserData.email);
+            localObj = localObj.filter((project: any) => project?.ProjectMembers?.includes(email) || project?.createdBy === email);
 
             let arrProjects: any = localObj;
 
@@ -236,13 +322,20 @@ const ReportDetailsInsideContent: NextPage<ReportDetailsInsideContentProps> = ({
             let incompleteTasks = 0;
             let overdueTasks = 0;
 
-            let localStatReportData: any = [...statReportDataState];
-            let localGraphReportData: any = [...graphReportDataState];
+            let localStatReportData: any = [...statReportData];
+            let localGraphReportData: any = [...graphReportData];
 
+            // For InComplete Tasks
             let incompleteByProject: any = {};
             let incompleteByPriority: any = { High: 0, Medium: 0, Low: 0 };
             let incompleteByAssignee: any = {};
             let incompleteByDueDate: any = { Today: 0, Tomorrow: 0, NextWeek: 0 };
+
+            // For Completed Tasks
+            let completedByProject: any = {};
+            let completedByPriority: any = { High: 0, Medium: 0, Low: 0 };
+            let completedByAssignee: any = {};
+            let completedByDueDate: any = { Today: 0, Tomorrow: 0, NextWeek: 0 };
 
             arrProjects.forEach((project: { ProjectTasks: any[]; ProjectName: string | number; }) => {
                 project.ProjectTasks.forEach((task) => {
@@ -250,6 +343,35 @@ const ReportDetailsInsideContent: NextPage<ReportDetailsInsideContentProps> = ({
 
                     if (task.taskStatus === "completed") {
                         completedTasks++;
+
+                        // Update completed tasks by project
+                        if (!completedByProject[project.ProjectName]) {
+                            completedByProject[project.ProjectName] = 0;
+                        }
+                        completedByProject[project.ProjectName]++;
+
+                        // Update completed tasks by priority
+                        if (task.taskPriority) {
+                            completedByPriority[task.taskPriority]++;
+                        }
+
+                        // Update completed tasks by assignee
+                        task.taskAssignee.forEach((assignee: any) => {
+                            if (!completedByAssignee[assignee]) {
+                                completedByAssignee[assignee] = 0;
+                            }
+                            completedByAssignee[assignee]++;
+                        });
+
+                        // Update completed tasks by due date
+                        const daysToDueDate = differenceInDays(new Date(task.taskDue), new Date());
+                        if (daysToDueDate === 0) {
+                            completedByDueDate.Today++;
+                        } else if (daysToDueDate === 1) {
+                            completedByDueDate.Tomorrow++;
+                        } else if (daysToDueDate <= 7) {
+                            completedByDueDate.NextWeek++;
+                        }
                     } else if (task.taskStatus === "inProgress" || task.taskStatus === "Open") {
                         incompleteTasks++;
 
@@ -347,6 +469,55 @@ const ReportDetailsInsideContent: NextPage<ReportDetailsInsideContentProps> = ({
                     },
                 ],
             };
+            // Update graphReportData for completed tasks
+            localGraphReportData[4].reportData = {
+                labels: Object.keys(completedByProject),
+                datasets: [
+                    {
+                        data: Object.values(completedByProject),
+                        backgroundColor: colors,
+                        label: "Completed Tasks by Project",
+                        borderColor: colors,
+                        fill: false
+                    },
+                ],
+            };
+            localGraphReportData[5].reportData = {
+                labels: Object.keys(completedByPriority),
+                datasets: [
+                    {
+                        data: Object.values(completedByPriority),
+                        backgroundColor: ["#FF0000", "#FFA500", "#FFFF00"],
+                        label: "Completed Tasks by Priority",
+                        borderColor: ["#FF0000", "#FFA500", "#FFFF00"],
+                        fill: false
+                    },
+                ],
+            };
+            localGraphReportData[6].reportData = {
+                labels: Object.keys(completedByAssignee),
+                datasets: [
+                    {
+                        data: Object.values(completedByAssignee),
+                        backgroundColor: colors,
+                        label: "Completed Tasks by Assignee",
+                        borderColor: colors,
+                        fill: false
+                    },
+                ],
+            };
+            localGraphReportData[7].reportData = {
+                labels: Object.keys(completedByDueDate),
+                datasets: [
+                    {
+                        data: Object.values(completedByDueDate),
+                        backgroundColor: ["rgb(75, 192, 192)", "rgb(255, 99, 132)", "rgb(255,165,0)"],
+                        label: "Completed Tasks by Due Date",
+                        borderColor: ["rgb(75, 192, 192)", "rgb(255, 99, 132)", "rgb(255,165,0)"],
+                        fill: false
+                    },
+                ],
+            };
 
             console.log("localStatReportData ==> ", localStatReportData);
             console.log("localGraphReportData ==> ", localGraphReportData);
@@ -361,7 +532,7 @@ const ReportDetailsInsideContent: NextPage<ReportDetailsInsideContentProps> = ({
             console.log("Projects ==> ", projects);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [loading, snapshot, signedInUserData]);
+    }, [loading, snapshot, email]);
     // FOR GETTING PROJECTS
 
     // // Update Report Data
@@ -412,30 +583,43 @@ const ReportDetailsInsideContent: NextPage<ReportDetailsInsideContentProps> = ({
 
                     <div style={{ width: "95%", marginLeft: "2.5%", marginTop: "25px", transition: "0.2s linear" }}>
                         <Grid container spacing={3}>
-                            {statReportDataState.map((report: any, index: number) => (
-                                <Grid item xs={12} sm={6} md={3} key={index}>
-                                    <StatReportIndividual
-                                        reportTitle={report.reportTitle}
-                                        reportValue={report.reportValue}
-                                        reportIcon={report.reportIcon}
-                                        reportColor={report.reportColor}
-                                    />
-                                </Grid>
-                            ))}
+                            {(statReportDataState !== null) && (
+                                <>
+                                    {
+                                        statReportDataState.map((report: any, index: number) => (
+                                            <Grid item xs={12} sm={6} md={3} key={index}>
+                                                <StatReportIndividual
+                                                    reportTitle={report.reportTitle}
+                                                    reportValue={report.reportValue}
+                                                    reportIcon={report.reportIcon}
+                                                    reportColor={report.reportColor}
+                                                />
+                                            </Grid>
+                                        ))
+                                    }
+                                </>
+                            )}
                         </Grid>
 
                         <Grid container spacing={3} style={{ marginTop: -50, marginBottom: "30px" }}>
-                            {graphReportDataState.map((report: any, index: number) => (
-                                <Grid item xs={12} sm={6} md={6} key={index}>
-                                    <GraphReportIndividual
-                                        reportTitle={report.reportTitle}
-                                        reportData={report.reportData}
-                                        graphType={report.graphType}
-                                        reportColor={report.reportColor}
-                                        reportDescription={report.reportDescription}
-                                    />
-                                </Grid>
-                            ))}
+                            {(graphReportDataState !== null) && (
+                                <>
+                                    {
+                                        graphReportDataState.map((report: any, index: number) => (
+                                            <Grid item xs={12} sm={6} md={6} key={index}>
+                                                <GraphReportIndividual
+                                                    reportID={report.reportID}
+                                                    reportTitle={report.reportTitle}
+                                                    reportData={report.reportData}
+                                                    graphType={report.graphType}
+                                                    reportColor={report.reportColor}
+                                                    reportDescription={report.reportDescription}
+                                                />
+                                            </Grid>
+                                        ))
+                                    }
+                                </>
+                            )}
                         </Grid>
                     </div>
                 </div>

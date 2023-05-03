@@ -233,8 +233,8 @@
 
 .frequentCollaboratorsList:hover {
     /* border: 3px solid rgb(6, 49, 8); */
-    background-color: #3f3f3f6e;
-    border-radius: 5px;
+    background-color: #d1d1d148;
+    /* border-radius: 5px; */
     cursor: pointer;
     /* display: flex;
     flex-direction: row; */
@@ -293,6 +293,7 @@
     flex-direction: row;
     margin-top: 5px;
     height: 30px;
+    padding-top: 3px;
     margin-bottom: 5px;
 }
 
@@ -307,6 +308,12 @@
 .taskCompleteIcon:hover {
     color: green;
     cursor: pointer;
+}
+
+.projectIcon{
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
 }
 
 /* My Tasks List  */

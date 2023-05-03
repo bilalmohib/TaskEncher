@@ -123,11 +123,13 @@ const MainContent: React.FC<MainContentProps> = (
         }
     );
 
+    const [totalCompletedTasks, setTotalCompletedTasks] = useState<number>(0);
+
     // FOR GETTING PROJECTS
     useEffect(() => {
 
         if (!loading && snapshot && email) {
-            let localObj;
+            let localObj: any;
 
             let arrProjects = snapshot?.docs.map(doc => ({ ...doc.data(), id: doc.id }));
 
@@ -142,15 +144,26 @@ const MainContent: React.FC<MainContentProps> = (
             // Filter the projects array and extract only those projects that are shared with me
             localObj = localObj.filter((project: any) => project?.ProjectMembers?.includes(email) || project?.createdBy === email);
 
-            const projectMembers = localObj
-                .map((project: any) => project?.ProjectMembers) // extract ProjectMembers array from each project
-                .reduce((acc, val) => acc.concat(val), []); // concatenate all ProjectMembers arrays into a single array
+            let totalCompletedTasks = 0;
 
-            // Loop over the projects array and where the project id matches the project id in the project members array, extract the project sections
-            const localProjectSections = localObj
+            for (let i = 0; i < localObj.length; i++) {
+                for (let j = 0; j < localObj[i]?.ProjectTasks?.length; j++) {
+                    if (localObj[i]?.ProjectTasks[j]?.taskStatus === "completed") {
+                        totalCompletedTasks++;
+                    }
+                }
+            }
+
+            // EXTRACT PROJECT MEMBERS
+            const projectMembers: any = localObj
+                .map((project: any) => project?.ProjectMembers) // extract ProjectMembers array from each project
+                .reduce((acc: any, val: any) => acc.concat(val), []); // concatenate all ProjectMembers arrays into a single array
+
+            // Loop through the project localObj and extract the project sections from each project
+            const localProjectSections: any = localObj
                 .filter((project: any) => project?.id === "projectID")
                 .map((project: any) => project?.ProjectStages) // extract ProjectSections array from each project
-                .reduce((acc, val) => acc.concat(val), []); // concatenate all ProjectSections arrays into a single array
+                .reduce((acc: any, val: any) => acc.concat(val), []); // concatenate all ProjectSections arrays into a single array
 
             // Extract all the project members from the projects array
             setProjects(localObj);
@@ -160,6 +173,9 @@ const MainContent: React.FC<MainContentProps> = (
 
             // Set the project sections in the state
             setProjectSections(localProjectSections);
+
+            // Set the total completed tasks in the state
+            setTotalCompletedTasks(totalCompletedTasks);
 
             // console.clear();
             console.log("Projects ==> ", snapshot?.docs.map(doc => ({ ...doc.data(), id: doc.id })));
@@ -210,6 +226,7 @@ const MainContent: React.FC<MainContentProps> = (
                             setIsModalOpenCustomized={setIsModalOpenCustomized}
                             widgetsList={widgetsList}
                             setWidgetsList={setWidgetsList}
+                            totalCompletedTasks={totalCompletedTasks}
                         />
                     </section>
 
@@ -220,6 +237,8 @@ const MainContent: React.FC<MainContentProps> = (
                             isAddTaskModalOpen={isAddTaskModalOpen}
                             setIsAddTaskModalOpen={setIsAddTaskModalOpen}
                             projectMembers={projectMembers}
+                            signedInUserData={signedInUserData}
+                            isSignedIn={signedInUserData !== null}
                         />
                     </section>
 

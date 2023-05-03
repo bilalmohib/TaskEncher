@@ -154,6 +154,8 @@ const CustomModal: React.FC<CustomModalProps> = (
                                             <InviteMembers
                                                 projects={projects}
                                                 projectMembers={projectMembers}
+                                                // @ts-ignore
+                                                projectID={projectID}
                                             />
                                         )}
 

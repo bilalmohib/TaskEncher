@@ -85,7 +85,7 @@ const SelectChipDropDown: FC<SelectChipDropDownProps> = ({
     const updateTaskAssigneeList = async (taskId: number, newTaskPriority: string[]) => {
         const db = getFirestore();
         // @ts-ignore
-        const projectRef = doc(db, "Data", "Projects", email, projectID);
+        const projectRef = doc(db, "Projects", projectID);
 
         // @ts-ignore
         for (let i = 0; i < projects.length; i++) {
@@ -117,7 +117,7 @@ const SelectChipDropDown: FC<SelectChipDropDownProps> = ({
     const updateTaskSectionList = async (taskId: number, newTaskSection: string[]) => {
         const db = getFirestore();
         // @ts-ignore
-        const projectRef = doc(db, "Data", "Projects", email, projectID);
+        const projectRef = doc(db, "Projects", projectID);
 
         for (let i = 0; i < projects.length; i++) {
             // @ts-ignore

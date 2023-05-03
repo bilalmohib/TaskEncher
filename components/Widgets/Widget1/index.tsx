@@ -187,7 +187,7 @@ const Widget1: React.FC<IProps> = ({
                             <div className={styles.individualProject}>
                                 {(index === 0) ? (
                                     <div className={`${styles.icon_styleAdd}`}>
-                                        <AddIcon sx={{ fontSize: 30, color: "#6d6e6f" }} />
+                                        <AddIcon sx={{ fontSize: 30, color: "#303131" }} />
                                     </div>
                                 ) : (
                                     <div className={`${styles.icon_style}`} style={{

@@ -95,9 +95,10 @@
     height: 50px;
     text-align: center;
     /* border: 1px solid #3e3a3b; */
-    border:1px solid #c3bfbf;
+    border: 1px solid #c3bfbf;
     border-style: dashed !important;
     margin-left: 5px;
+    background-color: white;
     display: flex;
     justify-content: center;
     align-items: center;

@@ -8,8 +8,8 @@
 }
 
 .header {
-    position: relative !important;
-    top: 0px;
+    position: sticky !important;
+    top: 49px;
     width: 100%;
     /* margin-left: 2px; */
     background-color: white;

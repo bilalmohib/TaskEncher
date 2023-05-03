@@ -87,40 +87,54 @@ const MultiSelectChipDropDown: FC<MultiSelectChipDropDownProps> = ({
     const updateTaskAssigneeList = async (taskId: number, newTaskAssignees: string[]) => {
         const db = getFirestore();
         // @ts-ignore
-        const projectRef = doc(db, "Data", "Projects", email, projectID);
 
-        for (let i = 0; i < projects.length; i++) {
-            // @ts-ignore
-            if (projects[i].id === projectID.toString()) {
-                projects[i].ProjectTasks[taskId].taskAssignee = newTaskAssignees;
-                const updatedProject = projects[i];
-                console.log("Updated Project : ", updatedProject);
+        if (projectID !== undefined && projectID !== null) {
+            const projectRef = doc(db, "Projects", projectID);
 
-                try {
-                    await updateDoc(projectRef, updatedProject);
-                    let message: string = "Task Assignee has been updated successfully";
-                    console.log(message);
-                    enqueueSnackbar(
-                        message,
-                        {
-                            variant: 'success',
-                            anchorOrigin: { vertical: 'bottom', horizontal: 'right' }
-                        },
-                    )
-                } catch (error: any) {
-                    let message: string = `Error updating task name: ${error?.message}`;
-                    console.log(message);
-                    enqueueSnackbar(
-                        message,
-                        {
-                            variant: 'success',
-                            anchorOrigin: { vertical: 'bottom', horizontal: 'right' }
-                        },
-                    )
+            for (let i = 0; i < projects.length; i++) {
+                // @ts-ignore
+                if (projects[i].id === projectID.toString()) {
+                    projects[i].ProjectTasks[taskId].taskAssignee = newTaskAssignees;
+                    const updatedProject = projects[i];
+                    console.log("Updated Project : ", updatedProject);
+
+                    try {
+                        await updateDoc(projectRef, updatedProject);
+                        let message: string = "Task Assignee has been updated successfully";
+                        console.log(message);
+                        enqueueSnackbar(
+                            message,
+                            {
+                                variant: 'success',
+                                anchorOrigin: { vertical: 'bottom', horizontal: 'right' }
+                            },
+                        )
+                    } catch (error: any) {
+                        let message: string = `Error updating task name: ${error?.message}`;
+                        console.log(message);
+                        enqueueSnackbar(
+                            message,
+                            {
+                                variant: 'success',
+                                anchorOrigin: { vertical: 'bottom', horizontal: 'right' }
+                            },
+                        )
+                    }
+                    break;
                 }
-                break;
             }
+        } else {
+            let message: string = `Error updating task name projectID not found`;
+            console.log(message);
+            enqueueSnackbar(
+                message,
+                {
+                    variant: 'success',
+                    anchorOrigin: { vertical: 'bottom', horizontal: 'right' }
+                },
+            )
         }
+
     };
 
     return (

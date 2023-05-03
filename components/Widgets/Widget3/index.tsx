@@ -204,7 +204,8 @@ const Widget1: React.FC<IProps> = ({
                             // Hide button when scroll is at left end
                             display: (
                                 (document.querySelector(`.${styles.subContainer}`)?.scrollLeft == -900) ? "none" : "flex"
-                            )
+                            ),
+                            backgroundColor: "white"
                         }}
                         aria-label="back"
                         color="success"
@@ -300,7 +301,8 @@ const Widget1: React.FC<IProps> = ({
                             // Hide button when scroll is at left end
                             display: (
                                 (document.querySelector(`.${styles.subContainer}`)?.scrollLeft === 900) ? "none" : "flex"
-                            )
+                            ),
+                            backgroundColor: "white"
                         }}
                         className={styles.rightPeopleSliderButton}
                         // onClick move scroll to right

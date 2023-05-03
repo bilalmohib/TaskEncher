@@ -95,7 +95,7 @@ const ProfileComp: React.FC<ProfileCompProps> = ({
     const e = email;
     /////////////////////////////////////// Database Part ////////////////////////////////////////////////
     // let q = query(collection(db, "Data", "Projects", e));
-    let q = query(collection(db,"Projects"))
+    let q = query(collection(db, "Projects"))
 
     const [snapshot, loading, error] = useCollection(q, {
         snapshotListenOptions: { includeMetadataChanges: true },
@@ -214,7 +214,7 @@ const ProfileComp: React.FC<ProfileCompProps> = ({
                                         &nbsp;
                                         local time
                                     </p>
-                                    <p style={{ marginLeft: 10 }}><AiOutlineMail />  <span className={styles.email}>bilalmohib20001@gmail.com</span></p>
+                                    <p style={{ marginLeft: 10 }}><AiOutlineMail />  <span className={styles.email}>{signedInUserData?.email}</span></p>
                                 </p>
                             </div>
                         </div>
@@ -240,7 +240,10 @@ const ProfileComp: React.FC<ProfileCompProps> = ({
                                     </div>
                                     <div className={styles.myTasksHeaderRight}>
                                         <button className={`btn ${styles.viewAllTasksBtn}`} onClick={() => {
-                                            alert("View all tasks");
+                                            router.push(`/dashboard/${signedInUserData.email}`);
+                                            setTimeout(() => {
+                                                router.reload();
+                                            }, 5000);
                                         }}>View all tasks</button>
                                     </div>
                                 </header>
@@ -328,11 +331,32 @@ const ProfileComp: React.FC<ProfileCompProps> = ({
                                                         </p>
                                                         <p className={styles.pnmyTask}>{item.taskName}</p>
                                                     </div>
-                                                    <div className={styles.myTasksListRight}>
-                                                        {/* <DatePicker
+                                                    <div className={`${styles.myTasksListRight} d-flex`}>
+                                                        <div className='mr-4'
+                                                            style={{
+                                                                width: "auto",
+                                                                height: "30px",
+                                                                paddingTop: "2px",
+                                                                paddingLeft: "5px",
+                                                                paddingRight: "5px",
+                                                                borderRadius: "5px",
+                                                                color: "white",
+                                                                // border: "1px solid white",
+                                                                backgroundColor:
+                                                                    item.taskPriority === "Low" ? "#0fbe58" :
+                                                                        item.taskPriority === "Medium" ? "#e0ab0a" :
+                                                                            item.taskPriority === "High" ? "#e91414" : "transparent",
+                                                            }}
+                                                        >
+                                                            {item.taskPriority}
+                                                        </div>
+                                                        <div>
+                                                            {/* <DatePicker
                                                             onChange={setTaskDue}
                                                             value={new Date(item.ProjectEndingDate)}
                                                         /> */}
+                                                            {new Date(item.taskDue).toLocaleDateString()}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             )
@@ -353,7 +377,10 @@ const ProfileComp: React.FC<ProfileCompProps> = ({
                                     {
                                         projectMembers.map((item, index) => {
                                             return (
-                                                <div key={index} className={styles.frequentCollaboratorsList}>
+                                                <div
+                                                    key={index}
+                                                    className={styles.frequentCollaboratorsList}
+                                                >
                                                     <div className={`${styles.lifcl} d-flex`}>
                                                         <div className={styles.frequentCollaboratorsImageContainer}>
                                                             {/* <Image
@@ -379,7 +406,8 @@ const ProfileComp: React.FC<ProfileCompProps> = ({
                                                                         alignItems: "center",
                                                                         fontSize: 16,
                                                                         fontWeight: "lighter",
-                                                                        color: "#fff"
+                                                                        color: "#fff",
+                                                                        mt: "5px"
                                                                     }}
                                                                 >
                                                                     {
@@ -417,9 +445,20 @@ const ProfileComp: React.FC<ProfileCompProps> = ({
                                     {
                                         projects.map((item: any, index: any) => {
                                             return (
-                                                <div key={index} className={styles.myTasksList}>
+                                                <div
+                                                    key={index}
+                                                    className={styles.myTasksList}
+                                                    onClick={() => {
+                                                        router.push(`/projectDetails/${signedInUserData.email}/${item.ProjectName}/${item.id}`)
+                                                    }}
+                                                >
                                                     <div className={styles.myTasksListLeft}>
-                                                        <p className={styles.taskCompleteIcon} onClick={() => alert("Mark As Completed")}><BsCheckCircle /></p>
+                                                        <p
+                                                            className={styles.projectIcon}
+                                                            style={{
+                                                                backgroundColor: item.color_code
+                                                            }}
+                                                        ></p>
                                                         <p className={styles.pnmyTask}>{item.ProjectName}</p>
                                                     </div>
                                                     <div className={styles.myTasksListRight}>
@@ -427,6 +466,7 @@ const ProfileComp: React.FC<ProfileCompProps> = ({
                                                             onChange={setTaskDue}
                                                             value={new Date(item.ProjectEndingDate)}
                                                         /> */}
+                                                        {item.ProjectEndingDate}
                                                     </div>
                                                 </div>
                                             )

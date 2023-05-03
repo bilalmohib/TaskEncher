@@ -8,13 +8,11 @@ import { enqueueSnackbar } from 'notistack';
 const addTask = async (
     taskObj: any,
     email: string,
-    // projectIDs: any,
     projectID: any,
     projects: any, // Add the projects array as an argument
     type: "single" | "multiple"
 ) => {
     const db = getFirestore();
-    // console.log("Project ID : ", projectIDs)
 
     if (type === "single") {
         for (let i = 0; i < projects.length; i++) {
@@ -58,7 +56,6 @@ const addTask = async (
         for (let i = 0; i < projects.length; i++) {
             if (projects[i].id === projectID) {
                 let pID = projects[i].id;
-                // const projectRef = doc(db, "Data", "Projects", email, pID);
                 const projectRef = doc(db, "Projects", pID);
 
                 // Add a new task to the ProjectTasks array

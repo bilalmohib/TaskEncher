@@ -2,7 +2,8 @@
     position: fixed !important;
     /* background-color: #1e1f21; */
     /* background-color: #2a2b2e35; */
-    background-color: #cacfd317;
+    /* background-color: #cacfd317; */
+    background-color: #2c2c2dae !important;
     /* border: 1px solid red; */
     top: 49px;
     /* width: 250px; */
@@ -129,6 +130,7 @@
 
 .projectMembersBlock li {
     margin-left: 10px;
+    margin-top: 10px;
 }
 
 .projectListContainer {

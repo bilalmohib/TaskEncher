@@ -361,7 +361,7 @@ const AddTasksModalBody: React.FC<AddTasksModalBodyProps> = (
                 "taskAssignee": selectedMemberEmailList,
                 "taskSection": selectedProjectSection.name,
                 "taskDue": formattedDate,
-                "taskStatus": "Open",
+                "taskStatus": "InProgress",
                 "taskDescription": taskDescription
             };
 

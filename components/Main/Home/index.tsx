@@ -444,6 +444,7 @@ const Home: React.FC<HomeProps> = ({
                                                 item={item.id}
                                                 currentFullLengthItem={currentFullLengthItem}
                                                 setCurrentFullLengthItem={setCurrentFullLengthItem}
+                                                signedInUserData={signedInUserData}
                                             />
                                         </div>
                                     }

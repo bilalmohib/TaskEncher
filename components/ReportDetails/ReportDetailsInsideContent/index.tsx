@@ -67,8 +67,10 @@ interface ReportDetailsInsideContentProps {
     setIsInvitedMembersModalOpen: (value: boolean) => void;
 
     isOpen: boolean;
-
     showHeader: boolean;
+
+    projects: any;
+    setProjects: (value: any) => void;
 }
 
 const ReportDetailsInsideContent: NextPage<ReportDetailsInsideContentProps> = ({
@@ -82,7 +84,9 @@ const ReportDetailsInsideContent: NextPage<ReportDetailsInsideContentProps> = ({
     isInvitedMembersModalOpen,
     setIsInvitedMembersModalOpen,
     isOpen,
-    showHeader
+    showHeader,
+    projects,
+    setProjects,
 }) => {
 
     // Stat Report Data
@@ -293,10 +297,6 @@ const ReportDetailsInsideContent: NextPage<ReportDetailsInsideContentProps> = ({
         snapshotListenOptions: { includeMetadataChanges: true },
     });
 
-    // const [loading, setLoading] = useState(true);
-
-    const [projects, setProjects] = useState<any>([]);
-
     useEffect(() => {
         if (!loading && snapshot && email) {
 
@@ -341,6 +341,10 @@ const ReportDetailsInsideContent: NextPage<ReportDetailsInsideContentProps> = ({
                 project.ProjectTasks.forEach((task) => {
                     totalTasks++;
 
+                    if (new Date(task.taskDue) < new Date()) {
+                        overdueTasks++;
+                    }
+
                     if (task.taskStatus === "completed") {
                         completedTasks++;
 
@@ -372,7 +376,7 @@ const ReportDetailsInsideContent: NextPage<ReportDetailsInsideContentProps> = ({
                         } else if (daysToDueDate <= 7) {
                             completedByDueDate.NextWeek++;
                         }
-                    } else if (task.taskStatus === "inProgress" || task.taskStatus === "Open") {
+                    } else if ((task.taskStatus === "inProgress" || task.taskStatus === "Open" || task.taskStatus === undefined) && (new Date(task.taskDue) >= new Date())) {
                         incompleteTasks++;
 
                         // Update incomplete tasks by project
@@ -403,8 +407,6 @@ const ReportDetailsInsideContent: NextPage<ReportDetailsInsideContentProps> = ({
                         } else if (daysToDueDate <= 7) {
                             incompleteByDueDate.NextWeek++;
                         }
-                    } else if (task.taskStatus === "overdue") {
-                        overdueTasks++;
                     }
                 });
             });

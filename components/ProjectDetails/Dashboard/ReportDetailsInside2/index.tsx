@@ -321,6 +321,10 @@ const ReportDetailsInside2: NextPage<ReportDetailsInside2Props> = ({
                 project.ProjectTasks.forEach((task) => {
                     totalTasks++;
 
+                    if (new Date(task.taskDue) < new Date()) {
+                        overdueTasks++;
+                    }
+
                     if (task.taskStatus === "completed") {
                         completedTasks++;
 
@@ -352,7 +356,7 @@ const ReportDetailsInside2: NextPage<ReportDetailsInside2Props> = ({
                         } else if (daysToDueDate <= 7) {
                             completedByDueDate.NextWeek++;
                         }
-                    } else if (task.taskStatus === "inProgress" || task.taskStatus === "Open") {
+                    } else if ((task.taskStatus === "inProgress" || task.taskStatus === "Open" || task.taskStatus === undefined) && (new Date(task.taskDue) >= new Date())) {
                         incompleteTasks++;
 
                         // Update incomplete tasks by project
@@ -383,8 +387,6 @@ const ReportDetailsInside2: NextPage<ReportDetailsInside2Props> = ({
                         } else if (daysToDueDate <= 7) {
                             incompleteByDueDate.NextWeek++;
                         }
-                    } else if (task.taskStatus === "overdue") {
-                        overdueTasks++;
                     }
                 });
             });

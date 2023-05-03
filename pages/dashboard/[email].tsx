@@ -311,6 +311,15 @@ const Dashboard: NextPage<GlobalProps> = (
                 selectedBackgroundImage={selectedBackgroundImage}
                 setSelectedBackgroundImage={setSelectedBackgroundImage}
             />
+
+            <CustomModal
+                open={isAddTaskModalOpen}
+                setOpen={setIsAddTaskModalOpen}
+                modalType="addTasks"
+                title='Add Task'
+                projects={projects}
+                projectMembers={projectMembers}
+            />
         </div>
     )
 }

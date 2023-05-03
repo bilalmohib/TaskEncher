@@ -178,9 +178,9 @@ const InviteMembers: React.FC<InviteMembersProps> = (
         console.log("Selected Members Email ==> ", selectedMembersEmails);
         console.log("Selected Projects ==> ", selectedProjectsLocal);
 
-        addProjectMembers(
-            
-        )
+        // addProjectMembers(
+
+        // )
 
         // sendInvite('John Doe', 'john@example.com')
         //     .then((response) => {
@@ -320,4 +320,4 @@ const InviteMembers: React.FC<InviteMembersProps> = (
         </Box>
     )
 }
-export default InviteMembers
+export default InviteMembers;

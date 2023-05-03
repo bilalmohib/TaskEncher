@@ -13,6 +13,7 @@ import Doughnut from './Charts/Doughnut';
 import Radar from './Charts/Radar';
 
 interface GraphReportIndividualProps {
+    reportID: string;
     reportTitle: string;
     reportData: any;
     graphType: string;
@@ -21,6 +22,7 @@ interface GraphReportIndividualProps {
 }
 
 const GraphReportIndividual: React.FC<GraphReportIndividualProps> = ({
+    reportID,
     reportTitle,
     reportData,
     graphType,
@@ -57,7 +59,6 @@ const GraphReportIndividual: React.FC<GraphReportIndividualProps> = ({
                         fontFamily: '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif',
                     }}
                 >
-
                     {reportTitle}
                 </Typography>
                 <Typography
@@ -75,11 +76,13 @@ const GraphReportIndividual: React.FC<GraphReportIndividualProps> = ({
 
                 {(graphType === "line") ? (
                     <Line
+                        reportID={reportID}
                         reportData={reportData}
                     />
                 ) :
                     (graphType === "bar") ? (
                         <Bar
+                            reportID={reportID}
                             reportData={reportData}
                         />
                     ) :
@@ -90,11 +93,13 @@ const GraphReportIndividual: React.FC<GraphReportIndividualProps> = ({
                         ) :
                             (graphType === "radar") ? (
                                 <Radar
+                                    reportID={reportID}
                                     reportData={reportData}
                                 />
                             ) :
                                 (graphType === "doughnut") ? (
                                     <Doughnut
+                                        reportID={reportID}
                                         reportData={reportData}
                                     />
                                 ) : (

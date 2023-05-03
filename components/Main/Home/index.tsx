@@ -40,6 +40,7 @@ import {
 import styles from './style.module.css';
 
 interface HomeProps {
+    totalCompletedTasks: number;
     projectList: any;
     projectMembers: any;
     // Customized Modal
@@ -52,6 +53,7 @@ interface HomeProps {
 }
 
 const Home: React.FC<HomeProps> = ({
+    totalCompletedTasks,
     projectList,
     projectMembers,
 
@@ -162,13 +164,14 @@ const Home: React.FC<HomeProps> = ({
     };
 
     const drop = (e: any) => {
-        const copyListItems = [...widgetsList];
+        let localWidgetsList = widgetsList.widgets;
+        const copyListItems = [...localWidgetsList];
         const dragItemContent = copyListItems[dragItem.current];
         copyListItems.splice(dragItem.current, 1);
         copyListItems.splice(dragOverItem.current, 0, dragItemContent);
         dragItem.current = null;
         dragOverItem.current = null;
-        setWidgetsList(copyListItems);
+        setWidgetsList({ ...widgetsList, widgets: copyListItems });
     };
 
     // Add this function inside the Home component, just before the return statement
@@ -355,10 +358,25 @@ const Home: React.FC<HomeProps> = ({
                                 </div>
                             </div>
                             <div className={styles.stats2}>
-                                <span style={{ fontSize: 20, fontWeight: "400" }}> <AiOutlineCheck style={{ marginTop: -5 }} /> 7</span> <span style={{ marginTop: 3 }}>&nbsp; tasks completed</span>
+                                <span style={{ fontSize: 20, fontWeight: "400" }}>
+                                    <AiOutlineCheck style={{ marginTop: -5 }} />
+                                    {totalCompletedTasks}
+                                </span>
+                                <span style={{ marginTop: 3 }}>
+                                    &nbsp;
+                                    tasks completed
+                                </span>
                             </div>
                             <div className={styles.stats3}>
-                                <span style={{ fontSize: 20, fontWeight: "400" }}> <BsPeople style={{ marginTop: -5 }} />&nbsp;2</span> <span style={{ marginTop: 3 }}>&nbsp; collaborators</span>
+                                <span style={{ fontSize: 20, fontWeight: "400" }}>
+                                    <BsPeople style={{ marginTop: -5 }} />
+                                    &nbsp;
+                                    {projectMembers.length}
+                                </span>
+                                <span style={{ marginTop: 3 }}>
+                                    &nbsp;
+                                    collaborators
+                                </span>
                             </div>
                         </div>
                     </section>

@@ -3,7 +3,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import dayjs, { Dayjs } from "dayjs";
-import { differenceInDays } from "date-fns";
+import { parseISO, differenceInDays } from 'date-fns';
 import { useRouter } from "next/router";
 import Link from "next/link";
 
@@ -148,13 +148,8 @@ const Widget2: React.FC<IProps> = ({
 
             localObj = arrProjectsLocal;
 
-            // Now only i need projects that are created by me means email is equal to signedInUserData.email
-            // or that are shared with me means project members array contains signedInUserData.email
-
             // Filter the projects array and extract only those projects that are created by me
-            // localObj = localObj.filter((project: any) => );
-
-            // Filter the projects array and extract only those projects that are shared with me
+            // or that are shared with me
             localObj = localObj.filter((project: any) => project?.ProjectMembers?.includes(email) || project?.createdBy === email);
 
             let arrProjects: any = localObj;
@@ -164,7 +159,7 @@ const Widget2: React.FC<IProps> = ({
                 for (let task of project.ProjectTasks) {
                     if (task.taskAssignee.includes(email)) {
                         const currentDate = new Date();
-                        const taskDueDate = new Date(task.taskDue);
+                        const taskDueDate = parseISO(task.taskDue); // Use parseISO to parse the date string
                         const daysDifference = differenceInDays(taskDueDate, currentDate);
 
                         if (task.taskStatus === "completed") {
@@ -174,6 +169,9 @@ const Widget2: React.FC<IProps> = ({
                         } else {
                             task.taskSection = "In Progress";
                         }
+
+                        // Add taskOverDue property
+                        task.taskOverDue = taskDueDate < currentDate;
 
                         task.ProjectName = project.ProjectName;
 
@@ -191,8 +189,6 @@ const Widget2: React.FC<IProps> = ({
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loading, snapshot, email]);
-
-    // FOR GETTING PROJECTS
 
     return (
         <div className={styles.container}>

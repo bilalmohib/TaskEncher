@@ -145,19 +145,6 @@ const HeaderReportDetails: React.FC<IProps> = ({
                             </ul>
                         </div>
                     </div>
-                    <div>
-                        <a data-mdb-toggle="dropdown" aria-expanded="false" className={styles.statusBtn}>
-                            <GiCircle /> &nbsp; Set status <RiArrowDropDownLine size={30} />
-                        </a>
-                        <ul className="dropdown-menu">
-                            <li><a className="dropdown-item mt-2" href="#"><GiPlainCircle style={{ marginTop: -4 }} color='#58a182' /> &nbsp; On track</a></li>
-                            <li><a className="dropdown-item" href="#"><GiPlainCircle style={{ marginTop: -4 }} color='#f1bd6c' /> &nbsp; At risk</a></li>
-                            <li><a className="dropdown-item" href="#"><GiPlainCircle style={{ marginTop: -4 }} color='#de5f73' /> &nbsp; Off track</a></li>
-                            <li><a className="dropdown-item" href="#"><GiPlainCircle style={{ marginTop: -4 }} color='#3f6ac4' /> &nbsp; On hold</a></li>
-                            <li><hr className="dropdown-divider" /></li>
-                            <li><a className="dropdown-item mb-2" href="#"><FaCheckCircle style={{ marginTop: -4 }} color='#58a182' /> &nbsp; Complete</a></li>
-                        </ul>
-                    </div>
                 </div>
             </div>
             <div className={styles.rightSide}>

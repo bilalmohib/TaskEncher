@@ -55,20 +55,20 @@ const HeaderMyTasks: React.FC<IProps> = ({
             id: 1,
             name: "List"
         },
+        // {
+        //     id: 2,
+        //     name: "Board"
+        // },
         {
             id: 2,
-            name: "Board"
-        },
-        {
-            id: 3,
             name: "Calender"
         },
         {
-            id: 4,
+            id: 3,
             name: "Messages"
         },
         {
-            id: 5,
+            id: 4,
             name: "Files"
         }
     ];
@@ -79,7 +79,8 @@ const HeaderMyTasks: React.FC<IProps> = ({
     const [signedInUserData, setSignedInUserData] = useState<any>(null);
     const [isSignedIn, setIsSignedIn] = useState<Boolean>(false);
 
-    let q = query(collection(db, "Data", "Projects", `${email}`));
+    // let q = query(collection(db, "Data", "Projects", `${email}`));
+    let q = query(collection(db, "Projects"));
 
     const [snapshot, loading, error] = useCollection(
         q,
@@ -92,8 +93,25 @@ const HeaderMyTasks: React.FC<IProps> = ({
     useEffect(() => {
 
         if (!loading && snapshot && email) {
-            let localObj;
-            let arrProjects = snapshot?.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+            let localObj1: any;
+            let localObj: any;
+
+            let arrProjectsLocal = snapshot?.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+
+            localObj1 = arrProjectsLocal;
+
+            // Now only i need projects that are created by me means email is equal to signedInUserData.email
+            // or that are shared with me means project members array contains signedInUserData.email
+
+            // Filter the projects array and extract only those projects that are created by me
+            // localObj = localObj.filter((project: any) => );
+
+            // Filter the projects array and extract only those projects that are shared with me
+            localObj1 = localObj1.filter((project: any) => project?.ProjectMembers?.includes(email) || project?.createdBy === email);
+
+            // Extract all the project members from the projects array
+
+            let arrProjects = localObj1;
             for (let i = 0; i < arrProjects.length; i++) {
                 if (arrProjects[i].id === projectID.toString()) {
                     localObj = arrProjects[i];

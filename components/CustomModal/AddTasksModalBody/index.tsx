@@ -57,6 +57,7 @@ const AddTasksModalBody: React.FC<AddTasksModalBodyProps> = (
         },
         input: {
             width: "100%",
+            marginTop: "8px",
             height: "auto",
             borderRadius: 2,
             '& .MuiOutlinedInput-notchedOutline': {
@@ -76,9 +77,30 @@ const AddTasksModalBody: React.FC<AddTasksModalBodyProps> = (
                 lineHeight: "normal",
             },
         },
+        inputMultiline: {
+            width: "100%",
+            height: "auto",
+            borderRadius: 2,
+            '& .MuiOutlinedInput-notchedOutline': {
+                borderWidth: '1px',
+                borderRadius: 2
+            },
+            '&:hover .MuiOutlinedInput-notchedOutline': {
+            },
+            '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                borderWidth: '1px',
+                borderRadius: 2,
+            },
+            '& .MuiInputBase-input': {
+                paddingTop: 0.2,
+                paddingBottom: 0,
+                lineHeight: "normal",
+            },
+        },
         inputMultiSelectAutoComplete: {
             width: "100%",
             height: "auto",
+            marginTop: "8px",
             borderRadius: 2,
             '& .MuiOutlinedInput-notchedOutline': {
                 borderWidth: '1px !important',
@@ -144,6 +166,9 @@ const AddTasksModalBody: React.FC<AddTasksModalBodyProps> = (
     // @1 Task Name 
     const [taskName, setTaskName] = React.useState<string>("");
 
+    // Selected Projects
+    const [selectedProjects, setSelectedProjects] = React.useState<string[]>([]);
+
     // Error for task name
     const [taskNameError, setTaskNameError] = React.useState<boolean>(false);
     // Handling Change
@@ -152,6 +177,13 @@ const AddTasksModalBody: React.FC<AddTasksModalBodyProps> = (
             setTaskNameError(false);
         }
         setTaskName(event.target.value);
+    };
+
+    // @2 Task Description
+    const [taskDescription, setTaskDescription] = React.useState<string>("");
+
+    const handleTaskDescriptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setTaskDescription(event.target.value);
     };
 
     // Selected Members
@@ -184,12 +216,13 @@ const AddTasksModalBody: React.FC<AddTasksModalBodyProps> = (
     const [anchorEl2, setAnchorEl2] = React.useState<HTMLElement | null>(null);
     const [anchorEl3, setAnchorEl3] = React.useState<HTMLElement | null>(null);
     const [anchorEl4, setAnchorEl4] = React.useState<HTMLElement | null>(null);
+    const [anchorEl5, setAnchorEl5] = React.useState<HTMLElement | null>(null);
     // For popover
 
     // To get the value of the selected member
     useEffect(() => {
-        console.log("selectedMembers", selectedMembers);
-    }, [selectedMembers]);
+        console.log("selectedProjects", selectedProjects);
+    }, [selectedProjects]);
 
     const [modifiedProjectMembers, setModifiedProjectMembers] = React.useState<any>([]);
 
@@ -315,6 +348,11 @@ const AddTasksModalBody: React.FC<AddTasksModalBodyProps> = (
                 selectedMemberEmailList.push(member.title);
             });
 
+            // let selectedProjectsList: string[] = [];
+            // selectedProjects.forEach((project: any) => {
+            //     selectedProjectsList.push(project.title);
+            // });
+
             let formattedDate = formatDate(taskDueDate?.toString());
 
             let taskOBJ = {
@@ -322,14 +360,18 @@ const AddTasksModalBody: React.FC<AddTasksModalBodyProps> = (
                 "taskPriority": selectedProjectPriority.name,
                 "taskAssignee": selectedMemberEmailList,
                 "taskSection": selectedProjectSection.name,
-                "taskDue": formattedDate
+                "taskDue": formattedDate,
+                "taskStatus": "Open",
+                "taskDescription": taskDescription
             };
 
             addTask(
                 taskOBJ,
                 email,
+                // selectedProjects,
                 projectID,
-                projects
+                projects,
+                "single"
             );
 
             setTaskName("");
@@ -351,21 +393,35 @@ const AddTasksModalBody: React.FC<AddTasksModalBodyProps> = (
         <Box
             sx={{
                 // border: "1px solid red",
-                height: "550px",
+                height: "500px",
                 overflowY: "auto"
             }}
         >
-            <Typography sx={styles.label} variant="h6" component="h2">
-                Task Name &nbsp;
-                <CustomPopOver
-                    anchorEl={anchorEl}
-                    setAnchorEl={setAnchorEl}
-                    iconColor='red'
-                    title="Task Name is Required"
-                />
-            </Typography>
-            <Grid container spacing={2} sx={{ mt: "-5px", mb: "12px" }}>
-                <Grid item xs={12} sm={6}>
+            <Grid
+                container
+                spacing={{
+                    md: 3,
+                    lg: 3,
+                    xl: 3,
+                    sm: 1
+                }}
+                sx={{
+                    mt: "-5px",
+                    mb: "12px"
+                }}
+            >
+
+                {/* (1) Task Name */}
+                <Grid item xs={12} sm={6} md={6}>
+                    <Typography sx={styles.label} variant="h6" component="h2">
+                        Task Name &nbsp;
+                        <CustomPopOver
+                            anchorEl={anchorEl}
+                            setAnchorEl={setAnchorEl}
+                            iconColor='red'
+                            title="Task Name is Required"
+                        />
+                    </Typography>
                     <TextField
                         sx={styles.input}
                         id="outlined-basic"
@@ -390,22 +446,19 @@ const AddTasksModalBody: React.FC<AddTasksModalBodyProps> = (
                         </Typography>
                     )}
                 </Grid>
-            </Grid>
 
-            <br />
+                {/* (2) Task Assigned To */}
+                <Grid item xs={12} sm={6} md={6}>
+                    <Typography sx={styles.label} variant="h6" component="h2">
+                        Task Assigned To: &nbsp;
+                        <CustomPopOver
+                            anchorEl={anchorEl1}
+                            setAnchorEl={setAnchorEl1}
+                            iconColor='red'
+                            title="Task Assigned To is required"
+                        />
+                    </Typography>
 
-            <Typography sx={styles.label} variant="h6" component="h2">
-                Task Assigned To: &nbsp;
-                <CustomPopOver
-                    anchorEl={anchorEl1}
-                    setAnchorEl={setAnchorEl1}
-                    iconColor='red'
-                    title="Task Assigned To is required"
-                />
-            </Typography>
-
-            <Grid container spacing={2} sx={{ mt: "0px" }}>
-                <Grid item xs={12} sm={6}>
                     <MultiSelectCustomAutoComplete
                         placeholder="Enter the Task Assigned To : e.g. user@gmail.com ..."
                         options={modifiedProjectMembers}
@@ -424,22 +477,19 @@ const AddTasksModalBody: React.FC<AddTasksModalBodyProps> = (
                         </Typography>
                     )}
                 </Grid>
-            </Grid>
 
-            <br />
+                {/* (3) Task Priority */}
+                <Grid item xs={12} sm={6} md={6}>
+                    <Typography sx={styles.label} variant="h6" component="h2">
+                        Task Priority: &nbsp;
+                        <CustomPopOver
+                            anchorEl={anchorEl2}
+                            setAnchorEl={setAnchorEl2}
+                            iconColor='red'
+                            title="Task Priority is required. Three options are available: High, Medium, Low"
+                        />
+                    </Typography>
 
-            <Typography sx={styles.label} variant="h6" component="h2">
-                Task Priority: &nbsp;
-                <CustomPopOver
-                    anchorEl={anchorEl2}
-                    setAnchorEl={setAnchorEl2}
-                    iconColor='red'
-                    title="Task Priority is required. Three options are available: High, Medium, Low"
-                />
-            </Typography>
-
-            <Grid container spacing={2} sx={{ mt: "0px" }}>
-                <Grid item xs={12} sm={6}>
                     <TaskPrioritySelectCustomAutoComplete
                         placeholder="Enter the Task Priority : e.g. High, Medium, Low ..."
                         options={projectPriority}
@@ -451,22 +501,20 @@ const AddTasksModalBody: React.FC<AddTasksModalBodyProps> = (
                         setError={setTaskPriorityError}
                     />
                 </Grid>
-            </Grid>
 
-            <br />
 
-            <Typography sx={styles.label} variant="h6" component="h2">
-                Task Section: &nbsp;
-                <CustomPopOver
-                    anchorEl={anchorEl3}
-                    setAnchorEl={setAnchorEl3}
-                    iconColor='red'
-                    title="Task Section is required. Choose A Task Section from the project task sections. Below is the list"
-                />
-            </Typography>
+                {/* (4) Task Section */}
+                <Grid item xs={12} sm={6} md={6}>
+                    <Typography sx={styles.label} variant="h6" component="h2">
+                        Task Section: &nbsp;
+                        <CustomPopOver
+                            anchorEl={anchorEl3}
+                            setAnchorEl={setAnchorEl3}
+                            iconColor='red'
+                            title="Task Section is required. Choose A Task Section from the project task sections. Below is the list"
+                        />
+                    </Typography>
 
-            <Grid container spacing={2} sx={{ mt: "0px" }}>
-                <Grid item xs={12} sm={6}>
                     <TaskPrioritySelectCustomAutoComplete
                         placeholder="Enter the Task Section : e.g. Design, Development, Testing ..."
                         options={modifiedProjectSections}
@@ -478,22 +526,19 @@ const AddTasksModalBody: React.FC<AddTasksModalBodyProps> = (
                         setError={setTaskPriorityError}
                     />
                 </Grid>
-            </Grid>
 
-            <br />
+                {/* (5) Task Due Date */}
+                <Grid item xs={12} sm={6} md={6}>
+                    <Typography sx={styles.label} variant="h6" component="h2">
+                        Task Due Date: &nbsp;
+                        <CustomPopOver
+                            anchorEl={anchorEl4}
+                            setAnchorEl={setAnchorEl4}
+                            iconColor='red'
+                            title="Task Due Date is required. Choose a date from the date picker below"
+                        />
+                    </Typography>
 
-            <Typography sx={styles.label} variant="h6" component="h2">
-                Task Due Date: &nbsp;
-                <CustomPopOver
-                    anchorEl={anchorEl4}
-                    setAnchorEl={setAnchorEl4}
-                    iconColor='red'
-                    title="Task Due Date is required. Choose a date from the date picker below"
-                />
-            </Typography>
-
-            <Grid container spacing={2} sx={{ mt: "0px" }}>
-                <Grid item xs={12} sm={6}>
                     <DatePickerCustom
                         value={taskDueDate}
                         setValue={setTaskDueDate}
@@ -503,6 +548,71 @@ const AddTasksModalBody: React.FC<AddTasksModalBodyProps> = (
                         setError={setTaskDueDateError}
                         errorMessage={taskDueDateErrorMessage}
                         setErrorMessage={setTaskDueDateErrorMessage}
+                    />
+                </Grid>
+
+                {/* (6) Projects To Add Task To */}
+                <Grid item xs={12} sm={6} md={6}>
+                    <Typography sx={styles.label} variant="h6" component="h2">
+                        Project Will be added to: &nbsp;
+                    </Typography>
+                    {/* <MultiSelectCustomAutoComplete
+                        placeholder="The Task will be added to the following projects: e.g. Project 1, Project 2 ..."
+                        options={projects}
+                        selectedArrayList={selectedProjects}
+                        setSelectedArrayList={setSelectedProjects}
+                        styles={styles.input}
+                        dropDownStyles={styles.dropDownStyles}
+                        type="projects"
+                    /> */}
+                    {
+                        projects.map((project: any, index: number) => {
+                            if (project.id === projectID) {
+                                return (
+                                    <Typography
+                                        key={index}
+                                        sx={{
+                                            color: 'green',
+                                            fontSize: '1.5rem',
+                                            marginTop: '14px',
+                                            border: '1px solid #e0e0e0',
+                                            padding: '8px',
+                                            borderRadius: '5px',
+                                            height: '55px',
+                                        }}
+                                        variant="h6"
+                                        component="h2"
+                                    >
+                                        {project.ProjectName}
+                                    </Typography>
+                                )
+                            }
+                        })
+                    }
+                </Grid>
+
+                {/* (7) Task Description */}
+                <Grid item xs={12} sm={6} md={6}>
+                    <Typography sx={styles.label} variant="h6" component="h2">
+                        Task Description: &nbsp;
+                        <CustomPopOver
+                            anchorEl={anchorEl5}
+                            setAnchorEl={setAnchorEl5}
+                            iconColor='green'
+                            title="Task Description is OPTIONAL"
+                        />
+                    </Typography>
+
+                    <Box sx={{ mt: 1 }}></Box>
+                    <TextField
+                        sx={styles.inputMultiline}
+                        id="outlined-basic"
+                        variant="outlined"
+                        multiline
+                        rows={4}
+                        placeholder="Enter the Task Description"
+                        value={taskDescription}
+                        onChange={handleTaskDescriptionChange}
                     />
                 </Grid>
             </Grid>
@@ -532,7 +642,7 @@ const AddTasksModalBody: React.FC<AddTasksModalBodyProps> = (
                         }
                     }}
                     title={(taskName === "" || selectedProjectPriority === null || selectedMembers.length === 0 || selectedProjectSection === null || currentDateTime > taskDueDate) ? "Please fill all the required fields" : "Add Task"}
-                    disabled={(taskName === "" || selectedProjectPriority === null || selectedMembers.length === 0 || selectedProjectSection === null || currentDateTime > taskDueDate)}
+                    // disabled={(taskName === "" || selectedProjectPriority === null || selectedMembers.length === 0 || selectedProjectSection === null || currentDateTime > taskDueDate)}
                     onClick={handleSubmit}
                 >
                     Add Task
@@ -571,7 +681,7 @@ const AddTasksModalBody: React.FC<AddTasksModalBodyProps> = (
                 </Typography>
                 }
             </Box>
-        </Box>
+        </Box >
     )
 }
 export default AddTasksModalBody;

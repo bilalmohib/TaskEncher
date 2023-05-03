@@ -113,12 +113,15 @@ const ProjectDetails: React.FC<MainContentProps> = (
                         email={signedInUserData.email}
                         isModalOpen={isModalOpen}
                         setIsModalOpen={setIsModalOpen}
+
                         // Project Members
                         projectMembers={projectMembers}
                         setProjectMembers={setProjectMembers}
+
                         // Projects
                         projects={projects}
                         setProjects={setProjects}
+
                         // Project Sections
                         projectSections={projectSections}
                         setProjectSections={setProjectSections}
@@ -129,6 +132,10 @@ const ProjectDetails: React.FC<MainContentProps> = (
                         // Add Task Model
                         isAddTaskModalOpen={isAddTaskModalOpen}
                         setIsAddTaskModalOpen={setIsAddTaskModalOpen}
+
+                        // Invited Members Modal
+                        isInvitedMembersModalOpen={isModalOpen}
+                        setIsInvitedMembersModalOpen={setIsModalOpen}
                     />
                 </>
             )}

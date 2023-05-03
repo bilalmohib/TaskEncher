@@ -20,6 +20,7 @@ import {
     Box,
     Tooltip
 } from "@mui/material";
+import colors from '@app/lib/colors';
 
 interface IProps {
     setIsOpen: any,
@@ -31,6 +32,9 @@ interface IProps {
     projectList: any,
     isModalOpen: boolean;
     setIsModalOpen: (value: boolean) => void;
+
+    // Optional Add Task Modal
+    setIsAddTaskModalOpen?: (value: boolean) => void;
 }
 
 const Sidebar: React.FC<IProps> = ({
@@ -42,43 +46,11 @@ const Sidebar: React.FC<IProps> = ({
     email,
     projectList,
     isModalOpen,
-    setIsModalOpen
+    setIsModalOpen,
+    // Optional Add Task Modal
+    setIsAddTaskModalOpen
 }) => {
     const router = useRouter();
-
-    let colors = [
-        "navy",
-        "midnightblue",
-        "darkslateblue",
-        "indigo",
-        "purple",
-        "darkmagenta",
-        "darkviolet",
-        "mediumblue",
-        "steelblue",
-        "royalblue",
-        "cornflowerblue",
-        "deepskyblue",
-        "teal",
-        "darkturquoise",
-        "cadetblue",
-        "slategray",
-        "darkolivegreen",
-        "forestgreen",
-        "darkgreen",
-        "mediumseagreen",
-        "seagreen",
-        "olivedrab",
-        "darkgoldenrod",
-        "goldenrod",
-        "saddlebrown",
-        "maroon",
-        "firebrick",
-        "crimson",
-        "indianred",
-        "brown",
-        "darkred"
-    ];
 
     const movingUrl = `/dashboard/${email}`;
 
@@ -93,10 +65,31 @@ const Sidebar: React.FC<IProps> = ({
                         &nbsp; Create
                     </button>
                     <ul className="dropdown-menu" style={{ position: "relative", zIndex: "2000 !important", background: "#ffffff" }}>
-                        <li><a className="dropdown-item" href="#">Task</a></li>
+                        {(router.pathname === '/projectDetails/[email]/[projectName]/[projectID]') && (
+                            <li
+                                onClick={
+                                    () => {
+                                        //@ts-ignore
+                                        setIsAddTaskModalOpen(true);
+                                    }}
+                            >
+                                <a
+                                    className="dropdown-item"
+                                    href="#"
+                                >
+                                    Task
+                                </a>
+                            </li>
+                        )}
                         <li onClick={() => router.push('/createProject')}><a className="dropdown-item" href="#">Project</a></li>
                         <li><a className="dropdown-item" href="#">Message</a></li>
-                        <li><a className="dropdown-item" href="#">Invite</a></li>
+                        <li
+                            onClick={
+                                () => {
+                                    setIsModalOpen(true);
+                                }
+                            }
+                        ><a className="dropdown-item" href="#">Invite</a></li>
                     </ul>
                 </div>
                 <ul className={styles.SidebarMenuList}>
@@ -193,8 +186,6 @@ const Sidebar: React.FC<IProps> = ({
                                                             width: 30,
                                                             height: 30,
                                                             borderRadius: "50%",
-                                                            // backgroundColor: "#f5f5f5",
-                                                            // Choose a random background color from the array of colors
                                                             backgroundColor: colors[Math.floor(Math.random() * colors.length)],
                                                             display: "flex",
                                                             justifyContent: "center",
@@ -226,7 +217,14 @@ const Sidebar: React.FC<IProps> = ({
                                 <>
                                     {projectList.map((v: any, i: number) => {
                                         return (
-                                            <li key={i}>
+                                            <li key={i}
+                                                onClick={() => {
+                                                    router.push(`/projectDetails/${email}/${v.ProjectName}/${v.id}`)
+                                                    setTimeout(() => {
+                                                        router.reload();
+                                                    }, 1000);
+                                                }}
+                                            >
                                                 <div className={`${styles.projectListContainer} d-flex justify-content-between`}>
                                                     <p className={styles.projectName}><CgShapeSquare style={{ marginTop: -1.5 }} color={"#9ee7e3"} size={10} /> &nbsp; {v.ProjectName}</p>
                                                     <p style={{ marginTop: 2.5 }}><GoTriangleDown fontWeight={300} size={12} color='white' /></p>

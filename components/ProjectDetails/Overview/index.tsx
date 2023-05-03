@@ -7,55 +7,241 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { BsTriangle } from "react-icons/bs";
 import { TbListDetails, TbSquareRotated } from "react-icons/tb";
 import { SlLink } from "react-icons/sl";
+import updateProject from '@app/lib/updateProject';
 
 // import DatePicker from 'react-date-picker/dist';
+
+import {
+    doc,
+    collection,
+    onSnapshot,
+    addDoc,
+    query,
+    orderBy,
+    deleteDoc,
+    setDoc,
+    where,
+    getFirestore,
+    updateDoc,
+} from "firebase/firestore";
+
+import { useCollection } from "react-firebase-hooks/firestore";
+
+import { onAuthStateChanged } from "firebase/auth";
+
+import { db, auth } from "../../../firebase";
+import colors from '@app/lib/colors';
 
 const currentDate = new Date();
 
 interface OverviewProps {
-    photoURL: any
+    photoURL: any;
+    email: any;
+    projectName: any;
+    projectID: any;
+    projectMembers: any;
+    // Invited Members Modal
+    isInvitedMembersModalOpen: boolean;
+    setIsInvitedMembersModalOpen: (value: boolean) => void;
 }
 
 const Overview: React.FC<OverviewProps> = ({
-    photoURL
+    photoURL,
+    email,
+    projectName,
+    projectID,
+    projectMembers,
+    // Invited Members Modal
+    isInvitedMembersModalOpen,
+    setIsInvitedMembersModalOpen
 }) => {
 
-    const [taskDue, setTaskDue] = useState<any>(currentDate);
+    const [signedInUserData, setSignedInUserData] = useState<any>(null);
+    const [isSignedIn, setIsSignedIn] = useState<Boolean>(false);
 
+    useEffect(() => {
+        // console.log("Current Path : ", window.location.pathname);
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in, see docs for a list of available properties
+                // https://firebase.google.com/docs/reference/js/firebase.User
+                if (signedInUserData === null) {
+                    if (user.isAnonymous === true) {
+                        let tempUser = {
+                            displayName: "Anonymous Guest",
+                            email: "anonymous@guest.com",
+                            photoURL: user.photoURL,
+                        };
+                        console.log(tempUser);
+                        setSignedInUserData(tempUser);
+                        setIsSignedIn(true);
+                    } else {
+                        console.log(user);
+                        setSignedInUserData(user);
+                        setIsSignedIn(true);
+                    }
+                    // ...
+                }
+            } else {
+                // User is signed out
+                console.log("User is signed out");
+                // alert("Please sign in to continue");
+                // navigate("/login");
+                // ...
+            }
+        });
+    }, [signedInUserData, isSignedIn]);
+
+    const e = email;
+    /////////////////////////////////////// Database Part ////////////////////////////////////////////////
+    // let q = query(collection(db, "Data", "Projects", e));
+    let q = query(collection(db, "Projects"));
+
+    const [snapshot, loading, error] = useCollection(q, {
+        snapshotListenOptions: { includeMetadataChanges: true },
+    });
+
+    // GETTINGS Project Details
+    const [projectDetails, setProjectDetails] = useState<any>(null);
+    // const [loading, setLoading] = useState(true);
+
+    const [projects, setProjects] = useState<any>([]);
+
+    const [projectStages, setProjectStages] = useState<any>([]);
+
+    const [projectTasks, setProjectTasks] = useState<any>([]);
+
+    const [currentEditedTaskValue, setCurrentEditedTaskValue] = useState(null);
+
+    // for checking if edit task is clicked or not
+    const [editTask, setEditTask] = useState<any>(null);
+
+    const [currentEditSelected, setCurrentEditSelected] = useState<any>(null);
+
+    const [expandDetailsTable, setExpandDetailsTable] = useState<any>(null);
+
+    // FOR GETTING PROJECTS
+    useEffect(() => {
+        if (!loading && snapshot && email) {
+            let localObj;
+            let localObjP: any;
+
+            let arrProjectsLocal = snapshot?.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+
+            localObjP = arrProjectsLocal;
+
+            // Now only i need projects that are created by me means email is equal to signedInUserData.email
+            // or that are shared with me means project members array contains signedInUserData.email
+
+            // Filter the projects array and extract only those projects that are created by me
+            // localObj = localObj.filter((project: any) => );
+
+            // Filter the projects array and extract only those projects that are shared with me
+            localObjP = localObjP.filter((project: any) => project?.ProjectMembers?.includes(email) || project?.createdBy === email);
+
+            let arrProjects = localObjP;
+            for (let i = 0; i < arrProjects.length; i++) {
+                if (arrProjects[i].id === projectID.toString()) {
+                    localObj = arrProjects[i];
+                    setProjectDetails(localObj);
+                    break;
+                }
+            }
+            setProjects(arrProjects);
+            // @ts-ignore
+            setProjectStages(localObj?.ProjectStages);
+            // @ts-ignore
+            setProjectTasks(localObj?.ProjectTasks);
+
+            console.log(
+                "Projects ==> ",
+                arrProjects
+            );
+            console.log("Project Details ==> ", localObj);
+            // @ts-ignore
+            console.log("Project Stages ==> ", localObj?.ProjectStages);
+            // @ts-ignore
+            console.log("Project Tasks ==> ", localObj?.ProjectTasks);
+            // }
+        }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [loading, snapshot]);
+    // FOR GETTING PROJECTS
+
+    // Title project description
+    const [descriptionTextTitle, setDescriptionTextTitle] = useState<string>(`How we'll collaborate`);
+
+    const handleEditDescriptionTitle = (event: any) => {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            let dt = event.target.innerText;
+            // alert(dt)
+            updateProject(dt, "updateDescriptionTitle", email, projectID.toString(), projects);
+        }
+    };
+
+    // Description Project
     const [descriptionText, setDescriptionText] = useState<string>(`
         Welcome your team and set the tone for how you’ll work together in Asana. Add
         meeting details, communication channels, and any other information that will help.
     `);
 
+    const handleEditDescription = (event: any) => {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            let d = event.target.innerText;
+            // alert(d)
+            updateProject(d, "updateDescription", email, projectID.toString(), projects);
+        }
+    };
+
+    useEffect(() => {
+        if (!loading) {
+            setDescriptionText(projectDetails?.description);
+            setDescriptionTextTitle(projectDetails?.descriptionTitle);
+        }
+    }, [loading, projectDetails]);
+
     return (
         <div className={styles.OverviewContainer}>
             <div>
-                <h3 contentEditable={true} className={styles.headingCollaborate}>
-                    How we&apos;ll collaborate
+                <h3
+                    contentEditable={true}
+                    className={styles.headingCollaborate}
+                    onKeyDown={(e) => handleEditDescriptionTitle(e)}
+                    // onClick={
+                    //     () => setDescriptionText(
+                    //         (
+                    //             descriptionTextTitle ===
+                    //             `How we'll collaborate`) ?
+                    //             ("") :
+                    //             (descriptionTextTitle)
+                    //     )
+                    // }
+                    onChange={(e: any) => setDescriptionTextTitle(e)}
+                >
+                    {(!loading) ? (projectDetails?.descriptionTitle) : ("")}
                 </h3>
                 <div
+                    onKeyDown={(e) => handleEditDescription(e)}
                     contentEditable={true}
                     className={styles.descriptionHowCollaborate}
-                    onMouseOut={
-                        () => setDescriptionText(
-                            `Welcome your team and set the tone for how you’ll work together in Asana. Add
-                                        meeting details, communication channels, and any other information that will help.`
-                        )
-                    }
-                    onClick={
-                        () => setDescriptionText(
-                            (
-                                descriptionText ===
-                                `Welcome your team and set the tone for how you’ll work together in Asana. Add
-                                                    meeting details, communication channels, and any other information that will 
-                                                    help.`) ?
-                                ("") :
-                                (descriptionText)
-                        )
-                    }
+                    // onClick={
+                    //     () => setDescriptionText(
+                    //         (
+                    //             descriptionText ===
+                    //             `Welcome your team and set the tone for how you’ll work together in Asana. Add
+                    //                                 meeting details, communication channels, and any other information that will 
+                    //                                 help.`) ?
+                    //             ("Enter Your Team Goals or Project Description Or Tasks here") :
+                    //             (descriptionText)
+                    //     )
+                    // }
                     onChange={(e: any) => setDescriptionText(e)}
                 >
-                    {descriptionText}
+                    {(!loading) ? (projectDetails?.description) : ("")}
                 </div>
 
                 {/* Project Roles */}
@@ -65,73 +251,56 @@ const Overview: React.FC<OverviewProps> = ({
                 <div>
                     <div className={styles.projectRolesContainer}>
                         {
-                            [
-                                {
-                                    id: 1,
-                                    projectRole: "Project Owner",
-                                    name: "Muhammad Bilal",
-                                    photoURL: photoURL
-                                },
-                                {
-                                    id: 2,
-                                    projectRole: "Project Owner",
-                                    name: "Muhammad Bilal",
-                                    photoURL: photoURL
-                                },
-                                {
-                                    id: 3,
-                                    projectRole: "+ Add Role",
-                                    name: "Muhammad Bilal",
-                                    photoURL: photoURL
-                                },
-                                {
-                                    id: 4,
-                                    projectRole: "+ Add Role",
-                                    name: "Muhammad Bilal",
-                                    photoURL: photoURL
-                                },
-                                {
-                                    id: 5,
-                                    projectRole: "+ Add Role",
-                                    name: "Muhammad Bilal",
-                                    photoURL: photoURL
-                                },
-                                {
-                                    id: 6,
-                                    projectRole: "+ Add Role",
-                                    name: "Muhammad Bilal",
-                                    photoURL: photoURL
-                                }
-                            ].map((value: any, index: any) => (
-                                <div key={index}>
-                                    {(index == 0) ? (
-                                        <div className={styles.individualProjectRolesContainer}>
-                                            <div className={styles.imageAddNewRole}>
-                                                <AiOutlinePlus color='black' />
+                            [{}, ...projectMembers]
+                                .map((value: any, index: any) => (
+                                    <div key={index}>
+                                        {(index == 0) ? (
+                                            <div className={styles.individualProjectRolesContainer}
+                                                role='button'
+                                                onClick={() => {
+                                                    setIsInvitedMembersModalOpen(true);
+                                                }}
+                                            >
+                                                <div className={styles.imageAddNewRole}>
+                                                    <AiOutlinePlus color='black' />
+                                                </div>
+                                                <h3 className={styles.addMemberText}>Add member</h3>
                                             </div>
-                                            <h3 className={styles.addMemberText}>Add member</h3>
-                                        </div>
-                                    ) : (
-                                        <div className={styles.individualProjectRolesContainerSeparate}>
-                                            <div className={styles.imageRoleMember}>
-                                                <Image
-                                                    src={photoURL}
-                                                    alt={value.projectRole}
-                                                    width={36}
-                                                    height={36}
-                                                    loading="eager"
-                                                    title={value.projectRole}
-                                                    style={{ borderRadius: "50%" }}
-                                                />
+                                        ) : (
+                                            <div className={styles.individualProjectRolesContainerSeparate}>
+                                                <div className={styles.imageRoleMember}>
+                                                    <div
+                                                        style={{
+                                                            backgroundColor: colors[Math.floor(Math.random() * colors.length)],
+                                                            borderRadius: "50%",
+                                                            width: "36px",
+                                                            height: "36px",
+                                                            display: "flex",
+                                                            justifyContent: "center",
+                                                            alignItems: "center",
+                                                            color: "white",
+                                                            fontSize: "16px",
+                                                            fontWeight: "bold"
+                                                        }}
+                                                    >
+                                                        {/* Extract the first letters of the name and display them means every word first letter */}
+                                                        {/* {value.split(" ").map((item: any) => item[0]).join("")} */}
+                                                        {
+                                                            // Extract the first and last letter of the members name i.e v
+                                                            value?.charAt(0).toUpperCase() + value?.charAt(value?.length - 1).toUpperCase()
+                                                        }
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <h3 className={styles.memberText}>{value}</h3>
+                                                    <h3 className={styles.projectRoleText}>{
+                                                        (value === email) ? ("Project Owner") : ("Project Member")
+                                                    }</h3>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <h3 className={styles.memberText}>{value.name}</h3>
-                                                <h3 className={styles.projectRoleText}>{value.projectRole}</h3>
-                                            </div>
-                                        </div>
-                                    )}
-                                </div>
-                            ))
+                                        )}
+                                    </div>
+                                ))
                         }
                     </div>
                 </div>

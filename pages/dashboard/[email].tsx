@@ -174,7 +174,11 @@ const Dashboard: NextPage<GlobalProps> = (
     // Customizing Modal
     const [isModalOpenCustomized, setIsModalOpenCustomized] = React.useState(false);
 
+    // Projects
     const [projects, setProjects] = useState<any>([]);
+    // Project Sections
+    const [projectSections, setProjectSections] = useState<any>([]);
+    // Project Members
     const [projectMembers, setProjectMembers] = useState<any>([]);
 
     // Add Task Model
@@ -214,6 +218,9 @@ const Dashboard: NextPage<GlobalProps> = (
                         // Projects
                         projects={projects}
                         setProjects={setProjects}
+                        // Project Sections
+                        projectSections={projectSections}
+                        setProjectSections={setProjectSections}
                         // Customizing Modal
                         isModalOpenCustomized={isModalOpenCustomized}
                         setIsModalOpenCustomized={setIsModalOpenCustomized}
@@ -252,15 +259,6 @@ const Dashboard: NextPage<GlobalProps> = (
                 // Background Image
                 selectedBackgroundImage={selectedBackgroundImage}
                 setSelectedBackgroundImage={setSelectedBackgroundImage}
-            />
-
-            <CustomModal
-                open={isAddTaskModalOpen}
-                setOpen={setIsAddTaskModalOpen}
-                modalType="addTasks"
-                title='Add Task'
-                projects={projects}
-                projectMembers={projectMembers}
             />
         </div>
     )

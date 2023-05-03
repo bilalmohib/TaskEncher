@@ -7,7 +7,8 @@ interface MessageContainerProps {
     userName: string,
     timeSent: string,
     message: string,
-    id: string
+    id: string,
+    userPic: string
 }
 
 const MessageContainer: React.FC<MessageContainerProps> = ({
@@ -15,23 +16,30 @@ const MessageContainer: React.FC<MessageContainerProps> = ({
     userName,
     timeSent,
     message,
+    userPic,
     id
 }) => {
+    console.log("the user pictuyre ==> " + userPic)
     return (
         <Box
             sx={{
                 marginLeft: '5px',
+                boxShadow: 'none'
             }}
         >
-            <Box className="d-flex justify-content-start">
+            <div style={{display: 'flex'}}>
+            <Box className="d-flex justify-content-start" sx={{boxShadow:'none'}}>
                 <h3
                     className={styles.MiddleheaderTitle}
                     style={{
                         fontWeight: 'bold',
+                        color: 'black'
                     }}>
+                                                    {/* <img src={userPic} alt="" /> */}
                     {userName}
                 </h3>
-                <p
+            </Box>
+            <p
                     className={styles.MiddleheaderTitle}
                     style={{
                         fontSize: '12px',
@@ -39,7 +47,7 @@ const MessageContainer: React.FC<MessageContainerProps> = ({
                     {timeSent} {
                         (editedMessageId.toString() === id) ? (
                             <span style={{
-                                color: '#000',
+                                color: '#008AD1', 
                                 fontWeight: 'lighter',
                             }}>
                                 Edited
@@ -49,10 +57,12 @@ const MessageContainer: React.FC<MessageContainerProps> = ({
                         )
                     }
                 </p>
-            </Box>
-            <p className={styles.Middlemessage}>
+            </div>
+            <div style={{backgroundColor: '#F0F0F0', borderRadius: '10px'}}>
+            <p style={{paddingTop: '10px', paddingBottom: '10px'}} className={styles.Middlemessage}>
                 {message}
             </p>
+            </div>
         </Box>
     )
 }

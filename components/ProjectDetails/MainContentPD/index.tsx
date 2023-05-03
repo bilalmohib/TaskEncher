@@ -54,6 +54,10 @@ interface MainContentPDProps {
     // Add Task Model Open
     isAddTaskModalOpen: boolean;
     setIsAddTaskModalOpen: (value: boolean) => void;
+
+    // Invited Members Modal
+    isInvitedMembersModalOpen: boolean;
+    setIsInvitedMembersModalOpen: (value: boolean) => void;
 }
 
 const MainContentPD: React.FC<MainContentPDProps> = (
@@ -88,11 +92,16 @@ const MainContentPD: React.FC<MainContentPDProps> = (
 
         // Add Task Model Open
         isAddTaskModalOpen,
-        setIsAddTaskModalOpen
+        setIsAddTaskModalOpen,
+
+        // Invited Members Modal
+        isInvitedMembersModalOpen,
+        setIsInvitedMembersModalOpen
     }) => {
 
     /////////////////////////////////////// Database Part ////////////////////////////////////////////////
-    let q = query(collection(db, "Data", "Projects", signedInUserData.email));
+    // let q = query(collection(db, "Data", "Projects", signedInUserData.email));
+    let q = query(collection(db, "Projects"));
 
     const [snapshot, loading, error] = useCollection(
         q,
@@ -105,21 +114,30 @@ const MainContentPD: React.FC<MainContentPDProps> = (
     useEffect(() => {
 
         if (!loading && snapshot && email) {
-            let localObj;
+            let localObj: any;
 
             let arrProjects = snapshot?.docs.map(doc => ({ ...doc.data(), id: doc.id }));
 
             localObj = arrProjects;
 
-            const localProjectMembers = localObj
+            // Now only i need projects that are created by me means email is equal to signedInUserData.email
+            // or that are shared with me means project members array contains signedInUserData.email
+
+            // Filter the projects array and extract only those projects that are created by me
+            // localObj = localObj.filter((project: any) => );
+
+            // Filter the projects array and extract only those projects that are shared with me
+            localObj = localObj.filter((project: any) => project?.ProjectMembers?.includes(email) || project?.createdBy === email);
+
+            const localProjectMembers: any = localObj
                 .map((project: any) => project?.ProjectMembers) // extract ProjectMembers array from each project
-                .reduce((acc, val) => acc.concat(val), []); // concatenate all ProjectMembers arrays into a single array
+                .reduce((acc: any, val: any) => acc.concat(val), []); // concatenate all ProjectMembers arrays into a single array
 
             // Loop over the projects array and where the project id matches the project id in the project members array, extract the project sections
-            const localProjectSections = localObj
+            const localProjectSections: any = localObj
                 .filter((project: any) => project?.id === projectID)
                 .map((project: any) => project?.ProjectStages) // extract ProjectSections array from each project
-                .reduce((acc, val) => acc.concat(val), []); // concatenate all ProjectSections arrays into a single array
+                .reduce((acc: any, val: any) => acc.concat(val), []); // concatenate all ProjectSections arrays into a single array
 
             // Extract all the project members from the projects array
             setProjects(arrProjects);
@@ -158,6 +176,9 @@ const MainContentPD: React.FC<MainContentPDProps> = (
                         projectList={projects}
                         isModalOpen={isModalOpen}
                         setIsModalOpen={setIsModalOpen}
+
+                        // Optional Add Task Model Open
+                        setIsAddTaskModalOpen={setIsAddTaskModalOpen}
                     />
                 </div>
 
@@ -171,6 +192,11 @@ const MainContentPD: React.FC<MainContentPDProps> = (
                         // Add Task Model Open
                         isAddTaskModalOpen={isAddTaskModalOpen}
                         setIsAddTaskModalOpen={setIsAddTaskModalOpen}
+                        projectMembers={projectMembers}
+
+                        // Invited Members Modal
+                        isInvitedMembersModalOpen={isInvitedMembersModalOpen}
+                        setIsInvitedMembersModalOpen={setIsInvitedMembersModalOpen}
                     />
                     <SnackbarProvider />
                 </div>

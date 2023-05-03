@@ -6,23 +6,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* html,
-body {
-  padding: 0;
-  margin: 0;
-  height: 100%;
-  /* font-family: 'Montserrat', sans-serif; */
-/* }
-
-.main {
-  background: url(https://images.pexels.com/photos/2531709/pexels-photo-2531709.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1) no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  background-attachment: fixed; */
-/* } */
-
 html, body {
   height: 100%;
   margin: 0;
@@ -33,7 +16,8 @@ html, body {
   position: relative;
   width: 100%;
   min-height: 100%;
-  padding-bottom: 0px; /* You can adjust this value according to your needs */
+  padding-bottom: 0px;
+  /* You can adjust this value according to your needs */
 }
 
 .main:after {
@@ -51,55 +35,6 @@ html, body {
   z-index: -1;
 }
 
-/* .main {
-  width: auto;
-  height: auto;
-  /* border: 2px solid red; */
-/* background-color: #ec0404; */
-/* background-image: url("https://images.pexels.com/photos/2531709/pexels-photo-2531709.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"); */
-/* background-image: url(https://images.pexels.com/photos/36767/tree-natur-nightsky-cloud.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1); */
-/* background-image: url(https://images.pexels.com/photos/427900/pexels-photo-427900.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1); */
-/* background-image: url(https://images.pexels.com/photos/67563/plane-aircraft-jet-airbase-67563.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1); */
-/* background-image: url(https://images.pexels.com/photos/326081/pexels-photo-326081.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1); */
-/* background-image: url(https://images.pexels.com/photos/716834/pexels-photo-716834.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed; */
-/* }  */
-
-/* Add Task Tick */
-.addTaskTick {
-  color: #c1bebf;
-  transition: 0.2s linear;
-  font-weight: lighter;
-  font-size: 20px;
-}
-
-.addTaskTick:hover {
-  color: #71b095;
-  transition: 0.2s linear;
-  background-color: #e6ffe6;
-}
-
-/* Add Task Tick */
-
-/* Task Tick */
-.taskTick {
-  color: #868788;
-  transition: 0.2s linear;
-  font-weight: lighter;
-  font-size: 20px;
-}
-
-.taskTick:hover {
-  color: #00b300;
-  transition: 0.2s linear;
-  background-color: #e6ffe6;
-}
-
-/* Task Tick */
-
 .Typography {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -112,6 +47,25 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+/* .currentSelectedRow {
+  background-color: #4573d2;
+} */
+
+.editDiv[contentEditable] {
+  border-width: 2px;
+  /* border-radius: 5px; */
+  padding: 5px;
+  padding-top: 10px;
+}
+
+.editDiv[contentEditable]:focus {
+  outline: 2px solid #4573d2;
+}
+
+.editDiv:hover {
+  border: 1px solid #afabac;
 }
 
 body {

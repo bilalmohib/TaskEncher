@@ -8,6 +8,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
+import { enqueueSnackbar } from 'notistack';
 
 import {
     doc,
@@ -43,20 +44,20 @@ function getStyles(name: string, selectedUsers: readonly string[], theme: Theme)
     };
 }
 
-interface SelectChipDropDownProps {
+interface MultiSelectChipDropDownProps {
     placeholder: string;
     options: string[];
     selectedArrayList: string[];
     projects: any;
     styles?: any;
     dropDownStyles?: any;
-    projectID: string;
+    projectID?: string;
     email: string;
     taskId: number;
     type: string;
 }
 
-const SelectChipDropDown: FC<SelectChipDropDownProps> = ({
+const MultiSelectChipDropDown: FC<MultiSelectChipDropDownProps> = ({
     placeholder,
     options,
     selectedArrayList,
@@ -75,30 +76,47 @@ const SelectChipDropDown: FC<SelectChipDropDownProps> = ({
             target: { value },
         } = event;
 
-        if (type === "taskPriority") {
-            const newTaskPriorityList = (typeof value === 'string' ? value.split(',') : value);
-            updateTaskAssigneeList(taskId, newTaskPriorityList);
+        if (type === "taskAssignee") {
+            const newTaskAssigneeList = (typeof value === 'string' ? value.split(',') : value);
+            updateTaskAssigneeList(taskId, newTaskAssigneeList);
 
-            console.log("newTaskPriorityList: ", newTaskPriorityList);
+            console.log("newTaskAssigneeList: ", newTaskAssigneeList);
         }
     };
 
-    const updateTaskAssigneeList = async (taskId: number, newTaskPriority: string[]) => {
+    const updateTaskAssigneeList = async (taskId: number, newTaskAssignees: string[]) => {
         const db = getFirestore();
+        // @ts-ignore
         const projectRef = doc(db, "Data", "Projects", email, projectID);
 
         for (let i = 0; i < projects.length; i++) {
+            // @ts-ignore
             if (projects[i].id === projectID.toString()) {
-                projects[i].ProjectTasks[taskId].taskPriority = newTaskPriority[0];
+                projects[i].ProjectTasks[taskId].taskAssignee = newTaskAssignees;
                 const updatedProject = projects[i];
                 console.log("Updated Project : ", updatedProject);
 
                 try {
                     await updateDoc(projectRef, updatedProject);
-                    // alert("Task Updated Successfully");
-                    console.log("Task Priority updated successfully");
-                } catch (error) {
-                    console.error("Error updating task priority:", error);
+                    let message: string = "Task Assignee has been updated successfully";
+                    console.log(message);
+                    enqueueSnackbar(
+                        message,
+                        {
+                            variant: 'success',
+                            anchorOrigin: { vertical: 'bottom', horizontal: 'right' }
+                        },
+                    )
+                } catch (error: any) {
+                    let message: string = `Error updating task name: ${error?.message}`;
+                    console.log(message);
+                    enqueueSnackbar(
+                        message,
+                        {
+                            variant: 'success',
+                            anchorOrigin: { vertical: 'bottom', horizontal: 'right' }
+                        },
+                    )
                 }
                 break;
             }
@@ -111,6 +129,7 @@ const SelectChipDropDown: FC<SelectChipDropDownProps> = ({
                 role="button"
                 sx={styles}>
                 <Select
+                    multiple
                     displayEmpty
                     value={selectedArrayList}
                     onChange={handleChange}
@@ -177,4 +196,4 @@ const SelectChipDropDown: FC<SelectChipDropDownProps> = ({
         </div >
     );
 }
-export default SelectChipDropDown;
+export default MultiSelectChipDropDown;

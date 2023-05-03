@@ -1,28 +1,19 @@
 import { useEffect } from "react"
 import { Chart } from "chart.js";
-const Doughnut = () => {
+
+interface DoughnutChartProps {
+    reportData: any
+}
+
+const Doughnut: React.FC<DoughnutChartProps> = ({
+    reportData
+}) => {
     useEffect(() => {
         // @ts-ignore
         var ctx = document.getElementById('myDoughnutChart').getContext('2d');
         var myChart = new Chart(ctx, {
             type: 'doughnut',
-            data: {
-                labels: ["Accepted", "Pending", "Rejected"],
-                datasets: [{
-                    data: [70, 10, 6],
-                    borderColor: [
-                        "rgb(75, 192, 192)",
-                        "rgb(255, 205, 86)",
-                        "rgb(255, 99, 132)",
-                    ],
-                    backgroundColor: [
-                        "rgb(75, 192, 192 )",
-                        "rgb(255, 205, 86)",
-                        "rgb(255, 99, 132)",
-                    ],
-                    borderWidth: 2,
-                }]
-            },
+            data: reportData,
             options: {
                 scales: {
                     xAxes: [{

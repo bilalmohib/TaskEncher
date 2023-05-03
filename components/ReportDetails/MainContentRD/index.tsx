@@ -140,9 +140,12 @@ const MainContentRD: React.FC<MainContentRDProps> = (
 
                         // Is Open
                         isOpen={isOpen}
-
                         // Show Header
                         showHeader={true}
+
+                        // Projects
+                        projects={projects}
+                        setProjects={setProjects}
                     />
                     <SnackbarProvider />
                 </div>

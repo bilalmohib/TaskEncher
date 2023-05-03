@@ -111,9 +111,9 @@
 }
 
 .individualItem:hover {
-    background-color: #f9f8f8;
+    background-color: #f9f8f82b;
     /* border-top: 1px solid #f7f5f5; */
-    color: #1e1f21;
+    /* color: #1e1f21; */
     border-bottom: 1px solid #f7f5f5;
     width: 100%;
     padding-left: 20px;

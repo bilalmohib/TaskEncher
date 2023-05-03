@@ -5,7 +5,8 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import dayjs, { Dayjs } from "dayjs";
 import { parseISO, differenceInDays } from 'date-fns';
 import { useRouter } from "next/router";
-import Link from "next/link";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import Image from "next/image";
 
 // Firebase Imports
 import {
@@ -45,6 +46,7 @@ interface IProps {
     item: any;
     currentFullLengthItem: any;
     setCurrentFullLengthItem: (value: any) => void;
+    signedInUserData: any;
 }
 
 interface MyTasksProps {
@@ -52,6 +54,8 @@ interface MyTasksProps {
     date: string;
     project: string;
     email: string;
+    taskStatus: string;
+    color_code: string;
 }
 
 const MyTasksII: React.FC<MyTasksProps> = ({
@@ -59,6 +63,8 @@ const MyTasksII: React.FC<MyTasksProps> = ({
     date,
     project,
     email,
+    taskStatus,
+    color_code
 }) => {
 
     let colors = [
@@ -99,17 +105,89 @@ const MyTasksII: React.FC<MyTasksProps> = ({
         <div className={styles.individualItem}>
             <div className="d-flex pt-[3px]">
                 <div>
-                    <i
+                    {/* <i
                         role={"button"}
                         className={`far fa-check-circle fa-lg taskTick`}
-                    ></i>
+                    ></i> */}
+                    {(taskStatus === "inProgress") ? (
+                        <Tooltip title="Mark As Complete">
+                            <CheckCircleOutlineIcon
+                                sx={{
+                                    display: "inline",
+                                    fontSize: 30,
+                                    color: "#858686",
+                                    '&:hover': {
+                                        color: "#00ff00",
+                                        cursor: "pointer"
+                                    }
+                                }}
+                            // onClick={() => {
+                            //     updateTask(
+                            //         j,
+                            //         "completed",
+                            //         "taskStatus",
+                            //         e,
+                            //         projectID.toString(),
+                            //         projects
+                            //     )
+                            // }}
+                            />
+                        </Tooltip>
+                    ) : (taskStatus === "completed") ? (
+                        <Tooltip title="Mark As InProgress">
+                            <CheckCircleIcon
+                                sx={{
+                                    display: "inline",
+                                    fontSize: 30,
+                                    color: "#58a182",
+                                    '&:hover': {
+                                        color: "#368e6a",
+                                        cursor: "pointer"
+                                    }
+                                }}
+                            // onClick={() => {
+                            //     updateTask(
+                            //         j,
+                            //         "inProgress",
+                            //         "taskStatus",
+                            //         e,
+                            //         projectID.toString(),
+                            //         projects
+                            //     )
+                            // }}
+                            />
+                        </Tooltip>
+                    ) : (<Tooltip title="Mark As Complete">
+                        <CheckCircleOutlineIcon
+                            sx={{
+                                display: "inline",
+                                fontSize: 30,
+                                color: "#858686",
+                                '&:hover': {
+                                    color: "#00ff00",
+                                    cursor: "pointer"
+                                }
+                            }}
+                        // onClick={() => {
+                        //     updateTask(
+                        //         j,
+                        //         "completed",
+                        //         "taskStatus",
+                        //         e,
+                        //         projectID.toString(),
+                        //         projects
+                        //     )
+                        // }}
+                        />
+                    </Tooltip>)
+                    }
                 </div>
                 <p className={`ml-2 ${styles.taskText}`}>{task}</p>
             </div>
             <div className="d-flex">
                 <div
                     className={styles.projectStyle}
-                    style={{ backgroundColor: colors[Math.floor(Math.random() * colors.length)] }}
+                    style={{ backgroundColor: color_code }}
                 >
                     {project}
                 </div>
@@ -124,6 +202,7 @@ const Widget2: React.FC<IProps> = ({
     currentFullLengthItem,
     setCurrentFullLengthItem,
     email,
+    signedInUserData
 }) => {
     const [currentPriority, setCurrentPriority] = useState<Number>(1);
 
@@ -175,6 +254,8 @@ const Widget2: React.FC<IProps> = ({
 
                         task.ProjectName = project.ProjectName;
 
+                        task.color_code = project.color_code;
+
                         myTasks.push(task);
                     }
                 }
@@ -194,35 +275,73 @@ const Widget2: React.FC<IProps> = ({
         <div className={styles.container}>
             <header className={styles.style_header}>
                 <div className={styles.left_Container_Header}>
-                    <AccountCircleIcon
+                    {/* <AccountCircleIcon
                         sx={{
                             fontSize: 50,
                             color: "#e0e6e8",
                         }}
                         className={styles.user_image}
+                    /> */}
+                    <Image
+                        src={signedInUserData?.photoURL}
+                        alt="Picture of the author"
+                        width={50}
+                        height={50}
+                        className={styles.user_image}
                     />
                 </div>
                 <div className={styles.right_Container_Header}>
-                    <h4 className="text-white">My Tasks</h4>
+                    <h4 className="text-white">
+                        My Tasks ({projectTasks.length})
+                    </h4>
                     <div>
                         <ul className={styles.bottomRightList}>
                             <li
                                 className={currentPriority === 1 ? styles.selected_li : ""}
                                 onClick={() => setCurrentPriority(1)}
                             >
-                                Upcoming
+                                Upcoming &nbsp;
+                                {
+                                    (projectTasks.length > 0) && (
+                                        <span className={styles.badge}>
+                                            ({
+                                                projectTasks.filter((item: any) => (!item.taskOverDue && item.taskStatus !== "completed")).length
+                                            })
+                                        </span>
+                                    )
+                                }
                             </li>
                             <li
                                 className={currentPriority === 2 ? styles.selected_li : ""}
                                 onClick={() => setCurrentPriority(2)}
                             >
-                                Overdue (1)
+                                Overdue &nbsp;
+
+                                {
+                                    (projectTasks.length > 0) && (
+                                        <span className={styles.badge}>
+                                            ({
+                                                projectTasks.filter((item: any) => (item.taskOverDue && item.taskStatus !== "completed")).length
+                                            })
+                                        </span>
+                                    )
+                                }
                             </li>
                             <li
                                 className={currentPriority === 3 ? styles.selected_li : ""}
                                 onClick={() => setCurrentPriority(3)}
                             >
-                                Completed
+                                Completed &nbsp;
+
+                                {
+                                    (projectTasks.length > 0) && (
+                                        <span className={styles.badge}>
+                                            ({
+                                                projectTasks.filter((item: any) => (item.taskStatus === "completed")).length
+                                            })
+                                        </span>
+                                    )
+                                }
                             </li>
                         </ul>
                     </div>
@@ -232,17 +351,61 @@ const Widget2: React.FC<IProps> = ({
                 <div className={styles.style_body}>
                     {(!loading && snapshot && email) ? (
                         <section>
-                            {projectTasks.map((item: any, index: number) => {
-                                return (
-                                    <MyTasksII
-                                        key={index}
-                                        task={item.taskName}
-                                        date={item.taskDue}
-                                        project={item.ProjectName}
-                                        email={email}
-                                    />
-                                )
-                            })}
+                            {(currentPriority === 1) ? (
+                                <div>
+                                    {projectTasks.map((item: any, index: number) => {
+                                        if (!item.taskOverDue && item.taskStatus !== "completed") {
+                                            return (
+                                                <MyTasksII
+                                                    key={index}
+                                                    task={item.taskName}
+                                                    date={item.taskDue}
+                                                    project={item.ProjectName}
+                                                    color_code={item.color_code}
+                                                    email={email}
+                                                    taskStatus={item.taskStatus}
+                                                />
+                                            )
+                                        }
+                                    })}
+                                </div>
+                            ) : (currentPriority === 2) ? (
+                                <div>
+                                    {projectTasks.map((item: any, index: number) => {
+                                        if (item.taskOverDue && item.taskStatus !== "completed") {
+                                            return (
+                                                <MyTasksII
+                                                    key={index}
+                                                    task={item.taskName}
+                                                    date={item.taskDue}
+                                                    project={item.ProjectName}
+                                                    color_code={item.color_code}
+                                                    email={email}
+                                                    taskStatus={item.taskStatus}
+                                                />
+                                            )
+                                        }
+                                    })}
+                                </div>
+                            ) : (
+                                <div>
+                                    {projectTasks.map((item: any, index: number) => {
+                                        if (item.taskStatus === "completed") {
+                                            return (
+                                                <MyTasksII
+                                                    key={index}
+                                                    task={item.taskName}
+                                                    date={item.taskDue}
+                                                    project={item.ProjectName}
+                                                    color_code={item.color_code}
+                                                    email={email}
+                                                    taskStatus={item.taskStatus}
+                                                />
+                                            )
+                                        }
+                                    })}
+                                </div>
+                            )}
                         </section>
                     ) : (
                         <div className="d-flex justify-content-center align-items-center">

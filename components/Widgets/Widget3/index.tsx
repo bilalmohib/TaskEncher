@@ -277,7 +277,8 @@ const Widget1: React.FC<IProps> = ({
                                                 }}
                                                 size="small"
                                             >
-                                                {(people.collaboratingTasks > 0) ? (
+                                                {/* {(people.collaboratingTasks > 0) ? ( */}
+                                                {(people.email === email) ? (
                                                     <>
                                                         View profile
                                                     </>

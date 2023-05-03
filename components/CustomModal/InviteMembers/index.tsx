@@ -335,4 +335,4 @@ const InviteMembers: React.FC<InviteMembersProps> = (
         </Box>
     )
 }
-export default InviteMembers
+export default InviteMembers;

@@ -15,7 +15,7 @@ import CustomLoader from '@app/components/CustomLoader';
 import MainContentPD from '@app/components/ProjectDetails/MainContentPD';
 import MainContentRD from '@app/components/ReportDetails/MainContentRD';
 
-interface MainContentProps {
+interface ReportDetailsProps {
     setIsOpen: (isOpen: boolean) => void;
     isOpen: boolean;
     currentMenuItem: number;
@@ -24,7 +24,7 @@ interface MainContentProps {
     height: number;
 }
 
-const ProjectDetails: React.FC<MainContentProps> = (
+const ReportDetails: React.FC<ReportDetailsProps> = (
     {
         setIsOpen,
         isOpen,
@@ -291,4 +291,4 @@ const ProjectDetails: React.FC<MainContentProps> = (
     )
 }
 
-export default ProjectDetails;
+export default ReportDetails;

@@ -12,7 +12,6 @@ import { FcGoogle } from 'react-icons/fc';
 import { FaGithub } from 'react-icons/fa';
 import addProjectMembers from '@app/lib/addProjectMembers';
 
-// const InviteMembers = () => {
 interface InviteMembersProps {
     projects: any;
     projectMembers: string[];
@@ -335,4 +334,4 @@ const InviteMembers: React.FC<InviteMembersProps> = (
         </Box>
     )
 }
-export default InviteMembers
+export default InviteMembers;

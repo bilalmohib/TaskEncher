@@ -1,5 +1,6 @@
 .container {
-    background-color: rgb(255, 255, 255);
+    /* background-color: rgb(255, 255, 255); */
+    background-color: #f9f8f80a;
     padding-left: 10px;
     padding-top: 30px;
     height: 100%;
@@ -7,7 +8,9 @@
 }
 
 .container>div>h1 {
-    color: rgb(0, 0, 0);
+    /* color: rgb(0, 0, 0); */
+    color: white;
+    padding-left: 10px;
     font-size: 20px;
     font-weight: 400;
 }
@@ -19,7 +22,8 @@
     text-transform: none;
     padding-top: 3px;
     font-weight: 300;
-    color: #6d6d6d;
+    /* color: #6d6d6d; */
+    color: #c3bfbf;
     background-color: transparent;
     border-radius: 6px !important;
 }
@@ -75,6 +79,7 @@
     box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
     user-select: none;
 }
+
 .peopleSliderItem:hover {
     border: 1px solid rgb(141, 141, 141);
 }
@@ -94,7 +99,7 @@
     background-color: darkblue;
 }
 
-.peopleSliderItemContent h4{
+.peopleSliderItemContent h4 {
     font-size: 17px;
     font-weight: 300;
     margin-top: 20px !important;
@@ -113,7 +118,7 @@
     margin-left: -22px;
     width: 45px;
     height: 45px;
-    /* border: 1px solid red; */
+    /* border: 1px solid red !important; */
     background-color: white;
     color: #6d6e6f !important;
     border: 1px solid #e6e4e4 !important;
@@ -146,10 +151,11 @@
     color: #1e1f21 !important;
 }
 
-.infoContainer{
+.infoContainer {
     font-size: 14px;
     font-weight: 300;
-    color: #6d6d6d;
+    /* color: #6d6d6d; */
+    color: #c3bfbf;
     margin-top: 0px !important;
     margin-bottom: 2px;
     width: 90%;

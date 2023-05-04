@@ -34,13 +34,13 @@ import MultiSelectDropDown from "@app/components/MultiSelectDropDown";
 
 /// Importing Firebase
 import Navbar from "../components/Navbar";
-// import DatePicker from 'react-date-picker/dist/entry.nostyle';
 import DatePicker from 'react-date-picker';
 
 // import Calendar from 'react-calendar';
 
 import { NextPage } from "next";
 import CustomLoader from "../components/CustomLoader";
+import { formatDate } from "@app/lib/dateFormats";
 
 const currentDate = new Date();
 
@@ -224,18 +224,18 @@ const CreateProject: NextPage = () => {
                 ProjectEndingDate: projectEndingDate.toLocaleDateString(),
                 CurrentStage: currentStage,
                 CurrentStageCurrentTask: currentStageCurrentTask,
-                createAt: JSON.stringify(currentDate),
-                createdBy: signedInUserData.displayName,
+                createAt: formatDate(currentDate.toLocaleDateString()),
+                createdBy: signedInUserData.email,
                 color_code: color_code,
                 // UniqueID: id
             }
-            addDoc(collection(db, `Data/Projects/${signedInUserData.email}`), project)
+            addDoc(collection(db, `Projects`), project)
                 .then(() => {
                     console.log("Data sent");
                     const { pathname } = Router;
                     if (pathname == '/createProject') {
                         alert("Your Project is initialized Successfully.Redirecting you to your projects page.");
-                        Router.push(`/dashboard/${signedInUserData.uid}`);
+                        Router.push(`/dashboard/${signedInUserData.email}`);
                     }
                 })
                 .catch(err => {
@@ -259,40 +259,40 @@ const CreateProject: NextPage = () => {
                 <meta name="viewport" content="width=1200" />
             </Head>
             {(user && !loading && !error && signedInUserData) ? (
-                <section>
-                    <div className="container">
+                <section className="main">
+                    <div className="container bg-transparent">
                         <div className="fixed-top">
                             <Navbar isOpen={isOpen} setIsOpen={setIsOpen} />
                         </div>
                     </div>
 
-                    <br />
-                    <br />
-                    <br />
-                    <br />
+                    <div className="mt-[49px]"></div>
 
-                    <div className="container">
-                        <div className="row">
-                            {(stage == 1) ? (
-                                <div className="col-md-4">
-                                    <h2 className="fontWeight-light" style={{ color: "black" }}>Let&#39;s set up your first project</h2>
-                                    <br />
-                                    <h5>What&#39;s something you and your team are currently working on? <span className="text-danger">*</span> </h5>
-                                    <br />
-                                    <input type="text" placeholder="Project Title" defaultValue={projectPlan} onChange={(e) => setProjectPlan(e.target.value)} className="form-control" />
-                                    <br />
-                                    {
-                                        (projectPlan == "")
-                                            ? (
-                                                <>
-                                                    <span className="text-danger">Please enter the project title to continue</span><br />
-                                                    <button className="btn btn-secondary btn-continue" disabled={true} onClick={() => setStage(stage + 1)}>Continue</button>
-                                                </>
-                                            ) : (
-                                                <button className="btn btn-secondary btn-continue" onClick={() => setStage(stage + 1)}>Continue</button>
-                                            )
-                                    }
-                                    {/* <ol>
+                    <div className="w-[100%] bg-white h-[100vh]">
+                        <br />
+                        <br />
+                        <div className="container">
+                            <div className="row">
+                                {(stage == 1) ? (
+                                    <div className="col-md-4">
+                                        <h2 className="fontWeight-light" style={{ color: "black" }}>Let&#39;s set up your first project</h2>
+                                        <br />
+                                        <h5>What&#39;s something you and your team are currently working on? <span className="text-danger">*</span> </h5>
+                                        <br />
+                                        <input type="text" placeholder="Project Title" defaultValue={projectPlan} onChange={(e) => setProjectPlan(e.target.value)} className="form-control" />
+                                        <br />
+                                        {
+                                            (projectPlan == "")
+                                                ? (
+                                                    <>
+                                                        <span className="text-danger">Please enter the project title to continue</span><br />
+                                                        <button className="btn btn-secondary btn-continue" disabled={true} onClick={() => setStage(stage + 1)}>Continue</button>
+                                                    </>
+                                                ) : (
+                                                    <button className="btn btn-secondary btn-continue" onClick={() => setStage(stage + 1)}>Continue</button>
+                                                )
+                                        }
+                                        {/* <ol>
                             {firestoreData.map((v, i) => {
                                 return <li key={i}>
                                     <h5>{v.name}<br /> {v.UniqueID}</h5>
@@ -300,60 +300,24 @@ const CreateProject: NextPage = () => {
                             })}
                         </ol>
                         <button className="btn btn-primary" onClick={addData}>Add data</button> */}
-                                </div>
-                            ) :
-                                (stage == 2) ? (
-                                    <div className="col-md-4">
-                                        {/* <h2 className="fontWeight-light">Let's set up your first project</h2> */}
-                                        <br />
-                                        <h5><i className="fas fa-arrow-left fa-lg mr-3" onClick={() => setStage(stage - 1)}></i> &nbsp;&nbsp;Who&#39;s working on this project with you? <span className="text-danger">*</span> </h5>
-                                        <br />
-                                        <p>Email address</p>
-                                        <input type="email" required value={teamMate} aria-hidden="true" placeholder="eg : Teammate's email i.e bilalmohib7896@gmail.com" onChange={(e) => setTeamMate(e.target.value)} className="form-control" />
-
-                                        <br />
-                                        <button className="btn btn-info" onClick={addTeamMateInArray}>Add TeamMate</button>
-                                        <br />
-                                        <hr />
-                                        <ol>
-                                            {
-                                                teamMatesArray.map((v: any, i: any) => {
-                                                    return <li key={i}>
-                                                        {v}
-                                                    </li>
-                                                })
-                                            }
-                                        </ol>
-
-                                        {
-                                            (teamMatesArray.length == 0)
-                                                ? (
-                                                    <>
-                                                        <span className="text-danger">Please add atleast one project member&#39;s email to continue</span><br />
-                                                        <button className="btn btn-secondary btn-continue" disabled={true} onClick={() => setStage(stage + 1)}>Continue</button>
-                                                    </>
-                                                ) : (
-                                                    <button className="btn btn-secondary btn-continue" onClick={() => setStage(stage + 1)}>Continue</button>
-                                                )
-                                        }
                                     </div>
                                 ) :
-                                    (stage == 3) ? (
+                                    (stage == 2) ? (
                                         <div className="col-md-4">
                                             {/* <h2 className="fontWeight-light">Let's set up your first project</h2> */}
                                             <br />
-                                            <h5><i className="fas fa-arrow-left fa-lg mr-3" onClick={() => setStage(stage - 1)}></i>&nbsp;&nbsp;How would you group these tasks into sections or stages? What are a few tasks that you have to do for &#39;<b>{projectPlan}</b>&#39; ?</h5>
+                                            <h5><i className="fas fa-arrow-left fa-lg mr-3" onClick={() => setStage(stage - 1)}></i> &nbsp;&nbsp;Who&#39;s working on this project with you? <span className="text-danger">*</span> </h5>
+                                            <br />
+                                            <p>Email address</p>
+                                            <input type="email" required value={teamMate} aria-hidden="true" placeholder="eg : Teammate's email i.e bilalmohib7896@gmail.com" onChange={(e) => setTeamMate(e.target.value)} className="form-control" />
 
-                                            {/* Bas dekh */}
                                             <br />
-                                            <input type="text" value={stageName} placeholder="eg : To do" onChange={(e) => setStageName(e.target.value)} className="form-control" />
-                                            <br />
-                                            <button className="btn btn-info" onClick={addTaskStageInArray}>Add Section or Stage</button>
+                                            <button className="btn btn-info" onClick={addTeamMateInArray}>Add TeamMate</button>
                                             <br />
                                             <hr />
                                             <ol>
                                                 {
-                                                    allStageArray.map((v: any, i: any) => {
+                                                    teamMatesArray.map((v: any, i: any) => {
                                                         return <li key={i}>
                                                             {v}
                                                         </li>
@@ -362,10 +326,10 @@ const CreateProject: NextPage = () => {
                                             </ol>
 
                                             {
-                                                (allStageArray.length == 0)
+                                                (teamMatesArray.length == 0)
                                                     ? (
                                                         <>
-                                                            <span className="text-danger">Please add atleast one Stage or Section to Continue</span><br />
+                                                            <span className="text-danger">Please add atleast one project member&#39;s email to continue</span><br />
                                                             <button className="btn btn-secondary btn-continue" disabled={true} onClick={() => setStage(stage + 1)}>Continue</button>
                                                         </>
                                                     ) : (
@@ -374,17 +338,53 @@ const CreateProject: NextPage = () => {
                                             }
                                         </div>
                                     ) :
-                                        (stage == 4) ? (
-                                            <>
-                                                <div className="col-md-4">
-                                                    <h5><i className="fas fa-arrow-left fa-lg mr-2" onClick={() => setStage(stage - 1)}></i>&nbsp;&nbsp;What are a few tasks that you have to do for &#39;<b>{projectPlan}</b>&#39; ?</h5>
-                                                    <br />
-                                                    <h6>Task name :<span className="text-danger">*</span></h6>
-                                                    <input type="text" defaultValue={task} placeholder="eg : Determine project goal add as many as you want you can edit later on" onChange={(e) => setTask(e.target.value)} className="form-control" />
-                                                    <br />
+                                        (stage == 3) ? (
+                                            <div className="col-md-4">
+                                                {/* <h2 className="fontWeight-light">Let's set up your first project</h2> */}
+                                                <br />
+                                                <h5><i className="fas fa-arrow-left fa-lg mr-3" onClick={() => setStage(stage - 1)}></i>&nbsp;&nbsp;How would you group these tasks into sections or stages? What are a few tasks that you have to do for &#39;<b>{projectPlan}</b>&#39; ?</h5>
 
-                                                    <h6>Task Assigned to :<span className="text-danger">*</span></h6>
-                                                    {/* <div className="input-group input-group-md category_select">
+                                                {/* Bas dekh */}
+                                                <br />
+                                                <input type="text" value={stageName} placeholder="eg : To do" onChange={(e) => setStageName(e.target.value)} className="form-control" />
+                                                <br />
+                                                <button className="btn btn-info" onClick={addTaskStageInArray}>Add Section or Stage</button>
+                                                <br />
+                                                <hr />
+                                                <ol>
+                                                    {
+                                                        allStageArray.map((v: any, i: any) => {
+                                                            return <li key={i}>
+                                                                {v}
+                                                            </li>
+                                                        })
+                                                    }
+                                                </ol>
+
+                                                {
+                                                    (allStageArray.length == 0)
+                                                        ? (
+                                                            <>
+                                                                <span className="text-danger">Please add atleast one Stage or Section to Continue</span><br />
+                                                                <button className="btn btn-secondary btn-continue" disabled={true} onClick={() => setStage(stage + 1)}>Continue</button>
+                                                            </>
+                                                        ) : (
+                                                            <button className="btn btn-secondary btn-continue" onClick={() => setStage(stage + 1)}>Continue</button>
+                                                        )
+                                                }
+                                            </div>
+                                        ) :
+                                            (stage == 4) ? (
+                                                <>
+                                                    <div className="col-md-4">
+                                                        <h5><i className="fas fa-arrow-left fa-lg mr-2" onClick={() => setStage(stage - 1)}></i>&nbsp;&nbsp;What are a few tasks that you have to do for &#39;<b>{projectPlan}</b>&#39; ?</h5>
+                                                        <br />
+                                                        <h6>Task name :<span className="text-danger">*</span></h6>
+                                                        <input type="text" defaultValue={task} placeholder="eg : Determine project goal add as many as you want you can edit later on" onChange={(e) => setTask(e.target.value)} className="form-control" />
+                                                        <br />
+
+                                                        <h6>Task Assigned to :<span className="text-danger">*</span></h6>
+                                                        {/* <div className="input-group input-group-md category_select">
                                                         <span className="input-group-addon glyphicon glyphicon-search" id="sizing-addon2"></span>
                                                         <select style={{ fontSize: "15px", width: "200px" }} value={assignee}
                                                             onChange={(e) => setTaskAssignedTo(e)} className="form-control">
@@ -395,158 +395,158 @@ const CreateProject: NextPage = () => {
                                                             })}
                                                         </select>
                                                     </div> */}
-                                                    {/* <MultiSelectCustomDropDown
+                                                        {/* <MultiSelectCustomDropDown
                                                         options={["teamMatesArray"]}
                                                         value={assignee}
                                                         onChange={setTaskAssignedTo}
                                                         placeholder="Select Teammates"
                                                     /> */}
-                                                    <MultiSelectDropDown
-                                                        placeholder="Select Teammates"
-                                                        options={teamMatesArray}
-                                                        selectedArrayList={assigneesList}
-                                                        setSelectedArrayList={setAssigneesList}
-                                                        styles={{ width: 300, mt: 3 }}
-                                                    />
-                                                    <br />
-
-                                                    <div>
-                                                        <h6>Due Date for the Task : <span className="text-red">*</span></h6>
-                                                        <DatePicker
-                                                            onChange={setTaskDue}
-                                                            value={taskDue}
+                                                        <MultiSelectDropDown
+                                                            placeholder="Select Teammates"
+                                                            options={[...teamMatesArray, signedInUserData.email]}
+                                                            selectedArrayList={assigneesList}
+                                                            setSelectedArrayList={setAssigneesList}
+                                                            styles={{ width: 300, mt: 3 }}
                                                         />
+                                                        <br />
+
+                                                        <div>
+                                                            <h6>Due Date for the Task : <span className="text-red">*</span></h6>
+                                                            <DatePicker
+                                                                onChange={setTaskDue}
+                                                                value={taskDue}
+                                                            />
+                                                        </div>
+
+                                                        <br />
+
+                                                        <h6>Task Priority :<span className="text-danger">*</span></h6>
+                                                        <div className="input-group input-group-md category_select">
+                                                            <span className="input-group-addon glyphicon glyphicon-search" id="sizing-addon2"></span>
+                                                            <select style={{ fontSize: "15px", width: "200px" }} value={taskPriority}
+                                                                onChange={(e) => setTaskPriority(e.target.value)} className="form-control">
+                                                                <option disabled={true} value="default">--default--</option>
+                                                                <option value="High">High</option>
+                                                                <option value="Medium">Medium</option>
+                                                                <option value="Low">Low</option>
+                                                            </select>
+                                                        </div>
+                                                        <br />
+
+                                                        <h6>Task Section :<span className="text-danger">*</span></h6>
+                                                        <div className="input-group input-group-md category_select">
+                                                            <span className="input-group-addon glyphicon glyphicon-search" id="sizing-addon2"></span>
+                                                            <select style={{ fontSize: "15px", width: "200px" }} value={taskSection}
+                                                                onChange={(e) => setTaskSection(e.target.value)} className="form-control">
+                                                                {["--default--", ...allStageArray].map((v, i) => {
+                                                                    return <option value={v} key={i}>
+                                                                        {v}
+                                                                    </option>
+                                                                })}
+                                                            </select>
+                                                        </div>
+                                                        <br />
+
+                                                        {(task == "" || assigneesList.length === 0 || taskDue == currentDate || taskPriority == "" || taskSection == "") ? (
+                                                            <>
+                                                                <span className="text-danger">Please enter all the fields with <span className="text-danger">*</span> to continue</span><br />
+                                                                <button className="btn btn-info" disabled={true} onClick={addtasks}>Add task</button>
+                                                            </>
+                                                        ) : (
+                                                            <>
+                                                                <button className="btn btn-info" onClick={addtasks}>Add task</button>
+                                                            </>
+                                                        )}
+
+                                                        <br />
+                                                        <hr />
+                                                        {
+                                                            (allTaskArray.length == 0)
+                                                                ? (
+                                                                    <>
+                                                                        <span className="text-danger">Please add atleast one Task to Continue</span><br />
+                                                                        <button className="btn btn-secondary btn-continue" disabled={true} onClick={() => setStage(stage + 1)}>Continue</button>
+                                                                    </>
+                                                                ) : (
+                                                                    <button className="btn btn-secondary btn-continue" onClick={() => setStage(stage + 1)}>Continue</button>
+                                                                )
+                                                        }
                                                     </div>
+                                                </>
+                                            ) :
+                                                (stage == 5) ? (
+                                                    <div className="col-md-4">
+                                                        {/* <h2 className="fontWeight-light">Let's set up your first project </h2> */}
+                                                        <br />
+                                                        <h4 style={{ color: "grey" }}><i className="fas fa-arrow-left fa-lg mr-2" onClick={() => setStage(stage - 1)}></i>  Congratulations, you&#39;ve created your first project in Staff Manager!</h4>
+                                                        <br />
+                                                        {/* <h2 className="fontWeight-light">Let's set up your first project</h2> */}
+                                                        <br />
+                                                        <h5>What is the timeline for the project(Starting Date,Ending Date,Current Stage,Current task) ?</h5>
+                                                        {/* Bas dekh */}
+                                                        <br />
+                                                        <div>
+                                                            <h6>Starting Date of the Project : <span className="text-red">*</span></h6>
+                                                            <DatePicker
+                                                                onChange={setProjectStartingDate}
+                                                                value={projectStartingDate}
+                                                            />
+                                                        </div>
+                                                        <br />
+                                                        <div>
+                                                            <h6>Ending Date of the Project(Estimated) : <span className="text-red">*</span></h6>
+                                                            <DatePicker
+                                                                onChange={setProjectEndingDate}
+                                                                value={projectEndingDate}
+                                                            />
+                                                        </div>
 
-                                                    <br />
+                                                        <br />
 
-                                                    <h6>Task Priority :<span className="text-danger">*</span></h6>
-                                                    <div className="input-group input-group-md category_select">
-                                                        <span className="input-group-addon glyphicon glyphicon-search" id="sizing-addon2"></span>
-                                                        <select style={{ fontSize: "15px", width: "200px" }} value={taskPriority}
-                                                            onChange={(e) => setTaskPriority(e.target.value)} className="form-control">
-                                                            <option disabled={true} value="default">--default--</option>
-                                                            <option value="High">High</option>
-                                                            <option value="Medium">Medium</option>
-                                                            <option value="Low">Low</option>
-                                                        </select>
-                                                    </div>
-                                                    <br />
+                                                        <h6>Current Stage :<span className="text-danger">*</span></h6>
+                                                        <div className="input-group input-group-md category_select">
+                                                            <span className="input-group-addon glyphicon glyphicon-search" id="sizing-addon2"></span>
+                                                            <select style={{ fontSize: "15px", width: "200px" }} value={currentStage}
+                                                                onChange={(e) => setCurrentStageTo(e.target.value)} className="form-control">
+                                                                {["--default--", ...allStageArray].map((v, i) => {
+                                                                    return <option value={v} key={i}>
+                                                                        {v}
+                                                                    </option>
+                                                                })}
+                                                            </select>
+                                                        </div>
 
-                                                    <h6>Task Section :<span className="text-danger">*</span></h6>
-                                                    <div className="input-group input-group-md category_select">
-                                                        <span className="input-group-addon glyphicon glyphicon-search" id="sizing-addon2"></span>
-                                                        <select style={{ fontSize: "15px", width: "200px" }} value={taskSection}
-                                                            onChange={(e) => setTaskSection(e.target.value)} className="form-control">
-                                                            {["--default--", ...allStageArray].map((v, i) => {
-                                                                return <option value={v} key={i}>
-                                                                    {v}
-                                                                </option>
-                                                            })}
-                                                        </select>
-                                                    </div>
-                                                    <br />
+                                                        <br />
 
-                                                    {(task == "" || assigneesList.length === 0 || taskDue == currentDate || taskPriority == "" || taskSection == "") ? (
-                                                        <>
-                                                            <span className="text-danger">Please enter all the fields with <span className="text-danger">*</span> to continue</span><br />
-                                                            <button className="btn btn-info" disabled={true} onClick={addtasks}>Add task</button>
-                                                        </>
-                                                    ) : (
-                                                        <>
-                                                            <button className="btn btn-info" onClick={addtasks}>Add task</button>
-                                                        </>
-                                                    )}
+                                                        <h6>Current Stage Current Task:<span className="text-danger">*</span></h6>
+                                                        <div className="input-group input-group-md category_select">
+                                                            <span className="input-group-addon glyphicon glyphicon-search" id="sizing-addon2"></span>
+                                                            <select style={{ fontSize: "15px", width: "200px" }} value={currentStageCurrentTask}
+                                                                onChange={(e) => setCurrentStageCurrentTask(e.target.value)} className="form-control">
+                                                                {["--default--", ...currentStageCurrentTasksArray].map((v, i) => {
+                                                                    return <option value={v} key={i}>
+                                                                        {v}
+                                                                    </option>
+                                                                })}
+                                                            </select>
+                                                        </div>
 
-                                                    <br />
-                                                    <hr />
-                                                    {
-                                                        (allTaskArray.length == 0)
-                                                            ? (
-                                                                <>
-                                                                    <span className="text-danger">Please add atleast one Task to Continue</span><br />
-                                                                    <button className="btn btn-secondary btn-continue" disabled={true} onClick={() => setStage(stage + 1)}>Continue</button>
-                                                                </>
-                                                            ) : (
-                                                                <button className="btn btn-secondary btn-continue" onClick={() => setStage(stage + 1)}>Continue</button>
-                                                            )
-                                                    }
-                                                </div>
-                                            </>
-                                        ) :
-                                            (stage == 5) ? (
-                                                <div className="col-md-4">
-                                                    {/* <h2 className="fontWeight-light">Let's set up your first project </h2> */}
-                                                    <br />
-                                                    <h4 style={{ color: "grey" }}><i className="fas fa-arrow-left fa-lg mr-2" onClick={() => setStage(stage - 1)}></i>  Congratulations, you&#39;ve created your first project in Staff Manager!</h4>
-                                                    <br />
-                                                    {/* <h2 className="fontWeight-light">Let's set up your first project</h2> */}
-                                                    <br />
-                                                    <h5>What is the timeline for the project(Starting Date,Ending Date,Current Stage,Current task) ?</h5>
-                                                    {/* Bas dekh */}
-                                                    <br />
-                                                    <div>
-                                                        <h6>Starting Date of the Project : <span className="text-red">*</span></h6>
-                                                        <DatePicker
-                                                            onChange={setProjectStartingDate}
-                                                            value={projectStartingDate}
-                                                        />
-                                                    </div>
-                                                    <br />
-                                                    <div>
-                                                        <h6>Ending Date of the Project(Estimated) : <span className="text-red">*</span></h6>
-                                                        <DatePicker
-                                                            onChange={setProjectEndingDate}
-                                                            value={projectEndingDate}
-                                                        />
-                                                    </div>
+                                                        <br />
+                                                        <br />
+                                                        {
+                                                            (projectPlan == "" || teamMatesArray.length == 0 || allStageArray.length == 0 || allTaskArray.length == 0 || projectStartingDate == currentDate || projectEndingDate == currentDate || currentStage == "" || currentStageCurrentTask == "")
+                                                                ? (
+                                                                    <>
 
-                                                    <br />
+                                                                        <span className="text-danger">Please Enter the starting and ending Date to Continue</span><br />
+                                                                        <button className="btn btn-secondary btn-continue" disabled={true} onClick={addData}>Take me to my project</button>
+                                                                    </>
+                                                                ) : (
+                                                                    <button className="btn btn-secondary btn-continue" onClick={addData}>Take me to my project</button>
+                                                                )
+                                                        }
 
-                                                    <h6>Current Stage :<span className="text-danger">*</span></h6>
-                                                    <div className="input-group input-group-md category_select">
-                                                        <span className="input-group-addon glyphicon glyphicon-search" id="sizing-addon2"></span>
-                                                        <select style={{ fontSize: "15px", width: "200px" }} value={currentStage}
-                                                            onChange={(e) => setCurrentStageTo(e.target.value)} className="form-control">
-                                                            {["--default--", ...allStageArray].map((v, i) => {
-                                                                return <option value={v} key={i}>
-                                                                    {v}
-                                                                </option>
-                                                            })}
-                                                        </select>
-                                                    </div>
-
-                                                    <br />
-
-                                                    <h6>Current Stage Current Task:<span className="text-danger">*</span></h6>
-                                                    <div className="input-group input-group-md category_select">
-                                                        <span className="input-group-addon glyphicon glyphicon-search" id="sizing-addon2"></span>
-                                                        <select style={{ fontSize: "15px", width: "200px" }} value={currentStageCurrentTask}
-                                                            onChange={(e) => setCurrentStageCurrentTask(e.target.value)} className="form-control">
-                                                            {["--default--", ...currentStageCurrentTasksArray].map((v, i) => {
-                                                                return <option value={v} key={i}>
-                                                                    {v}
-                                                                </option>
-                                                            })}
-                                                        </select>
-                                                    </div>
-
-                                                    <br />
-                                                    <br />
-                                                    {
-                                                        (projectPlan == "" || teamMatesArray.length == 0 || allStageArray.length == 0 || allTaskArray.length == 0 || projectStartingDate == currentDate || projectEndingDate == currentDate || currentStage == "" || currentStageCurrentTask == "")
-                                                            ? (
-                                                                <>
-
-                                                                    <span className="text-danger">Please Enter the starting and ending Date to Continue</span><br />
-                                                                    <button className="btn btn-secondary btn-continue" disabled={true} onClick={addData}>Take me to my project</button>
-                                                                </>
-                                                            ) : (
-                                                                <button className="btn btn-secondary btn-continue" onClick={addData}>Take me to my project</button>
-                                                            )
-                                                    }
-
-                                                    {/* <ol>
+                                                        {/* <ol>
                                 {firestoreData.map((v, i) => {
                                     return <li key={i}>
                                         <h5>{v.name}<br /> {v.UniqueID}</h5>
@@ -554,199 +554,100 @@ const CreateProject: NextPage = () => {
                                 })}
                             </ol>
                             <button className="btn btn-primary" onClick={addData}>Add data</button> */}
-                                                </div>
-                                            ) : (
-                                                <span></span>
-                                            )}
+                                                    </div>
+                                                ) : (
+                                                    <span></span>
+                                                )}
 
-                            <div className="col-md-8" title={`This is a sample preview of your project dear ${signedInUserData.displayName}`}>
-                                <div className="table-responsive">
-                                    <table className="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th colSpan={5}>
-                                                    <h2><i className="fas fa-list-alt fa-lg mr-3" style={{ color: "#48dafd" }}></i>&nbsp;&nbsp; {projectPlan}</h2>
-                                                    <h4>
-                                                        <span className="text-success">
-                                                            {/* {JSON.stringify(new Date(projectStartingDate).toLocaleString('en-US', { timeZone: 'Asia/Karachi' }) + ", " +new Date(projectStartingDate).toLocaleString('en-US', { timeZone: 'Asia/Karachi' }) + " " + new Date(projectStartingDate).toLocaleString('en-US', { timeZone: 'Asia/Karachi' }))} */}
-                                                            {JSON.stringify(new Date(projectStartingDate).toLocaleString('en-US', { timeZone: 'Asia/Karachi' }))}
-                                                        </span>
-                                                        &nbsp; <i className="fas fa-1x text-primary fa-arrow-right"></i>
-                                                        &nbsp; <span className="text-danger">
-                                                            {/* {JSON.stringify(new Date(projectEndingDate).getDay() + ", " + monthNames[new Date(projectEndingDate).getMonth()] + " " + new Date(projectEndingDate).getFullYear())} */}
-                                                            {JSON.stringify(new Date(projectEndingDate).toLocaleString('en-US', { timeZone: 'Asia/Karachi' }))}
-                                                        </span></h4>
-                                                </th>
-                                            </tr>
-                                            <tr>
-                                                <th scope="col">Task name</th>
-                                                <th scope="col">Assignee</th>
-                                                <th scope="col">Due date</th>
-                                                <th scope="col">Priority</th>
-                                                <th scope="col">Status</th>
-                                            </tr>
-                                        </thead>
-                                        <>
-                                            {/* {(stage)?(
+                                <div className="col-md-8" title={`This is a sample preview of your project dear ${signedInUserData.displayName}`}>
+                                    <div className="table-responsive">
+                                        <table className="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th colSpan={5}>
+                                                        <h2><i className="fas fa-list-alt fa-lg mr-3" style={{ color: "#48dafd" }}></i>&nbsp;&nbsp; {projectPlan}</h2>
+                                                        <h4>
+                                                            <span className="text-success">
+                                                                {/* {JSON.stringify(new Date(projectStartingDate).toLocaleString('en-US', { timeZone: 'Asia/Karachi' }) + ", " +new Date(projectStartingDate).toLocaleString('en-US', { timeZone: 'Asia/Karachi' }) + " " + new Date(projectStartingDate).toLocaleString('en-US', { timeZone: 'Asia/Karachi' }))} */}
+                                                                {JSON.stringify(new Date(projectStartingDate).toLocaleDateString('en-US', { timeZone: 'Asia/Karachi' }))}
+                                                            </span>
+                                                            &nbsp; <i className="fas fa-1x text-primary fa-arrow-right"></i>
+                                                            &nbsp; <span className="text-danger">
+                                                                {/* {JSON.stringify(new Date(projectEndingDate).getDay() + ", " + monthNames[new Date(projectEndingDate).getMonth()] + " " + new Date(projectEndingDate).getFullYear())} */}
+                                                                {JSON.stringify(new Date(projectEndingDate).toLocaleDateString('en-US', { timeZone: 'Asia/Karachi' }))}
+                                                            </span></h4>
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="col">Task name</th>
+                                                    <th scope="col">Assignee</th>
+                                                    <th scope="col">Due date</th>
+                                                    <th scope="col">Priority</th>
+                                                    <th scope="col">Status</th>
+                                                </tr>
+                                            </thead>
+                                            <>
+                                                {/* {(stage)?(
                                 ):(
                                 )} */}
 
 
-                                            {/* This matters */}
-                                            {allStageArray.map((s: any, i: any) => {
-                                                return <tbody key={i}>
-                                                    <tr>
-                                                        <th className={(currentStage == s) ? (`text-danger`) : (``)} scope="row" colSpan={5}><h5><i className="fas fa-chevron-down mr-3"></i>&nbsp; {s}</h5></th>
-                                                    </tr>
-                                                    {(allTaskArray.length == 0) ? (
+                                                {/* This matters */}
+                                                {allStageArray.map((s: any, i: any) => {
+                                                    return <tbody key={i}>
                                                         <tr>
-                                                            <th scope="row"><i className="far fa-check-circle fa-lg"></i>&nbsp;&nbsp;</th>
-                                                            <td>&nbsp;&nbsp;</td>
-                                                            <td>&nbsp;&nbsp;</td>
-                                                            <td>&nbsp;&nbsp;</td>
-                                                            <td>&nbsp;&nbsp;</td>
+                                                            <th className={(currentStage == s) ? (`text-danger`) : (``)} scope="row" colSpan={5}><h5><i className="fas fa-chevron-down mr-3"></i>&nbsp; {s}</h5></th>
                                                         </tr>
-                                                    ) : (
-                                                        allTaskArray.map((v: any, i: any) => {
-                                                            return <tr className={(currentStageCurrentTask == v.taskName) ? (`text-danger`) : (``)} key={i}>
-                                                                {(v.taskSection == s) ? (
-                                                                    <>
-                                                                        <th scope="row"><i className="far fa-check-circle fa-lg"></i>&nbsp;&nbsp;{v.taskName}</th>
-                                                                        {(v.taskAssignee.length === 0) ? (
-                                                                            <td>
-                                                                                <i className="fas fa-user-circle fa-2x text-primary"></i></td>
-                                                                        ) : (
-                                                                            <td>
-                                                                                {v.taskAssignee.map((
-                                                                                    v: any, i: any) => (
-                                                                                    <span key={i}>{v}</span>
-                                                                                ))}
-                                                                            </td>
-                                                                        )}
-
-                                                                        <td>{v.taskDue}</td>
-                                                                        {(v.taskPriority == "High") ? (
-                                                                            <td><button type="button" className="btn btn-danger btn-rounded">{v.taskPriority}</button></td>
-                                                                        ) : (v.taskPriority == "Medium") ? (
-                                                                            <td><button type="button" className="btn btn-warning btn-rounded">{v.taskPriority}</button></td>
-                                                                        ) : (v.taskPriority == "Low") ? (
-                                                                            <td><button type="button" className="btn btn-info btn-rounded">{v.taskPriority}</button></td>
-                                                                        ) : (
-                                                                            <td></td>
-                                                                        )}
-                                                                        <td><h5>{v.taskSection}</h5></td>
-                                                                    </>
-                                                                ) : (
-                                                                    <></>
-                                                                )}
+                                                        {(allTaskArray.length == 0) ? (
+                                                            <tr>
+                                                                <th scope="row"><i className="far fa-check-circle fa-lg"></i>&nbsp;&nbsp;</th>
+                                                                <td>&nbsp;&nbsp;</td>
+                                                                <td>&nbsp;&nbsp;</td>
+                                                                <td>&nbsp;&nbsp;</td>
+                                                                <td>&nbsp;&nbsp;</td>
                                                             </tr>
-                                                        })
-                                                    )}
-                                                </tbody>
-                                            })}
-                                            {/* This matters */}
+                                                        ) : (
+                                                            allTaskArray.map((v: any, i: any) => {
+                                                                return <tr className={(currentStageCurrentTask == v.taskName) ? (`text-danger`) : (``)} key={i}>
+                                                                    {(v.taskSection == s) ? (
+                                                                        <>
+                                                                            <th scope="row"><i className="far fa-check-circle fa-lg"></i>&nbsp;&nbsp;{v.taskName}</th>
+                                                                            {(v.taskAssignee.length === 0) ? (
+                                                                                <td>
+                                                                                    <i className="fas fa-user-circle fa-2x text-primary"></i></td>
+                                                                            ) : (
+                                                                                <td>
+                                                                                    {v.taskAssignee.map((
+                                                                                        v: any, i: any) => (
+                                                                                        <span key={i}>{v}</span>
+                                                                                    ))}
+                                                                                </td>
+                                                                            )}
 
-
-                                            {/* This is commented for now for map to work */}
-                                            {/* <tr>
-                                    <th scope="row" colSpan={5}><h5><i className="fas fa-chevron-down mr-3"></i>&nbsp; {stageName}</h5></th>
-                                </tr> */}
-
-
-                                            {/* {(allTaskArray.length == 0) ? (
-                                    <>
-                                        <tr>
-                                            <th scope="row"><i className="far fa-check-circle fa-lg"></i>&nbsp;&nbsp;</th>
-                                            <td>&nbsp;&nbsp;</td>
-                                            <td>&nbsp;&nbsp;</td>
-                                            <td>&nbsp;&nbsp;</td>
-                                            <td>&nbsp;&nbsp;</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row"><i className="far fa-check-circle fa-lg"></i>&nbsp;&nbsp;</th>
-                                            <td>&nbsp;&nbsp;</td>
-                                            <td>&nbsp;&nbsp;</td>
-                                            <td>&nbsp;&nbsp;</td>
-                                            <td>&nbsp;&nbsp;</td>
-                                        </tr>
-                                    </>
-                                ) : (
-                                    allTaskArray.map((v, i) => {
-                                        return <tr key={i}>
-                                            <th scope="row"><i className="far fa-check-circle fa-lg"></i>&nbsp;&nbsp;{v.taskName}</th>
-                                            {(v.taskAssignee.length == "") ? (
-                                                <td><i className="fas fa-user-circle fa-2x text-primary"></i></td>
-                                            ) : (
-                                                <td>{v.taskAssignee}</td>
-                                            )}
-                                            <td>{v.taskDue}</td>
-                                            <td><button type="button" className="btn btn-info btn-rounded">{v.taskPriority}</button></td>
-                                            <td><button type="button" className="btn btn-info btn-rounded">{v.taskSection}</button></td>
-                                        </tr>
-                                    })
-                                )} */}
-                                            {/* This is commented for now for map to work */}
-
-                                            {/* <tr>
-                                    <th scope="row"><i className="far fa-check-circle fa-lg"></i>&nbsp;&nbsp;Determine project goal</th>
-                                    <td><i className="fas fa-user-circle fa-2x text-primary"></i></td>
-                                    <td>Today-Jun 9</td>
-                                    <td><button type="button" className="btn btn-info btn-rounded">Low</button></td>
-                                    <td><button type="button" className="btn btn-info btn-rounded">On track</button></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row"><i className="far fa-check-circle fa-lg"></i>&nbsp;&nbsp;Schedule meeting with client</th>
-                                    <td><i className="fas fa-user-circle fa-2x t text-danger"></i></td>
-                                    <td>Jun 8 - 10</td>
-                                    <td><button type="button" className="btn btn-warning btn-rounded">Medium</button></td>
-                                    <td><button type="button" className="btn btn-warning btn-rounded">At risk</button></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row"><i className="far fa-check-circle fa-lg"></i>&nbsp;&nbsp;Set final deadline</th>
-                                    <td><i className="fas fa-user-circle fa-2x t text-danger"></i></td>
-                                    <td>Jun 9 - 11</td>
-                                    <td><button type="button" className="btn btn-secondary btn-rounded">High</button></td>
-                                    <td><button type="button" className="btn btn-danger btn-rounded">On track</button></td>
-                                </tr> */}
-
-                                            {/* This is commented for now */}
-                                            {/* <tr>
-                                    <th scope="row" colSpan={5}><h5><i className="fas fa-chevron-down mr-3"></i>&nbsp; {stageName}</h5></th>
-                                </tr>
-                                <tr>
-                                    <th scope="row"><i className="far fa-check-circle fa-lg"></i>&nbsp;&nbsp;</th>
-                                    <td>&nbsp;&nbsp;</td>
-                                    <td>&nbsp;&nbsp;</td>
-                                    <td>&nbsp;&nbsp;</td>
-                                    <td>&nbsp;&nbsp;</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row"><i className="far fa-check-circle fa-lg"></i>&nbsp;&nbsp;</th>
-                                    <td>&nbsp;&nbsp;</td>
-                                    <td>&nbsp;&nbsp;</td>
-                                    <td>&nbsp;&nbsp;</td>
-                                    <td>&nbsp;&nbsp;</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row" colSpan={5}><h5><i className="fas fa-chevron-down mr-3"></i>&nbsp; {stageName}</h5></th>
-                                </tr>
-                                <tr>
-                                    <th scope="row"><i className="far fa-check-circle fa-lg"></i>&nbsp;&nbsp;</th>
-                                    <td>&nbsp;&nbsp;</td>
-                                    <td>&nbsp;&nbsp;</td>
-                                    <td>&nbsp;&nbsp;</td>
-                                    <td>&nbsp;&nbsp;</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row"><i className="far fa-check-circle fa-lg"></i>&nbsp;&nbsp;</th>
-                                    <td>&nbsp;&nbsp;</td>
-                                    <td>&nbsp;&nbsp;</td>
-                                    <td>&nbsp;&nbsp;</td>
-                                    <td>&nbsp;&nbsp;</td>
-                                </tr> */}
-                                            {/* This is commented for now */}
-                                        </>
-                                    </table>
+                                                                            <td>{v.taskDue}</td>
+                                                                            {(v.taskPriority == "High") ? (
+                                                                                <td><button type="button" className="btn btn-danger btn-rounded">{v.taskPriority}</button></td>
+                                                                            ) : (v.taskPriority == "Medium") ? (
+                                                                                <td><button type="button" className="btn btn-warning btn-rounded">{v.taskPriority}</button></td>
+                                                                            ) : (v.taskPriority == "Low") ? (
+                                                                                <td><button type="button" className="btn btn-info btn-rounded">{v.taskPriority}</button></td>
+                                                                            ) : (
+                                                                                <td></td>
+                                                                            )}
+                                                                            <td><h5>{v.taskSection}</h5></td>
+                                                                        </>
+                                                                    ) : (
+                                                                        <></>
+                                                                    )}
+                                                                </tr>
+                                                            })
+                                                        )}
+                                                    </tbody>
+                                                })}
+                                                {/* This matters */}
+                                            </>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -104,7 +104,8 @@ const Widget1: React.FC<IProps> = ({
     console.log("Email ==> ", email.toString());
     // "Jobs", `${uid}`, "data")
     const e = email;
-    let q = query(collection(db, "Data", "Projects", `${e}`));
+    // let q = query(collection(db, "Data", "Projects", `${e}`));
+    let q = query(collection(db, "Projects"));
 
     const [snapshot, loading, error] = useCollection(
         q,
@@ -121,24 +122,37 @@ const Widget1: React.FC<IProps> = ({
     useEffect(() => {
 
         if (!loading) {
-            // if (snapshot.docs.length !== projects.length) {
+            let localObj: any;
 
-            let newProjects = [];
-            let tempProjectsObj = snapshot?.docs.map((doc, i) => ({ ...doc.data(), id: doc.id }));
+            let arrProjects = snapshot?.docs.map(doc => ({ ...doc.data(), id: doc.id }));
 
-            setProjects(tempProjectsObj);
-            console.log("Projects ==> ", projects);
-            // }
+            localObj = arrProjects;
+
+            // Now only i need projects that are created by me means email is equal to signedInUserData.email
+            // or that are shared with me means project members array contains signedInUserData.email
+
+            // Filter the projects array and extract only those projects that are created by me
+            // localObj = localObj.filter((project: any) => );
+
+            // Filter the projects array and extract only those projects that are shared with me
+            localObj = localObj.filter((project: any) => project?.ProjectMembers?.includes(email) || project?.createdBy === email);
+
+            // Extract all the project members from the projects array
+            setProjects(localObj);
+
+            // console.clear();
+            console.log("Projects ==> ", snapshot?.docs.map(doc => ({ ...doc.data(), id: doc.id })));
+            console.log("Projects Local ==> ", localObj);
         }
-        
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loading, snapshot]);
     // FOR GETTING PROJECTS
 
     return (
         <div className={styles.container}>
             <div className="d-flex">
-                <h1>Projects</h1>
+                <h1 className='text-white'>Projects</h1>
                 {/* Secondary */}
                 <div className="btn-group" style={{ fontSize: 12, height: 28, boxShadow: "none", marginTop: "-10px", marginLeft: 20 }}>
                     <button type="button" className={`btn btn-btnDrop ${styles.btn_dropdown}`} data-mdb-toggle="dropdown" aria-expanded="false">
@@ -173,7 +187,7 @@ const Widget1: React.FC<IProps> = ({
                             <div className={styles.individualProject}>
                                 {(index === 0) ? (
                                     <div className={`${styles.icon_styleAdd}`}>
-                                        <AddIcon sx={{ fontSize: 30, color: "#6d6e6f" }} />
+                                        <AddIcon sx={{ fontSize: 30, color: "#303131" }} />
                                     </div>
                                 ) : (
                                     <div className={`${styles.icon_style}`} style={{

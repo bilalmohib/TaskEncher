@@ -128,7 +128,6 @@
     font-weight: 400;
     height: 40px;
     margin-left: 10px;
-    /* border: 1px solid red; */
     padding-top: 12px;
 }
 
@@ -141,6 +140,11 @@
     margin-left: 7px;
     /* border: 1px solid red; */
     padding-top: 2px;
+    /* border: 1px solid red; */
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 130px;
 }
 
 .projectRoleText {

@@ -76,28 +76,28 @@ export default function Calendar({
     <div className={styles.calendarRoot}>
       <div className={styles.navigationheader}>
         <div className={styles.monthnavarrowbuttons}>
-            <span className={styles.todspan}>
-              Today
-            </span>
-          <button onClick={handleMonthNavBackButtonClick} className={styles.arrowbuttons}> <ArrowBackIosNewIcon style={{fontSize: 17.5}} /> </button>
-          <button onClick={handleMonthNavForwardButtonClick} className={styles.arrowbuttons}><ArrowForwardIosIcon style={{fontSize: 17.5}} /></button>
+          <span className={styles.todspan}>
+            Today
+          </span>
+          <button onClick={handleMonthNavBackButtonClick} className={styles.arrowbuttons}> <ArrowBackIosNewIcon style={{ fontSize: 17.5 }} /> </button>
+          <button onClick={handleMonthNavForwardButtonClick} className={styles.arrowbuttons}><ArrowForwardIosIcon style={{ fontSize: 17.5 }} /></button>
         </div>
         <select
-          className={styles.monthselect}
+          className={`${styles.monthselect} form-control`}
           value={month}
-        style={{border:'none'}}
+          style={{ border: 'none', width: '100px' }}
           onChange={handleMonthSelect}
         >
           {
-          getMonthDropdownOptions().map(({ label, value }) => (
-            <option value={value} key={value}>
-              {label}
-            </option>
-          ))}
+            getMonthDropdownOptions().map(({ label, value }) => (
+              <option value={value} key={value}>
+                {label}
+              </option>
+            ))}
         </select>
         <select
-        style={{border:'none'}}
-          className={styles.yearselect}
+          style={{ border: 'none', width: '100px' }}
+          className={`${styles.yearselect} form-control`}
           value={year}
           onChange={handleYearSelect}
         >

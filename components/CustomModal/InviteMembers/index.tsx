@@ -10,17 +10,20 @@ import MultiSelectCustomAutoComplete from '@app/components/MultiSelectCustomAuto
 
 import { FcGoogle } from 'react-icons/fc';
 import { FaGithub } from 'react-icons/fa';
+import addProjectMembers from '@app/lib/addProjectMembers';
 
 // const InviteMembers = () => {
 interface InviteMembersProps {
     projects: any;
     projectMembers: string[];
+    projectID: string;
 }
 
 const InviteMembers: React.FC<InviteMembersProps> = (
     {
         projects,
-        projectMembers
+        projectMembers,
+        projectID
     }) => {
 
     const styles = {
@@ -93,6 +96,8 @@ const InviteMembers: React.FC<InviteMembersProps> = (
 
     const [selectedMembers, setSelectedMembers] = React.useState<string[]>([]);
 
+    const [membersError, setMembersError] = React.useState<boolean>(false);
+
     const [selectedProjects, setSelectedProjects] = React.useState<string[]>([]);
 
     // For popover
@@ -157,15 +162,49 @@ const InviteMembers: React.FC<InviteMembersProps> = (
     }
 
     async function sendInvites() {
-        sendInvite('John Doe', 'john@example.com')
-            .then((response) => {
-                console.log(response.message);
-                alert(response.message);
-            })
-            .catch((error) => {
-                console.error(error.message)
-                alert(error.message);
-            });
+        let selectedMembersEmails: any = [];
+        let selectedProjectsLocal: any = [];
+
+        for (let i = 0; i < selectedMembers.length; i++) {
+            // const firstName = email.split(".")[0];
+            // const lastName = email.split(".")[1];
+            // // Extract first and last name first letter and make it the avatar
+            // const avatar = firstName.charAt(0) + lastName.charAt(0);
+
+            // @ts-ignore
+            selectedMembersEmails.push(selectedMembers[i]?.title);
+        }
+
+        for (let i = 0; i < selectedProjects.length; i++) {
+            // @ts-ignore
+            selectedProjectsLocal.push(selectedProjects[i]?.value);
+        }
+
+        console.log("Selected Members Email ==> ", selectedMembersEmails);
+        console.log("Selected Projects ==> ", selectedProjectsLocal);
+
+        // projectsToAdd: any,
+        // projectID: string,
+        // projects: any, // Add the projects array as an argument
+        // projectMembers: [] | null | undefined
+
+        addProjectMembers(
+            selectedProjectsLocal,
+            projectID,
+            projects,
+            selectedMembersEmails
+        )
+
+        // sendInvite('John Doe', 'john@example.com')
+        //     .then((response) => {
+        //         console.log(response.message);
+        //         alert(response.message);
+        //     })
+        //     .catch((error) => {
+        //         console.error(error.message)
+        //         alert(error.message);
+        //     });
+
     }
 
     return (
@@ -188,6 +227,8 @@ const InviteMembers: React.FC<InviteMembersProps> = (
                     styles={styles.input}
                     dropDownStyles={styles.dropDownStyles}
                     type="members"
+                    error={membersError}
+                    setError={setMembersError}
                 />
             </Box>
             <Typography sx={styles.inputInfo} variant="h6" component="h2">
@@ -294,4 +335,4 @@ const InviteMembers: React.FC<InviteMembersProps> = (
         </Box>
     )
 }
-export default InviteMembers
+export default InviteMembers;

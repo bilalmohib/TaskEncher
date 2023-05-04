@@ -13,6 +13,7 @@ import Doughnut from './Charts/Doughnut';
 import Radar from './Charts/Radar';
 
 interface GraphReportIndividualProps {
+    reportID: string;
     reportTitle: string;
     reportData: any;
     graphType: string;
@@ -21,6 +22,7 @@ interface GraphReportIndividualProps {
 }
 
 const GraphReportIndividual: React.FC<GraphReportIndividualProps> = ({
+    reportID,
     reportTitle,
     reportData,
     graphType,
@@ -57,7 +59,6 @@ const GraphReportIndividual: React.FC<GraphReportIndividualProps> = ({
                         fontFamily: '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif',
                     }}
                 >
-
                     {reportTitle}
                 </Typography>
                 <Typography
@@ -74,10 +75,16 @@ const GraphReportIndividual: React.FC<GraphReportIndividualProps> = ({
                 </Typography>
 
                 {(graphType === "line") ? (
-                    <Line />
+                    <Line
+                        reportID={reportID}
+                        reportData={reportData}
+                    />
                 ) :
                     (graphType === "bar") ? (
-                        <Bar />
+                        <Bar
+                            reportID={reportID}
+                            reportData={reportData}
+                        />
                     ) :
                         (graphType === "pie") ? (
                             <div>
@@ -85,10 +92,16 @@ const GraphReportIndividual: React.FC<GraphReportIndividualProps> = ({
                             </div>
                         ) :
                             (graphType === "radar") ? (
-                                <Radar />
+                                <Radar
+                                    reportID={reportID}
+                                    reportData={reportData}
+                                />
                             ) :
                                 (graphType === "doughnut") ? (
-                                    <Doughnut />
+                                    <Doughnut
+                                        reportID={reportID}
+                                        reportData={reportData}
+                                    />
                                 ) : (
                                     <div>
                                         <p>Graph Type Not Found</p>

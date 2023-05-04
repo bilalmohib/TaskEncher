@@ -8,6 +8,21 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
+import { enqueueSnackbar } from 'notistack';
+
+import {
+    doc,
+    collection,
+    onSnapshot,
+    addDoc,
+    query,
+    orderBy,
+    deleteDoc,
+    setDoc,
+    where,
+    getFirestore,
+    updateDoc,
+} from "firebase/firestore";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -33,19 +48,26 @@ interface MultiSelectChipDropDownProps {
     placeholder: string;
     options: string[];
     selectedArrayList: string[];
-    setSelectedArrayList: (selectedArrayList: string[]) => void;
+    projects: any;
     styles?: any;
     dropDownStyles?: any;
-
+    projectID: string;
+    email: string;
+    taskId: number;
+    type: string;
 }
 
 const MultiSelectChipDropDown: FC<MultiSelectChipDropDownProps> = ({
     placeholder,
     options,
     selectedArrayList,
-    setSelectedArrayList,
+    projects,
     styles,
-    dropDownStyles
+    dropDownStyles,
+    projectID,
+    email,
+    taskId,
+    type
 }) => {
     const theme = useTheme();
 
@@ -53,15 +75,57 @@ const MultiSelectChipDropDown: FC<MultiSelectChipDropDownProps> = ({
         const {
             target: { value },
         } = event;
-        setSelectedArrayList(
-            // On autofill we get a stringified value.
-            typeof value === 'string' ? value.split(',') : value,
-        );
+
+        if (type === "taskAssignee") {
+            const newTaskAssigneeList = (typeof value === 'string' ? value.split(',') : value);
+            updateTaskAssigneeList(taskId, newTaskAssigneeList);
+
+            console.log("newTaskAssigneeList: ", newTaskAssigneeList);
+        }
+    };
+
+    const updateTaskAssigneeList = async (taskId: number, newTaskAssignees: string[]) => {
+        const db = getFirestore();
+        const projectRef = doc(db, "Projects", projectID);
+
+        for (let i = 0; i < projects.length; i++) {
+            if (projects[i].id === projectID.toString()) {
+                projects[i].ProjectTasks[taskId].taskAssignee = newTaskAssignees;
+                const updatedProject = projects[i];
+                console.log("Updated Project : ", updatedProject);
+
+                try {
+                    await updateDoc(projectRef, updatedProject);
+                    let message: string = "Task Assignee has been updated successfully";
+                    console.log(message);
+                    enqueueSnackbar(
+                        message,
+                        {
+                            variant: 'success',
+                            anchorOrigin: { vertical: 'bottom', horizontal: 'right' }
+                        },
+                    )
+                } catch (error: any) {
+                    let message: string = `Error updating task name: ${error?.message}`;
+                    console.log(message);
+                    enqueueSnackbar(
+                        message,
+                        {
+                            variant: 'success',
+                            anchorOrigin: { vertical: 'bottom', horizontal: 'right' }
+                        },
+                    )
+                }
+                break;
+            }
+        }
     };
 
     return (
         <div>
-            <FormControl sx={styles}>
+            <FormControl
+                role="button"
+                sx={styles}>
                 <Select
                     multiple
                     displayEmpty
@@ -70,7 +134,7 @@ const MultiSelectChipDropDown: FC<MultiSelectChipDropDownProps> = ({
                     input={<OutlinedInput />}
                     renderValue={(selected) => {
                         if (selected.length === 0) {
-                            return <span style={{fontWeight:"light",color:"#A1A1A1"}}>{placeholder}</span>;
+                            return <span style={{ fontWeight: "light", color: "#A1A1A1" }}>{placeholder}</span>;
                         }
                         return (
                             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
@@ -83,25 +147,38 @@ const MultiSelectChipDropDown: FC<MultiSelectChipDropDownProps> = ({
                     sx={(dropDownStyles) ? (
                         dropDownStyles
                     ) : ({
+                        paddingLeft: '3px',
                         '& .MuiOutlinedInput-notchedOutline': {
                             borderColor: '#E5E5E5',
-                            borderWidth: '1px',
+                            borderWidth: '0px',
                         },
                         '&:hover .MuiOutlinedInput-notchedOutline': {
                             borderColor: '#E5E5E5',
-                            borderWidth: '1px',
+                            borderWidth: '0px',
                         },
                         '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
                             // Give the default border color of material ui input
-                            borderWidth: '1px',
-                        }
+                            borderWidth: '0px',
+                        },
+                        cursor: 'pointer',
+                        // border:"1px solid red"
+                        // '& .MuiOutlinedInput-notchedOutline': {
+                        //     border: 'none',
+                        //   },
+                        //   '&:hover .MuiOutlinedInput-notchedOutline': {
+                        //     border: 'none',
+                        //   },
+                        //   '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                        //     // Give the default border color of material ui input
+                        //     borderWidth: '1px',
+                        //   }
                     }
                     )}
                     MenuProps={MenuProps}
                     inputProps={{ 'aria-label': 'Without label' }}
                 >
                     <MenuItem disabled value="">
-                        <span style={{fontWeight:"light",color:"#A1A1A1"}}>{placeholder}</span>
+                        <span style={{ fontWeight: "light", color: "#A1A1A1" }}>{placeholder}</span>
                     </MenuItem>
                     {options.map((option: string) => (
                         <MenuItem

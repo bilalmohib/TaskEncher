@@ -46,64 +46,35 @@ import Messages from '@app/components/ProjectDetails/Messages';
 import Files from '@app/components/ProjectDetails/Files';
 import Navbar from '@app/components/Navbar';
 import Sidebar from '@app/components/Sidebar';
+import ListMT from '@app/components/MyTasks/ListMT';
 
-const currentDate = new Date();
+interface MyTasksProps {
+    // Add Task Model Open
+    isAddTaskModalOpen: boolean;
+    setIsAddTaskModalOpen: (value: boolean) => void;
+    projectMembers: string[];
+    signedInUserData: any,
+    isSignedIn: boolean
+}
 
-const MyTasks = () => {
-
-    const router = useRouter();
-
-    // const { projectName, projectID } = router.query;
-    const projectName = "FYP";
+const MyTasks: NextPage<MyTasksProps> = (
+    {
+        // Add Task Model Open
+        isAddTaskModalOpen,
+        setIsAddTaskModalOpen,
+        projectMembers,
+        signedInUserData,
+        isSignedIn
+    }
+) => {
     const projectID = "60ey7xJel4dLrhBpKwIh";
-
-    const [firestoreData, setFirestoreData] = useState<any>([]);
-    const [status, setStatus] = useState<Boolean>(false);
-    const [signedInUserData, setSignedInUserData] = useState<any>(null);
-    const [isSignedIn, setIsSignedIn] = useState<Boolean>(false);
-
-    useEffect(() => {
-
-        // console.log("Current Path : ", window.location.pathname);
-        // console.log("activeJobs ==>", activeJobs);
-
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                // User is signed in, see docs for a list of available properties
-                // https://firebase.google.com/docs/reference/js/firebase.User
-                if (signedInUserData === null) {
-                    if (user.isAnonymous === true) {
-                        let tempUser = {
-                            displayName: "Anonymous",
-                            email: `anonymous${user.uid}@guest.com`,
-                            photoURL: user.photoURL,
-                        }
-                        console.log(tempUser);
-                        setSignedInUserData(tempUser);
-                    } else {
-                        console.log(user);
-                        setSignedInUserData(user);
-                    }
-                    setIsSignedIn(true);
-                    // ...
-                }
-            } else {
-                // User is signed out
-                console.log("User is signed out");
-                // alert("Please sign in to continue");
-                // navigate("/login");
-                // ...
-            }
-        });
-    }, [signedInUserData, isSignedIn]);
-
     const [selectedTabItemValue, setSelectedTabItemValue] = useState<Number>(1);
 
     return (
         <div className={styles.container}>
             {(isSignedIn) ? (
-                <div className={styles.container}>
-                    <header className={`fixed-top ${styles.header}`} style={{position:"relative",zIndex:"1000 !imoprtant"}}>
+                <div className={styles.mainSectionContainer}>
+                    <header className={`fixed-top ${styles.header}`} style={{ position: "relative", zIndex: "1000 !imoprtant" }}>
                         <HeaderMyTasks
                             projectID={projectID}
                             email={signedInUserData.email}
@@ -114,18 +85,23 @@ const MyTasks = () => {
 
                     <div>
                         {(selectedTabItemValue === 1) ? (
-                            <List
+                            <ListMT
                                 email={signedInUserData.email}
-                                projectName={projectName}
-                                projectID={projectID}
+                                // projectName={projectName}
+                                // projectID={projectID}
+
+                                // Add Task Model Open
+                                isAddTaskModalOpen={isAddTaskModalOpen}
+                                setIsAddTaskModalOpen={setIsAddTaskModalOpen}
+                                projectMembers={projectMembers}
                             />
+                            // ) : (selectedTabItemValue === 2) ? (
+                            //     <Board />
                         ) : (selectedTabItemValue === 2) ? (
-                            <Board />
-                        ) : (selectedTabItemValue === 3) ? (
                             <Calender />
-                        ) : (selectedTabItemValue === 4) ? (
+                        ) : (selectedTabItemValue === 3) ? (
                             <Messages />
-                        ) : (selectedTabItemValue === 5) ? (
+                        ) : (selectedTabItemValue === 4) ? (
                             <Files />
                         ) : (
                             <>Please Select the correct tab</>

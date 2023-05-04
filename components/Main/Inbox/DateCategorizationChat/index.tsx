@@ -39,7 +39,7 @@ const DateCategorizationChat: React.FC<DateCategorizationChatProps> = ({
                     marginBottom: '30px',
                 }}>
                     <Box sx={{
-                        borderBottom: "1px solid black",
+                        // borderBottom: "1px solid black",
                         width: "45%"
                     }}>
                     </Box>
@@ -57,21 +57,21 @@ const DateCategorizationChat: React.FC<DateCategorizationChatProps> = ({
                             justifyContent: 'center',
                             width: '100px',
                             height: '50px',
-                            backgroundColor: '#000',
-                            color: '#fff',
+                            backgroundColor: '#EDEDED',
+                            color: '#727272',
                             borderRadius: '10px',
                             marginTop: '10px',
                             marginBottom: '-25px',
                             padding: '10px',
                         }}
                         >
-                            {formattedDate}
+                           {formattedDate}
                         </Box>
 
                     </Typography>
                     <Box
                         sx={{
-                            borderBottom: "1px solid black",
+                            // borderBottom: "1px solid black",
                             width: "45%"
                         }}>
                     </Box>

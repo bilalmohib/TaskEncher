@@ -1,0 +1,43 @@
+// FOR GETTING PROJECTS
+    useEffect(() => {
+        if (!loading) {
+            let projectMembers = [];
+
+            let localObj: any;
+
+            let arrProjects = snapshot?.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+
+            localObj = arrProjects;
+
+            // Now only i need projects that are created by me means email is equal to signedInUserData.email
+            // or that are shared with me means project members array contains signedInUserData.email
+
+            // Filter the projects array and extract only those projects that are created by me
+            // localObj = localObj.filter((project: any) => );
+
+            // Filter the projects array and extract only those projects that are shared with me
+            localObj = localObj.filter((project: any) => project?.ProjectMembers?.includes(email) || project?.createdBy === email);
+
+            let tempProjectsObj: any = localObj;
+
+            setProjects(tempProjectsObj);
+
+            // Create a new array containing projectmembers of each project object
+            if (tempProjectsObj !== undefined) {
+                for (let i = 0; i < tempProjectsObj.length; i++) {
+                    projectMembers.push(tempProjectsObj[i].ProjectMembers);
+                    //console.log("Project Members ==> ", tempProjectsObj[i].ProjectMembers);
+                }
+            }
+
+            // Set the projectMembersState
+            setProjectMembersState(projectMembers.flat(1));
+
+            // setLoading(false);
+            // console.clear();
+            console.log("Project Members ==> ", projectMembersState);
+        }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [loading, snapshot]);
+    // FOR GETTING PROJECTS

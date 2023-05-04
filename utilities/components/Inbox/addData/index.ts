@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { enqueueSnackbar } from 'notistack';
 
 import {
     doc,
@@ -32,6 +33,15 @@ const addData = (
                     console.log("Data sent");
                     // setMessage("");
                     // alert("User Added Successfully.");
+                    let message: string = "User Added Successfully.";
+                    console.log(message);
+                    enqueueSnackbar(
+                        message,
+                        {
+                            variant: 'success',
+                            anchorOrigin: { vertical: 'bottom', horizontal: 'right' }
+                        },
+                    )
                 })
                 .catch(err => {
                     console.warn(err);
@@ -45,23 +55,50 @@ const addData = (
                 lastMessage: '',
                 lastMessageTime: new Date().toLocaleTimeString(),
                 profilePic: signedInUserData.photoURL,
-                isOnline: true
+                isOnline: true,
+                type: dataObject.type
             }
 
             addDoc(collection(db, `Data/Chat/Single/Users/${dataObject.email}`), senderUserData)
                 .then(() => {
                     console.log("Data sent");
-                    // alert("User Added Successfully.");
+                    let message: string = `User ${dataObject.name} Added Successfully.`;
+                    console.log(message);
+                    enqueueSnackbar(
+                        message,
+                        {
+                            variant: 'success',
+                            anchorOrigin: { vertical: 'bottom', horizontal: 'right' }
+                        },
+                    )
                 })
                 .catch(err => {
                     console.warn(err);
-                    alert(`Error creating Job: ${err.message}`);
+                    // alert(`Error creating Job: ${err.message}`);
+                    let message: string = `Error sending message to ${dataObject.name}`;
+                    console.log(message);
+                    enqueueSnackbar(
+                        message,
+                        {
+                            variant: 'error',
+                            anchorOrigin: { vertical: 'bottom', horizontal: 'right' }
+                        },
+                    )
                 });
         } else if (type === "singleChat") {
             addDoc(collection(db, `Chat/Single/Chat`), dataObject)
                 .then(() => {
                     console.log("Data sent");
                     // alert("Chat Added Successfully.");
+                    let message: string = `Message sent to ${dataObject.name}`;
+                    console.log(message);
+                    enqueueSnackbar(
+                        message,
+                        {
+                            variant: 'success',
+                            anchorOrigin: { vertical: 'bottom', horizontal: 'right' }
+                        },
+                    )
                 })
                 .catch(err => {
                     console.warn(err);

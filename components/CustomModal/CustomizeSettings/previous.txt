@@ -1,0 +1,59 @@
+const [state, setState] = useState({
+        gilad: true,
+        jason: true,
+        antoine: true,
+    });
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setState({
+            ...state,
+            [event.target.name]: event.target.checked,
+        });
+    };
+
+  {/* <FormControl component="fieldset" variant="standard"
+                sx={{
+                    width: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "1rem",
+                }}
+            >
+                <FormLabel component="legend">Choose the widgets that you wanna show at dashboard</FormLabel>
+                <FormGroup
+                    sx={{
+                        width: "100%",
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "0.5rem",
+                    }}
+                >
+                    <CustomFormControlLabel
+                        control={<IOSSwitch checked={state.gilad} onChange={handleChange} name="gilad" />}
+                        label={
+                            <Box component="span">
+                                {/* Add your custom icon here */}
+                                Gilad Gray
+                            </Box>
+                        }
+                    />
+                    <CustomFormControlLabel
+                        control={<IOSSwitch checked={state.jason} onChange={handleChange} name="jason" />}
+                        label={
+                            <Box component="span">
+                                {/* Add your custom icon here */}
+                                Jason Killian
+                            </Box>
+                        }
+                    />
+                    <CustomFormControlLabel
+                        control={<IOSSwitch checked={state.antoine} onChange={handleChange} name="antoine" />}
+                        label={
+                            <Box component="span">
+                                {/* Add your custom icon here */}
+                                Antoine Llorca
+                            </Box>
+                        }
+                    />
+                </FormGroup>
+            </FormControl>

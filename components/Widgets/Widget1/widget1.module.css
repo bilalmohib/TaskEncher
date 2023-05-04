@@ -1,6 +1,8 @@
 .container {
-    background-color: rgb(255, 255, 255);
+    /* background-color: rgb(255, 255, 255); */
+    background-color: #f9f8f80a;
     padding-left: 20px;
+    border: none !important;
     padding-top: 20px;
     height: 100%;
     overflow-y: auto;
@@ -20,7 +22,8 @@
     text-transform: none;
     padding-top: 3px;
     font-weight: 300;
-    color: #6d6d6d;
+    /* color: #6d6d6d; */
+    color: #c3bfbf;
     background-color: transparent;
     border-radius: 6px !important;
 }
@@ -49,8 +52,9 @@
 
 /* Individual Project Container */
 .individualProject {
-    background-color: white;
-    color: black;
+    background-color: rgba(70, 65, 65, 0.169);
+    /* color: black; */
+    color: white;
     /* border: 1px solid #edeae9; */
     border-radius: 8px;
     padding: 0.3rem;
@@ -68,12 +72,13 @@
 .individualProject:hover {
     /* border: 1px solid #bebebe; */
     transition: 0.1s linear;
-    background-color: #f9f8f8;
+    /* background-color: #f9f8f8; */
+    background-color: rgba(70, 65, 65, 0.5);
     box-shadow: rgba(99, 99, 99, 0.1) 0px 1px 3px 0px;
 }
 
 .individualProject:focus {
-    border: 1.5px solid #ff0000;
+    border: 1.5px solid #262626;
 }
 
 /* Individual Project Container */
@@ -89,8 +94,11 @@
     width: 50px;
     height: 50px;
     text-align: center;
-    border: 1px solid #3e3d3a;
+    /* border: 1px solid #3e3a3b; */
+    border: 1px solid #c3bfbf;
     border-style: dashed !important;
+    margin-left: 5px;
+    background-color: white;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -209,7 +217,8 @@
     font-size: 18px;
     letter-spacing: 1px;
     font-weight: 400;
-    color: #6d6d6d;
+    /* color: #6d6d6d; */
+    color: white;
     margin-top: 5px;
 }
 
@@ -221,7 +230,8 @@
 .infoText {
     font-size: 14px;
     font-weight: 300;
-    color: #6d6d6d;
+    /* color: #6d6d6d; */
+    color: white;
     margin-top: -10px;
 }
 

@@ -57,7 +57,8 @@ const HeaderReportDetails: React.FC<IProps> = ({
     const [signedInUserData, setSignedInUserData] = useState<any>(null);
     const [isSignedIn, setIsSignedIn] = useState<Boolean>(false);
 
-    let q = query(collection(db, "Data", "Projects", `${email}`));
+    // let q = query(collection(db, "Data", "Projects", `${email}`));
+    let q = query(collection(db, "Projects"));
 
     const [snapshot, loading, error] = useCollection(
         q,
@@ -66,23 +67,41 @@ const HeaderReportDetails: React.FC<IProps> = ({
         }
     );
 
-    // FOR GETTING REPORT TITLE
+    // FOR GETTING PROJECT TITLE
     useEffect(() => {
 
         if (!loading && snapshot && email) {
-            let localObj;
-            let arrProjects = snapshot?.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+            let localObj1: any;
+            let localObj: any;
+
+            let arrProjectsLocal = snapshot?.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+
+            localObj1 = arrProjectsLocal;
+
+            // Now only i need projects that are created by me means email is equal to signedInUserData.email
+            // or that are shared with me means project members array contains signedInUserData.email
+
+            // Filter the projects array and extract only those projects that are created by me
+            // localObj = localObj.filter((project: any) => );
+
+            // Filter the projects array and extract only those projects that are shared with me
+            localObj1 = localObj1.filter((project: any) => project?.ProjectMembers?.includes(email) || project?.createdBy === email);
+
+            // Extract all the project members from the projects array
+
+            let arrProjects = localObj1;
             for (let i = 0; i < arrProjects.length; i++) {
                 if (arrProjects[i].id === reportID.toString()) {
                     localObj = arrProjects[i];
+                    setFirestoreData(localObj);
+                    break;
                 }
             }
-            setFirestoreData(localObj);
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loading, snapshot]);
-    // FOR GETTING REPORT TITLE
+    // FOR GETTING PROJECT TITLE
 
     return (
         <nav className={`${styles.container}`}>
@@ -125,19 +144,6 @@ const HeaderReportDetails: React.FC<IProps> = ({
                                 <li><a className="dropdown-item" href="#" onClick={() => alert("Delete Dashboard")}><span className='text-red-600'>Delete dashboard</span></a></li>
                             </ul>
                         </div>
-                    </div>
-                    <div>
-                        <a data-mdb-toggle="dropdown" aria-expanded="false" className={styles.statusBtn}>
-                            <GiCircle /> &nbsp; Set status <RiArrowDropDownLine size={30} />
-                        </a>
-                        <ul className="dropdown-menu">
-                            <li><a className="dropdown-item mt-2" href="#"><GiPlainCircle style={{ marginTop: -4 }} color='#58a182' /> &nbsp; On track</a></li>
-                            <li><a className="dropdown-item" href="#"><GiPlainCircle style={{ marginTop: -4 }} color='#f1bd6c' /> &nbsp; At risk</a></li>
-                            <li><a className="dropdown-item" href="#"><GiPlainCircle style={{ marginTop: -4 }} color='#de5f73' /> &nbsp; Off track</a></li>
-                            <li><a className="dropdown-item" href="#"><GiPlainCircle style={{ marginTop: -4 }} color='#3f6ac4' /> &nbsp; On hold</a></li>
-                            <li><hr className="dropdown-divider" /></li>
-                            <li><a className="dropdown-item mb-2" href="#"><FaCheckCircle style={{ marginTop: -4 }} color='#58a182' /> &nbsp; Complete</a></li>
-                        </ul>
                     </div>
                 </div>
             </div>

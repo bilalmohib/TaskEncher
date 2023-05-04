@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Train+One&display=swap');
+
+.container {
+    /* border: 1px solid rgb(255, 0, 0); */
+    background-color: white;
+    height: auto !important;
+    z-index: 0.3;
+}
+
+.header {
+    position: relative !important;
+    top: 70px;
+    width: 100%;
+    /* margin-left: 2px; */
+    background-color: white;
+    transition: 0.2s linear;
+}

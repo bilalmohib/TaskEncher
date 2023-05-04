@@ -204,7 +204,8 @@ const Widget1: React.FC<IProps> = ({
                             // Hide button when scroll is at left end
                             display: (
                                 (document.querySelector(`.${styles.subContainer}`)?.scrollLeft == -900) ? "none" : "flex"
-                            )
+                            ),
+                            backgroundColor: "white"
                         }}
                         aria-label="back"
                         color="success"
@@ -236,14 +237,14 @@ const Widget1: React.FC<IProps> = ({
                                                 className={styles.peopleSliderItemImg}
                                                 sx={{
                                                     backgroundColor: `${people.backgroundColor}`,
-                                                    textTransform:"uppercase"
+                                                    textTransform: "uppercase"
                                                 }}
                                             >
                                                 {people.name.charAt(0)}{people.name.charAt(people.name.indexOf(" ") + 1)}
                                                 {/* {people.name} */}
                                             </Box>
                                             <Box className={styles.peopleSliderItemContent}>
-                                                <h4 className="mt-4 pl-4 pr-0">{people.email}</h4>
+                                                <h4 className="mt-4 pl-4 pr-0 text-white">{people.email}</h4>
                                             </Box>
                                             <p className={styles.infoContainer}>
                                                 {(people.collaboratingTasks > 0) ? (
@@ -276,7 +277,8 @@ const Widget1: React.FC<IProps> = ({
                                                 }}
                                                 size="small"
                                             >
-                                                {(people.collaboratingTasks > 0) ? (
+                                                {/* {(people.collaboratingTasks > 0) ? ( */}
+                                                {(people.email === email) ? (
                                                     <>
                                                         View profile
                                                     </>
@@ -300,7 +302,8 @@ const Widget1: React.FC<IProps> = ({
                             // Hide button when scroll is at left end
                             display: (
                                 (document.querySelector(`.${styles.subContainer}`)?.scrollLeft === 900) ? "none" : "flex"
-                            )
+                            ),
+                            backgroundColor: "white"
                         }}
                         className={styles.rightPeopleSliderButton}
                         // onClick move scroll to right

@@ -86,7 +86,12 @@ Header
   }
   .navigationheader {
     display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 20%;
     height: 50px;
+    margin-top: 10px;
+    margin-bottom: 10px;
   }
   
   .navigationheader > * {

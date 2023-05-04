@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useLayoutEffect } from "react";
-
 import SearchIcon from "@mui/icons-material/Search";
 import SearchOffIcon from "@mui/icons-material/SearchOff";
 import MessageIcon from "@mui/icons-material/Message";
@@ -65,20 +64,30 @@ import DateCategorizationChat from "./DateCategorizationChat";
 import InteractiveContainer from "./InteractiveContainer";
 import MessageContainer from "./MessageContainer";
 import AddUserModal from "./AddUserModal";
-import CustomPopOver from "@app/components/CustomPopOver";
-
-import addData from "../../../utilities/components/Inbox/addData";
 
 import Image from "next/image";
 
 //Importing Containers CSS Files
 import styles from "./Inbox.module.css";
 
+
 interface InboxProps {
     email: string;
 }
 
 const Inbox: React.FC<InboxProps> = ({ email }) => {
+
+    const convertDate = (date: string) => {
+        const d = new Date(date);
+        // const ye = new Intl.DateTimeFormat("en", { year: "numeric" }).format(d);
+        // const mo = new Intl.DateTimeFormat("en", { month: "short" }).format(d);
+        // const da = new Intl.DateTimeFormat("en", { day: "2-digit" }).format(d);
+        // return `${da} ${mo} ${ye}`;
+        console.log("Check Date ==> ", d)
+        return d.toLocaleDateString();
+    };
+
+    let dateCoverted = convertDate(new Date().toString());
 
     const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
     const [hoveredIndex, setHoveredIndex] = useState<number>(0);
@@ -225,7 +234,7 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
     const e = email;
 
     // FOR GETTING PROJECTS
-    let q = query(collection(db, "Data", "Projects", `${e}`));
+    let q = query(collection(db, "Projects"));
 
     const [snapshot, loading, error] = useCollection(q, {
         snapshotListenOptions: { includeMetadataChanges: true },
@@ -269,10 +278,23 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
     useEffect(() => {
         if (!loading) {
             let projectMembers = [];
-            let tempProjectsObj: any = snapshot?.docs.map((doc, i) => ({
-                ...doc.data(),
-                id: doc.id,
-            }));
+
+            let localObj: any;
+
+            let arrProjects = snapshot?.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+
+            localObj = arrProjects;
+
+            // Now only i need projects that are created by me means email is equal to signedInUserData.email
+            // or that are shared with me means project members array contains signedInUserData.email
+
+            // Filter the projects array and extract only those projects that are created by me
+            // localObj = localObj.filter((project: any) => );
+
+            // Filter the projects array and extract only those projects that are shared with me
+            localObj = localObj.filter((project: any) => project?.ProjectMembers?.includes(email) || project?.createdBy === email);
+
+            let tempProjectsObj: any = localObj;
 
             setProjects(tempProjectsObj);
 
@@ -390,6 +412,38 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
         "darkred"
     ];
 
+    interface Message {
+        timeSent: string;
+        userIDSender: string;
+        userIDReceiver: string;
+        userNameSender: string;
+        message: string;
+        id: string;
+    }
+
+    const groupMessagesByDate = (messages: Message[]): Record<string, Message[]> => {
+        const grouped: Record<string, Message[]> = {};
+
+        messages.forEach((message: Message) => {
+            const messageDate = formatDate(message.timeSent);
+
+            if (grouped[messageDate]) {
+                grouped[messageDate].push(message);
+            } else {
+                grouped[messageDate] = [message];
+            }
+        });
+
+        return grouped;
+    };
+
+    const groupedChatList: Record<string, Message[]> =
+        currentTab === 0
+            ? groupMessagesByDate(chatListSingleChat)
+            : currentTab === 1
+                ? groupMessagesByDate(chatListProjectChat)
+                : {};
+
     return (
         <div>
             {/* Home Page */}
@@ -430,6 +484,7 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                                             >
                                                 <AddBoxIcon
                                                     sx={{
+                                                        color: '#5088c0',
                                                         fontSize: "30px",
                                                     }}
                                                 />
@@ -470,10 +525,10 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                                                     alignItems: "left",
                                                     justifyContent: "left",
                                                     paddingTop: "5px",
-                                                    paddingLeft: "10px",
+                                                    paddingLeft: "25px",
                                                 }}
                                             >
-                                                <h3 className={styles.headerTitle}>General Inbox</h3>
+                                                <h5 className={styles.headerTitle} style={{ color: '#5088c0' }}>General Inbox</h5>
                                             </Box>
                                         )}
                                     </Box>
@@ -489,7 +544,7 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                                         <SearchOffIcon
                                             onClick={() => setShowSearch(!showSearch)}
                                             sx={{
-                                                color: "#000",
+                                                color: "#5088c0",
                                                 fontSize: "30px",
                                             }}
                                         />
@@ -497,7 +552,7 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                                         <SearchIcon
                                             onClick={() => setShowSearch(true)}
                                             sx={{
-                                                color: "#000",
+                                                color: "#5088c0",
                                                 fontSize: "30px",
                                             }}
                                         />
@@ -507,8 +562,8 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                             <Box
                                 className="d-flex justify-content-between"
                                 sx={{
-                                    borderBottom: "1px solid #000",
-                                    borderTop: "1px solid #000",
+                                    borderBottom: "1px solid #5088c0",
+                                    borderTop: "1px solid #5088c0",
                                     ml: "0px",
                                 }}
                             >
@@ -521,10 +576,10 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                                         borderBottom:
                                             currentTab === 0 ? "1px solid #000" : "1px solid #fff",
                                         boxShadow: "none",
-                                        backgroundColor: currentTab === 0 ? "#000" : "#fff",
+                                        backgroundColor: currentTab === 0 ? "#5088c0" : "#fff",
                                         color: currentTab === 0 ? "#fff" : "#000",
                                         "&:hover": {
-                                            backgroundColor: currentTab === 0 ? "#000" : "#fff",
+                                            backgroundColor: currentTab === 0 ? "#5088c0" : "#fff",
                                             color: currentTab === 0 ? "#fff" : "#000",
                                         },
                                     }}
@@ -535,7 +590,7 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                                     }}
                                     startIcon={<MessageIcon />}
                                 >
-                                    1-1 Messages
+                                    Messages
                                 </Button>
                                 <Button
                                     variant="contained"
@@ -543,12 +598,12 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                                     sx={{
                                         border: "none",
                                         borderBottom:
-                                            currentTab === 1 ? "1px solid #000" : "1px solid #fff",
+                                            currentTab === 1 ? "1px solid blue" : "1px solid #fff",
                                         boxShadow: "none",
-                                        backgroundColor: currentTab === 1 ? "#000" : "#fff",
+                                        backgroundColor: currentTab === 1 ? "#5088c0" : "#fff",
                                         color: currentTab === 1 ? "#fff" : "#000",
                                         "&:hover": {
-                                            backgroundColor: currentTab === 1 ? "#000" : "#fff",
+                                            backgroundColor: currentTab === 1 ? "#5088c0" : "#fff",
                                             color: currentTab === 1 ? "#fff" : "#000",
                                         },
                                     }}
@@ -606,11 +661,12 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                                                         cursor: "pointer",
                                                         borderRadius: "0px",
                                                         width: "100%",
-                                                        height: "100px",
+                                                        height: "80px",
+                                                        fontWeight: 400,
                                                         boxShadow: "rgba(0, 0, 0, 0.05) 0px 0px 0px 1px",
                                                         "&:hover": {
-                                                            backgroundColor: "#000",
-                                                            color: "#fff",
+                                                            backgroundColor: "#F5F5F5",
+                                                            // color: "#fff",
                                                             borderTop: "1px solid #fff",
                                                         },
                                                     }}
@@ -634,7 +690,8 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                                                                     width: "50px",
                                                                     height: "50px",
                                                                 }}
-                                                                alt="Remy Sharp"
+                                                                alt={item.name}
+                                                                title={item.name}
                                                                 src={item.profilePic}
                                                             />
                                                             {item.onlineStatus === "online" && (
@@ -676,7 +733,7 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                                                             <Typography
                                                                 sx={{
                                                                     fontSize: "16px",
-                                                                    fontWeight: "600",
+                                                                    fontWeight: "400",
                                                                     textAlign: "left",
                                                                 }}
                                                             >
@@ -722,7 +779,7 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                             ) : (
                                 <Box
                                     sx={{
-                                        padding: "20px",
+                                        padding: "0px",
                                         height: "80.7vh",
                                         // border:"20px solid red",
                                         overflowY: "auto",
@@ -736,9 +793,10 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                                                     display: "flex",
                                                     width: "100%",
                                                     // border: "1px solid red",
-                                                    borderRadius: "5px",
-                                                    padding: "5px",
-                                                    marginBottom: "10px",
+                                                    borderRadius: "0px",
+                                                    height: "80px",
+                                                    padding: "15px",
+                                                    marginBottom: "0px",
                                                     "&:hover": {
                                                         backgroundColor: "#F5F5F5",
                                                     },
@@ -755,7 +813,7 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                                                 >
                                                     <Box
                                                         sx={{
-                                                            marginLeft: "0px",
+                                                            marginLeft: "15px",
                                                             display: "flex",
                                                         }}
                                                     >
@@ -850,7 +908,9 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                                                             //     month: 'long',
                                                             //     year: 'numeric'
                                                             // })
-                                                            item.createAt
+                                                            convertDate(item.createAt.toString())
+                                                            // dateCoverted
+                                                            //    item.createAt
                                                         }
                                                     </Typography>
                                                 </Box>
@@ -940,6 +1000,7 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                                             display: "flex",
                                             alignItems: "center",
                                             justifyContent: "center",
+                                            // border: 
                                             // border: '1px solid #000',
                                         }}
                                     >
@@ -994,172 +1055,79 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                                 // onMouseOver={() => goToLastMessage()}
                                 className={styles.MiddleBodyContainer}
                             >
-                                {(currentTab === 0) ? (
-                                    <>
-                                        {chatListSingleChat.map((item: any, index: number) => {
-                                            const messageDate = formatDate(item.timeSent);
-                                            const showDate = messageDate !== lastMessageDate;
-
-                                            if (showDate) {
-                                                lastMessageDate = messageDate;
-                                            }
-
-                                            return (
-                                                <Box
-                                                    key={index}
-                                                    sx={{
-                                                        width: "100%",
-                                                    }}
-                                                >
-                                                    <DateCategorizationChat
-                                                        messageDate={messageDate}
-                                                        showDate={showDate}
-                                                    />
-                                                    <Box
-                                                        className={styles.middleBodyInsideContainer}
-                                                        sx={{
-                                                            display: "flex",
-                                                            alignItems: "center",
-                                                            justifyContent: "space-between",
-                                                            padding: "10px",
-                                                            paddingLeft: "20px",
-                                                            width: "60%",
-                                                            // border: '10px solid #000',
-                                                        }}
-                                                    >
-                                                        <section>
-                                                            {item.userIDSender === signedInUserData.email &&
-                                                                item.userIDReceiver ===
-                                                                currentSelectedChatUser && (
-                                                                    <Box
-                                                                        sx={{
-                                                                            display: "flex",
-                                                                            alignItems: "left",
-                                                                            justifyContent: "flex-start",
-                                                                            width: "100%",
-                                                                            // border: '1px solid red',
-                                                                            marginTop: "0px",
-                                                                            boxShadow:
-                                                                                "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-                                                                        }}
-                                                                    >
-                                                                        <MessageContainer
-                                                                            editedMessageId={editedMessageId}
-                                                                            userName={item.userNameSender}
-                                                                            timeSent={item.timeSent}
-                                                                            message={item.message}
-                                                                            id={item.id}
-                                                                        />
-                                                                    </Box>
-                                                                )}
-
-                                                            {item.userIDReceiver === signedInUserData.email &&
-                                                                item.userIDSender ===
-                                                                currentSelectedChatUser && (
-                                                                    <Box
-                                                                        sx={{
-                                                                            display: "flex",
-                                                                            alignItems: "left",
-                                                                            justifyContent: "flex-end",
-                                                                            width: "100%",
-                                                                            // border: '1px solid red',
-                                                                            marginTop: "0px",
-                                                                            boxShadow:
-                                                                                "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-                                                                            padding: "10px",
-                                                                        }}
-                                                                    >
-                                                                        <MessageContainer
-                                                                            editedMessageId={editedMessageId}
-                                                                            userName={item.userNameSender}
-                                                                            timeSent={item.timeSent}
-                                                                            message={item.message}
-                                                                            id={item.id}
-                                                                        />
-                                                                    </Box>
-                                                                )}
-                                                        </section>
-                                                    </Box>
-                                                </Box>
-                                            );
-                                        })}
-                                    </>
-                                ) : (currentTab === 1) ? (
+                                {Object.entries(groupedChatList).map(([date, messages]: [string, any[]], index) => (
                                     <Box
-                                        className={styles.middleBodyInsideContainer}
+                                        key={index}
                                         sx={{
-                                            // display: "flex",
-                                            // alignItems: "center",
-                                            // justifyContent: "space-between",
                                             width: "100%",
-                                            paddingTop: "30px",
-                                            // border: '10px solid #000',
                                         }}
                                     >
-                                        {chatListProjectChat.map((item: any, index: number) => {
-                                            const messageDate = formatDate(item.timeSent);
-                                            const showDate = messageDate !== lastMessageDate;
+                                        {/* <DateCategorizationChat
+                                            messageDate={date}
+                                            showDate={true}
+                                        /> */}
+                                        {messages.map((item: any, index: number) => (
+                                            <Box
+                                                key={index}
+                                                className={styles.middleBodyInsideContainer}
+                                                sx={{
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    justifyContent: "space-between",
+                                                    padding: "10px",
+                                                    paddingLeft: "20px",
+                                                    width: "60%",
+                                                }}
+                                            >
+                                                <section>
+                                                    {((currentTab === 0 &&
+                                                        ((item.userIDSender === signedInUserData.email &&
+                                                            item.userIDReceiver === currentSelectedChatUser) ||
+                                                            (item.userIDReceiver === signedInUserData.email &&
+                                                                item.userIDSender === currentSelectedChatUser))) ||
+                                                        (currentTab === 1 && item.userIDReceiver === currentSelectedProjectChatUser)) ? (
+                                                        <>
+                                                            {/* {item. */}
+                                                            <Box
+                                                                sx={{
+                                                                    display: "flex",
+                                                                    alignItems: "left",
+                                                                    justifyContent:
+                                                                        item.userIDSender === signedInUserData.email
+                                                                            ? "flex-start"
+                                                                            : "flex-end",
+                                                                    width: "100%",
+                                                                    marginTop: "0px",
+                                                                    // boxShadow:
+                                                                    // "rgba(100, 100, 111, 0.2) 0.5px 0.5px 0.5px 0.5px",
+                                                                    padding: "10px",
+                                                                }}
+                                                            >
+                                                                <MessageContainer
+                                                                    userPic={item.userpic}
+                                                                    editedMessageId={editedMessageId}
+                                                                    userName={item.userNameSender}
+                                                                    timeSent={item.timeSent}
+                                                                    message={item.message}
+                                                                    id={item.id}
+                                                                />
+                                                            </Box>
+                                                        </>
+                                                    ) : (
+                                                        <></>
+                                                    )}
+                                                </section>
 
-                                            if (showDate) {
-                                                lastMessageDate = messageDate;
-                                            }
-
-                                            return (
-                                                <Box
-                                                    key={index}
-                                                    sx={{
-                                                        width: "100%",
-                                                    }}
-                                                >
-                                                    <DateCategorizationChat
-                                                        messageDate={messageDate}
-                                                        showDate={showDate}
-                                                    />
-                                                    <Box>
-                                                        {
-                                                            ((item.userIDReceiver ===
-                                                                currentSelectedProjectChatUser))
-                                                            &&
-                                                            (
-                                                                <Box
-                                                                    sx={{
-                                                                        // display: "flex",
-                                                                        // alignItems: "left",
-                                                                        // justifyContent: "flex-start",
-                                                                        width: "350px",
-                                                                        border: '1px solid grey',
-                                                                        marginTop: "0px",
-                                                                        marginLeft: "30px",
-                                                                        marginBottom: "20px",
-                                                                        borderRadius: "10px",
-                                                                        // boxShadow:
-                                                                        //     "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-                                                                    }}
-                                                                >
-                                                                    <MessageContainer
-                                                                        editedMessageId={editedMessageId}
-                                                                        userName={item.userNameSender}
-                                                                        timeSent={item.timeSent}
-                                                                        message={item.message}
-                                                                        id={item.id}
-                                                                    />
-                                                                </Box>
-                                                            )
-                                                        }
-                                                    </Box>
-                                                </Box>
-                                            );
-                                        })}
+                                            </Box>
+                                        ))}
                                     </Box>
-                                ) : (
-                                    <>
-                                        <h1>Invalid Tab Selected</h1>
-                                    </>
-                                )}
+                                ))}
                             </Box>
+
                             <Box
                                 className={styles.MiddleFooterContainer}
                                 sx={{
+                                    // height: '100px',
                                     width: showProfileInfo ? "39.8%" : "69.5%",
                                 }}
                             >
@@ -1187,8 +1155,9 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                                 color: "#000000",
                                 cursor: "revert",
                                 boxShadow: "rgba(0, 0, 0, 0.05) 0px 0px 0px 1px",
-                                width: "100%",
-                                transition: "0.1s linear",
+                                width: showProfileInfo ? "40%" : "70%",
+                                // border: "5px solid red",
+                                transition: "0.3s linear"
                             }}
                         >
                             <Box
@@ -1827,30 +1796,6 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                             })}
                         </Box>
                     </Box>
-                    {/* //      </Box> */}
-
-                    {/* //      ) : (
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center', border: '1px solid #000',
-                                backgroundColor: '#000',
-                                color: '#fff',
-                                cursor: 'revert',
-                                width: '100%',
-                                boxShadow: "rgba(0, 0, 0, 0.05) 0px 0px 0px 1px"
-                            }}
-                        >
-                            <Typography
-                                sx={{
-                                    fontSize: '20px',
-                                }}
-                            >
-                                Please Select any User to start chat
-                            </Typography>
-                        </Box>
-                    // )}  */}
                 </section>
             )}
         </div>

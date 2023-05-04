@@ -22,14 +22,14 @@ const Messages: React.FC<MessagesProps> = ({
 
     return (
         <div className={styles.Contaienr}>
-            <div className={styles.Header}>
+            {/* <div className={styles.Header}>
                 <h1>Messages Header</h1>
             </div>
             <div className={styles.Body}>
                 <h3>Messages Body</h3>
                 <br />
                 <br />
-            </div>
+            </div> */}
         </div>
     )
 }

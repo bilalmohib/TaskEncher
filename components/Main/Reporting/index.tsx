@@ -202,51 +202,52 @@ const Reporting: React.FC<ReportingProps> = ({
             dashboardID: "1234567890",
             dashboardURL: "https://www.google.com",
         },
-        {
-            title: ' Project Success Overview',
-            icon: <GoDeviceDesktop
-                size={35}
-                // color="#0052CC"
-                color="#ffffff"
-            />,
-            description:
-                "The Project Success Overview provides a comprehensive snapshot of your team's project performance, showcasing essential metrics, progress updates, and task accomplishment rates. Gain actionable insights that empower informed decision-making, optimize processes, allocate resources effectively, and elevate project outcomes. Monitor project vitality and maintain command with instant access to crucial data.",
-            createdBy: "You",
-            createdAt: "02/11/2022",
-            lastModified: "02/11/2022",
-            lastModifiedBy: "You",
-            projectID: "1234567890",
-            projectURL: "https://www.google.com",
-            dashboardType: "Project Performance Dashboard",
-            dashboardID: "1234567890",
-            dashboardURL: "https://www.google.com",
-        },
-        {
-            title: 'Project Progress Insights',
-            icon: <GoDeviceDesktop
-                size={35}
-                // color="#0052CC" 
-                color="#ffffff"
-            />,
-            description:
-                "The Project Progress Insights dashboard offers a holistic view of your team's project achievements, tracking key performance indicators, milestones, and task completion trends. Make data-driven decisions to streamline workflows, prioritize resources, and improve project results. Stay informed and on track with real-time visibility into the essential aspects of your projects' performance.",
-            createdBy: "You",
-            createdAt: "04/08/2001",
-            lastModified: "12/12/2021",
-            lastModifiedBy: "You",
-            projectID: "1234567890",
-            projectURL: "https://www.google.com",
-            dashboardType: "Project Performance Dashboard",
-            dashboardID: "1234567890",
-            dashboardURL: "https://www.google.com",
-        },
+        // {
+        //     title: ' Project Success Overview',
+        //     icon: <GoDeviceDesktop
+        //         size={35}
+        //         // color="#0052CC"
+        //         color="#ffffff"
+        //     />,
+        //     description:
+        //         "The Project Success Overview provides a comprehensive snapshot of your team's project performance, showcasing essential metrics, progress updates, and task accomplishment rates. Gain actionable insights that empower informed decision-making, optimize processes, allocate resources effectively, and elevate project outcomes. Monitor project vitality and maintain command with instant access to crucial data.",
+        //     createdBy: "You",
+        //     createdAt: "02/11/2022",
+        //     lastModified: "02/11/2022",
+        //     lastModifiedBy: "You",
+        //     projectID: "1234567890",
+        //     projectURL: "https://www.google.com",
+        //     dashboardType: "Project Performance Dashboard",
+        //     dashboardID: "1234567890",
+        //     dashboardURL: "https://www.google.com",
+        // },
+        // {
+        //     title: 'Project Progress Insights',
+        //     icon: <GoDeviceDesktop
+        //         size={35}
+        //         // color="#0052CC" 
+        //         color="#ffffff"
+        //     />,
+        //     description:
+        //         "The Project Progress Insights dashboard offers a holistic view of your team's project achievements, tracking key performance indicators, milestones, and task completion trends. Make data-driven decisions to streamline workflows, prioritize resources, and improve project results. Stay informed and on track with real-time visibility into the essential aspects of your projects' performance.",
+        //     createdBy: "You",
+        //     createdAt: "04/08/2001",
+        //     lastModified: "12/12/2021",
+        //     lastModifiedBy: "You",
+        //     projectID: "1234567890",
+        //     projectURL: "https://www.google.com",
+        //     dashboardType: "Project Performance Dashboard",
+        //     dashboardID: "1234567890",
+        //     dashboardURL: "https://www.google.com",
+        // },
     ];
 
     ////////////////////////////////////// FOR GETTING PROJECTS DATA //////////////////////////////////////
     const e = email;
 
     // FOR GETTING PROJECTS
-    let q = query(collection(db, "Data", "Projects", `${e}`));
+    // let q = query(collection(db, "Data", "Projects", `${e}`));
+    let q = query(collection(db, "Projects"));
 
     const [snapshot, loading, error] = useCollection(
         q,
@@ -264,7 +265,23 @@ const Reporting: React.FC<ReportingProps> = ({
 
         if (!loading) {
             let projectMembers = [];
-            let tempProjectsObj: any = snapshot?.docs.map((doc, i) => ({ ...doc.data(), id: doc.id }));
+
+            let localObj: any;
+
+            let arrProjects = snapshot?.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+
+            localObj = arrProjects;
+
+            // Now only i need projects that are created by me means email is equal to signedInUserData.email
+            // or that are shared with me means project members array contains signedInUserData.email
+
+            // Filter the projects array and extract only those projects that are created by me
+            // localObj = localObj.filter((project: any) => );
+
+            // Filter the projects array and extract only those projects that are shared with me
+            localObj = localObj.filter((project: any) => project?.ProjectMembers?.includes(email) || project?.createdBy === email);
+
+            let tempProjectsObj: any = localObj;
 
             setProjects(tempProjectsObj);
 
@@ -287,195 +304,227 @@ const Reporting: React.FC<ReportingProps> = ({
             {Loading ? (
                 <CustomLoader />
             ) : (
-                <section className={styles.container}>
-                    <h3 style={{ marginLeft: 30, marginTop: 30, color: 'black', fontWeight: 'lighter' }}>Reporting</h3>
-                    <Box
-                        className={styles.addDashboardContainer}
-                    >
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            sx={{
-                                marginLeft: "30px",
-                                color: 'white',
-                                fontWeight: 'lighter',
-                                textTransform: 'none',
-                                fontSize: '16px',
-                            }}
-                        // onClick={() => alert("Add Dashboard")}
+                <div className={styles.main}>
+                    <section className={styles.container}>
+                        <h3 style={{ marginLeft: 30, marginTop: 30, color: 'black', fontWeight: 'lighter' }}>Reporting</h3>
+                        {/* <Box
+                            className={styles.addDashboardContainer}
                         >
-                            + Add dashboard
-                        </Button>
-                    </Box>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                sx={{
+                                    marginLeft: "30px",
+                                    color: 'white',
+                                    fontWeight: 'lighter',
+                                    textTransform: 'none',
+                                    fontSize: '16px',
+                                }}
+                            // onClick={() => alert("Add Dashboard")}
+                            >
+                                + Add dashboard
+                            </Button>
+                        </Box> */}
 
-                    <Box
-                        sx={{
-                            width: "100%",
-                            display: "flex",
-                            flexDirection: "column",
-                            justifyContent: "center",
-                            alignItems: "center"
-                        }}
-                    >
                         <Box
                             sx={{
-                                borderBottom: "1px solid rgb(203, 203, 208)",
-                                marginTop: "25px",
-                                width: "96%",
+                                width: "100%",
+                                display: "flex",
+                                flexDirection: "column",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                // backgroundColor: "#ffffff !important",
+                                // border: "1px solid red",
+                                background: "transparent !important"
                             }}
                         >
-                            <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
-                                <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
-                                    <Typography
-                                        variant="h5"
+                            <Box
+                                sx={{
+                                    borderBottom: "1px solid rgb(203, 203, 208)",
+                                    marginTop: "25px",
+                                    width: "96%",
+                                    // backgroundColor: "#ffffff !important",
+                                    // border: "1px solid red",
+                                    // background: "#ffffff !important",
+                                    background: "transparent !important"
+                                }}
+                            >
+                                <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}
+                                    sx={{
+                                        // backgroundColor: "#ffffff !important",
+                                        // border: "1px solid red",
+                                        // background: "#ffffff !important",
+                                        background: "transparent !important"
+                                    }}
+                                >
+                                    <AccordionSummary aria-controls="panel1d-content" id="panel1d-header"
                                         sx={{
-                                            // marginTop: "5px",
-                                            color: 'black',
-                                            fontWeight: 'lighter',
-                                            // lineHeight: "1.8px"
+                                            // backgroundColor: "#ffffff !important",
+                                            // border: "1px solid red",
+                                            // background: "#ffffff !important",
+                                            background: "transparent !important"
                                         }}
                                     >
-                                        Recents
-                                    </Typography>
-                                </AccordionSummary>
-                                <AccordionDetails>
-                                    <MotionGrid container spacing={4} variants={containerVariants}>
-                                        {dashboardList.map((reportingDashboard, index) => (
-                                            <Grid item xs={12} sm={4} key={index}>
-                                                <ScrollTriggerAnimation key={index} animationVariants={scrollVariants}>
-                                                    <MotionPaper
-                                                        elevation={3}
-                                                        sx={{
-                                                            p: 4,
-                                                            // backgroundColor: '#E5F0FF',
-                                                            backgroundColor: 'transparent',
-                                                            borderRadius: "10px",
-                                                            boxShadow: "none",
-                                                            border: "1px solid rgb(203, 203, 208)",
-                                                            cursor: "pointer",
-                                                            transition: "all 0.1s ease-in-out",
-                                                            "&:hover": {
+                                        <Typography
+                                            variant="h5"
+                                            sx={{
+                                                // marginTop: "5px",
+                                                color: 'black',
+                                                fontWeight: 'lighter',
+                                                // lineHeight: "1.8px",
+                                            }}
+                                        >
+                                            Recents
+                                        </Typography>
+                                    </AccordionSummary>
+                                    <AccordionDetails
+                                        sx={{
+                                            // backgroundColor: "#ffffff !important",
+                                            // border: "1px solid red",
+                                            // background: "#ffffff !important",
+                                            background: "transparent !important"
+                                        }}
+                                    >
+                                        <MotionGrid container spacing={4} variants={containerVariants}>
+                                            {dashboardList.map((reportingDashboard, index) => (
+                                                <Grid item xs={12} sm={4} key={index}>
+                                                    <ScrollTriggerAnimation key={index} animationVariants={scrollVariants}>
+                                                        <MotionPaper
+                                                            elevation={3}
+                                                            sx={{
+                                                                p: 4,
                                                                 // backgroundColor: '#E5F0FF',
-                                                                // backgroundColor: '#4573d2',
-                                                                // color: 'white',
-                                                                border: "1px solid #4573d2",
+                                                                // backgroundColor: 'white',
+                                                                background: "transparent !important",
+                                                                borderRadius: "10px",
+                                                                boxShadow: "none",
+                                                                border: "1px solid rgb(203, 203, 208)",
+                                                                cursor: "pointer",
                                                                 transition: "all 0.1s ease-in-out",
-                                                            }
-                                                        }}
-                                                        onClick={() => {
-                                                            const targetUrl = `/reportDetails/${reportingDashboard.title}/${reportingDashboard.dashboardID}`;
-                                                            router.push(targetUrl, undefined, { shallow: true });
-                                                        }}
-                                                        variants={itemVariants}
-                                                    >
-                                                        <Box
-                                                            sx={{
-                                                                display: "flex",
-                                                                flexDirection: "row"
+                                                                "&:hover": {
+                                                                    // backgroundColor: '#E5F0FF',
+                                                                    // backgroundColor: '#4573d2',
+                                                                    // color: 'white',
+                                                                    border: "1px solid #4573d2",
+                                                                    transition: "all 0.1s ease-in-out",
+                                                                }
                                                             }}
-                                                        >
-                                                            <Box sx={{ width: "20%" }}>
-                                                                <Box
-                                                                    sx={{
-                                                                        // backgroundColor: '#E5F0FF',
-                                                                        backgroundColor: '#4573d2',
-                                                                        width: "70px",
-                                                                        height: "60px",
-                                                                        borderRadius: "10px",
-                                                                        display: "flex",
-                                                                        justifyContent: "center",
-                                                                        alignItems: "center"
-                                                                    }}
-                                                                >
-                                                                    {reportingDashboard.icon}
-                                                                </Box>
-                                                            </Box>
-                                                            <Typography
-                                                                variant="h5"
-                                                                sx={{
-                                                                    display: "flex",
-                                                                    justifyContent: "center",
-                                                                    alignItems: "center",
-                                                                    marginLeft: 4,
-                                                                    width: "80%"
-                                                                }}
-                                                            >
-                                                                {reportingDashboard.title}
-                                                            </Typography>
-                                                        </Box>
-                                                        <br />
-
-                                                        <Typography
-                                                            sx={{
-                                                                marginBottom: 3,
-                                                                display: '-webkit-box',
-                                                                WebkitBoxOrient: 'vertical',
-                                                                WebkitLineClamp: 3,
-                                                                overflow: 'hidden',
-                                                                textOverflow: 'ellipsis',
+                                                            onClick={() => {
+                                                                const targetUrl = `/reportDetails/${reportingDashboard.title}/${reportingDashboard.dashboardID}`;
+                                                                router.push(targetUrl, undefined, { shallow: true });
                                                             }}
-                                                        >
-                                                            {reportingDashboard.description}
-                                                        </Typography>
-
-                                                        <hr />
-                                                        <Box
-                                                            sx={{
-                                                                display: "flex",
-                                                                flexDirection: "row",
-                                                                marginTop: 3
-                                                            }}
+                                                            variants={itemVariants}
                                                         >
                                                             <Box
                                                                 sx={{
-                                                                    backgroundColor: '#f9aaef',
-                                                                    width: "40px",
-                                                                    height: "40px",
-                                                                    borderRadius: "50%",
                                                                     display: "flex",
-                                                                    justifyContent: "center",
-                                                                    alignItems: "center",
-                                                                    fontSize: "18px"
+                                                                    flexDirection: "row"
                                                                 }}
                                                             >
-                                                                MB
+                                                                <Box sx={{ width: "20%" }}>
+                                                                    <Box
+                                                                        sx={{
+                                                                            // backgroundColor: '#E5F0FF',
+                                                                            backgroundColor: '#4573d2',
+                                                                            width: "70px",
+                                                                            height: "60px",
+                                                                            borderRadius: "10px",
+                                                                            display: "flex",
+                                                                            justifyContent: "center",
+                                                                            alignItems: "center",
+                                                                            // background: "transparent !important"
+                                                                        }}
+                                                                    >
+                                                                        {reportingDashboard.icon}
+                                                                    </Box>
+                                                                </Box>
+                                                                <Typography
+                                                                    variant="h5"
+                                                                    sx={{
+                                                                        display: "flex",
+                                                                        justifyContent: "center",
+                                                                        alignItems: "center",
+                                                                        marginLeft: 4,
+                                                                        width: "80%"
+                                                                    }}
+                                                                >
+                                                                    {reportingDashboard.title}
+                                                                </Typography>
                                                             </Box>
+                                                            <br />
+
                                                             <Typography
-                                                                variant="h6"
                                                                 sx={{
-                                                                    display: "flex",
-                                                                    justifyContent: "center",
-                                                                    alignItems: "center",
-                                                                    marginLeft: 3,
-                                                                    fontWeight: 'lighter',
+                                                                    marginBottom: 3,
+                                                                    display: '-webkit-box',
+                                                                    WebkitBoxOrient: 'vertical',
+                                                                    WebkitLineClamp: 3,
+                                                                    overflow: 'hidden',
+                                                                    textOverflow: 'ellipsis',
                                                                 }}
                                                             >
-                                                                owned by {reportingDashboard.createdBy}
+                                                                {reportingDashboard.description}
                                                             </Typography>
-                                                            <Typography
-                                                                variant="h6"
+
+                                                            <hr />
+                                                            <Box
                                                                 sx={{
                                                                     display: "flex",
-                                                                    justifyContent: "center",
-                                                                    alignItems: "center",
-                                                                    marginLeft: 3,
-                                                                    fontWeight: 'lighter',
-                                                                    fontSize: "16px"
+                                                                    flexDirection: "row",
+                                                                    marginTop: 3
                                                                 }}
                                                             >
-                                                                {new Date(reportingDashboard.createdAt).toDateString()}
-                                                            </Typography>
-                                                        </Box>
-                                                    </MotionPaper>
-                                                </ScrollTriggerAnimation>
-                                            </Grid>
-                                        ))}
-                                    </MotionGrid>
-                                </AccordionDetails>
-                            </Accordion>
+                                                                <Box
+                                                                    sx={{
+                                                                        backgroundColor: '#f9aaef',
+                                                                        width: "40px",
+                                                                        height: "40px",
+                                                                        borderRadius: "50%",
+                                                                        display: "flex",
+                                                                        justifyContent: "center",
+                                                                        alignItems: "center",
+                                                                        fontSize: "18px"
+                                                                    }}
+                                                                >
+                                                                    MB
+                                                                </Box>
+                                                                <Typography
+                                                                    variant="h6"
+                                                                    sx={{
+                                                                        display: "flex",
+                                                                        justifyContent: "center",
+                                                                        alignItems: "center",
+                                                                        marginLeft: 3,
+                                                                        fontWeight: 'lighter',
+                                                                    }}
+                                                                >
+                                                                    owned by {reportingDashboard.createdBy}
+                                                                </Typography>
+                                                                <Typography
+                                                                    variant="h6"
+                                                                    sx={{
+                                                                        display: "flex",
+                                                                        justifyContent: "center",
+                                                                        alignItems: "center",
+                                                                        marginLeft: 3,
+                                                                        fontWeight: 'lighter',
+                                                                        fontSize: "16px"
+                                                                    }}
+                                                                >
+                                                                    {new Date(reportingDashboard.createdAt).toDateString()}
+                                                                </Typography>
+                                                            </Box>
+                                                        </MotionPaper>
+                                                    </ScrollTriggerAnimation>
+                                                </Grid>
+                                            ))}
+                                        </MotionGrid>
+                                    </AccordionDetails>
+                                </Accordion>
+                            </Box>
                         </Box>
-                    </Box>
-                </section>
+                    </section>
+                </div>
             )}
         </div>
     );

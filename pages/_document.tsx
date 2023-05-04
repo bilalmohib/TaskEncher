@@ -19,7 +19,9 @@ const Document = () => {
                 <meta name="google-site-verification" content="iOkvhZooyjqsEWKZ03unHbzCt0Rk2BVVyt2a7pvXdxU" />
                 {/* <meta name="viewport" content="width=device-width, initial-scale=1.0" /> */}
                 {/* <meta name="viewport" content="width=device-width, initial-scale=2.0" /> */}
-                <meta name="viewport" content="width=1200" />
+                <meta name="author" content="Muhammad-Bilal-7896" />
+                <meta name="viewport" content="width=1500, height=1000, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+                <meta name="theme-color" content="#000000" />
             </Head>
             <body>
                 <div id={'globalLoader'}>

@@ -94,6 +94,12 @@ const Sidebar: React.FC<IProps> = ({
             setCurrentMenuItem(item.id);
         };
 
+        // For Report Details Page
+        if (router.pathname === '/reportDetails/[reportName]/[reportID]') {
+            router.push(`/dashboard/${email}`);
+            setCurrentMenuItem(item.id);
+        };
+
         if (router.pathname === '/dashboard/[email]') {
             if (item.id === 6) {
                 router.push(`/profile/${email}`);

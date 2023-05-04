@@ -1,8 +1,8 @@
 // File Relative Path: pages/_app.tsx
 import React, { useState, useEffect, useRef } from 'react';
-import { useRouter } from 'next/router';
 import type { AppProps } from 'next/app';
 import Script from 'next/script';
+import Head from 'next/head';
 //////////////////////////////////////////////////
 
 // Importing firebase
@@ -96,26 +96,13 @@ function MyApp({ Component, pageProps }: AppProps & { Component: React.Component
 
   return (
     <>
-      {/* {(!loading) && (
-        <section>
-          {(!isSignedIn && !loading) ? (
-            <Landing />
-          ) : (
-            <Component
-              {...pageProps}
-
-              // Is Side Bar Open
-              isOpen={isOpen}
-              setIsOpen={setIsOpen}
-
-              // Current Menu Item
-              currentMenuItem={currentMenuItem}
-              setCurrentMenuItem={setCurrentMenuItem}
-            />
-          )}
-        </section>
-      )} */}
-
+      <Head>
+        <title>Project Management</title>
+        <meta name="description" content="A project management app built with Next JS, MUI, mdbootstrap and firebase" />
+        <meta name="author" content="Muhammad-Bilal-7896" />
+        <meta name="viewport" content="width=1500px, height=1000px, initial-scale=1, maximum-scale=1, user-scalable=no" />
+        <meta name="theme-color" content="#000000" />
+      </Head>
       <Component
         {...pageProps}
 

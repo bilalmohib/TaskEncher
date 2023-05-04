@@ -27,6 +27,7 @@ const addProjectMembers = async (
                             anchorOrigin: { vertical: 'bottom', horizontal: 'right' }
                         },
                     );
+                alert(`Please select at least one member to add to the project`);
                 return;
             }
 
@@ -41,7 +42,7 @@ const addProjectMembers = async (
 
             try {
                 await updateDoc(projectRef, updatedProject);
-                let message: string = `Project Member(s) added to Project ${projectID} successfully`
+                let message: string = `Project Member ${projectMembers.toString()} added to Project ${projects[i].ProjectName} successfully`
                 enqueueSnackbar(
                     message,
                     {
@@ -51,14 +52,15 @@ const addProjectMembers = async (
                 );
                 console.log(message);
             } catch (error: any) {
-                console.error("Error adding new member(s):", error.message);
+                console.log("Error adding new member(s):", error.message);
                 enqueueSnackbar(
-                    `Error adding new member(s): ${error.message}`,
+                    `Error adding new member(s)}`,
                     {
                         variant: 'error',
                         anchorOrigin: { vertical: 'bottom', horizontal: 'right' }
                     },
                 );
+                alert(`Error adding new member(s): ${error.message}`);
             }
         }
     }

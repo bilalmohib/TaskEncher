@@ -5,6 +5,7 @@ import {
     Typography
 } from '@mui/material';
 import Image from 'next/image';
+import { useSnackbar } from 'notistack';
 import CustomPopOver from '@app/components/CustomPopOver';
 import MultiSelectCustomAutoComplete from '@app/components/MultiSelectCustomAutoComplete';
 
@@ -16,14 +17,17 @@ interface InviteMembersProps {
     projects: any;
     projectMembers: string[];
     projectID: string;
+    handleClose: () => void;
 }
 
 const InviteMembers: React.FC<InviteMembersProps> = (
     {
         projects,
         projectMembers,
-        projectID
+        projectID,
+        handleClose
     }) => {
+    const { enqueueSnackbar } = useSnackbar();
 
     const styles = {
         label: {
@@ -93,11 +97,11 @@ const InviteMembers: React.FC<InviteMembersProps> = (
         }
     ];
 
-    const [selectedMembers, setSelectedMembers] = React.useState<string[]>([]);
+    const [selectedMembers, setSelectedMembers] = React.useState<any>([]);
 
     const [membersError, setMembersError] = React.useState<boolean>(false);
 
-    const [selectedProjects, setSelectedProjects] = React.useState<string[]>([]);
+    const [selectedProjects, setSelectedProjects] = React.useState<any>([]);
 
     // For popover
     const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
@@ -165,17 +169,10 @@ const InviteMembers: React.FC<InviteMembersProps> = (
         let selectedProjectsLocal: any = [];
 
         for (let i = 0; i < selectedMembers.length; i++) {
-            // const firstName = email.split(".")[0];
-            // const lastName = email.split(".")[1];
-            // // Extract first and last name first letter and make it the avatar
-            // const avatar = firstName.charAt(0) + lastName.charAt(0);
-
-            // @ts-ignore
             selectedMembersEmails.push(selectedMembers[i]?.title);
         }
 
         for (let i = 0; i < selectedProjects.length; i++) {
-            // @ts-ignore
             selectedProjectsLocal.push(selectedProjects[i]?.value);
         }
 
@@ -186,24 +183,29 @@ const InviteMembers: React.FC<InviteMembersProps> = (
         // projectID: string,
         // projects: any, // Add the projects array as an argument
         // projectMembers: [] | null | undefined
+        // enqueueSnackbar: any
 
-        addProjectMembers(
+        // Pass enqueueSnackbar as an argument
+        await addProjectMembers(
             selectedProjectsLocal,
             projectID,
             projects,
-            selectedMembersEmails
-        )
+            selectedMembersEmails,
+            enqueueSnackbar
+        );
 
-        // sendInvite('John Doe', 'john@example.com')
-        //     .then((response) => {
-        //         console.log(response.message);
-        //         alert(response.message);
-        //     })
-        //     .catch((error) => {
-        //         console.error(error.message)
-        //         alert(error.message);
-        //     });
+        handleClose();
 
+        setTimeout(() => {
+            let message: string = `Project Member ${selectedMembersEmails.toString()} added to Project ${selectedProjectsLocal.toString()} successfully`;
+            enqueueSnackbar(
+                message,
+                {
+                    variant: 'success',
+                    anchorOrigin: { vertical: 'bottom', horizontal: 'right' }
+                },
+            );
+        }, 3000);
     }
 
     return (

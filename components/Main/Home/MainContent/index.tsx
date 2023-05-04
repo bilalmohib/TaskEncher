@@ -242,26 +242,33 @@ const MainContent: React.FC<MainContentProps> = (
                         />
                     </section>
 
-                    {/* Inbox Page */}
+                    {/* Team's Page */}
                     <section className={currentMenuItem === 3 ? '' : 'd-none'}>
+                        <br />
+                        <h3 style={{ marginLeft: 30, marginTop: 5, color: 'white', fontWeight: 'lighter' }}>Teams Page</h3>
+                        <p style={{ marginLeft: 30, color: "white", fontWeight: 'lighter' }}>
+                            This page is under development.
+                        </p>
+                    </section>
+
+                    {/* Inbox Page */}
+                    <section className={currentMenuItem === 4 ? '' : 'd-none'}>
                         <Inbox email={email} />
                     </section>
 
                     {/* Reporting Page */}
-                    <section className={currentMenuItem === 4 ? '' : 'd-none'}>
+                    <section className={currentMenuItem === 5 ? '' : 'd-none'}>
                         <Reporting email={email} />
                     </section>
 
-                    {/* Portfolios Page */}
-                    {/* <section className={currentMenuItem === 5 ? '' : 'd-none'}>
-                        <br />
-                        <h3 style={{ marginLeft: 30, marginTop: 5, color: 'black', fontWeight: 'lighter' }}>Portfolios</h3>
-                    </section> */}
-
-                    {/* Goals Page */}
+                    {/* Profile Page */}
                     <section className={currentMenuItem === 6 ? '' : 'd-none'}>
                         {/* <br />
-                        <h3 style={{ marginLeft: 30, marginTop: 5, color: 'black', fontWeight: 'lighter' }}>Notifications</h3> */}
+                        <h3 style={{ marginLeft: 30, marginTop: 5, color: 'black', fontWeight: 'lighter' }}>Profile</h3> */}
+                    </section>
+
+                    {/* Notifications Page */}
+                    <section className={currentMenuItem === 7 ? '' : 'd-none'}>
                         <Notifications />
                     </section>
                 </div>

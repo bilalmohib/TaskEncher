@@ -57,10 +57,32 @@
 
 .SidebarMenuList {
     list-style: none;
-    /* border: 1px solid rgb(0, 72, 255); */
+    border-bottom: 1px solid #424244;
+    border-top: 1px solid #424244;
+    scroll-behavior: smooth;
+    /* border: 1px solid rgb(0, 64, 227); */
     padding-bottom: 5px;
     margin-left: -25px !important;
+    height: 30vh;
     margin-top: 10px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* Style the scrollbar for WebKit browsers (Chrome, Safari, etc.) */
+.SidebarMenuList::-webkit-scrollbar {
+    width: 2px;
+}
+
+.SidebarMenuList::-webkit-scrollbar-thumb {
+    background-color: rgb(152, 152, 152);
+    border-radius: 5px;
+}
+
+/* Style the scrollbar for Firefox */
+.SidebarMenuList {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(152, 152, 152) transparent;
 }
 
 .SidebarMenuList li {
@@ -120,13 +142,38 @@
 .projectMembersBlock {
     /* border: 1px solid red; */
     width: 345px;
+    height: 10vh;
     list-style: none;
     margin-left: -25px;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     margin-top: 10px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-bottom: 15px;
+    /* border-bottom: 1px solid #424244; */
+    border-top: 1px solid #424244;
+    scroll-behavior: smooth;
 }
+
+/* Style the scrollbar for WebKit browsers (Chrome, Safari, etc.) */
+.projectMembersBlock::-webkit-scrollbar {
+    width: 2px;
+}
+
+.projectMembersBlock::-webkit-scrollbar-thumb {
+    background-color: rgb(152, 152, 152);
+    border-radius: 5px;
+}
+
+/* Style the scrollbar for Firefox */
+.projectMembersBlock {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(152, 152, 152) transparent;
+}
+
+/* Project Members Block */
 
 .projectMembersBlock li {
     margin-left: 10px;
@@ -164,6 +211,28 @@
 .projectListCoverContainer {
     list-style: none;
     margin-left: -15px;
+    /* border:1px solid red; */
+    height: 15vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    /* border-bottom: 1px solid #424244; */
+    border-top: 1px solid #424244;
+    scroll-behavior: smooth;
+}
+/* Style the scrollbar for WebKit browsers (Chrome, Safari, etc.) */
+.projectListCoverContainer::-webkit-scrollbar {
+    width: 2px;
+}
+
+.projectListCoverContainer::-webkit-scrollbar-thumb {
+    background-color: rgb(152, 152, 152);
+    border-radius: 5px;
+}
+
+/* Style the scrollbar for Firefox */
+.projectListCoverContainer {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(152, 152, 152) transparent;
 }
 
 /* ________________________________________ Footer block ________________________________________ */

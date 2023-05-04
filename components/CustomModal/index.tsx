@@ -156,6 +156,8 @@ const CustomModal: React.FC<CustomModalProps> = (
                                                 projectMembers={projectMembers}
                                                 // @ts-ignore
                                                 projectID={projectID}
+
+                                                handleClose={handleClose}
                                             />
                                         )}
 

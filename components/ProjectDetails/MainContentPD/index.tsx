@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useRouter } from 'next/router';
 // Importing Components
 import Navbar from '@app/components/Navbar';
 import Sidebar from '@app/components/Sidebar';
@@ -48,9 +49,6 @@ interface MainContentPDProps {
     projectSections: string[];
     setProjectSections: (value: string[]) => void;
 
-    projectName: any;
-    projectID: any;
-
     // Add Task Model Open
     isAddTaskModalOpen: boolean;
     setIsAddTaskModalOpen: (value: boolean) => void;
@@ -86,10 +84,6 @@ const MainContentPD: React.FC<MainContentPDProps> = (
         projectSections,
         setProjectSections,
 
-        // Project Details
-        projectName,
-        projectID,
-
         // Add Task Model Open
         isAddTaskModalOpen,
         setIsAddTaskModalOpen,
@@ -98,6 +92,9 @@ const MainContentPD: React.FC<MainContentPDProps> = (
         isInvitedMembersModalOpen,
         setIsInvitedMembersModalOpen
     }) => {
+
+    const router = useRouter();
+    const { projectName, projectID } = router.query;
 
     /////////////////////////////////////// Database Part ////////////////////////////////////////////////
     // let q = query(collection(db, "Data", "Projects", signedInUserData.email));
@@ -160,47 +157,23 @@ const MainContentPD: React.FC<MainContentPDProps> = (
     // FOR GETTING PROJECTS
 
     return (
-        <main className='main'>
-            <div style={{ position: "relative", zIndex: "100 !important" }}>
-                <Navbar isOpen={isOpen} setIsOpen={setIsOpen} />
-            </div>
-            <div className="d-flex">
-                <div style={{ position: "relative", zIndex: "1000 !important" }}>
-                    <Sidebar
-                        currentMenuItem={currentMenuItem}
-                        setCurrentMenuItem={setCurrentMenuItem}
-                        isOpen={isOpen}
-                        setIsOpen={setIsOpen}
-                        projectMembers={projectMembers}
-                        email={email}
-                        projectList={projects}
-                        isModalOpen={isModalOpen}
-                        setIsModalOpen={setIsModalOpen}
+        <main className={styles.container}>
+            <ProjectDetailsInside
+                projectID={projectID}
+                projectName={projectName}
+                isSignedIn={isSignedIn}
+                signedInUserData={signedInUserData}
 
-                        // Optional Add Task Model Open
-                        setIsAddTaskModalOpen={setIsAddTaskModalOpen}
-                    />
-                </div>
+                // Add Task Model Open
+                isAddTaskModalOpen={isAddTaskModalOpen}
+                setIsAddTaskModalOpen={setIsAddTaskModalOpen}
+                projectMembers={projectMembers}
 
-                <div style={{ position: "relative", marginTop: "49.4px", zIndex: "0.1 !important" }} className={`${styles.rightSideContainer} ${isOpen ? styles.shrinkContainer : styles.expandContainer}`}>
-                    <ProjectDetailsInside
-                        projectID={projectID}
-                        projectName={projectName}
-                        isSignedIn={isSignedIn}
-                        signedInUserData={signedInUserData}
-
-                        // Add Task Model Open
-                        isAddTaskModalOpen={isAddTaskModalOpen}
-                        setIsAddTaskModalOpen={setIsAddTaskModalOpen}
-                        projectMembers={projectMembers}
-
-                        // Invited Members Modal
-                        isInvitedMembersModalOpen={isInvitedMembersModalOpen}
-                        setIsInvitedMembersModalOpen={setIsInvitedMembersModalOpen}
-                    />
-                    <SnackbarProvider />
-                </div>
-            </div>
+                // Invited Members Modal
+                isInvitedMembersModalOpen={isInvitedMembersModalOpen}
+                setIsInvitedMembersModalOpen={setIsInvitedMembersModalOpen}
+            />
+            <SnackbarProvider />
         </main>
     );
 };

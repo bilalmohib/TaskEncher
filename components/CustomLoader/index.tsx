@@ -7,8 +7,8 @@ import {
 
 const CustomLoader = () => {
     return (
-        <div style={{ display: 'flex', flexDirection: "column", justifyContent: "center", alignItems: "center", height: "100vh" }}>
-            <div style={{ display: "flex", alignItems: "center", marginTop: "0px" }}>
+        <div style={{ display: 'flex', flexDirection: "column", justifyContent: "center", alignItems: "center", height: "100vh !important", backgroundColor: "white", paddingTop:"30vh" }}>
+            <div style={{ display: "flex", alignItems: "center" }}>
                 <Image style={{ display: "block" }} width={100} height={100} src={"/logocopy.png"} alt="logo" title="Logo" />
             </div>
             <h1

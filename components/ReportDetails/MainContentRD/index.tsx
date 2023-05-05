@@ -25,6 +25,7 @@ import {
 import { useCollection } from 'react-firebase-hooks/firestore';
 
 import styles from "./style.module.css";
+import { useRouter } from 'next/router';
 
 interface MainContentRDProps {
     isOpen: boolean;
@@ -47,9 +48,6 @@ interface MainContentRDProps {
     // Project Sections
     projectSections: string[];
     setProjectSections: (value: string[]) => void;
-
-    reportName: any;
-    reportID: any;
 
     // Add Task Model Open
     isAddTaskModalOpen: boolean;
@@ -86,10 +84,6 @@ const MainContentRD: React.FC<MainContentRDProps> = (
         projectSections,
         setProjectSections,
 
-        // Project Details
-        reportName,
-        reportID,
-
         // Add Task Model Open
         isAddTaskModalOpen,
         setIsAddTaskModalOpen,
@@ -98,58 +92,36 @@ const MainContentRD: React.FC<MainContentRDProps> = (
         isInvitedMembersModalOpen,
         setIsInvitedMembersModalOpen
     }) => {
+    const router = useRouter();
+    const { reportName, reportID } = router.query;
 
     return (
-        <main className='main'>
-            <div style={{ position: "relative", zIndex: "100 !important" }}>
-                <Navbar isOpen={isOpen} setIsOpen={setIsOpen} />
-            </div>
-            <div className="d-flex">
-                <div style={{ position: "relative", zIndex: "1000 !important" }}>
-                    <Sidebar
-                        currentMenuItem={currentMenuItem}
-                        setCurrentMenuItem={setCurrentMenuItem}
-                        isOpen={isOpen}
-                        setIsOpen={setIsOpen}
-                        projectMembers={projectMembers}
-                        email={email}
-                        projectList={projects}
-                        isModalOpen={isModalOpen}
-                        setIsModalOpen={setIsModalOpen}
+        <main className={styles.main}>
+            <ReportDetailsInsideContent
+                reportID={reportID}
+                reportName={reportName}
+                isSignedIn={isSignedIn}
+                signedInUserData={signedInUserData}
 
-                        // Optional Add Task Model Open
-                        setIsAddTaskModalOpen={setIsAddTaskModalOpen}
-                    />
-                </div>
+                // Add Task Model Open
+                isAddTaskModalOpen={isAddTaskModalOpen}
+                setIsAddTaskModalOpen={setIsAddTaskModalOpen}
+                projectMembers={projectMembers}
 
-                <div style={{ position: "relative", marginTop: "49.4px", zIndex: "0.1 !important" }} className={`${styles.rightSideContainer} ${isOpen ? styles.shrinkContainer : styles.expandContainer}`}>
-                    <ReportDetailsInsideContent
-                        reportID={reportID}
-                        reportName={reportName}
-                        isSignedIn={isSignedIn}
-                        signedInUserData={signedInUserData}
+                // Invited Members Modal
+                isInvitedMembersModalOpen={isInvitedMembersModalOpen}
+                setIsInvitedMembersModalOpen={setIsInvitedMembersModalOpen}
 
-                        // Add Task Model Open
-                        isAddTaskModalOpen={isAddTaskModalOpen}
-                        setIsAddTaskModalOpen={setIsAddTaskModalOpen}
-                        projectMembers={projectMembers}
+                // Is Open
+                isOpen={isOpen}
+                // Show Header
+                showHeader={true}
 
-                        // Invited Members Modal
-                        isInvitedMembersModalOpen={isInvitedMembersModalOpen}
-                        setIsInvitedMembersModalOpen={setIsInvitedMembersModalOpen}
-
-                        // Is Open
-                        isOpen={isOpen}
-                        // Show Header
-                        showHeader={true}
-
-                        // Projects
-                        projects={projects}
-                        setProjects={setProjects}
-                    />
-                    <SnackbarProvider />
-                </div>
-            </div>
+                // Projects
+                projects={projects}
+                setProjects={setProjects}
+            />
+            <SnackbarProvider />
         </main>
     );
 };

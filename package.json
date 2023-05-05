@@ -52,6 +52,7 @@
     "@microsoft/microsoft-graph-types": "^2.30.0",
     "@types/chart.js": "^2.9.37",
     "@types/node": "18.11.5",
+    "@types/nodemailer": "^6.4.7",
     "@types/react": "18.0.22",
     "@types/react-calendar": "^3.9.0",
     "@types/react-datepicker": "^4.8.0",

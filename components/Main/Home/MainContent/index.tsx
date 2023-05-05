@@ -188,85 +188,62 @@ const MainContent: React.FC<MainContentProps> = (
     // FOR GETTING PROJECTS
 
     return (
-        <main className="main">
-            <div
-                style={{
-                    zIndex: 1,
-                    position: "relative"
-                }}
-            >
-                <Navbar
-                    isOpen={isOpen}
-                    setIsOpen={setIsOpen}
+        <div>
+            {/* Home Page */}
+            <section className={currentMenuItem === 1 ? '' : 'd-none'}>
+                <Home
+                    projectList={projects}
+                    projectMembers={projectMembers}
+                    isModalOpenCustomized={isModalOpenCustomized}
+                    setIsModalOpenCustomized={setIsModalOpenCustomized}
+                    widgetsList={widgetsList}
+                    setWidgetsList={setWidgetsList}
+                    totalCompletedTasks={totalCompletedTasks}
                 />
-            </div>
-            <div className="d-flex">
-                <div style={{ position: "relative", zIndex: "1000 !important" }}>
-                    <Sidebar
-                        currentMenuItem={currentMenuItem}
-                        setCurrentMenuItem={setCurrentMenuItem}
-                        isOpen={isOpen}
-                        setIsOpen={setIsOpen}
-                        projectMembers={projectMembers}
-                        email={email}
-                        projectList={projects}
-                        isModalOpen={isModalOpen}
-                        setIsModalOpen={setIsModalOpen}
-                        setIsAddTaskModalOpen={setIsAddTaskModalOpen}
-                    />
-                </div>
+            </section>
 
-                <div style={{ marginTop: "49px" }} className={`${styles.rightSideContainer} ${isOpen ? styles.shrinkContainer : styles.expandContainer}`}>
-                    {/* Home Page */}
-                    <section className={currentMenuItem === 1 ? '' : 'd-none'}>
-                        <Home
-                            projectList={projects}
-                            projectMembers={projectMembers}
-                            isModalOpenCustomized={isModalOpenCustomized}
-                            setIsModalOpenCustomized={setIsModalOpenCustomized}
-                            widgetsList={widgetsList}
-                            setWidgetsList={setWidgetsList}
-                            totalCompletedTasks={totalCompletedTasks}
-                        />
-                    </section>
+            {/* My Tasks Page */}
+            <section className={currentMenuItem === 2 ? '' : 'd-none'}>
+                <MyTasks
+                    // Add Task Model
+                    isAddTaskModalOpen={isAddTaskModalOpen}
+                    setIsAddTaskModalOpen={setIsAddTaskModalOpen}
+                    projectMembers={projectMembers}
+                    signedInUserData={signedInUserData}
+                    isSignedIn={signedInUserData !== null}
+                />
+            </section>
 
-                    {/* My Tasks Page */}
-                    <section className={currentMenuItem === 2 ? '' : 'd-none'}>
-                        <MyTasks
-                            // Add Task Model
-                            isAddTaskModalOpen={isAddTaskModalOpen}
-                            setIsAddTaskModalOpen={setIsAddTaskModalOpen}
-                            projectMembers={projectMembers}
-                            signedInUserData={signedInUserData}
-                            isSignedIn={signedInUserData !== null}
-                        />
-                    </section>
+            {/* Team's Page */}
+            <section className={currentMenuItem === 3 ? '' : 'd-none'}>
+                <br />
+                <h3 style={{ marginLeft: 30, marginTop: 5, color: 'white', fontWeight: 'lighter' }}>Teams Page</h3>
+                <p style={{ marginLeft: 30, color: "white", fontWeight: 'lighter' }}>
+                    This page is under development.
+                </p>
+            </section>
 
-                    {/* Inbox Page */}
-                    <section className={currentMenuItem === 3 ? '' : 'd-none'}>
-                        <Inbox email={email} />
-                    </section>
+            {/* Inbox Page */}
+            <section className={currentMenuItem === 4 ? '' : 'd-none'}>
+                <Inbox email={email} />
+            </section>
 
-                    {/* Reporting Page */}
-                    <section className={currentMenuItem === 4 ? '' : 'd-none'}>
-                        <Reporting email={email} />
-                    </section>
+            {/* Reporting Page */}
+            <section className={currentMenuItem === 5 ? '' : 'd-none'}>
+                <Reporting email={email} />
+            </section>
 
-                    {/* Portfolios Page */}
-                    {/* <section className={currentMenuItem === 5 ? '' : 'd-none'}>
-                        <br />
-                        <h3 style={{ marginLeft: 30, marginTop: 5, color: 'black', fontWeight: 'lighter' }}>Portfolios</h3>
-                    </section> */}
+            {/* Profile Page */}
+            <section className={currentMenuItem === 6 ? '' : 'd-none'}>
+                {/* <br />
+                        <h3 style={{ marginLeft: 30, marginTop: 5, color: 'black', fontWeight: 'lighter' }}>Profile</h3> */}
+            </section>
 
-                    {/* Goals Page */}
-                    <section className={currentMenuItem === 6 ? '' : 'd-none'}>
-                        {/* <br />
-                        <h3 style={{ marginLeft: 30, marginTop: 5, color: 'black', fontWeight: 'lighter' }}>Notifications</h3> */}
-                        <Notifications />
-                    </section>
-                </div>
-            </div>
-        </main>
+            {/* Notifications Page */}
+            <section className={currentMenuItem === 7 ? '' : 'd-none'}>
+                <Notifications />
+            </section>
+        </div>
     );
 };
 export default MainContent;

@@ -1,33 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Train+One&display=swap');
 
 .container {
-    /* border: 10px solid rgb(255, 0, 0) !important; */
-    background-color: white;
-    /* background-color: transparent; */
-    height: auto !important;
-    z-index: -10 !important;
     position: relative;
-}
-
-.rightSideContainer {
-    width: 100%;
-    height: 100%;
-
-    margin-top: 50px;
-    /* border: 2px solid rgb(255, 0, 0); */
-    /* background-color: rgb(144, 3, 226); */
     background-color: white;
-    height: 95vh;
-}
-
-/* When the right side container will shrink */
-.shrinkContainer {
-    margin-left: 320px;
-    transition: 0.2s linear;
-}
-
-/* When the right side container will expand */
-.expandContainer {
-    margin-left: 0px;
-    transition: 0.2s linear;
+    width: 100%;
+    height: 100vh;
 }

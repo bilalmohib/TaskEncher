@@ -6,7 +6,8 @@ import {
     TextField,
     Button,
     Autocomplete
-} from '@mui/material'
+} from '@mui/material';
+import { SnackbarProvider, VariantType, useSnackbar } from 'notistack';
 
 // Importing Add Data Function
 import addData from '../../../../utilities/components/Inbox/addData';
@@ -28,6 +29,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({
     signedInUserData,
     usersListSingleChat
 }) => {
+    const { enqueueSnackbar } = useSnackbar();
 
     interface ProjectMemberOptionType {
         title: string;
@@ -101,6 +103,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({
                 "singleUser",
                 isSignedIn,
                 signedInUserData,
+                enqueueSnackbar
             );
         }
     }

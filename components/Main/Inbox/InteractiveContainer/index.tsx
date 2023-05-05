@@ -187,16 +187,19 @@ const InteractiveContainer: React.FC<InteractiveContainerProps> = ({
     const [percent, setPercent] = useState(0);
 
     // Handle file upload event and update state
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleFileChange = (event: any) => {
         if (event.target.files && event.target.files.length > 0) {
             setFile(event.target.files[0]);
         }
-        // @ts-ignore
-        const storageRef = ref(storage, `/files/${file?.name}`);
+
+        let uploadedFileName: string = event?.target?.files[0].name;
+        let uploadedFile = event?.target?.files[0];
+
+        const storageRef = ref(storage, `/files/${uploadedFileName}`);
 
         // progress can be paused and resumed. It also exposes progress updates.
         // Receives the storage reference and the file to upload.
-        const uploadTask = uploadBytesResumable(storageRef, file!);
+        const uploadTask = uploadBytesResumable(storageRef, uploadedFile);
 
         uploadTask.on(
             "state_changed",

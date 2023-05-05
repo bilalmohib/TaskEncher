@@ -36,7 +36,6 @@ interface MainContentPDProps {
     isSignedIn: boolean;
     width: number;
     height: number;
-    email: string;
     isModalOpen: boolean;
     setIsModalOpen: (value: boolean) => void;
     // Project Members
@@ -68,7 +67,6 @@ const MainContentPD: React.FC<MainContentPDProps> = (
         isSignedIn,
         width,
         height,
-        email,
         isModalOpen,
         setIsModalOpen,
 
@@ -94,7 +92,7 @@ const MainContentPD: React.FC<MainContentPDProps> = (
     }) => {
 
     const router = useRouter();
-    const { projectName, projectID } = router.query;
+    const { email, projectName, projectID } = router.query;
 
     /////////////////////////////////////// Database Part ////////////////////////////////////////////////
     // let q = query(collection(db, "Data", "Projects", signedInUserData.email));
@@ -107,53 +105,32 @@ const MainContentPD: React.FC<MainContentPDProps> = (
         }
     );
 
+    const fetchProjectData = (email: string, snapshot: any) => {
+        if (!snapshot || !email) return;
+
+        let arrProjects = snapshot.docs.map((doc: any) => ({ ...doc.data(), id: doc.id }));
+
+        let localObj = arrProjects.filter((project: any) => project?.ProjectMembers?.includes(email) || project?.createdBy === email);
+
+        const localProjectMembers = localObj
+            .map((project: any) => project?.ProjectMembers)
+            .reduce((acc: any, val: any) => acc.concat(val), []);
+
+        const localProjectSections = localObj
+            .filter((project: any) => project?.id === projectID)
+            .map((project: any) => project?.ProjectStages)
+            .reduce((acc: any, val: any) => acc.concat(val), []);
+
+        setProjects(arrProjects);
+        setProjectMembers(localProjectMembers);
+        setProjectSections(localProjectSections);
+    };
+
     // FOR GETTING PROJECTS
     useEffect(() => {
-
-        if (!loading && snapshot && email) {
-            let localObj: any;
-
-            let arrProjects = snapshot?.docs.map(doc => ({ ...doc.data(), id: doc.id }));
-
-            localObj = arrProjects;
-
-            // Now only i need projects that are created by me means email is equal to signedInUserData.email
-            // or that are shared with me means project members array contains signedInUserData.email
-
-            // Filter the projects array and extract only those projects that are created by me
-            // localObj = localObj.filter((project: any) => );
-
-            // Filter the projects array and extract only those projects that are shared with me
-            localObj = localObj.filter((project: any) => project?.ProjectMembers?.includes(email) || project?.createdBy === email);
-
-            const localProjectMembers: any = localObj
-                .map((project: any) => project?.ProjectMembers) // extract ProjectMembers array from each project
-                .reduce((acc: any, val: any) => acc.concat(val), []); // concatenate all ProjectMembers arrays into a single array
-
-            // Loop over the projects array and where the project id matches the project id in the project members array, extract the project sections
-            const localProjectSections: any = localObj
-                .filter((project: any) => project?.id === projectID)
-                .map((project: any) => project?.ProjectStages) // extract ProjectSections array from each project
-                .reduce((acc: any, val: any) => acc.concat(val), []); // concatenate all ProjectSections arrays into a single array
-
-            // Extract all the project members from the projects array
-            setProjects(arrProjects);
-
-            // Set the project members in the state
-            setProjectMembers(localProjectMembers);
-
-            // Set the project sections in the state
-            setProjectSections(localProjectSections);
-
-            // console.clear();
-            console.log("Projects ==> ", snapshot?.docs.map(doc => ({ ...doc.data(), id: doc.id })));
-            console.log("Projects Local ==> ", localObj);
-            console.log("Project Members ==> ", projectMembers);
-            console.log("Project Sections ==> ", projectSections);
-        }
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [loading, snapshot]);
+        // @ts-ignore
+        fetchProjectData(signedInUserData.email, snapshot);
+    }, [loading, snapshot, router.query]);
     // FOR GETTING PROJECTS
 
     return (

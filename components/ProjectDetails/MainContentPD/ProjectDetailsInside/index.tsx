@@ -51,20 +51,22 @@ const ProjectDetailsInside: React.FC<ProjectDetailsInsideProps> = (
 
     const [projectTitle, setProjectTitle] = useState<string>("");
 
+    const [projectMembersList, setProjectMembersList] = useState<any>([]);
+
     return (
         <div className={styles.container}>
             {(isSignedIn) ? (
                 <div className={styles.container}>
                     <header className={`${styles.header}`}>
                         <HeaderProjectDetails
-                            setProjectTitle={setProjectTitle}
-                            projectID={projectID}
                             email={signedInUserData.email}
                             projectTitle={projectTitle}
+                            setProjectTitle={setProjectTitle}
                             photoURL={signedInUserData.photoURL}
                             selectedTabItemValue={selectedTabItemValue}
                             setSelectedTabItemValue={setSelectedTabItemValue}
-                            projectMembers={projectMembers}
+                            projectMembers={projectMembersList}
+                            setProjectMembers={setProjectMembersList}
                         />
                     </header>
 
@@ -74,9 +76,12 @@ const ProjectDetailsInside: React.FC<ProjectDetailsInsideProps> = (
                                 photoURL={signedInUserData.photoURL}
                                 email={signedInUserData.email}
                                 projectName={projectName}
-                                projectID={projectID}
                                 // Project Members
                                 projectMembers={projectMembers}
+
+                                // Just Single Project Members
+                                projectMembersList={projectMembersList}
+                                setProjectMembersList={setProjectMembersList}
 
                                 // Invited Members Modal
                                 isInvitedMembersModalOpen={isInvitedMembersModalOpen}
@@ -93,7 +98,7 @@ const ProjectDetailsInside: React.FC<ProjectDetailsInsideProps> = (
                                 setIsAddTaskModalOpen={setIsAddTaskModalOpen}
 
                                 // Project Members
-                                projectMembers={projectMembers}
+                                projectMembers={projectMembersList}
                             />
                             // ) : (selectedTabItemValue === 3) ? (
                             //     <Board />

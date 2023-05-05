@@ -65,6 +65,9 @@ const ReportDetailsInside2: NextPage<ReportDetailsInside2Props> = ({
     reportName,
     email
 }) => {
+    const router = useRouter();
+
+    const { projectID } = router.query;
 
     // Stat Report Data
     const statReportData: any = [
@@ -278,7 +281,7 @@ const ReportDetailsInside2: NextPage<ReportDetailsInside2Props> = ({
     const [projects, setProjects] = useState<any>([]);
 
     useEffect(() => {
-        if (!loading && snapshot && e) {
+        if (!loading && snapshot) {
 
             let localObj: any;
 
@@ -293,7 +296,7 @@ const ReportDetailsInside2: NextPage<ReportDetailsInside2Props> = ({
             // localObj = localObj.filter((project: any) => );
 
             // Filter the projects array and extract only those projects that are shared with me
-            localObj = localObj.filter((project: any) => project?.ProjectMembers?.includes(email) || project?.createdBy === email);
+            localObj = localObj.filter((project: any) => ((project?.ProjectMembers?.includes(email) || project?.createdBy === email) && project?.id === projectID));
 
             let arrProjects: any = localObj;
 
@@ -514,7 +517,7 @@ const ReportDetailsInside2: NextPage<ReportDetailsInside2Props> = ({
             console.log("Projects ==> ", projects);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [loading, snapshot, email]);
+    }, [loading, snapshot, router.query]);
     // FOR GETTING PROJECTS
 
     // // Update Report Data

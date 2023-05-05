@@ -14,7 +14,7 @@ import { BiDotsHorizontalRounded } from "react-icons/bi";
 import { GoTriangleDown } from "react-icons/go";
 import { CgShapeSquare } from "react-icons/cg";
 import { FcInvite } from "react-icons/fc";
-import { useRouter } from 'next/router';
+import { Router, useRouter } from 'next/router';
 
 import {
     Box,
@@ -65,8 +65,6 @@ const Sidebar: React.FC<IProps> = ({
 
     // Store div in a variable
 
-
-
     const menuItems: MenuItem[] = [
         { id: 1, label: 'Home', icon: <IoHomeOutline size={22} /> },
         { id: 2, label: 'My Tasks', icon: <BsCheckCircle size={22} /> },
@@ -81,8 +79,15 @@ const Sidebar: React.FC<IProps> = ({
     const handleChangeMenuItem = (item: MenuItem) => {
         if (router.pathname === '/projectDetails/[email]/[projectName]/[projectID]') {
             // alert('You are in Project Details Page')
-            router.push(`/dashboard/${email}`);
-            setCurrentMenuItem(item.id);
+            if (item.id === 6) {
+                // alert('You are in Dashboard Page and Profile Page is clicked')
+                router.push(`/profile/${email}`);
+                setCurrentMenuItem(6);
+            }
+            else {
+                router.push(`/dashboard/${email}`);
+                setCurrentMenuItem(item.id);
+            }
         };
 
         // For Report Details Page
@@ -251,9 +256,9 @@ const Sidebar: React.FC<IProps> = ({
                                             <li key={i}
                                                 onClick={() => {
                                                     router.push(`/projectDetails/${email}/${v.ProjectName}/${v.id}`)
-                                                    setTimeout(() => {
-                                                        router.reload();
-                                                    }, 1000);
+                                                    // setTimeout(() => {
+                                                    //     router.reload();
+                                                    // }, 1000);
                                                 }}
                                             >
                                                 <Tooltip

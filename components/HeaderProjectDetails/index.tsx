@@ -39,10 +39,10 @@ interface IProps {
     selectedTabItemValue: any,
     setSelectedTabItemValue: any,
     projectTitle: string,
+    setProjectTitle: any,
     email: string,
-    projectID?: any,
-    setProjectTitle?: any,
-    projectMembers: any
+    projectMembers: any,
+    setProjectMembers: any
 }
 
 const HeaderProjectDetails: React.FC<IProps> = ({
@@ -50,13 +50,14 @@ const HeaderProjectDetails: React.FC<IProps> = ({
     selectedTabItemValue,
     setSelectedTabItemValue,
     projectTitle,
-    email,
-    projectID,
     setProjectTitle,
-    projectMembers
+    email,
+    projectMembers,
+    setProjectMembers
 }) => {
 
     const router = useRouter();
+    const { projectID } = router.query;
 
     // For POPOVER
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -115,8 +116,6 @@ const HeaderProjectDetails: React.FC<IProps> = ({
     /////////////////////////////////////// Database Part ////////////////////////////////////////////////
     const [firestoreData, setFirestoreData] = useState<any>([]);
     const [status, setStatus] = useState<Boolean>(false);
-    const [signedInUserData, setSignedInUserData] = useState<any>(null);
-    const [isSignedIn, setIsSignedIn] = useState<Boolean>(false);
 
     // let q = query(collection(db, "Data", "Projects", `${email}`));
     let q = query(collection(db, "Projects"));
@@ -131,7 +130,7 @@ const HeaderProjectDetails: React.FC<IProps> = ({
     // FOR GETTING PROJECT TITLE
     useEffect(() => {
 
-        if (!loading && snapshot && email) {
+        if (!loading && snapshot) {
             let localObj1: any;
             let localObj: any;
 
@@ -152,17 +151,19 @@ const HeaderProjectDetails: React.FC<IProps> = ({
 
             let arrProjects = localObj1;
             for (let i = 0; i < arrProjects.length; i++) {
+                // @ts-ignore
                 if (arrProjects[i].id === projectID.toString()) {
                     localObj = arrProjects[i];
                     setFirestoreData(localObj);
                     setProjectTitle(localObj?.ProjectName);
+                    setProjectMembers(localObj?.ProjectMembers);
                     break;
                 }
             }
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [loading, snapshot]);
+    }, [loading, snapshot, router.query]);
     // FOR GETTING PROJECT TITLE
 
     return (

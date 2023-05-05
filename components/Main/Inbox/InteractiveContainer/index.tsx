@@ -1,9 +1,9 @@
-import React, { useState, FC, useRef } from 'react';
+import React, { useState, FC, useRef, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBold, faItalic, faUnderline } from '@fortawesome/free-solid-svg-icons';
 import { storage } from '@app/firebase';
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { enqueueSnackbar } from 'notistack';
+import { SnackbarProvider, VariantType, useSnackbar } from 'notistack';
 import {
     Box,
     Typography,
@@ -82,16 +82,29 @@ interface InteractiveContainerProps {
     currentSelectedChatUser: string;
     signedInUserData: any;
     isSignedIn: boolean;
-    chatType: "Single" | "Project"
+    chatType: "Single" | "Project",
+    onSendMessage: () => void,
+    message: string,
+    setMessage: any
 }
 
 const InteractiveContainer: React.FC<InteractiveContainerProps> = ({
     signedInUserData,
     currentSelectedChatUser,
     isSignedIn,
-    chatType
+    chatType,
+    onSendMessage,
+    message,
+    setMessage
 }) => {
-    const [message, setMessage] = useState('');
+    const { enqueueSnackbar } = useSnackbar();
+
+    // const messagesEndRef = useRef<HTMLDivElement>(null);
+
+    // const scrollToBottom = () => {
+    //     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    // };
+    // For messages
 
     const handleChange = (event: any) => {
         setMessage(event.target.value);
@@ -99,6 +112,10 @@ const InteractiveContainer: React.FC<InteractiveContainerProps> = ({
 
     const handleSubmit = async () => {
         if (message !== '' && currentSelectedChatUser !== "" && signedInUserData !== null) {
+
+            // Call onSendMessage to scroll to the bottom
+            onSendMessage();
+
             if (chatType === "Single") {
                 // Get Current User's Display Name from email
                 let displayNameReceiver = currentSelectedChatUser.split("@")[0];
@@ -127,7 +144,8 @@ const InteractiveContainer: React.FC<InteractiveContainerProps> = ({
                     messageObject,
                     "singleChat",
                     isSignedIn,
-                    signedInUserData
+                    signedInUserData,
+                    enqueueSnackbar
                 );
             } else {
                 // Get Current User's Display Name from email
@@ -155,12 +173,10 @@ const InteractiveContainer: React.FC<InteractiveContainerProps> = ({
                     messageObject,
                     "ProjectChat",
                     isSignedIn,
-                    signedInUserData
+                    signedInUserData,
+                    enqueueSnackbar
                 );
             }
-
-            // // Clearing the message field
-            // setMessage('');
         } else {
             alert('Please enter a message to send it');
         }
@@ -233,7 +249,8 @@ const InteractiveContainer: React.FC<InteractiveContainerProps> = ({
                                 messageObject,
                                 "singleChat",
                                 isSignedIn,
-                                signedInUserData
+                                signedInUserData,
+                                enqueueSnackbar
                             );
                         } else {
                             // Get Current User's Display Name from email
@@ -261,7 +278,8 @@ const InteractiveContainer: React.FC<InteractiveContainerProps> = ({
                                 messageObject,
                                 "ProjectChat",
                                 isSignedIn,
-                                signedInUserData
+                                signedInUserData,
+                                enqueueSnackbar
                             );
                         }
                     } else {
@@ -285,13 +303,13 @@ const InteractiveContainer: React.FC<InteractiveContainerProps> = ({
     };
 
     return (
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
             <textarea
                 value={message}
                 onChange={handleChange}
                 onKeyDown={handleKeyDown}
                 style={{
-                    width: '98%',
+                    width: '100%',
                     marginRight: '10px',
                     height: '140px',
                     padding: '10px',
@@ -311,6 +329,7 @@ const InteractiveContainer: React.FC<InteractiveContainerProps> = ({
                     left: '20px',
                     display: 'flex',
                     alignItems: 'center',
+                    gap: '8px',
                 }}
             >
                 <IconButton style={{ marginRight: '10px', marginLeft: "0px" }}><IoAddCircleOutline /></IconButton>
@@ -347,7 +366,11 @@ const InteractiveContainer: React.FC<InteractiveContainerProps> = ({
                     bottom: '70px',
                     boxShadow: 'none',
                     right: '30px',
-                }} variant="contained">Comment</Button>
+                }}
+                variant="contained"
+            >
+                Comment
+            </Button>
         </div>
     );
 };

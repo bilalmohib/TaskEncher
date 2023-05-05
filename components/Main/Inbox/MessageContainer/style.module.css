@@ -8,6 +8,7 @@
     cursor: pointer;
     border-radius: 0px !important;
 }
+
 .MiddleHeaderContainer {
     font-size: 20px;
     border-bottom: 1px solid rgb(52, 52, 56);
@@ -24,10 +25,14 @@
     margin-left: 10px;
 }
 
-.Middlemessage{
-    font-size: 14px;
-    font-weight: lighter;
+.Middlemessage {
+    font-size: 16px;
+    font-weight: normal;
+    font-family:Verdana, Geneva, Tahoma, sans-serif !important;
     margin-left: 10px;
+    letter-spacing: 1px !important;
+    word-spacing: 3px !important;
     margin-top: 0px;
+    color: white;
     /* border:1px solid red; */
 }

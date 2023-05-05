@@ -372,7 +372,7 @@ const InteractiveContainer: React.FC<InteractiveContainerProps> = ({
                 }}
                 variant="contained"
             >
-                Comment
+                Send
             </Button>
         </div>
     );

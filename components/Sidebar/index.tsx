@@ -63,13 +63,9 @@ const Sidebar: React.FC<IProps> = ({
 
     const movingUrl = `/dashboard/${email}`;
 
-    useEffect(() => {
-        if (router.pathname === '/profile/[email]') {
-            setCurrentMenuItem(6);
-        }
-    }, [router.pathname]);
-
     // Store div in a variable
+
+
 
     const menuItems: MenuItem[] = [
         { id: 1, label: 'Home', icon: <IoHomeOutline size={22} /> },
@@ -83,31 +79,41 @@ const Sidebar: React.FC<IProps> = ({
 
     // Change menu Item Function
     const handleChangeMenuItem = (item: MenuItem) => {
-        // if (item.path) {
-        //     router.push(item.path);
-        // } else if (item.onClick) {
-        //     setCurrentMenuItem(item.id);
-        // }
-
         if (router.pathname === '/projectDetails/[email]/[projectName]/[projectID]') {
+            // alert('You are in Project Details Page')
             router.push(`/dashboard/${email}`);
             setCurrentMenuItem(item.id);
         };
 
         // For Report Details Page
         if (router.pathname === '/reportDetails/[reportName]/[reportID]') {
-            router.push(`/dashboard/${email}`);
-            setCurrentMenuItem(item.id);
+            // alert('You are in Report Details Page')
+            if (item.id === 6) {
+                // alert('You are in Dashboard Page and Profile Page is clicked')
+                router.push(`/profile/${email}`);
+                setCurrentMenuItem(6);
+            }
+            else {
+                router.push(`/dashboard/${email}`);
+                setCurrentMenuItem(item.id);
+            }
         };
 
         if (router.pathname === '/dashboard/[email]') {
+            // alert('You are in Dashboard Page')
             if (item.id === 6) {
+                // alert('You are in Dashboard Page and Profile Page is clicked')
                 router.push(`/profile/${email}`);
+                setCurrentMenuItem(6);
             }
-            setCurrentMenuItem(item.id);
+            else {
+                router.push(`/dashboard/${email}`);
+                setCurrentMenuItem(item.id);
+            }
         };
 
         if (router.pathname === '/profile/[email]' && item.id !== 6) {
+            // alert('You are in Profile Page and other than Profile Page is clicked')
             router.push(`/dashboard/${email}`);
             setCurrentMenuItem(item.id);
         };

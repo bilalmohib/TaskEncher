@@ -537,20 +537,10 @@ const ReportDetailsInsideContent: NextPage<ReportDetailsInsideContentProps> = ({
     }, [loading, snapshot, email]);
     // FOR GETTING PROJECTS
 
-    // // Update Report Data
-    // useEffect(() => {
-    //     updateReportData();
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [projects]);
-
-    // const updateReportData = () => {
-
-    // };
-
     return (
         <div className={styles.container}>
             {(isSignedIn) ? (
-                <div className={styles.container}>
+                <div>
                     {(showHeader) && (
                         <header className={`fixed-top ${styles.header} ${(isOpen) && (styles.shrinkContainer)}`}>
                             <HeaderReportDetails
@@ -603,7 +593,7 @@ const ReportDetailsInsideContent: NextPage<ReportDetailsInsideContentProps> = ({
                             )}
                         </Grid>
 
-                        <Grid container spacing={3} style={{ marginTop: -50, marginBottom: "30px" }}>
+                        <Grid container spacing={3} style={{ marginTop: -50 }}>
                             {(graphReportDataState !== null) && (
                                 <>
                                     {
@@ -623,10 +613,13 @@ const ReportDetailsInsideContent: NextPage<ReportDetailsInsideContentProps> = ({
                                 </>
                             )}
                         </Grid>
+                        <br />
                     </div>
                 </div>
             ) : (
-                <CustomLoader />
+                <div className={styles.fullWidth}>
+                    <CustomLoader />
+                </div>
             )}
         </div>
     )

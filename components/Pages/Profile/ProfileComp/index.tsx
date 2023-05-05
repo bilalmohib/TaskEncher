@@ -53,8 +53,8 @@ import { db, auth } from "../../../../firebase";
 // Importing Components
 import CustomLoader from '@app/components/CustomLoader';
 
-import styles from './style.module.css';
 import colors from '@app/lib/colors';
+import styles from './style.module.css';
 
 interface ProfileCompProps {
     isSignedIn: boolean;
@@ -92,7 +92,7 @@ const ProfileComp: React.FC<ProfileCompProps> = ({
     };
 
     // @ts-ignore
-    const e = email;
+    // const e = email;
     /////////////////////////////////////// Database Part ////////////////////////////////////////////////
     // let q = query(collection(db, "Data", "Projects", e));
     let q = query(collection(db, "Projects"))
@@ -484,7 +484,9 @@ const ProfileComp: React.FC<ProfileCompProps> = ({
                     {/* MAIN Profile Container */}
                 </div>
             ) : (
-                <CustomLoader />
+                <div className={styles.fullWidth}>
+                    <CustomLoader />
+                </div>
             )}
         </div>
     )

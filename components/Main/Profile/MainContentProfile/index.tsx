@@ -128,42 +128,13 @@ const MainContentProfile: React.FC<MainContentProfileProps> = (
     // FOR GETTING PROJECTS
 
     return (
-        <main className="main">
-            <div
-                style={{
-                    zIndex: 1,
-                    position: "relative"
-                }}
-            >
-                <Navbar
-                    isOpen={isOpen}
-                    setIsOpen={setIsOpen}
-                />
-            </div>
-            <div className="d-flex">
-                <div style={{ position: "relative", zIndex: "1000 !important" }}>
-                    <Sidebar
-                        currentMenuItem={currentMenuItem}
-                        setCurrentMenuItem={setCurrentMenuItem}
-                        isOpen={isOpen}
-                        setIsOpen={setIsOpen}
-                        projectMembers={projectMembers}
-                        email={email}
-                        projectList={projects}
-                        isModalOpen={isModalOpen}
-                        setIsModalOpen={setIsModalOpen}
-                    />
-                </div>
-
-                <div style={{ marginTop: "49px" }} className={`${styles.rightSideContainer} ${isOpen ? styles.shrinkContainer : styles.expandContainer}`}>
-                    <ProfileComp
-                        isSignedIn={signedInUserData !== null}
-                        signedInUserData={signedInUserData}
-                        projectMembers={projectMembers}
-                        email={email}
-                    />
-                </div>
-            </div>
+        <main className={styles.main}>
+            <ProfileComp
+                isSignedIn={signedInUserData !== null}
+                signedInUserData={signedInUserData}
+                projectMembers={projectMembers}
+                email={email}
+            />
         </main>
     );
 };

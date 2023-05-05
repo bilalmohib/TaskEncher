@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { enqueueSnackbar } from 'notistack';
 
 import {
     doc,
@@ -23,7 +22,7 @@ const addData = (
     type: string,
     isSignedIn: boolean,
     signedInUserData: any,
-    // setMessage?: any,
+    enqueueSnackbar: any
 ) => {
 
     if (signedInUserData) {
@@ -109,7 +108,15 @@ const addData = (
             addDoc(collection(db, `Chat/Project/Chat`), dataObject)
                 .then(() => {
                     console.log("Project Chat Data sent");
-                    alert("Project Chat Added Successfully.");
+                    // alert("Project Chat Added Successfully.");
+                    let message: string = `Message sent to ${dataObject.name}`;
+                    enqueueSnackbar(
+                        message,
+                        {
+                            variant: 'success',
+                            anchorOrigin: { vertical: 'bottom', horizontal: 'right' }
+                        },
+                    )
                 })
                 .catch(err => {
                     console.warn(err);

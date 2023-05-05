@@ -77,6 +77,172 @@ interface InboxProps {
 
 const Inbox: React.FC<InboxProps> = ({ email }) => {
 
+    const router = useRouter();
+
+    ////////////////////////////////////// FOR GETTING PROJECTS DATA //////////////////////////////////////
+    // console.log("Email ==> ", email.toString());
+    // "Jobs", `${uid}`, "data")
+    // const e = email;
+    const e = email;
+
+    // FOR GETTING PROJECTS
+    let q = query(collection(db, "Projects"));
+
+    const [snapshot, loading, error] = useCollection(q, {
+        snapshotListenOptions: { includeMetadataChanges: true },
+    });
+
+    // For getting the UsersListSingleChat
+    const [usersListSingleChat, setUsersListSingleChat] = useState<any>([]);
+
+    // Data/Chat/Single/Users${dataObject.email}
+
+    let q1 = query(collection(db, "Data", "Chat", "Single", "Users", e));
+
+    const [snapshot1, loading1, error1] = useCollection(q1, {
+        snapshotListenOptions: { includeMetadataChanges: true },
+    });
+
+    //For getting the chatListSingleChat
+    const [chatListSingleChat, setChatListSingleChat] = useState<any>([]);
+
+    // let q2 = query(collection(db, "Chat", "Single", "Chat"));
+
+    // const [snapshot2, loading2, error2] = useCollection(q2, {
+    //     snapshotListenOptions: { includeMetadataChanges: true },
+    // });
+
+    //For getting the chatListProjectChat
+    const [chatListProjectChat, setChatListProjectChat] = useState<any>([]);
+
+    // let q3 = query(collection(db, "Chat", "Project", "Chat"));
+
+    // const [snapshot3, loading3, error3] = useCollection(q3, {
+    //     snapshotListenOptions: { includeMetadataChanges: true },
+    // });
+
+    // GETTINGS Active Jobs
+    const [projects, setProjects] = useState<any>([]);
+    const [projectMembersState, setProjectMembersState] = useState<any>([]);
+    // const [loading, setLoading] = useState(true);
+
+    // FOR GETTING PROJECTS
+    useEffect(() => {
+        if (!loading) {
+            let projectMembers = [];
+
+            let localObj: any;
+
+            let arrProjects = snapshot?.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+
+            localObj = arrProjects;
+
+            // Now only i need projects that are created by me means email is equal to signedInUserData.email
+            // or that are shared with me means project members array contains signedInUserData.email
+
+            // Filter the projects array and extract only those projects that are created by me
+            // localObj = localObj.filter((project: any) => );
+
+            // Filter the projects array and extract only those projects that are shared with me
+            localObj = localObj.filter((project: any) => project?.ProjectMembers?.includes(email) || project?.createdBy === email);
+
+            let tempProjectsObj: any = localObj;
+
+            setProjects(tempProjectsObj);
+
+            // Create a new array containing projectmembers of each project object
+            if (tempProjectsObj !== undefined) {
+                for (let i = 0; i < tempProjectsObj.length; i++) {
+                    projectMembers.push(tempProjectsObj[i].ProjectMembers);
+                    //console.log("Project Members ==> ", tempProjectsObj[i].ProjectMembers);
+                }
+            }
+
+            // Set the projectMembersState
+            setProjectMembersState(projectMembers.flat(1));
+
+            // setLoading(false);
+            // console.clear();
+            console.log("Project Members ==> ", projectMembersState);
+        }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [loading, snapshot, router.query]);
+    // FOR GETTING PROJECTS
+
+    // FOR GETTING USERSLISTSINGLECHAT
+    useEffect(() => {
+        if (!loading1) {
+            let usersListSingle: any = snapshot1?.docs.map((doc, i) => ({
+                ...doc.data(),
+                id: doc.id,
+            }));
+
+            // Set the UsersListSingleChat
+            setUsersListSingleChat(usersListSingle);
+
+            console.log("Users List Single Chat ==> ", usersListSingle);
+        }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [loading1, snapshot1, router.query]);
+    // FOR GETTING USERSLISTSINGLECHAT
+
+    // FOR GETTING CHATLISTSINGLECHAT
+    useEffect(() => {
+        const messagesRef = collection(db, "Chat", "Single", "Chat");
+        const sortedMessagesQuery = query(messagesRef, orderBy('timeSent', 'asc'));
+
+        const unsubscribe = onSnapshot(sortedMessagesQuery, (snapshot) => {
+            let chatListSingle = snapshot.docs.map((doc, i) => ({
+                ...doc.data(),
+                id: doc.id,
+            }));
+
+            setChatListSingleChat(chatListSingle);
+            console.log("Chat List Single Chat ==> ", chatListSingle);
+        });
+
+        return () => {
+            unsubscribe();
+        };
+    }, [router.query]);
+    // FOR GETTING CHATLISTSINGLECHAT
+
+    // FOR GETTING CHATLISTPROJECTCHAT
+    useEffect(() => {
+        const projectChatRef = collection(db, "Chat", "Project", "Chat");
+        const sortedProjectChatQuery = query(projectChatRef, orderBy('timeSent', 'asc'));
+
+        const unsubscribe = onSnapshot(sortedProjectChatQuery, (snapshot) => {
+            let chatListProject = snapshot.docs.map((doc, i) => ({
+                ...doc.data(),
+                id: doc.id,
+            }));
+
+            setChatListProjectChat(chatListProject);
+            console.log("Chat List Project Chat ==> ", chatListProject);
+        });
+
+        return () => {
+            unsubscribe();
+        };
+    }, [router.query]);
+    // FOR GETTING CHATLISTPROJECTCHAT
+    ////////////////////////////////////// FOR GETTING PROJECTS DATA //////////////////////////////////////
+
+    // For messages
+    const [message, setMessage] = useState('');
+    const messagesEndRef = useRef<HTMLDivElement>(null);
+
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    };
+
+    useEffect(() => {
+        scrollToBottom();
+    }, [chatListSingleChat, chatListProjectChat]);
+
     const convertDate = (date: string) => {
         const d = new Date(date);
         // const ye = new Intl.DateTimeFormat("en", { year: "numeric" }).format(d);
@@ -123,7 +289,6 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
     // ________________________ For Login ________________________ //
-    const router = useRouter();
 
     // Current Selected Chat
     const [currentSelectedChatUser, setCurrentSelectedChatUser] =
@@ -207,7 +372,7 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                 // ...
             }
         });
-    }, [signedInUserData, Loading]);
+    }, [signedInUserData, Loading, router.query]);
 
     const formatDate = (date: any) => {
         const today: any = new Date();
@@ -227,190 +392,24 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
 
     let lastMessageDate: any = null;
 
-    ////////////////////////////////////// FOR GETTING PROJECTS DATA //////////////////////////////////////
-    // console.log("Email ==> ", email.toString());
-    // "Jobs", `${uid}`, "data")
-    // const e = email;
-    const e = email;
-
-    // FOR GETTING PROJECTS
-    let q = query(collection(db, "Projects"));
-
-    const [snapshot, loading, error] = useCollection(q, {
-        snapshotListenOptions: { includeMetadataChanges: true },
-    });
-
-    // For getting the UsersListSingleChat
-    const [usersListSingleChat, setUsersListSingleChat] = useState<any>([]);
-
-    // Data/Chat/Single/Users${dataObject.email}
-
-    let q1 = query(collection(db, "Data", "Chat", "Single", "Users", e));
-
-    const [snapshot1, loading1, error1] = useCollection(q1, {
-        snapshotListenOptions: { includeMetadataChanges: true },
-    });
-
-    //For getting the chatListSingleChat
-    const [chatListSingleChat, setChatListSingleChat] = useState<any>([]);
-
-    let q2 = query(collection(db, "Chat", "Single", "Chat"));
-
-    const [snapshot2, loading2, error2] = useCollection(q2, {
-        snapshotListenOptions: { includeMetadataChanges: true },
-    });
-
-    //For getting the chatListProjectChat
-    const [chatListProjectChat, setChatListProjectChat] = useState<any>([]);
-
-    let q3 = query(collection(db, "Chat", "Project", "Chat"));
-
-    const [snapshot3, loading3, error3] = useCollection(q3, {
-        snapshotListenOptions: { includeMetadataChanges: true },
-    });
-
-    // GETTINGS Active Jobs
-    const [projects, setProjects] = useState<any>([]);
-    const [projectMembersState, setProjectMembersState] = useState<any>([]);
-    // const [loading, setLoading] = useState(true);
-
-    // FOR GETTING PROJECTS
-    useEffect(() => {
-        if (!loading) {
-            let projectMembers = [];
-
-            let localObj: any;
-
-            let arrProjects = snapshot?.docs.map(doc => ({ ...doc.data(), id: doc.id }));
-
-            localObj = arrProjects;
-
-            // Now only i need projects that are created by me means email is equal to signedInUserData.email
-            // or that are shared with me means project members array contains signedInUserData.email
-
-            // Filter the projects array and extract only those projects that are created by me
-            // localObj = localObj.filter((project: any) => );
-
-            // Filter the projects array and extract only those projects that are shared with me
-            localObj = localObj.filter((project: any) => project?.ProjectMembers?.includes(email) || project?.createdBy === email);
-
-            let tempProjectsObj: any = localObj;
-
-            setProjects(tempProjectsObj);
-
-            // Create a new array containing projectmembers of each project object
-            if (tempProjectsObj !== undefined) {
-                for (let i = 0; i < tempProjectsObj.length; i++) {
-                    projectMembers.push(tempProjectsObj[i].ProjectMembers);
-                    //console.log("Project Members ==> ", tempProjectsObj[i].ProjectMembers);
-                }
-            }
-
-            // Set the projectMembersState
-            setProjectMembersState(projectMembers.flat(1));
-
-            // setLoading(false);
-            // console.clear();
-            console.log("Project Members ==> ", projectMembersState);
-        }
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [loading, snapshot]);
-    // FOR GETTING PROJECTS
-
-    // FOR GETTING USERSLISTSINGLECHAT
-    useEffect(() => {
-        if (!loading1) {
-            let usersListSingle: any = snapshot1?.docs.map((doc, i) => ({
-                ...doc.data(),
-                id: doc.id,
-            }));
-
-            // Set the UsersListSingleChat
-            setUsersListSingleChat(usersListSingle);
-
-            console.log("Users List Single Chat ==> ", usersListSingle);
-        }
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [loading1, snapshot1]);
-    // FOR GETTING USERSLISTSINGLECHAT
-
-    // FOR GETTING CHATLISTSINGLECHAT
-    useEffect(() => {
-        if (!loading2) {
-            let chatListSingle: any = snapshot2?.docs.map((doc, i) => ({
-                ...doc.data(),
-                id: doc.id,
-            }));
-
-            // Set the UsersListSingleChat
-            setChatListSingleChat(chatListSingle);
-
-            console.log("Chat List Single Chat ==> ", chatListSingle);
-        }
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [loading2, snapshot2]);
-    // FOR GETTING CHATLISTSINGLECHAT
-
-    // FOR GETTING CHATLISTPROJECTCHAT
-    useEffect(() => {
-        if (!loading3) {
-            let chatListProject: any = snapshot3?.docs.map((doc, i) => ({
-                ...doc.data(),
-                id: doc.id,
-            }));
-
-            // Set the UsersListProjectChat
-            setChatListProjectChat(chatListProject);
-
-            console.log("Chat List Project Chat ==> ", chatListProject);
-        }
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [loading3, snapshot3]);
-    // FOR GETTING CHATLISTPROJECTCHAT
-    ////////////////////////////////////// FOR GETTING PROJECTS DATA //////////////////////////////////////
-
     function extractFirstLetters(projectName: string) {
         // return projectName.split(' ').map(word => word.charAt(0)).join('');
         return projectName.charAt(0);
     }
 
-    let colors = [
-        "navy",
-        "midnightblue",
-        "darkslateblue",
-        "indigo",
-        "purple",
-        "darkmagenta",
-        "darkviolet",
-        "mediumblue",
-        "steelblue",
-        "royalblue",
-        "cornflowerblue",
-        "deepskyblue",
-        "teal",
-        "darkturquoise",
-        "cadetblue",
-        "slategray",
-        "darkolivegreen",
-        "forestgreen",
-        "darkgreen",
-        "mediumseagreen",
-        "seagreen",
-        "olivedrab",
-        "darkgoldenrod",
-        "goldenrod",
-        "saddlebrown",
-        "maroon",
-        "firebrick",
-        "crimson",
-        "indianred",
-        "brown",
-        "darkred"
-    ];
+    const computeDisplayStyle = (item: any) => {
+        if (
+            (item.userIDSender === signedInUserData.email &&
+                item.userIDReceiver === currentSelectedChatUser) ||
+            (item.userIDReceiver === signedInUserData.email &&
+                item.userIDSender === currentSelectedChatUser) ||
+            (currentTab === 1 && item.userIDReceiver === currentSelectedProjectChatUser)
+        ) {
+            return "block";
+        } else {
+            return "none";
+        }
+    };
 
     interface Message {
         timeSent: string;
@@ -528,7 +527,14 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                                                     paddingLeft: "25px",
                                                 }}
                                             >
-                                                <h5 className={styles.headerTitle} style={{ color: '#5088c0' }}>General Inbox</h5>
+                                                <h3
+                                                    className={styles.headerTitle}
+                                                    style={{
+                                                        color: '#5088c0'
+                                                    }}
+                                                >
+                                                    General Inbox
+                                                </h3>
                                             </Box>
                                         )}
                                     </Box>
@@ -817,62 +823,69 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                                                             display: "flex",
                                                         }}
                                                     >
-                                                        {item.ProjectMembers.map((member: any, index: number) => (
-                                                            <Box
-                                                                key={index}
-                                                                onMouseEnter={(event) => handleClick(event, index)}
-                                                                onMouseLeave={handlePopoverClose}
+                                                        {/* {item.ProjectMembers.map((member: any, index: number) => ( */}
+                                                        <Box
+                                                            // key={index}
+                                                            onMouseEnter={(event) => handleClick(event, index)}
+                                                            onMouseLeave={handlePopoverClose}
+                                                            sx={{
+                                                                width: '40px',
+                                                                height: '40px',
+                                                                borderRadius: '50%',
+                                                                display: 'flex',
+                                                                justifyContent: 'center',
+                                                                alignItems: 'center',
+                                                                color: 'white',
+                                                                marginLeft: '-15px',
+                                                                // backgroundColor: colors[Math.floor(Math.random() * colors.length)],
+                                                                backgroundColor: item.color_code,
+                                                            }}
+                                                        >
+                                                            {/* {extractFirstLetters(member)} */}
+
+                                                            {
+                                                                // Extract the first and last letter of the project name
+                                                                item.ProjectName.substring(0, 3)
+                                                            }..
+                                                            <Popover
+                                                                id={index.toString()}
                                                                 sx={{
-                                                                    width: '40px',
-                                                                    height: '40px',
-                                                                    borderRadius: '50%',
-                                                                    display: 'flex',
-                                                                    justifyContent: 'center',
-                                                                    alignItems: 'center',
-                                                                    color: 'white',
-                                                                    marginLeft: '-15px',
-                                                                    backgroundColor: colors[Math.floor(Math.random() * colors.length)],
+                                                                    pointerEvents: 'none',
                                                                 }}
+                                                                open={open && hoveredIndex === index}
+                                                                anchorEl={anchorEl}
+                                                                anchorOrigin={{
+                                                                    vertical: 'bottom',
+                                                                    horizontal: 'left',
+                                                                }}
+                                                                transformOrigin={{
+                                                                    vertical: 'top',
+                                                                    horizontal: 'left',
+                                                                }}
+                                                                onClose={handlePopoverClose}
+                                                                disableRestoreFocus
                                                             >
-                                                                {extractFirstLetters(member)}
-                                                                <Popover
-                                                                    id={index.toString()}
+                                                                <Typography
                                                                     sx={{
-                                                                        pointerEvents: 'none',
+                                                                        pl: 2,
+                                                                        pr: 2,
+                                                                        pt: 1,
+                                                                        pb: 1,
+                                                                        backgroundColor: '#363639',
+                                                                        color: 'white',
+                                                                        width: '200px',
+                                                                        borderRadius: '5px',
+                                                                        fontSize: '12px',
+                                                                        fontWeight: 400,
+                                                                        height: 'auto',
                                                                     }}
-                                                                    open={open && hoveredIndex === index}
-                                                                    anchorEl={anchorEl}
-                                                                    anchorOrigin={{
-                                                                        vertical: 'bottom',
-                                                                        horizontal: 'left',
-                                                                    }}
-                                                                    transformOrigin={{
-                                                                        vertical: 'top',
-                                                                        horizontal: 'left',
-                                                                    }}
-                                                                    onClose={handlePopoverClose}
-                                                                    disableRestoreFocus
                                                                 >
-                                                                    <Typography
-                                                                        sx={{
-                                                                            pl: 2,
-                                                                            pr: 2,
-                                                                            pt: 1,
-                                                                            pb: 1,
-                                                                            backgroundColor: '#363639',
-                                                                            color: 'white',
-                                                                            width: '200px',
-                                                                            borderRadius: '5px',
-                                                                            fontSize: '12px',
-                                                                            fontWeight: 400,
-                                                                            height: 'auto',
-                                                                        }}
-                                                                    >
-                                                                        {member}
-                                                                    </Typography>
-                                                                </Popover>
-                                                            </Box>
-                                                        ))}
+                                                                    {/* {member} */}
+                                                                    Click this to start chatting with the team as a whole team for Project: {(item.ProjectName)}
+                                                                </Typography>
+                                                            </Popover>
+                                                        </Box>
+                                                        {/* ))} */}
                                                         <Typography
                                                             sx={{
                                                                 fontSize: "16px",
@@ -1062,66 +1075,57 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                                             width: "100%",
                                         }}
                                     >
-                                        {/* <DateCategorizationChat
-                                            messageDate={date}
-                                            showDate={true}
-                                        /> */}
-                                        {messages.map((item: any, index: number) => (
-                                            <Box
-                                                key={index}
-                                                className={styles.middleBodyInsideContainer}
-                                                sx={{
-                                                    display: "flex",
-                                                    alignItems: "center",
-                                                    justifyContent: "space-between",
-                                                    padding: "10px",
-                                                    paddingLeft: "20px",
-                                                    width: "60%",
-                                                }}
-                                            >
-                                                <section>
+                                        <section>
+                                            {messages.map((item: any, index: number) => (
+                                                <>
                                                     {((currentTab === 0 &&
                                                         ((item.userIDSender === signedInUserData.email &&
                                                             item.userIDReceiver === currentSelectedChatUser) ||
                                                             (item.userIDReceiver === signedInUserData.email &&
                                                                 item.userIDSender === currentSelectedChatUser))) ||
                                                         (currentTab === 1 && item.userIDReceiver === currentSelectedProjectChatUser)) ? (
-                                                        <>
-                                                            {/* {item. */}
-                                                            <Box
-                                                                sx={{
-                                                                    display: "flex",
-                                                                    alignItems: "left",
-                                                                    justifyContent:
-                                                                        item.userIDSender === signedInUserData.email
-                                                                            ? "flex-start"
-                                                                            : "flex-end",
-                                                                    width: "100%",
-                                                                    marginTop: "0px",
-                                                                    // boxShadow:
-                                                                    // "rgba(100, 100, 111, 0.2) 0.5px 0.5px 0.5px 0.5px",
-                                                                    padding: "10px",
-                                                                }}
-                                                            >
-                                                                <MessageContainer
-                                                                    userPic={item.userpic}
-                                                                    editedMessageId={editedMessageId}
-                                                                    userName={item.userNameSender}
-                                                                    timeSent={item.timeSent}
-                                                                    message={item.message}
-                                                                    id={item.id}
-                                                                />
-                                                            </Box>
-                                                        </>
-                                                    ) : (
-                                                        <></>
-                                                    )}
-                                                </section>
+                                                        <Box
+                                                            sx={{
+                                                                display: computeDisplayStyle(item)
+                                                            }}
+                                                        >
+                                                            {/* <DateCategorizationChat
+                                                                messageDate={date}
+                                                                showDate={true}
+                                                            /> */}
+                                                            <MessageContainer
+                                                                userPic={item.userpic}
+                                                                editedMessageId={editedMessageId}
+                                                                userName={item.userNameSender}
+                                                                timeSent={new Date(item.timeSent).toLocaleString('en-US', {
+                                                                    hour: 'numeric',
+                                                                    hour12: true,
+                                                                    minute: 'numeric',
+                                                                    day: 'numeric',
+                                                                    month: "short",
+                                                                    year: "numeric"
+                                                                })}
+                                                                message={item.message}
+                                                                id={item.id}
+                                                                type={
+                                                                    (item.userIDSender === signedInUserData.email) ?
+                                                                        ("sent") :
+                                                                        (
+                                                                            "received"
+                                                                        )
+                                                                }
+                                                            // ref={messagesEndRef}
+                                                            />
+                                                        </Box>
+                                                    ) : null}
 
-                                            </Box>
-                                        ))}
+                                                </>
+                                            ))}
+
+                                        </section>
                                     </Box>
                                 ))}
+                                <div ref={messagesEndRef}></div>
                             </Box>
 
                             <Box
@@ -1140,6 +1144,10 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                                     }
                                     isSignedIn={isSignedIn}
                                     chatType={currentTab === 0 ? "Single" : "Project"}
+                                    onSendMessage={scrollToBottom}
+                                    // Message
+                                    message={message}
+                                    setMessage={setMessage}
                                 />
                             </Box>
                         </Box>
@@ -1185,7 +1193,8 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                                 Please Select any User to start chat
                             </Typography>
                         </Box>
-                    )}
+                    )
+                    }
 
                     <Box
                         className={styles.rightContainer}
@@ -1796,9 +1805,9 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                             })}
                         </Box>
                     </Box>
-                </section>
+                </section >
             )}
-        </div>
+        </div >
     );
 };
 export default Inbox;

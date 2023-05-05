@@ -1,6 +1,7 @@
 import React from 'react';
-import { Box } from '@mui/material';
+import { Box, Tooltip } from '@mui/material';
 import styles from './style.module.css';
+import DateCategorizationChat from '../DateCategorizationChat';
 
 interface MessageContainerProps {
     editedMessageId: number,
@@ -8,7 +9,8 @@ interface MessageContainerProps {
     timeSent: string,
     message: string,
     id: string,
-    userPic: string
+    userPic: string,
+    type: string,
 }
 
 const MessageContainer: React.FC<MessageContainerProps> = ({
@@ -17,7 +19,8 @@ const MessageContainer: React.FC<MessageContainerProps> = ({
     timeSent,
     message,
     userPic,
-    id
+    id,
+    type,
 }) => {
     console.log("the user pictuyre ==> " + userPic)
     return (
@@ -27,19 +30,23 @@ const MessageContainer: React.FC<MessageContainerProps> = ({
                 boxShadow: 'none'
             }}
         >
-            <div style={{display: 'flex'}}>
-            <Box className="d-flex justify-content-start" sx={{boxShadow:'none'}}>
-                <h3
-                    className={styles.MiddleheaderTitle}
-                    style={{
-                        fontWeight: 'bold',
-                        color: 'black'
-                    }}>
-                                                    {/* <img src={userPic} alt="" /> */}
-                    {userName}
-                </h3>
-            </Box>
-            <p
+            {/* <DateCategorizationChat
+                messageDate={new Date(timeSent).toDateString()}
+                showDate={true}
+            /> */}
+            <div style={{ display: 'flex' }}>
+                <Box className="d-flex justify-content-start" sx={{ boxShadow: 'none' }}>
+                    <h3
+                        className={styles.MiddleheaderTitle}
+                        style={{
+                            fontWeight: 'bold',
+                            color: 'black'
+                        }}>
+                        {/* <img src={userPic} alt="" /> */}
+                        {userName}
+                    </h3>
+                </Box>
+                <p
                     className={styles.MiddleheaderTitle}
                     style={{
                         fontSize: '12px',
@@ -47,7 +54,7 @@ const MessageContainer: React.FC<MessageContainerProps> = ({
                     {timeSent} {
                         (editedMessageId.toString() === id) ? (
                             <span style={{
-                                color: '#008AD1', 
+                                color: '#008AD1',
                                 fontWeight: 'lighter',
                             }}>
                                 Edited
@@ -58,11 +65,26 @@ const MessageContainer: React.FC<MessageContainerProps> = ({
                     }
                 </p>
             </div>
-            <div style={{backgroundColor: '#F0F0F0', borderRadius: '10px'}}>
-            <p style={{paddingTop: '10px', paddingBottom: '10px'}} className={styles.Middlemessage}>
-                {message}
-            </p>
-            </div>
+            <Tooltip title={timeSent} placement="top">
+                <div style={{
+                    backgroundColor:
+                        (type === "sent") ? (
+                            '#058760'
+                        ) : (type === "received") ? (
+                            '#055587'
+                        ) : (""),
+                    borderRadius: '10px',
+                    width: 'fit-content',
+                    maxWidth: '80%',
+                    paddingRight: '10px',
+                    marginLeft: '10px',
+                }}
+                >
+                    <p style={{ paddingTop: '10px', paddingBottom: '10px' }} className={styles.Middlemessage}>
+                        {message}
+                    </p>
+                </div>
+            </Tooltip>
         </Box>
     )
 }

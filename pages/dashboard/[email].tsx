@@ -37,6 +37,10 @@ interface GlobalProps {
     // Selected Background
     selectedBackgroundImage: string;
     setSelectedBackgroundImage: (value: string) => void;
+
+    // Customizing Modal
+    isModalOpenCustomized: boolean;
+    setIsModalOpenCustomized: (value: boolean) => void;
 }
 
 const Dashboard: NextPage<GlobalProps> = (
@@ -58,10 +62,13 @@ const Dashboard: NextPage<GlobalProps> = (
 
         // Selected Background
         selectedBackgroundImage,
-        setSelectedBackgroundImage
+        setSelectedBackgroundImage,
+
+        // Customizing Modal
+        isModalOpenCustomized,
+        setIsModalOpenCustomized
     }
 ) => {
-
     const router = useRouter();
     const { email } = router.query;
 
@@ -75,8 +82,6 @@ const Dashboard: NextPage<GlobalProps> = (
     }, []);
 
     const [loading, setLoading] = useState<boolean>(true);
-
-
 
     //_________________ For Getting SignedInUser Data _____________________
     const [signedInUserData, setSignedInUserData] = useState<any>(null);
@@ -119,15 +124,6 @@ const Dashboard: NextPage<GlobalProps> = (
     }, [router, signedInUserData]);
 
     // Store div in a variable
-
-    // Customizing Modal
-    const [isModalOpenCustomized, setIsModalOpenCustomized] = React.useState(false);
-
-    // Project Sections
-    const [projectSections, setProjectSections] = useState<any>([]);
-
-    // Add Task Model
-    const [isAddTaskModalOpen, setIsAddTaskModalOpen] = React.useState(false);
 
     return (
         <div>

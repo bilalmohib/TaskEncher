@@ -31,6 +31,7 @@ import { onAuthStateChanged } from "firebase/auth";
 
 import { db, auth } from "../../../firebase";
 import colors from '@app/lib/colors';
+import { useRouter } from 'next/router';
 
 const currentDate = new Date();
 
@@ -38,8 +39,12 @@ interface OverviewProps {
     photoURL: any;
     email: any;
     projectName: any;
-    projectID: any;
     projectMembers: any;
+
+    // Just Single Project Members
+    projectMembersList: any;
+    setProjectMembersList: (value: any) => void;
+
     // Invited Members Modal
     isInvitedMembersModalOpen: boolean;
     setIsInvitedMembersModalOpen: (value: boolean) => void;
@@ -49,12 +54,20 @@ const Overview: React.FC<OverviewProps> = ({
     photoURL,
     email,
     projectName,
-    projectID,
+    // All Project Members
     projectMembers,
+
+    // Just Single Project Members
+    projectMembersList,
+    setProjectMembersList,
+
     // Invited Members Modal
     isInvitedMembersModalOpen,
     setIsInvitedMembersModalOpen
 }) => {
+
+    const router = useRouter();
+    const { projectID } = router.query;
 
     const [signedInUserData, setSignedInUserData] = useState<any>(null);
     const [isSignedIn, setIsSignedIn] = useState<Boolean>(false);
@@ -93,7 +106,6 @@ const Overview: React.FC<OverviewProps> = ({
         });
     }, [signedInUserData, isSignedIn]);
 
-    const e = email;
     /////////////////////////////////////// Database Part ////////////////////////////////////////////////
     // let q = query(collection(db, "Data", "Projects", e));
     let q = query(collection(db, "Projects"));
@@ -112,18 +124,9 @@ const Overview: React.FC<OverviewProps> = ({
 
     const [projectTasks, setProjectTasks] = useState<any>([]);
 
-    const [currentEditedTaskValue, setCurrentEditedTaskValue] = useState(null);
-
-    // for checking if edit task is clicked or not
-    const [editTask, setEditTask] = useState<any>(null);
-
-    const [currentEditSelected, setCurrentEditSelected] = useState<any>(null);
-
-    const [expandDetailsTable, setExpandDetailsTable] = useState<any>(null);
-
     // FOR GETTING PROJECTS
     useEffect(() => {
-        if (!loading && snapshot && email) {
+        if (!loading && snapshot) {
             let localObj;
             let localObjP: any;
 
@@ -142,6 +145,7 @@ const Overview: React.FC<OverviewProps> = ({
 
             let arrProjects = localObjP;
             for (let i = 0; i < arrProjects.length; i++) {
+                // @ts-ignore
                 if (arrProjects[i].id === projectID.toString()) {
                     localObj = arrProjects[i];
                     setProjectDetails(localObj);
@@ -153,6 +157,9 @@ const Overview: React.FC<OverviewProps> = ({
             setProjectStages(localObj?.ProjectStages);
             // @ts-ignore
             setProjectTasks(localObj?.ProjectTasks);
+
+            // @ts-ignore
+            setProjectMembersList(localObj?.ProjectMembers);
 
             console.log(
                 "Projects ==> ",
@@ -167,7 +174,7 @@ const Overview: React.FC<OverviewProps> = ({
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [loading, snapshot]);
+    }, [loading, snapshot, router.query]);
     // FOR GETTING PROJECTS
 
     // Title project description
@@ -178,6 +185,7 @@ const Overview: React.FC<OverviewProps> = ({
             event.preventDefault();
             let dt = event.target.innerText;
             // alert(dt)
+            // @ts-ignore
             updateProject(dt, "updateDescriptionTitle", email, projectID.toString(), projects);
         }
     };
@@ -193,6 +201,7 @@ const Overview: React.FC<OverviewProps> = ({
             event.preventDefault();
             let d = event.target.innerText;
             // alert(d)
+            // @ts-ignore
             updateProject(d, "updateDescription", email, projectID.toString(), projects);
         }
     };
@@ -202,7 +211,7 @@ const Overview: React.FC<OverviewProps> = ({
             setDescriptionText(projectDetails?.description);
             setDescriptionTextTitle(projectDetails?.descriptionTitle);
         }
-    }, [loading, projectDetails]);
+    }, [loading, projectDetails, router.query]);
 
     return (
         <div className={styles.OverviewContainer}>
@@ -251,7 +260,7 @@ const Overview: React.FC<OverviewProps> = ({
                 <div>
                     <div className={styles.projectRolesContainer}>
                         {
-                            [{}, ...projectMembers]
+                            [{}, ...projectMembersList]
                                 .map((value: any, index: any) => (
                                     <div key={index}>
                                         {(index == 0) ? (
@@ -385,11 +394,12 @@ const Overview: React.FC<OverviewProps> = ({
                                         <TbSquareRotated size={20} style={{ marginTop: 2 }} color='#58a182' />
                                         <p style={{ marginLeft: 5 }}>{value.name}</p>
                                     </div>
-                                    <div >
+                                    <div>
                                         {/* <DatePicker
                                             onChange={setTaskDue}
                                             value={new Date(value.dueDate)}
                                         /> */}
+                                        <p style={{ color: "#58a182" }}>{value.dueDate}</p>
                                     </div>
                                 </div>
                             )

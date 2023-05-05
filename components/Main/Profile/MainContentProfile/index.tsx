@@ -134,6 +134,10 @@ const MainContentProfile: React.FC<MainContentProfileProps> = (
                 signedInUserData={signedInUserData}
                 projectMembers={projectMembers}
                 email={email}
+
+                // Current Menu Item
+                currentMenuItem={currentMenuItem}
+                setCurrentMenuItem={setCurrentMenuItem}
             />
         </main>
     );

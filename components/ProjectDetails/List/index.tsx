@@ -171,7 +171,7 @@ const List: React.FC<ListProps> = (
 
   // FOR GETTING PROJECTS
   useEffect(() => {
-    if (!loading && snapshot && email) {
+    if (!loading && snapshot) {
       let localObjP: any;
       let localObj: any;
       let arrProjectsLocal = snapshot?.docs.map(doc => ({ ...doc.data(), id: doc.id }));
@@ -228,7 +228,7 @@ const List: React.FC<ListProps> = (
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loading, snapshot]);
+  }, [loading, snapshot, router.query]);
   // FOR GETTING PROJECTS
 
   const handleEditTask = (event: any, taskIndex: number) => {

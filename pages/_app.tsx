@@ -308,6 +308,10 @@ function MyApp({ Component, pageProps }: AppProps & { Component: React.Component
         // Selected Background Image
         selectedBackgroundImage={selectedBackgroundImage}
         setSelectedBackgroundImage={setSelectedBackgroundImage}
+
+        // Customizing Modal
+        isModalOpenCustomized={isModalOpenCustomized}
+        setIsModalOpenCustomized={setIsModalOpenCustomized}
       />
 
       {(!loading && isSignedIn && router.pathname !== "/") && (
@@ -410,7 +414,6 @@ function MyApp({ Component, pageProps }: AppProps & { Component: React.Component
                     isSignedIn={isSignedIn}
                     width={windowSize[0]}
                     height={windowSize[1]}
-                    email={signedInUserData.email}
                     isModalOpen={isModalOpen}
                     setIsModalOpen={setIsModalOpen}
 

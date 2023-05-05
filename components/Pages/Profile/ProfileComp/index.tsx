@@ -61,6 +61,10 @@ interface ProfileCompProps {
     signedInUserData: any;
     projectMembers: string[];
     email: string;
+
+    // Current Menu Item
+    currentMenuItem: number;
+    setCurrentMenuItem: (value: number) => void;
 }
 
 const ProfileComp: React.FC<ProfileCompProps> = ({
@@ -68,6 +72,10 @@ const ProfileComp: React.FC<ProfileCompProps> = ({
     signedInUserData,
     projectMembers,
     email,
+
+    // Current Menu Item
+    currentMenuItem,
+    setCurrentMenuItem
 }) => {
     const router = useRouter();
 
@@ -95,7 +103,7 @@ const ProfileComp: React.FC<ProfileCompProps> = ({
     // const e = email;
     /////////////////////////////////////// Database Part ////////////////////////////////////////////////
     // let q = query(collection(db, "Data", "Projects", e));
-    let q = query(collection(db, "Projects"))
+    let q = query(collection(db, "Projects"));
 
     const [snapshot, loading, error] = useCollection(q, {
         snapshotListenOptions: { includeMetadataChanges: true },
@@ -240,10 +248,11 @@ const ProfileComp: React.FC<ProfileCompProps> = ({
                                     </div>
                                     <div className={styles.myTasksHeaderRight}>
                                         <button className={`btn ${styles.viewAllTasksBtn}`} onClick={() => {
+                                            setCurrentMenuItem(2);
                                             router.push(`/dashboard/${signedInUserData.email}`);
-                                            setTimeout(() => {
-                                                router.reload();
-                                            }, 5000);
+                                            // setTimeout(() => {
+                                            //     router.reload();
+                                            // }, 5000);
                                         }}>View all tasks</button>
                                     </div>
                                 </header>

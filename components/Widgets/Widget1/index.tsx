@@ -121,7 +121,7 @@ const Widget1: React.FC<IProps> = ({
     // FOR GETTING PROJECTS
     useEffect(() => {
 
-        if (!loading) {
+        if (!loading && snapshot && signedInUserData) {
             let localObj: any;
 
             let arrProjects = snapshot?.docs.map(doc => ({ ...doc.data(), id: doc.id }));
@@ -135,7 +135,7 @@ const Widget1: React.FC<IProps> = ({
             // localObj = localObj.filter((project: any) => );
 
             // Filter the projects array and extract only those projects that are shared with me
-            localObj = localObj.filter((project: any) => project?.ProjectMembers?.includes(email) || project?.createdBy === email);
+            localObj = localObj.filter((project: any) => project?.ProjectMembers?.includes(signedInUserData.email) || project?.createdBy === signedInUserData.email);
 
             // Extract all the project members from the projects array
             setProjects(localObj);

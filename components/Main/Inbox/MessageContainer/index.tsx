@@ -1,8 +1,9 @@
 import React from 'react';
 import { Box, Tooltip } from '@mui/material';
-import styles from './style.module.css';
+import Image from 'next/image';
 import DateCategorizationChat from '../DateCategorizationChat';
 
+import styles from './style.module.css';
 interface MessageContainerProps {
     editedMessageId: number,
     userName: string,
@@ -11,6 +12,7 @@ interface MessageContainerProps {
     id: string,
     userPic: string,
     type: string,
+    messageType: string
 }
 
 const MessageContainer: React.FC<MessageContainerProps> = ({
@@ -21,6 +23,7 @@ const MessageContainer: React.FC<MessageContainerProps> = ({
     userPic,
     id,
     type,
+    messageType
 }) => {
     console.log("the user pictuyre ==> " + userPic)
     return (
@@ -66,23 +69,54 @@ const MessageContainer: React.FC<MessageContainerProps> = ({
                 </p>
             </div>
             <Tooltip title={timeSent} placement="top">
-                <div style={{
-                    backgroundColor:
-                        (type === "sent") ? (
-                            '#058760'
-                        ) : (type === "received") ? (
-                            '#055587'
-                        ) : (""),
-                    borderRadius: '10px',
-                    width: 'fit-content',
-                    maxWidth: '80%',
-                    paddingRight: '10px',
-                    marginLeft: '10px',
-                }}
-                >
-                    <p style={{ paddingTop: '10px', paddingBottom: '10px' }} className={styles.Middlemessage}>
-                        {message}
-                    </p>
+                <div>
+                    {(messageType === 'text') && (
+                        <div
+                            style={{
+                                backgroundColor:
+                                    (type === "sent") ? (
+                                        '#058760'
+                                    ) : (type === "received") ? (
+                                        '#055587'
+                                    ) : (""),
+                                borderRadius: '10px',
+                                width: 'fit-content',
+                                maxWidth: '80%',
+                                paddingRight: '10px',
+                                marginLeft: '10px',
+                            }}
+                        >
+                            <p style={{ paddingTop: '10px', paddingBottom: '10px' }} className={styles.Middlemessage}>
+                                {message}
+                            </p>
+                        </div>
+                    )}
+                    {(messageType === 'file') && (
+                        <div
+                            style={{
+                                backgroundColor: "transparent",
+                                borderRadius: '10px',
+                                width: 'fit-content',
+                                maxWidth: '80%',
+                                marginLeft: '10px',
+                                // border: "1px solid red"
+                            }}
+                        >
+                            <Image
+                                src={message}
+                                alt={`Image sent by user ${userName}`}
+                                title={`Image sent by user ${userName}`}
+                                width={500}
+                                height={300}
+                                style={{
+                                    height: 'auto !important',
+                                    width: 'auto !important',
+                                    borderRadius: '10px',
+                                }}
+                                loading='eager'
+                            />
+                        </div>
+                    )}
                 </div>
             </Tooltip>
         </Box>

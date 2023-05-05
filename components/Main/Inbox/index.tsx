@@ -93,7 +93,7 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
     });
 
     // For getting the UsersListSingleChat
-    const [usersListSingleChat, setUsersListSingleChat] = useState<any>([]);
+    const [usersListSingleChat, setUsersListSingleChat] = useState<any>(null);
 
     // Data/Chat/Single/Users${dataObject.email}
 
@@ -128,7 +128,7 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
 
     // FOR GETTING PROJECTS
     useEffect(() => {
-        if (!loading) {
+        if (!loading && signedInUserData !== null && snapshot !== undefined) {
             let projectMembers = [];
 
             let localObj: any;
@@ -144,7 +144,7 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
             // localObj = localObj.filter((project: any) => );
 
             // Filter the projects array and extract only those projects that are shared with me
-            localObj = localObj.filter((project: any) => project?.ProjectMembers?.includes(email) || project?.createdBy === email);
+            localObj = localObj.filter((project: any) => project?.ProjectMembers?.includes(signedInUserData.email) || project?.createdBy === signedInUserData.email);
 
             let tempProjectsObj: any = localObj;
 
@@ -635,7 +635,7 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                                         backgroundColor: "#fff",
                                     }}
                                 >
-                                    {usersListSingleChat.length === 0 ? (
+                                    {usersListSingleChat === null ? (
                                         <Box
                                             sx={{
                                                 display: "flex",
@@ -1114,6 +1114,7 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                                                                             "received"
                                                                         )
                                                                 }
+                                                                messageType={(item.type) ? (item.type) : ("text")}
                                                             // ref={messagesEndRef}
                                                             />
                                                         </Box>

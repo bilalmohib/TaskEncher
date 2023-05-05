@@ -54,7 +54,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({
         getOptionLabel: (option: ProjectMemberOptionType) => option.title,
     };
 
-    const [value, setValue] = React.useState<ProjectMemberOptionType | null>(null);
+    const [value, setValue] = React.useState<any>(null);
 
     useEffect(() => {
         if (value) {
@@ -64,47 +64,51 @@ const AddUserModal: React.FC<AddUserModalProps> = ({
 
     const handleStartNewChat = () => {
         console.log("Start New Chat");
-        // alert("value" + " " + value?.title);
-        setIsOpen(false);
+        if (value !== null) {
+            // alert("value" + " " + value?.title);
+            setIsOpen(false);
 
-        // Extract user name from email
-        let name = value?.title.split("@")[0];
+            // Extract user name from email
+            let name = value?.title.split("@")[0];
 
-        const chatUser = {
-            uid: value?.title,
-            email: value?.title,
-            name: name,
-            lastMessage: '',
-            lastMessageTime: new Date().toLocaleTimeString(),
-            profilePic: "/static/images/avatar/1.jpg",
-            isOnline: true
-        }
-
-        console.log("UsersListSingleChat ===> ", usersListSingleChat);
-
-        // Check if user already exists in the database by checking the value in the 
-        // projectMembersState array
-        let userExists = false;
-        for (let i = 0; i < usersListSingleChat.length; i++) {
-            if (usersListSingleChat[i]?.email == value?.title) {
-                userExists = true;
-                break;
+            const chatUser = {
+                uid: value.title,
+                email: value.title,
+                name: name,
+                lastMessage: 'Hi',
+                lastMessageTime: new Date().toLocaleTimeString(),
+                profilePic: "/static/images/avatar/1.jpg",
+                isOnline: true
             }
-        }
 
-        if (userExists) {
-            // Show the alert that user already exists
-            alert("User already exists");
-            return;
+            console.log("UsersListSingleChat ===> ", usersListSingleChat);
+
+            // Check if user already exists in the database by checking the value in the 
+            // projectMembersState array
+            let userExists = false;
+            for (let i = 0; i < usersListSingleChat.length; i++) {
+                if (usersListSingleChat[i]?.email == value?.title) {
+                    userExists = true;
+                    break;
+                }
+            }
+
+            if (userExists) {
+                // Show the alert that user already exists
+                alert("User already exists");
+                return;
+            } else {
+                // Add user to the chat list
+                addData(
+                    chatUser,
+                    "singleUser",
+                    isSignedIn,
+                    signedInUserData,
+                    enqueueSnackbar
+                );
+            }
         } else {
-            // Add user to the chat list
-            addData(
-                chatUser,
-                "singleUser",
-                isSignedIn,
-                signedInUserData,
-                enqueueSnackbar
-            );
+            alert("Please select a user");
         }
     }
 

@@ -314,172 +314,178 @@ function MyApp({ Component, pageProps }: AppProps & { Component: React.Component
         setIsModalOpenCustomized={setIsModalOpenCustomized}
       />
 
-      {(!loading && isSignedIn && router.pathname !== "/") && (
-        <div>
-          <main className="main">
-            <div
-              style={{
-                zIndex: 1,
-                position: "relative"
-              }}
-            >
-              <Navbar
-                isOpen={isOpen}
-                setIsOpen={setIsOpen}
-              />
-            </div>
-            <div className="d-flex">
-              <div style={{ position: "relative", zIndex: "1000 !important" }}>
-                <Sidebar
-                  currentMenuItem={currentMenuItem}
-                  setCurrentMenuItem={setCurrentMenuItem}
+      {(
+        !loading &&
+        isSignedIn &&
+        router.pathname !== "/" &&
+        router.pathname !== "/signup" &&
+        router.pathname !== "/createProject"
+      ) && (
+          <div>
+            <main className="main">
+              <div
+                style={{
+                  zIndex: 1,
+                  position: "relative"
+                }}
+              >
+                <Navbar
                   isOpen={isOpen}
                   setIsOpen={setIsOpen}
-                  projectMembers={projectMembers}
-                  email={signedInUserData.email}
-                  projectList={projects}
-                  isModalOpen={isModalOpen}
-                  setIsModalOpen={setIsModalOpen}
-                  setIsAddTaskModalOpen={setIsAddTaskModalOpen}
                 />
               </div>
-
-              <div style={{ marginTop: "49px" }} className={`${styles.rightSideContainer} ${isOpen ? styles.shrinkContainer : styles.expandContainer}`}>
-                {/* Home Page */}
-
-                {router.pathname === "/dashboard/[email]" && (
-                  <MainContent
-                    setIsOpen={setIsOpen}
-                    isOpen={isOpen}
+              <div className="d-flex">
+                <div style={{ position: "relative", zIndex: "1000 !important" }}>
+                  <Sidebar
                     currentMenuItem={currentMenuItem}
                     setCurrentMenuItem={setCurrentMenuItem}
-                    signedInUserData={signedInUserData}
-                    width={windowSize[0]}
-                    height={windowSize[1]}
+                    isOpen={isOpen}
+                    setIsOpen={setIsOpen}
+                    projectMembers={projectMembers}
                     email={signedInUserData.email}
+                    projectList={projects}
                     isModalOpen={isModalOpen}
                     setIsModalOpen={setIsModalOpen}
-                    // Project Members
-                    projectMembers={projectMembers}
-                    setProjectMembers={setProjectMembers}
-                    // Projects
-                    projects={projects}
-                    setProjects={setProjects}
-                    // Project Sections
-                    projectSections={projectSections}
-                    setProjectSections={setProjectSections}
-                    // Customizing Modal
-                    isModalOpenCustomized={isModalOpenCustomized}
-                    setIsModalOpenCustomized={setIsModalOpenCustomized}
-
-                    // Widgets
-                    widgetsList={widgetsList}
-                    setWidgetsList={setWidgetsList}
-
-                    // Add Task Model
-                    isAddTaskModalOpen={isAddTaskModalOpen}
                     setIsAddTaskModalOpen={setIsAddTaskModalOpen}
                   />
-                )}
+                </div>
 
-                {/* Profile Page */}
-                {router.pathname === "/profile/[email]" && (
-                  <MainContentProfile
-                    setIsOpen={setIsOpen}
-                    isOpen={isOpen}
-                    currentMenuItem={currentMenuItem}
-                    setCurrentMenuItem={setCurrentMenuItem}
-                    signedInUserData={signedInUserData}
-                    width={windowSize[0]}
-                    height={windowSize[1]}
-                    email={signedInUserData.email}
-                    isModalOpen={isModalOpen}
-                    setIsModalOpen={setIsModalOpen}
-                    // Project Members
-                    projectMembers={projectMembers}
-                    setProjectMembers={setProjectMembers}
-                    // Projects
-                    projects={projects}
-                    setProjects={setProjects}
-                  />
-                )}
+                <div style={{ marginTop: "49px" }} className={`${styles.rightSideContainer} ${isOpen ? styles.shrinkContainer : styles.expandContainer}`}>
+                  {/* Home Page */}
 
-                {router.pathname === "/projectDetails/[email]/[projectName]/[projectID]" && (
-                  <MainContentPD
-                    setIsOpen={setIsOpen}
-                    isOpen={isOpen}
-                    currentMenuItem={currentMenuItem}
-                    setCurrentMenuItem={setCurrentMenuItem}
-                    signedInUserData={signedInUserData}
-                    isSignedIn={isSignedIn}
-                    width={windowSize[0]}
-                    height={windowSize[1]}
-                    isModalOpen={isModalOpen}
-                    setIsModalOpen={setIsModalOpen}
+                  {router.pathname === "/dashboard/[email]" && (
+                    <MainContent
+                      setIsOpen={setIsOpen}
+                      isOpen={isOpen}
+                      currentMenuItem={currentMenuItem}
+                      setCurrentMenuItem={setCurrentMenuItem}
+                      signedInUserData={signedInUserData}
+                      width={windowSize[0]}
+                      height={windowSize[1]}
+                      email={signedInUserData.email}
+                      isModalOpen={isModalOpen}
+                      setIsModalOpen={setIsModalOpen}
+                      // Project Members
+                      projectMembers={projectMembers}
+                      setProjectMembers={setProjectMembers}
+                      // Projects
+                      projects={projects}
+                      setProjects={setProjects}
+                      // Project Sections
+                      projectSections={projectSections}
+                      setProjectSections={setProjectSections}
+                      // Customizing Modal
+                      isModalOpenCustomized={isModalOpenCustomized}
+                      setIsModalOpenCustomized={setIsModalOpenCustomized}
 
-                    // Project Members
-                    projectMembers={projectMembers}
-                    setProjectMembers={setProjectMembers}
+                      // Widgets
+                      widgetsList={widgetsList}
+                      setWidgetsList={setWidgetsList}
 
-                    // Projects
-                    projects={projects}
-                    setProjects={setProjects}
+                      // Add Task Model
+                      isAddTaskModalOpen={isAddTaskModalOpen}
+                      setIsAddTaskModalOpen={setIsAddTaskModalOpen}
+                    />
+                  )}
 
-                    // Project Sections
-                    projectSections={projectSections}
-                    setProjectSections={setProjectSections}
+                  {/* Profile Page */}
+                  {router.pathname === "/profile/[email]" && (
+                    <MainContentProfile
+                      setIsOpen={setIsOpen}
+                      isOpen={isOpen}
+                      currentMenuItem={currentMenuItem}
+                      setCurrentMenuItem={setCurrentMenuItem}
+                      signedInUserData={signedInUserData}
+                      width={windowSize[0]}
+                      height={windowSize[1]}
+                      email={signedInUserData.email}
+                      isModalOpen={isModalOpen}
+                      setIsModalOpen={setIsModalOpen}
+                      // Project Members
+                      projectMembers={projectMembers}
+                      setProjectMembers={setProjectMembers}
+                      // Projects
+                      projects={projects}
+                      setProjects={setProjects}
+                    />
+                  )}
 
-                    // Add Task Model
-                    isAddTaskModalOpen={isAddTaskModalOpen}
-                    setIsAddTaskModalOpen={setIsAddTaskModalOpen}
+                  {router.pathname === "/projectDetails/[email]/[projectName]/[projectID]" && (
+                    <MainContentPD
+                      setIsOpen={setIsOpen}
+                      isOpen={isOpen}
+                      currentMenuItem={currentMenuItem}
+                      setCurrentMenuItem={setCurrentMenuItem}
+                      signedInUserData={signedInUserData}
+                      isSignedIn={isSignedIn}
+                      width={windowSize[0]}
+                      height={windowSize[1]}
+                      isModalOpen={isModalOpen}
+                      setIsModalOpen={setIsModalOpen}
 
-                    // Invited Members Modal
-                    isInvitedMembersModalOpen={isModalOpen}
-                    setIsInvitedMembersModalOpen={setIsModalOpen}
-                  />
-                )}
+                      // Project Members
+                      projectMembers={projectMembers}
+                      setProjectMembers={setProjectMembers}
 
-                {/* Report Details Page */}
-                {router.pathname === "/reportDetails/[reportName]/[reportID]" && (
-                  <MainContentRD
-                    setIsOpen={setIsOpen}
-                    isOpen={isOpen}
-                    currentMenuItem={currentMenuItem}
-                    setCurrentMenuItem={setCurrentMenuItem}
-                    signedInUserData={signedInUserData}
-                    isSignedIn={isSignedIn}
-                    width={windowSize[0]}
-                    height={windowSize[1]}
-                    email={signedInUserData.email}
-                    isModalOpen={isModalOpen}
-                    setIsModalOpen={setIsModalOpen}
+                      // Projects
+                      projects={projects}
+                      setProjects={setProjects}
 
-                    // Project Members
-                    projectMembers={projectMembers}
-                    setProjectMembers={setProjectMembers}
+                      // Project Sections
+                      projectSections={projectSections}
+                      setProjectSections={setProjectSections}
 
-                    // Projects
-                    projects={projects}
-                    setProjects={setProjects}
+                      // Add Task Model
+                      isAddTaskModalOpen={isAddTaskModalOpen}
+                      setIsAddTaskModalOpen={setIsAddTaskModalOpen}
 
-                    // Project Sections
-                    projectSections={projectSections}
-                    setProjectSections={setProjectSections}
+                      // Invited Members Modal
+                      isInvitedMembersModalOpen={isModalOpen}
+                      setIsInvitedMembersModalOpen={setIsModalOpen}
+                    />
+                  )}
 
-                    // Add Task Model
-                    isAddTaskModalOpen={isAddTaskModalOpen}
-                    setIsAddTaskModalOpen={setIsAddTaskModalOpen}
+                  {/* Report Details Page */}
+                  {router.pathname === "/reportDetails/[reportName]/[reportID]" && (
+                    <MainContentRD
+                      setIsOpen={setIsOpen}
+                      isOpen={isOpen}
+                      currentMenuItem={currentMenuItem}
+                      setCurrentMenuItem={setCurrentMenuItem}
+                      signedInUserData={signedInUserData}
+                      isSignedIn={isSignedIn}
+                      width={windowSize[0]}
+                      height={windowSize[1]}
+                      email={signedInUserData.email}
+                      isModalOpen={isModalOpen}
+                      setIsModalOpen={setIsModalOpen}
 
-                    // Invited Members Modal
-                    isInvitedMembersModalOpen={isModalOpen}
-                    setIsInvitedMembersModalOpen={setIsModalOpen}
-                  />
-                )}
+                      // Project Members
+                      projectMembers={projectMembers}
+                      setProjectMembers={setProjectMembers}
+
+                      // Projects
+                      projects={projects}
+                      setProjects={setProjects}
+
+                      // Project Sections
+                      projectSections={projectSections}
+                      setProjectSections={setProjectSections}
+
+                      // Add Task Model
+                      isAddTaskModalOpen={isAddTaskModalOpen}
+                      setIsAddTaskModalOpen={setIsAddTaskModalOpen}
+
+                      // Invited Members Modal
+                      isInvitedMembersModalOpen={isModalOpen}
+                      setIsInvitedMembersModalOpen={setIsModalOpen}
+                    />
+                  )}
+                </div>
               </div>
-            </div>
-          </main>
-        </div>
-      )}
+            </main>
+          </div>
+        )}
 
       <Script
         type="text/javascript"

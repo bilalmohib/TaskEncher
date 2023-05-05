@@ -263,7 +263,7 @@ const Reporting: React.FC<ReportingProps> = ({
     // FOR GETTING PROJECTS
     useEffect(() => {
 
-        if (!loading) {
+        if (!loading && snapshot && signedInUserData !== null) {
             let projectMembers = [];
 
             let localObj: any;
@@ -279,7 +279,7 @@ const Reporting: React.FC<ReportingProps> = ({
             // localObj = localObj.filter((project: any) => );
 
             // Filter the projects array and extract only those projects that are shared with me
-            localObj = localObj.filter((project: any) => project?.ProjectMembers?.includes(email) || project?.createdBy === email);
+            localObj = localObj.filter((project: any) => project?.ProjectMembers?.includes(signedInUserData.email) || project?.createdBy === signedInUserData.email);
 
             let tempProjectsObj: any = localObj;
 

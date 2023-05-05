@@ -15,14 +15,13 @@ const firebaseConfig = {
   // appId: process.env.REACT_APP_APP_ID,
   // measurementId: process.env.REACT_APP_MEASUREMENT_ID
 
-  apiKey: "AIzaSyCizj_hKFU4s6cqVt3GTf18W9oMn9G-4pA",
-  authDomain: "architectsstaffmanager.firebaseapp.com",
-  databaseURL: "https://architectsstaffmanager-default-rtdb.firebaseio.com",
-  projectId: "architectsstaffmanager",
-  storageBucket: "architectsstaffmanager.appspot.com",
-  messagingSenderId: "550911242330",
-  appId: "1:550911242330:web:5c5fc2e0a60ea05c3be863",
-  measurementId: "G-483Y28377N",
+  apiKey: "AIzaSyC73jJz3lqIO_qTnbV8ei4OLPygL1QRzaI",
+  authDomain: "taskencher.firebaseapp.com",
+  projectId: "taskencher",
+  storageBucket: "taskencher.appspot.com",
+  messagingSenderId: "1052740073596",
+  appId: "1:1052740073596:web:548143663a11c4cce5b1f9",
+  measurementId: "G-L0F850N8Z9",
 };
 
 // Initialize Firebase

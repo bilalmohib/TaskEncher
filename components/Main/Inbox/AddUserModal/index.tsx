@@ -31,6 +31,13 @@ const AddUserModal: React.FC<AddUserModalProps> = ({
 }) => {
     const { enqueueSnackbar } = useSnackbar();
 
+    console.log("projectMembersState In Add User Modal : ", projectMembersState);
+    console.log("usersListSingleChat In Add User Modal : ", usersListSingleChat);
+    console.log("signedInUserData In Add User Modal : ", signedInUserData);
+    console.log("isSignedIn In Add User Modal : ", isSignedIn);
+    console.log("isOpen In Add User Modal : ", isOpen);
+    console.log("setIsOpen In Add User Modal : ", setIsOpen);
+    console.log("usersListSingleChat In Add User Modal : ", usersListSingleChat);
     interface ProjectMemberOptionType {
         title: string;
     }
@@ -75,13 +82,15 @@ const AddUserModal: React.FC<AddUserModalProps> = ({
                 uid: value.title,
                 email: value.title,
                 name: name,
-                lastMessage: 'Hi',
+                lastMessage: '',
                 lastMessageTime: new Date().toLocaleTimeString(),
                 profilePic: "/static/images/avatar/1.jpg",
                 isOnline: true
             }
 
-            console.log("UsersListSingleChat ===> ", usersListSingleChat);
+            alert("Chat User ===> " + JSON.stringify(chatUser));
+
+            console.log("Chat User ===> ", chatUser);
 
             // Check if user already exists in the database by checking the value in the 
             // projectMembersState array

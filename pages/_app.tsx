@@ -241,7 +241,7 @@ function MyApp({ Component, pageProps }: AppProps & { Component: React.Component
         setLoading(false);
         setSignedInUserData(null);
         setIsSignedIn(false);
-        router.push("/");
+        // router.push("/");
         // ...
       }
     });
@@ -319,7 +319,12 @@ function MyApp({ Component, pageProps }: AppProps & { Component: React.Component
         isSignedIn &&
         router.pathname !== "/" &&
         router.pathname !== "/signup" &&
-        router.pathname !== "/createProject"
+        router.pathname !== "/createProject" &&
+        router.pathname !== "/prelaunchProduct" &&
+        router.pathname !== "/features" &&
+        router.pathname !== "/pricing" &&
+        router.pathname !== "/about" &&
+        router.pathname !== "/contact"
       ) && (
           <div>
             <main className="main">

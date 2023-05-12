@@ -26,26 +26,8 @@ const addData = (
 ) => {
 
     if (signedInUserData) {
+        console.log("DATA OBJECT ===> ", dataObject)
         if (type == "singleUser") {
-            addDoc(collection(db, `Data/Chat/Single/Users/${signedInUserData.email}`), dataObject)
-                .then(() => {
-                    console.log("Data sent");
-                    // setMessage("");
-                    // alert("User Added Successfully.");
-                    let message: string = "User Added Successfully.";
-                    console.log(message);
-                    enqueueSnackbar(
-                        message,
-                        {
-                            variant: 'success',
-                            anchorOrigin: { vertical: 'bottom', horizontal: 'right' }
-                        },
-                    )
-                })
-                .catch(err => {
-                    console.warn(err);
-                    alert(`Error creating Job: ${err.message}`);
-                });
 
             const senderUserData = {
                 uid: signedInUserData.uid,
@@ -61,29 +43,52 @@ const addData = (
             addDoc(collection(db, `Data/Chat/Single/Users/${dataObject.email}`), senderUserData)
                 .then(() => {
                     console.log("Data sent");
-                    let message: string = `User ${dataObject.name} Added Successfully.`;
+                    let message: string = `User Receiver Added Successfully.`;
                     console.log(message);
-                    enqueueSnackbar(
-                        message,
-                        {
-                            variant: 'success',
-                            anchorOrigin: { vertical: 'bottom', horizontal: 'right' }
-                        },
-                    )
+                    alert(message);
+                    // enqueueSnackbar(
+                    //     message,
+                    //     {
+                    //         variant: 'success',
+                    //         anchorOrigin: { vertical: 'bottom', horizontal: 'right' }
+                    //     },
+                    // )
                 })
                 .catch(err => {
                     console.warn(err);
                     // alert(`Error creating Job: ${err.message}`);
                     let message: string = `Error sending message to ${dataObject.name}`;
                     console.log(message);
-                    enqueueSnackbar(
-                        message,
-                        {
-                            variant: 'error',
-                            anchorOrigin: { vertical: 'bottom', horizontal: 'right' }
-                        },
-                    )
+                    // enqueueSnackbar(
+                    //     message,
+                    //     {
+                    //         variant: 'error',
+                    //         anchorOrigin: { vertical: 'bottom', horizontal: 'right' }
+                    //     },
+                    // )
                 });
+
+            addDoc(collection(db, `Data/Chat/Single/Users/${signedInUserData.email}`), dataObject)
+                .then(() => {
+                    console.log("Data sent");
+                    // setMessage("");
+                    // alert("User Added Successfully.");
+                    let message: string = "User Added Successfully.";
+                    console.log(message);
+                    alert(message);
+                    // enqueueSnackbar(
+                    //     message,
+                    //     {
+                    //         variant: 'success',
+                    //         anchorOrigin: { vertical: 'bottom', horizontal: 'right' }
+                    //     },
+                    // )
+                })
+                .catch(err => {
+                    console.warn(err);
+                    alert(`Error creating Job: ${err.message}`);
+                });
+
         } else if (type === "singleChat") {
             addDoc(collection(db, `Chat/Single/Chat`), dataObject)
                 .then(() => {
@@ -91,13 +96,13 @@ const addData = (
                     // alert("Chat Added Successfully.");
                     let message: string = `Message sent to ${dataObject.name}`;
                     console.log(message);
-                    enqueueSnackbar(
-                        message,
-                        {
-                            variant: 'success',
-                            anchorOrigin: { vertical: 'bottom', horizontal: 'right' }
-                        },
-                    )
+                    // enqueueSnackbar(
+                    //     message,
+                    //     {
+                    //         variant: 'success',
+                    //         anchorOrigin: { vertical: 'bottom', horizontal: 'right' }
+                    //     },
+                    // )
                 })
                 .catch(err => {
                     console.warn(err);
@@ -110,13 +115,13 @@ const addData = (
                     console.log("Project Chat Data sent");
                     // alert("Project Chat Added Successfully.");
                     let message: string = `Message sent to ${dataObject.name}`;
-                    enqueueSnackbar(
-                        message,
-                        {
-                            variant: 'success',
-                            anchorOrigin: { vertical: 'bottom', horizontal: 'right' }
-                        },
-                    )
+                    // enqueueSnackbar(
+                    //     message,
+                    //     {
+                    //         variant: 'success',
+                    //         anchorOrigin: { vertical: 'bottom', horizontal: 'right' }
+                    //     },
+                    // )
                 })
                 .catch(err => {
                     console.warn(err);

@@ -16,9 +16,15 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-      "@app/*": ["./*"]
+      "@app/*": ["./*"],
+      "*": ["types/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "components/ProjectDetails/Calender/calendar.jsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "components/ProjectDetails/Calender/calendar.jsx"
+  ],
   "exclude": ["node_modules"]
 }

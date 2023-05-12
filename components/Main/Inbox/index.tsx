@@ -229,7 +229,6 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
         };
     }, [router.query]);
     // FOR GETTING CHATLISTPROJECTCHAT
-    ////////////////////////////////////// FOR GETTING PROJECTS DATA //////////////////////////////////////
 
     // For messages
     const [message, setMessage] = useState('');
@@ -1108,21 +1107,17 @@ const Inbox: React.FC<InboxProps> = ({ email }) => {
                                                                 message={item.message}
                                                                 id={item.id}
                                                                 type={
-                                                                    (item.userIDSender === signedInUserData.email) ?
+                                                                    ((item.userIDSender === signedInUserData.email)) ?
                                                                         ("sent") :
-                                                                        (
-                                                                            "received"
-                                                                        )
+                                                                        ("received")
                                                                 }
                                                                 messageType={(item.type) ? (item.type) : ("text")}
                                                             // ref={messagesEndRef}
                                                             />
                                                         </Box>
                                                     ) : null}
-
                                                 </>
                                             ))}
-
                                         </section>
                                     </Box>
                                 ))}

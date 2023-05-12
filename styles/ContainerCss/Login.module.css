@@ -1,0 +1,80 @@
+.container {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.main {
+    background-color: #ffffff;
+}
+
+.login_box {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 5px 20px 0 rgba(109, 110, 111, 0.08);
+    box-sizing: border-box;
+    margin-top: 80px;
+    margin-bottom: 80px;
+    max-width: 440px;
+    padding: 48px 32px;
+    width: 440px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.login_title {
+    font-size: 32px;
+    font-weight: 400;
+    margin-top: 38px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #1E1F21;
+}
+
+.text_btn_login{
+    font-size: 18px !important;
+    text-align: center;
+    font-weight: 300;
+    text-transform: none;
+    width: 300px !important;
+}
+
+.btn_login {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    height: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid rgb(188, 188, 188);
+    box-shadow: none !important;
+    margin-top: 30px;
+}
+
+.btn_login:hover{
+    background-color: #83838326;
+}
+
+.btn_text {
+    text-transform: none !important;
+}
+
+.form_control {
+    width: 100%;
+    font-size: 18px;
+}
+
+.btn_login_email{
+    border: 1px solid rgb(188, 188, 188);
+    box-shadow: none !important;
+    margin-top: 30px;
+    width: 100%;
+    line-height: 20px;
+    height: 50px;
+    border-radius: 8px;
+    font-size: 20px;
+    text-align: center;
+    font-weight: 500;
+    text-transform: none;
+    width: 100% !important;
+}

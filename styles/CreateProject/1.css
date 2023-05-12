@@ -1,0 +1,51 @@
+.main-container {
+    position: relative;
+     display: flex;
+      align-items: center; 
+     background-color: white;
+      height: 100vh;
+}
+button {
+    /* ... your button styles ... */
+  
+    /* add a transition to the button */
+    /* transition: transform 0.3s ease-in-out;
+animation-delay: 3s; */
+  
+    /* set the button's initial position */
+    
+  }
+  
+  /* when the button is hovered, move it up and remove the box shadow */
+ 
+@keyframes trans {
+    0% {
+      transform: translateY(0);
+      background-color: white;
+    }
+
+    100% {
+      transform: translateY(-10px);
+      background-color: white;
+    }
+}
+
+.buttonSpan {
+    position: relative;
+    top: 0;
+  
+    /* add a box shadow to create a 3D effect */
+    box-shadow: 0 ;
+    background-color: white;
+  
+    /* add some padding to make the button more clickable */
+    padding: 12px 16px;
+}
+.buttonSpan:hover {
+    cursor: pointer;
+    box-shadow: 0;
+    background-color: white;
+    animation-name: trans;
+    animation-duration: 1.5s;
+    transform: translateY(-5px);
+}

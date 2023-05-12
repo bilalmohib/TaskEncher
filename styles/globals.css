@@ -1,0 +1,102 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap");
+
+/* ./styles/globals.css */
+/* @tailwind base; */
+/* Preflight will be injected here */
+@tailwind components;
+@tailwind utilities;
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.main {
+  position: relative;
+  width: 100%;
+  min-height: 100%;
+  padding-bottom: 0px;
+  /* You can adjust this value according to your needs */
+}
+
+.main:after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: var(--selected-bg-image);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  image-rendering: optimizeQuality;
+  z-index: -1;
+}
+
+.Typography {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* .currentSelectedRow {
+  background-color: #4573d2;
+} */
+
+.editDiv[contentEditable] {
+  border-width: 2px;
+  /* border-radius: 5px; */
+  padding: 5px;
+  padding-top: 10px;
+}
+
+.editDiv[contentEditable]:focus {
+  outline: 2px solid #4573d2;
+}
+
+.editDiv:hover {
+  border: 1px solid #afabac;
+}
+
+body {
+  background: #ffffff;
+}
+
+.ripple {
+  position: relative;
+  overflow: hidden;
+  transform: translate3d(0, 0, 0);
+}
+
+.ripple:after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle, #000 10%, transparent 10.01%);
+  background-repeat: no-repeat;
+  background-position: 50%;
+  transform: scale(10, 10);
+  opacity: 0;
+  transition: transform 0.3s, opacity 0.5s;
+}
+
+.ripple:active:after {
+  transform: scale(0, 0);
+  opacity: 0.2;
+  transition: 0s;
+}

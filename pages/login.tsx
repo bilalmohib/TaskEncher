@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useSpeechSynthesis } from 'react-speech-kit';
 import { useRouter } from 'next/router';
 import type { NextPage } from "next";
 import Head from "next/head";
@@ -43,7 +42,6 @@ import {
 
 import { auth } from "../firebase/index";
 
-import { db } from "../firebase/index";
 import {
     doc,
     collection,
@@ -56,63 +54,60 @@ import {
     Timestamp
 } from "firebase/firestore";
 
-// For Speech Recognition
-import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
-
 interface DictaphoneProps {
     commands: any;
 }
 
-const Dictaphone: React.FC<DictaphoneProps> = ({ commands }) => {
+// const Dictaphone: React.FC<DictaphoneProps> = ({ commands }) => {
 
-    const { transcript, resetTranscript, listening } = useSpeechRecognition({ commands });
+//     const { transcript, resetTranscript, listening } = useSpeechRecognition({ commands });
 
-    // const startListeningWithClick = (event: any) => {
-    //     SpeechRecognition.startListening({
-    //         continuous: true,
-    //         language: 'en-IN'
-    //     });
-    // };
+//     // const startListeningWithClick = (event: any) => {
+//     //     SpeechRecognition.startListening({
+//     //         continuous: true,
+//     //         language: 'en-IN'
+//     //     });
+//     // };
 
-    const stopListeningWithClick = (event: any) => {
-        SpeechRecognition.stopListening();
-    };
+//     const stopListeningWithClick = (event: any) => {
+//         SpeechRecognition.stopListening();
+//     };
 
-    return (
-        <div style={{ border: '1px solid red' }}>
-            <p>Microphone: {listening ? 'on' : 'off'}</p>
-            <Button
-                variant="contained"
-                color="primary"
-                sx={{
-                    backgroundColor: listening ? '#f50057' : '#3f51b5',
-                }}
-                onClick={
-                    () => {
-                        if (listening) {
-                            SpeechRecognition.stopListening();
-                            return;
-                        }
-                        if (!listening) {
-                            SpeechRecognition.startListening({
-                                continuous: true,
-                                language: 'en-IN'
-                            });
-                        }
-                    }}
-            >
-                {(listening ? 'Stop' : 'Start')}
-            </Button>
-            {/* <button onClick={stopListeningWithClick}>Stop</button> */}
-            <button onClick={resetTranscript}>Reset</button>
-            <p>{transcript}</p>
-        </div>
-    );
-};
+//     return (
+//         <div style={{ border: '1px solid red' }}>
+//             <p>Microphone: {listening ? 'on' : 'off'}</p>
+//             <Button
+//                 variant="contained"
+//                 color="primary"
+//                 sx={{
+//                     backgroundColor: listening ? '#f50057' : '#3f51b5',
+//                 }}
+//                 onClick={
+//                     () => {
+//                         if (listening) {
+//                             SpeechRecognition.stopListening();
+//                             return;
+//                         }
+//                         if (!listening) {
+//                             SpeechRecognition.startListening({
+//                                 continuous: true,
+//                                 language: 'en-IN'
+//                             });
+//                         }
+//                     }}
+//             >
+//                 {(listening ? 'Stop' : 'Start')}
+//             </Button>
+//             {/* <button onClick={stopListeningWithClick}>Stop</button> */}
+//             <button onClick={resetTranscript}>Reset</button>
+//             <p>{transcript}</p>
+//         </div>
+//     );
+// };
 
 const Login: NextPage = () => {
 
-    const { speak, speaking } = useSpeechSynthesis();
+    // const { speak, speaking } = useSpeechSynthesis();
 
     const router = useRouter();
 
@@ -129,178 +124,178 @@ const Login: NextPage = () => {
 
     const [message, setMessage] = useState<string>('');
 
-    const onHello = (command: any) => {
-        //setMessage(`Hi there! You said: "${command}"`);
+    // const onHello = (command: any) => {
+    //     //setMessage(`Hi there! You said: "${command}"`);
 
-        // Stop listening
-        //SpeechRecognition.stopListening();
+    //     // Stop listening
+    //     //SpeechRecognition.stopListening();
 
-        speak({
-            text: `Hi there! Welcome to the TaskEncher. TaskEnchre is a platform where you can post your tasks and get them done by the people who are willing to do your tasks. You can also do the tasks posted by others and earn money.`,
-        });
+    //     speak({
+    //         text: `Hi there! Welcome to the TaskEncher. TaskEnchre is a platform where you can post your tasks and get them done by the people who are willing to do your tasks. You can also do the tasks posted by others and earn money.`,
+    //     });
 
-        alert("Hi there! Welcome to the TaskEncher. TaskEnchre is a platform where you can post your tasks and get them done by the people who are willing to do your tasks. You can also do the tasks posted by others and earn money.");
+    //     alert("Hi there! Welcome to the TaskEncher. TaskEnchre is a platform where you can post your tasks and get them done by the people who are willing to do your tasks. You can also do the tasks posted by others and earn money.");
 
-        let message = `Hi there! Welcome to the TaskEncher. TaskEnchre 
-        is a platform where you can post your tasks and get them done by the
-        people who are willing to do your tasks. You can also do the tasks posted by others
-        and earn money. You can also post your tasks and get them done by the people who are willing to do your tasks. You can also do the tasks posted by others
-        and earn money. 
-        `;
-        // setMessage(message);     
+    //     let message = `Hi there! Welcome to the TaskEncher. TaskEnchre 
+    //     is a platform where you can post your tasks and get them done by the
+    //     people who are willing to do your tasks. You can also do the tasks posted by others
+    //     and earn money. You can also post your tasks and get them done by the people who are willing to do your tasks. You can also do the tasks posted by others
+    //     and earn money. 
+    //     `;
+    //     // setMessage(message);     
 
-        // Now resume the speech recognition
-        // SpeechRecognition.startListening({
-        //     continuous: true,
-        //     language: 'en-IN'
-        // });
-    }
+    //     // Now resume the speech recognition
+    //     // SpeechRecognition.startListening({
+    //     //     continuous: true,
+    //     //     language: 'en-IN'
+    //     // });
+    // }
 
-    const commands = [
-        {
-            command: 'I would like to order *',
-            callback: (food: any) => {
-                setMessage(`Your order is for: ${food}`)
-                //SpeechRecognition.stopListening();
+    // const commands = [
+    //     {
+    //         command: 'I would like to order *',
+    //         callback: (food: any) => {
+    //             setMessage(`Your order is for: ${food}`)
+    //             //SpeechRecognition.stopListening();
 
-                speak({
-                    text: `Your order is for: ${food}`,
-                });
+    //             speak({
+    //                 text: `Your order is for: ${food}`,
+    //             });
 
-                SpeechRecognition.startListening({
-                    continuous: true,
-                    language: 'en-IN'
-                });
-            }
-        },
-        {
-            command: 'open *',
-            callback: (website: string) => {
-                window.open(`https://${website}`);
-                setMessage(`Opening ${website}`);
-            }
-        },
-        // {
-        //     command: 'The weather is :condition today',
-        //     callback: (condition: any) => setMessage(`Today, the weather is ${condition}`)
-        // },
-        // {
-        //     command: 'My top sports are * and *',
-        //     callback: (sport1: any, sport2: any) => setMessage(`#1: ${sport1}, #2: ${sport2}`)
-        // },
-        // {
-        //     command: 'Pass the salt (please)',
-        //     callback: () => setMessage('My pleasure')
-        // },
-        {
-            command: [
-                'Can you help me',
-                'Can you help me?',
-                'Can you help me out',
-                'Can you help me out?',
-                'Can you help me out please',
-                'Can you help me out please?',
-                'Can you help me please',
-                'Can you help me please?',
-                'Can you help me out with something',
-                'Can you help me out with something?',
-                'Can you help me out with something please',
-                'Can you help me out with something please?',
-                'Can you help me with something',
-                'Can you help me with something?',
-                'Can you help me with something please',
-                'Can you help me with something please?',
-                'Can you help me out with something',
-                'Can you help me out with something?',
-                'Can you help me out with something please',
-                'Can you help me out with something please?'
-            ],
-            callback: ({ command }: any) => {
+    //             SpeechRecognition.startListening({
+    //                 continuous: true,
+    //                 language: 'en-IN'
+    //             });
+    //         }
+    //     },
+    //     {
+    //         command: 'open *',
+    //         callback: (website: string) => {
+    //             window.open(`https://${website}`);
+    //             setMessage(`Opening ${website}`);
+    //         }
+    //     },
+    //     // {
+    //     //     command: 'The weather is :condition today',
+    //     //     callback: (condition: any) => setMessage(`Today, the weather is ${condition}`)
+    //     // },
+    //     // {
+    //     //     command: 'My top sports are * and *',
+    //     //     callback: (sport1: any, sport2: any) => setMessage(`#1: ${sport1}, #2: ${sport2}`)
+    //     // },
+    //     // {
+    //     //     command: 'Pass the salt (please)',
+    //     //     callback: () => setMessage('My pleasure')
+    //     // },
+    //     {
+    //         command: [
+    //             'Can you help me',
+    //             'Can you help me?',
+    //             'Can you help me out',
+    //             'Can you help me out?',
+    //             'Can you help me out please',
+    //             'Can you help me out please?',
+    //             'Can you help me please',
+    //             'Can you help me please?',
+    //             'Can you help me out with something',
+    //             'Can you help me out with something?',
+    //             'Can you help me out with something please',
+    //             'Can you help me out with something please?',
+    //             'Can you help me with something',
+    //             'Can you help me with something?',
+    //             'Can you help me with something please',
+    //             'Can you help me with something please?',
+    //             'Can you help me out with something',
+    //             'Can you help me out with something?',
+    //             'Can you help me out with something please',
+    //             'Can you help me out with something please?'
+    //         ],
+    //         callback: ({ command }: any) => {
 
-                SpeechRecognition.stopListening();
+    //             SpeechRecognition.stopListening();
 
-                setMessage(`Sure! How can I help you?`);
-                //speak({ text: 'Sure! How can I help you?' });
+    //             setMessage(`Sure! How can I help you?`);
+    //             //speak({ text: 'Sure! How can I help you?' });
 
 
-                // Now resume the speech recognition
-                SpeechRecognition.startListening({
-                    continuous: true,
-                    language: 'en-IN'
-                });
+    //             // Now resume the speech recognition
+    //             SpeechRecognition.startListening({
+    //                 continuous: true,
+    //                 language: 'en-IN'
+    //             });
 
-            },
-        },
-        {
-            command: [
-                'Hello',
-                'Hi',
-                'Hey',
-                'Hi there',
-                'Hey there',
-                'Hello there',
-                'TaskEncher',
-                'Task Enc',
-                'Task Encher',
-                'Task Ench',
-                'Task Enchere',
-                'Task Enchere',
-                'What is TaskEncher',
-                'What is Task Enc',
-                'What is Task Encher',
-                'What is Task Ench',
-                'What is Task Enchere',
-                'What is Task Enchere',
-                'What is TaskEncher?',
-                'What is Task Enc?',
-                'What is Task Encher?',
-                'What is Task Ench?',
-                'What is Task Enchere?',
-                'What is Task Enchere?',
-            ],
-            callback: ({ command }: any) => onHello(command),
-            matchInterim: true
-        },
-        // {
-        //     command: 'Beijing',
-        //     callback: (command: any, spokenPhrase: any, similarityRatio: any) => setMessage(`${command} and ${spokenPhrase} are ${similarityRatio * 100}% similar`),
-        //     // If the spokenPhrase is "Benji", the message would be "Beijing and Benji are 40% similar"
-        //     isFuzzyMatch: true,
-        //     fuzzyMatchingThreshold: 0.2
-        // },
-        // {
-        //     command: ['eat', 'sleep', 'leave'],
-        //     callback: (command: any) => setMessage(`Best matching command: ${command}`),
-        //     isFuzzyMatch: true,
-        //     fuzzyMatchingThreshold: 0.2,
-        //     bestMatchOnly: true
-        // },
-        {
-            command: [
-                'reset',
-                'clear',
-            ],
-            callback: ({ resetTranscript }: any) => {
-                // alert("Resetting the Transcript");
-                // Stop listening
-                //SpeechRecognition.stopListening();
+    //         },
+    //     },
+    //     {
+    //         command: [
+    //             'Hello',
+    //             'Hi',
+    //             'Hey',
+    //             'Hi there',
+    //             'Hey there',
+    //             'Hello there',
+    //             'TaskEncher',
+    //             'Task Enc',
+    //             'Task Encher',
+    //             'Task Ench',
+    //             'Task Enchere',
+    //             'Task Enchere',
+    //             'What is TaskEncher',
+    //             'What is Task Enc',
+    //             'What is Task Encher',
+    //             'What is Task Ench',
+    //             'What is Task Enchere',
+    //             'What is Task Enchere',
+    //             'What is TaskEncher?',
+    //             'What is Task Enc?',
+    //             'What is Task Encher?',
+    //             'What is Task Ench?',
+    //             'What is Task Enchere?',
+    //             'What is Task Enchere?',
+    //         ],
+    //         callback: ({ command }: any) => onHello(command),
+    //         matchInterim: true
+    //     },
+    //     // {
+    //     //     command: 'Beijing',
+    //     //     callback: (command: any, spokenPhrase: any, similarityRatio: any) => setMessage(`${command} and ${spokenPhrase} are ${similarityRatio * 100}% similar`),
+    //     //     // If the spokenPhrase is "Benji", the message would be "Beijing and Benji are 40% similar"
+    //     //     isFuzzyMatch: true,
+    //     //     fuzzyMatchingThreshold: 0.2
+    //     // },
+    //     // {
+    //     //     command: ['eat', 'sleep', 'leave'],
+    //     //     callback: (command: any) => setMessage(`Best matching command: ${command}`),
+    //     //     isFuzzyMatch: true,
+    //     //     fuzzyMatchingThreshold: 0.2,
+    //     //     bestMatchOnly: true
+    //     // },
+    //     {
+    //         command: [
+    //             'reset',
+    //             'clear',
+    //         ],
+    //         callback: ({ resetTranscript }: any) => {
+    //             // alert("Resetting the Transcript");
+    //             // Stop listening
+    //             //SpeechRecognition.stopListening();
 
-                speak({
-                    text: 'Sure! I am resetting the transcript.',
-                });
-                resetTranscript();
-                console.log("Resetting the Transcript");
-            }
-        }
-    ];
+    //             speak({
+    //                 text: 'Sure! I am resetting the transcript.',
+    //             });
+    //             resetTranscript();
+    //             console.log("Resetting the Transcript");
+    //         }
+    //     }
+    // ];
 
-    useEffect(() => {
-        if (typeof window !== 'undefined') {
-            if (!isBrowser || commands.length === null) {
-                setIsBrowser(true);
-            }
-        }
-    });
+    // useEffect(() => {
+    //     if (typeof window !== 'undefined') {
+    //         if (!isBrowser || commands.length === null) {
+    //             setIsBrowser(true);
+    //         }
+    //     }
+    // });
 
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
@@ -547,7 +542,7 @@ const Login: NextPage = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            {((loading === false) && isBrowser) ? (
+            {((loading === false)) ? (
                 <Box>
                     <Box className={styles.main}>
                         <Box className={styles.login_box}>
@@ -574,11 +569,11 @@ const Login: NextPage = () => {
                             {/* Icons Section */}
 
                             {/* Speech Recognition Section */}
-                            <Box sx={{display:"none"}}>
+                            {/* <Box sx={{display:"none"}}>
                                 <Dictaphone
                                     commands={commands}
                                 />
-                            </Box>
+                            </Box> */}
                             {/* Speech Recognition Section */}
 
                             <Box>

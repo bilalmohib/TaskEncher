@@ -1,5 +1,5 @@
-import React from 'react';
-import { useRouter } from 'next/router';
+import React, { useState, useEffect } from 'react';
+import { FaArrowRight, FaArrowLeft } from "react-icons/fa"; // Assuming you'r
 import {
     Box,
     Button,
@@ -9,7 +9,13 @@ import {
     Card,
     CardContent,
     Avatar,
+    ButtonBase
 } from '@mui/material';
+import Ripple from '@app/components/Ripple';
+
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 //Importing components
 import ScrollTriggerAnimation from '@app/components/ScrollTriggerAnimation';
@@ -18,8 +24,67 @@ import ScrollTriggerAnimation from '@app/components/ScrollTriggerAnimation';
 // For animations
 import { motion } from 'framer-motion';
 
+// Custom arrow components
+const CustomNextArrow = ({ onClick }: any) => (
+    <ButtonBase
+        style={{
+            color: "#fff",
+            backgroundColor: "#172b4d",
+            position: "absolute",
+            right: 15,
+            top: "50%",
+            fontSize: 30,
+            zIndex: 2,
+            width: 45,
+            height: 45,
+            borderRadius: "50%",
+            cursor: "pointer",
+        }}
+        onClick={onClick}
+    >
+        {/* <Ripple color={"#1fecf9"} duration={2000} /> */}
+        <FaArrowRight
+            style={{
+                marginTop: -3,
+                marginLeft: 3
+            }}
+        />
+    </ButtonBase>
+);
+
+const CustomPrevArrow = ({ onClick }: any) => (
+    <ButtonBase
+        style={{
+            color: "#fff",
+            backgroundColor: "#172b4d",
+            position: "absolute",
+            left: 15,
+            top: "50%",
+            fontSize: 30,
+            zIndex: 2,
+            width: 45,
+            height: 45,
+            borderRadius: "50%",
+            cursor: "pointer"
+        }}
+        onClick={onClick}
+    >
+        {/* <Ripple color={"#1fecf9"} duration={2000} /> */}
+        <FaArrowLeft
+            style={{
+                marginTop: -3,
+                marginLeft: 3
+            }}
+        />
+    </ButtonBase>
+);
+
 const TestimonialsSection: React.FC = () => {
-    const router = useRouter();
+    const [key, setKey] = useState(Date.now());
+
+    useEffect(() => {
+        setKey(Date.now());
+    }, []);
 
     // Framer Motion variants
     const containerVariants = {
@@ -46,7 +111,7 @@ const TestimonialsSection: React.FC = () => {
             company: 'ABC Corp.',
             quote:
                 'Taskencher has been a game-changer for our team. It helps us stay organized and collaborate more effectively.',
-            avatar: '/images/jane.jpg',
+            avatar: 'https://img.freepik.com/free-photo/portrait-handsome-young-man-smiling_23-2148431276.jpg?w=1380&t=st=1684439486~exp=1684440086~hmac=7bfa1a024b3b9ff549c9058559e847cdd4ea4660d59cb11ebdbce25fcdb264b8',
         },
         {
             name: 'John Smith',
@@ -54,7 +119,7 @@ const TestimonialsSection: React.FC = () => {
             company: 'XYZ Inc.',
             quote:
                 'Taskencher has made it much easier for us to manage our tasks and keep track of progress.',
-            avatar: '/images/john.jpg',
+            avatar: 'https://img.freepik.com/free-photo/close-up-portrait-smiling-man-with-healthy-teeth_186202-2424.jpg?w=740&t=st=1684439509~exp=1684440109~hmac=7baa22d0357b8e918347fd369b5ea0c2cdcc8207e0b52dc9fc83b6e6b5d35e68',
         },
         {
             name: 'Emily Johnson',
@@ -62,8 +127,16 @@ const TestimonialsSection: React.FC = () => {
             company: 'Tech Solutions',
             quote:
                 'Our team loves Taskencher! It has streamlined our workflow and improved overall efficiency.',
-            avatar: '/images/emily.jpg',
+            avatar: 'https://img.freepik.com/free-photo/attractive-happy-guy-with-bristle-have-wide-smile_144627-2023.jpg?w=740&t=st=1684439536~exp=1684440136~hmac=fd71e24997b96d4c140769e7f0599e6f9f581f84ee237499e285208cb64d8b7f',
         },
+        {
+            name: 'Sarah Jones',
+            role: 'Project Manager',
+            company: 'ABC Corp.',
+            quote:
+                'Taskencher has been a game-changer for our team. It helps us stay organized and collaborate more effectively.',
+            avatar: "https://img.freepik.com/free-photo/cheerful-indian-businessman-smiling-closeup-portrait-jobs-career-campaign_53876-129416.jpg?w=1380&t=st=1684439615~exp=1684440215~hmac=a505f46baf332a93366ce167c7be5dbd63de6f09454711af210d72f9902c2249"
+        }
     ];
 
     const scrollVariants = {
@@ -75,47 +148,73 @@ const TestimonialsSection: React.FC = () => {
         // {/* Testimonials section */ }
         <Box
             sx={{
-                backgroundColor: '#F4F5F7',
+                bgcolor: '#F4F5F7',
                 borderBottom: '1px solid #E0E0E0',
-                paddingTop: 8,
-                paddingBottom: 8,
-            }
-            }
+                pt: 8,
+                pb: 8,
+            }}
         >
             <Container maxWidth="lg">
                 <Typography variant="h4" sx={{ pb: 4, color: '#0052CC' }}>
                     Testimonials
                 </Typography>
-                <MotionGrid container spacing={4} variants={containerVariants}>
+
+                <Slider
+                    dots={true}
+                    infinite={true}
+                    speed={800}
+                    autoplay={true}
+                    autoplaySpeed={2000}
+                    key={key}
+                    slidesToShow={3}
+                    slidesToScroll={1}
+                    nextArrow={<CustomNextArrow />}
+                    prevArrow={<CustomPrevArrow />}
+                >
                     {testimonials.map((testimonial, index) => (
-                        <Grid item xs={12} sm={6} md={4} key={index}>
-                            <ScrollTriggerAnimation key={index} animationVariants={scrollVariants}>
-                                <MotionCard
-                                    elevation={3}
-                                    sx={{ padding: 2, display: 'flex', flexDirection: 'column', textAlign: 'center' }}
-                                    variants={itemVariants}
-                                >
-                                    <Avatar
-                                        alt={testimonial.name}
-                                        src={testimonial.avatar}
-                                        sx={{
-                                            width: 80,
-                                            height: 80,
-                                            margin: 'auto',
-                                            marginBottom: 2,
-                                        }}
-                                    />
-                                    <CardContent>
-                                        <Typography variant="h6">{testimonial.name}</Typography>
-                                        <Typography variant="subtitle2">{testimonial.role}</Typography>
-                                        <Typography variant="subtitle2">{testimonial.company}</Typography>
-                                        <Typography sx={{ marginTop: 2 }}>{testimonial.quote}</Typography>
-                                    </CardContent>
-                                </MotionCard>
-                            </ScrollTriggerAnimation>
-                        </Grid>
+                        <div key={index}>
+                            {/* <ScrollTriggerAnimation key={index} animationVariants={scrollVariants}> */}
+                            <MotionCard
+                                elevation={3}
+                                key={index}
+                                sx={{
+                                    padding: 2,
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    textAlign: 'center',
+                                    bgcolor: '#fff',
+                                    borderRadius: 2,
+                                    marginRight: 1
+                                }}
+                                variants={itemVariants}
+                            >
+                                <Avatar
+                                    alt={testimonial.name}
+                                    src={testimonial.avatar}
+                                    sx={{
+                                        width: 80,
+                                        height: 80,
+                                        margin: 'auto',
+                                        marginBottom: 2
+                                    }}
+                                />
+                                <CardContent>
+                                    <Typography variant="h6" sx={{ color: '#0052CC', fontWeight: 'bold' }}>
+                                        {testimonial.name}
+                                    </Typography>
+                                    <Typography variant="subtitle2" sx={{ color: '#888', fontStyle: 'italic' }}>
+                                        {testimonial.role}
+                                    </Typography>
+                                    <Typography variant="subtitle2" sx={{ color: '#333' }}>
+                                        {testimonial.company}
+                                    </Typography>
+                                    <Typography sx={{ mt: 2, color: '#666' }}>{testimonial.quote}</Typography>
+                                </CardContent>
+                            </MotionCard>
+                            {/* </ScrollTriggerAnimation> */}
+                        </div>
                     ))}
-                </MotionGrid>
+                </Slider>
             </Container>
         </Box>
     )

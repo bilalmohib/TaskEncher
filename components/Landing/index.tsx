@@ -97,31 +97,31 @@ const Landing: React.FC = () => {
   const pricings = [
     {
       title: 'Basic',
-      price: '$0 / month',
+      price: 'Free',
       features: [
-        'Up to 10 users',
+        'Unlimited Users',
         'Basic features',
         'Email support',
       ]
     },
-    {
-      title: 'Pro',
-      price: '$25 / month',
-      features: [
-        'Up to 50 users',
-        'All features',
-        'Priority support',
-      ]
-    },
-    {
-      title: 'Enterprise',
-      price: 'Custom Pricing',
-      features: [
-        'Unlimited users',
-        'Custom features',
-        'Dedicated support',
-      ]
-    },
+    // {
+    //   title: 'Pro',
+    //   price: '$25 / month',
+    //   features: [
+    //     'Up to 50 users',
+    //     'All features',
+    //     'Priority support',
+    //   ]
+    // },
+    // {
+    //   title: 'Enterprise',
+    //   price: 'Custom Pricing',
+    //   features: [
+    //     'Unlimited users',
+    //     'Custom features',
+    //     'Dedicated support',
+    //   ]
+    // },
   ]
 
   const scrollVariants = {

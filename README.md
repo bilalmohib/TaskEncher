@@ -17,9 +17,7 @@ You can start using TaskEncher for free by signing up for a free account. You ca
 ## Pricing 💰
 TaskEncher offers three pricing plans to suit the needs of different users:
 
-- **Free Plan**: Create and manage up to 5 projects.
-- **Standard Plan** ($5/month): Create and manage up to 50 projects.
-- **Premium Plan** ($10/month): Create and manage up to 100 projects, and enjoy advanced features and priority support.
+- **Free Plan**: Create and manage unlimited projects.
 
 ## Support 🤝
 If you need assistance or have any questions, please visit our Help Center or contact our support team at 
